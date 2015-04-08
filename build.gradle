@@ -26,13 +26,15 @@ subprojects {
 
   configurations.all({
     resolutionStrategy({
-      // failOnVersionConflict()
+      failOnVersionConflict()
       force(
         // In general, this list should be kept as small as possible.
         // That is resolve the conflict, don't just force it here.
         "org.slf4j:slf4j:1.7.10",
         "org.slf4j:slf4j-api:1.7.10",
         "org.javassist:javassist:3.18.1-GA",
+
+        "org.thymeleaf:thymeleaf:2.1.4.RELEASE",
 
         // Need to force couch-ace to latest version.
         "com.fasterxml.jackson.core:jackson-annotations:2.5.1",
