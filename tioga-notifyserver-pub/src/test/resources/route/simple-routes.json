@@ -1,0 +1,31 @@
+{
+  "smithPets": {
+    "eval": "function(topic, traits) {return topic = 'smith' && traits.pet = 'dog'}",
+    "destinations": [
+      {
+        "provider": "push",
+        "type": "email",
+        "recipients": [
+          "fozzieb@muppets.com",
+          "moon@sun.com"
+        ]
+      }
+    ]
+  },
+  "anyMuppet": {
+    "eval": "function(topic, traits) {return topic = 'muppet'}",
+    "destinations": [
+      {
+        "provider": "push",
+        "type" : "email",
+        "recipients": [
+          "fozzieb@muppets.com",
+          "moon@sun.com"
+        ]
+      }
+    ]
+  }
+}
+
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+  <!--@thymesVar id="it" type="org.lqnotify.kernel.processor.MessageModel"-->
+  <head>
+    <title th:text="'NOTIFICATION: '+${it.summary}"></title>
+  </head>
+  <body>
+    <h1 th:text="${it.summary}"></h1>
+
+    <h2>Details</h2>
+    <ul>
+        <li>Topic: <span th:text="${it.topic}"></span></li>
+        <li>Created: <span th:text="${#temporals.format(it.createdAt, 'MM-dd-yy hh:mm a')}"></span></li>
+        <li>Link: <a th:href="${it.self}" th:text="${it.self}"></a></li>
+    </ul>
+
+    <h2>Traits</h2>
+    <ul>
+      <li th:each="entry : ${it.traitMap}"><span th:text="${entry.key}"></span>: <span th:text="${entry.value}"></span></li>
+    </ul>
+
+    <h2 th:if="${it.exceptionInfo != null}" >Exception Details</h2>
+    <div th:if="${it.exceptionInfo != null}" th:text="${it.exceptionInfo.message}" style="font-weight: bold"></div>
+    <div th:if="${it.exceptionInfo != null}" th:text="${it.exceptionInfo.stackTrace}"></div>
+
+  </body>
+</html>

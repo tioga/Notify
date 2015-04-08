@@ -1,0 +1,32 @@
+{
+  "destinations" : [ {
+    "name" : "Jacob's Email",
+    "provider" : "push",
+    "recipient" : "test@jacobparr.com",
+    "type" : "emailMsg"
+  }, {
+    "name" : "Jacob's Phone",
+    "provider" : "push",
+    "recipient" : "5596407277",
+    "type" : "smsMsg"
+  }, {
+  "name" : "Desktop",
+  "provider" : "swing"
+  }, {
+    "name" : "SMTP",
+    "provider" : "smtp",
+    "smtpAuthType" : "standard",
+    "smtpHost" : "smtp1.stcg.net",
+    "smtpPort" : "25",
+    "smtpUsername" : "vista",
+    "smtpPassword" : null,
+    "smtpFrom" : "notify@stcg.net",
+    "smtpRecipients" : "jacobp@stcg.net",
+    "templatePath" : "C:/dvlp/3rd-party/liquid-notifications/lqnotify/runtime/config/email-template.html"
+  } ],
+  "routes" : [ {
+    "name" : "Everything",
+    "eval" : "function(topic, traits) {return true};",
+    "destinations" : [ "Desktop", "SMTP", "Jacob's Email" ]
+  } ]
+}

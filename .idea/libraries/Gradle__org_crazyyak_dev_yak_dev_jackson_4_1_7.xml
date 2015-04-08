@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.crazyyak.dev:yak-dev-jackson:4.1.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.crazyyak.dev/yak-dev-jackson/4.1.7/ba02d851e997edbce75a6314c6d80851b63a112c/yak-dev-jackson-4.1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.crazyyak.dev/yak-dev-jackson/4.1.7/2e2820faea87cad177279d9e3b146ea4f83cc646/yak-dev-jackson-4.1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

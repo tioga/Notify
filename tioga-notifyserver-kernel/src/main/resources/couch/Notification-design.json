@@ -1,0 +1,24 @@
+{
+  "_id": "_design/Notification",
+  "language": "javascript",
+  "views": {
+    "ByTrackingId": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.trackingId) {\n    emit(doc.entity.trackingId, null);\n  }\n}"
+    },
+    "ByTopicAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.topic) {\n    emit([doc.entity.topic.toLowerCase(), doc.entity.createdAt], null);\n  }\n}"
+    },
+    "ByCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.createdAt) {\n    emit(doc.entity.createdAt, null);\n  }\n}"
+    },
+    "BySummary": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.summary) {\n    emit(doc.entity.summary.toLowerCase(), null);\n  }\n}"
+    },
+    "ByTraitKeyAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.traitMap) {\n    for (var key in doc.entity.traitMap) \n    {\n    emit([key.toLowerCase(), doc.entity.createdAt], null);}\n  }\n}"
+    },
+    "ByTraitKeyValueAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.traitMap) {\n    for (var key in doc.entity.traitMap) \n    {\n  var value = doc.entity.traitMap[key]; value = (value != null) ? value.toLowerCase() : value;  emit([key.toLowerCase(), value, doc.entity.createdAt], null);}\n  }\n}"
+    }
+  }
+}

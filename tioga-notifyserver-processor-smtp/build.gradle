@@ -1,0 +1,10 @@
+project(":tioga-notifyserver-processor-smtp") {
+
+  dependencies {
+    compile(project(":tioga-notifyserver-kernel"))
+    compile("javax.mail:mail:1.5.0-b01")
+  }
+
+  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}
+

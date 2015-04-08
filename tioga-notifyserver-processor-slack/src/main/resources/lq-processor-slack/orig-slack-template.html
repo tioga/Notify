@@ -1,0 +1,1 @@
+<th:block th:inline="text">&lt;[[${it.self}]]|[[${it.summary}]]&gt;\nTopic: [[${it.topic}]]\nCreated: [[${#temporals.format(it.createdAt, 'MM-dd-yy hh:mm a')}]]<th:block th:if="${it.exceptionInfo != null}" th:text="${'\\nException: '+it.exceptionInfo.message}"></th:block></th:block>

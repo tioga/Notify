@@ -1,0 +1,15 @@
+{
+  "_id": "_design/DomainProfile",
+  "language": "javascript",
+  "views": {
+    "ByDomainName": {
+      "map": "function(doc) {\n  if (doc.entityType == 'DomainProfile' && doc.entity.domainName) {\n    emit(doc.entity.domainName, null);\n  }\n}"
+    },
+    "ByDomainStatus": {
+      "map": "function(doc) {\n  if (doc.entityType == 'DomainProfile' && doc.entity.domainStatus) {\n    emit(doc.entity.domainStatus, null);\n  }\n}"
+    },
+    "ByApiKey": {
+      "map": "function(doc) {\n  if (doc.entityType == 'DomainProfile' && doc.entity.apiKey) {\n    emit(doc.entity.apiKey, null);\n  }\n}"
+    }
+  }
+}

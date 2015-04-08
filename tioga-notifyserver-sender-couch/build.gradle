@@ -1,0 +1,14 @@
+project(":tioga-notifyserver-sender-couch") {
+
+  dependencies {
+    compile(project(':tioga-notifyserver-notifier'))
+    compile("javax.ws.rs:javax.ws.rs-api:2.0.1")
+
+    testCompile(project(':tioga-notifyserver-kernel'))
+    testCompile files(this.project(':tioga-notifyserver-kernel').sourceSets.test.output)
+    testCompile files(this.project(':tioga-notifyserver-kernel').sourceSets.test.runtimeClasspath)
+  }
+
+  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}
+

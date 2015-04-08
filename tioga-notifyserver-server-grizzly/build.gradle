@@ -1,0 +1,45 @@
+project(":tioga-notifyserver-server-grizzly") {
+
+  dependencies {
+    compile(project(":tioga-notifyserver-engine"))
+
+    compile(project(":tioga-notifyserver-processor-push"))
+    compile(project(":tioga-notifyserver-processor-swing"))
+    compile(project(":tioga-notifyserver-processor-smtp"))
+    compile(project(":tioga-notifyserver-processor-logger"))
+    compile(project(":tioga-notifyserver-processor-slack"))
+
+    compile(project(":yak-runner-jersey-spring"))
+  }
+
+  jar {
+    // Remove version from the jar name to help with deployment.
+    archiveName = "tioga-notifyserver-server-grizzly.jar"
+  }
+
+  apply plugin:'distribution'
+
+  distributions {
+    main {
+      contents {
+        from { 'src/dist' }
+        into("lib") {
+          from(jar)
+          from(project.configurations.runtime)
+        }
+      }
+    }
+  }
+
+  jar {
+    manifest {
+      attributes(
+        "Implementation-Version" : "0.1",
+        "Main-Class"             : "org.lqnotify.server.grizzly.NotifyServer",
+        "Class-Path"             : configurations.compile.collect { it.getName() }.join(' ')
+      )
+    }
+  }
+
+  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}

@@ -1,0 +1,49 @@
+{
+  "id" : "99",
+  "revision" : "23909wer08",
+  "destinations" : [ {
+    "name" : "fozzie",
+    "provider" : "push",
+    "recipient" : "fozzie@muppet.com",
+    "type" : "email"
+  }, {
+    "name" : "kermit",
+    "provider" : "push",
+    "recipient" : "kermit@muppet.com",
+    "type" : "email"
+  }, {
+    "name" : "junk",
+    "provider" : "push",
+    "destinationStatus" : "DISABLED",
+    "recipient" : "junk@pet.com",
+    "type" : "email"
+  }, {
+    "name" : "dog",
+    "provider" : "push",
+    "recipient" : "dog@pet.com",
+    "type" : "email"
+  }, {
+    "name" : "cat",
+    "provider" : "push",
+    "recipient" : "cat@pet.com",
+    "type" : "email"
+  } ],
+  "routes" : [ {
+    "name" : "any_muppet",
+    "eval" : "function(topic, traits) {return topic === 'muppet'};",
+    "destinations" : [ "fozzie", "kermit" ]
+  },  {
+    "name" : "fozzie_muppet",
+    "eval" : "function(topic, traits) {return topic === 'muppet' && traits.who == 'fozzie'}",
+    "destinations" : [ "fozzie"]
+  },  {
+    "name" : "fozzie_muppet",
+    "routeStatus" : "DISABLED",
+    "eval" : "function(topic, traits) {return topic === 'junk'}",
+    "destinations" : [ "fozzie"]
+  }, {
+    "name" : "cat",
+    "eval" : "function(topic, traits) {return traits.pet == 'cat'}",
+    "destinations" : [ "cat", "junk" ]
+  } ]
+}

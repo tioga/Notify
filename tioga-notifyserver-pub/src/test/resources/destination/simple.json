@@ -1,0 +1,6 @@
+{
+  "name" : "simple",
+  "provider" : "SimpleProvider",
+  "recipients" : "a@test.com,b@test.com",
+  "message-type" : "email"
+}

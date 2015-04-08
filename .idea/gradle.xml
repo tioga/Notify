@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="D:/tools/gradle-1.11" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-client" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-engine" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-kernel" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-notifier" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-logger" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-push" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-slack" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-smtp" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-swing" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-pub" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-sender-couch" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-sender-http" />
+            <option value="$PROJECT_DIR$/tioga-notifyserver-server-grizzly" />
+            <option value="$PROJECT_DIR$/yak-runner-grizzly" />
+            <option value="$PROJECT_DIR$/yak-runner-jersey-spring" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

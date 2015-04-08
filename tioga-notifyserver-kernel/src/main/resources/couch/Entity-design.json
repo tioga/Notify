@@ -1,0 +1,13 @@
+{
+    "_id": "_design/Entity",
+    "language": "javascript",
+    "views": {
+        "byEntityType": {
+            "map": "function(doc) {\n  if (doc.entityType) {\n    emit(doc.entityType, null);\n  }\n}"
+        },
+        "countEntityType": {
+            "map": "function(doc) {\n  if (doc.entityType) {\n    emit(doc.entityType, null);\n  }\n}",
+            "reduce": "function(keys, values, reReduce) {\n  return values.length;\n}\n"
+        }
+    }
+}

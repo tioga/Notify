@@ -1,0 +1,21 @@
+{
+  "_id": "_design/Task",
+  "language": "javascript",
+  "views": {
+    "ByNotificationId": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Task' && doc.entity.notificationId) {\n    emit(doc.entity.notificationId, null);\n  }\n}"
+    },
+    "ByCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Task' && doc.entity.createdAt) {\n    emit(doc.entity.createdAt, null);\n  }\n}"
+    },
+    "ByTaskStatusAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Task' && doc.entity.taskStatus && doc.entity.createdAt) {\n    emit([doc.entity.taskStatus, doc.entity.createdAt], null);\n  }\n}"
+    },
+    "ByDestinationProviderAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Task' && doc.entity.destination && doc.entity.destination.provider && doc.entity.createdAt) {\n    emit([doc.entity.destination.provider, doc.entity.createdAt], null);\n  }\n}"
+    },
+    "ByDestinationNameAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Task' && doc.entity.destination && doc.entity.destination.name && doc.entity.createdAt) {\n    emit([doc.entity.destination.name, doc.entity.createdAt], null);\n  }\n}"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.crazyyak.lib:yak-lib-jaxrs:4.1.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.crazyyak.lib/yak-lib-jaxrs/4.1.4/fce1457025c42c4c61e15e022ca1c525c910708c/yak-lib-jaxrs-4.1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.crazyyak.lib/yak-lib-jaxrs/4.1.4/376eb9cffee8ad301ec4499145140141696f35bb/yak-lib-jaxrs-4.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
