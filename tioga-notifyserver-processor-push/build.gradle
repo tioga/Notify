@@ -1,8 +1,10 @@
 project(":tioga-notifyserver-processor-push") {
 
+  version = "1.0.0"
+
   dependencies {
     compile(project(":tioga-notifyserver-kernel"))
-    compile("com.cosmicpush:push-server-gateway:2.0.4")
+    compile("org.tiogasolutions.pushserver:tioga-pushserver-gateway:2.0.4")
 
     testCompile("org.springframework:spring-test:4.1.6.RELEASE")
   }

@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-server-grizzly") {
 
+  version = "1.0.0"
+
   dependencies {
     compile(project(":tioga-notifyserver-engine"))
 
@@ -35,7 +37,7 @@ project(":tioga-notifyserver-server-grizzly") {
     manifest {
       attributes(
         "Implementation-Version" : "0.1",
-        "Main-Class"             : "org.lqnotify.server.grizzly.NotifyServer",
+        "Main-Class"             : "NotifyServer",
         "Class-Path"             : configurations.compile.collect { it.getName() }.join(' ')
       )
     }

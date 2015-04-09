@@ -19,7 +19,7 @@
         <prop key="some.prop">value</prop>
     </util:properties>
 
-    <bean class="org.lqnotify.kernel.config.CouchServersConfig"
+    <bean class="org.tiogasolutions.notifyserver.kernel.config.CouchServersConfig"
           p:masterUrl="http://127.0.0.1:5984"
           p:masterUserName="couchace"
           p:masterPassword="unittest"
@@ -35,11 +35,11 @@
           p:requestPassword="unittest"
           p:requestDatabasePrefix="lqt-request-"/>
 
-  <bean class="org.lqnotify.engine.web.StaticContentReader">
+  <bean class="org.tiogasolutions.notifyserver.engine.web.StaticContentReader">
     <constructor-arg value="path-to-nowhere"/>
   </bean>
 
-  <bean class="org.lqnotify.kernel.config.TrustedUserStore">
+  <bean class="org.tiogasolutions.notifyserver.kernel.config.TrustedUserStore">
     <constructor-arg>
       <util:map id="someId" map-class="java.util.HashMap">
         <entry key="harlann">
@@ -52,6 +52,6 @@
     </constructor-arg>
   </bean>
 
-    <context:component-scan base-package="org.lqnotify"/>
+  <context:component-scan base-package="org.tiogasolutions.notifyserver"/>
 
 </beans>

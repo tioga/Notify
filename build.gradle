@@ -19,7 +19,6 @@ subprojects {
   apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle")
 
   group = "org.tiogasolutions.notifyserver"
-  version = "1.0"
 
   targetCompatibility = "1.8"
   sourceCompatibility = "1.8"

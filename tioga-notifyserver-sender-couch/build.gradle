@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-sender-couch") {
 
+  version = "1.0.0"
+
   dependencies {
     compile(project(':tioga-notifyserver-notifier'))
     compile("javax.ws.rs:javax.ws.rs-api:2.0.1")

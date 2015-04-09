@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-pub") {
 
+  version = "1.0.0"
+
   dependencies {
     compile("org.slf4j:slf4j-api:1.7.10")
     compile("org.tiogasolutions.dev:tioga-dev-common:4.1.4")

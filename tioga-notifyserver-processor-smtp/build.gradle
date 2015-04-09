@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-processor-smtp") {
 
+  version = "1.0.0"
+
   dependencies {
     compile(project(":tioga-notifyserver-kernel"))
     compile("javax.mail:mail:1.5.0-b01")

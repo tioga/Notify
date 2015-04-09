@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-notifier") {
 
+    version = "1.0.0"
+
     dependencies {
         // Logging
         compile("org.slf4j:slf4j-api:1.7.10")

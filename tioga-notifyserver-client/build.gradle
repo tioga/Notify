@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-client") {
 
+  version = "1.0.0"
+
   dependencies {
     compile(project(":tioga-notifyserver-pub"))
     compile(project(":tioga-notifyserver-notifier"))

@@ -1,5 +1,7 @@
 project(":tioga-notifyserver-processor-slack") {
 
+  version = "1.0.0"
+
   dependencies {
     compile(project(":tioga-notifyserver-kernel"))
 
