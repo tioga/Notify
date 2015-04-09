@@ -1,8 +1,0 @@
-project(":yak-runner-jersey-spring") {
-  dependencies {
-    compile("org.springframework:spring-context:4.1.6.RELEASE")
-    compile("org.glassfish.jersey.core:jersey-server:2.16")
-  }
-
-  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
-}

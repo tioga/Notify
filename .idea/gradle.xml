@@ -22,8 +22,6 @@
             <option value="$PROJECT_DIR$/tioga-notifyserver-sender-couch" />
             <option value="$PROJECT_DIR$/tioga-notifyserver-sender-http" />
             <option value="$PROJECT_DIR$/tioga-notifyserver-server-grizzly" />
-            <option value="$PROJECT_DIR$/yak-runner-grizzly" />
-            <option value="$PROJECT_DIR$/yak-runner-jersey-spring" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -9,7 +9,7 @@ project(":tioga-notifyserver-server-grizzly") {
     compile(project(":tioga-notifyserver-processor-logger"))
     compile(project(":tioga-notifyserver-processor-slack"))
 
-    compile(project(":yak-runner-jersey-spring"))
+    compile("org.tiogasolutions.runner:tioga-runner-jersey-spring:1.0.0")
   }
 
   jar {

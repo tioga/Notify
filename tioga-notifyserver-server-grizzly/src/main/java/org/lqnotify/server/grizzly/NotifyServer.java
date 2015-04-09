@@ -6,8 +6,8 @@ import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import org.tiogasolutions.dev.common.EnvUtils;
 import org.tiogasolutions.dev.common.IoUtils;
-import org.crazyyak.runner.jersey.support.JerseySpringBridge;
-import org.crazyyak.runner.jersey.support.ResourceConfigAdapter;
+import org.tiogasolutions.runner.jersey.support.JerseySpringBridge;
+import org.tiogasolutions.runner.jersey.support.ResourceConfigAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

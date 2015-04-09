@@ -1,7 +1,7 @@
 package org.lqnotify.engine.core;
 
-import org.crazyyak.runner.jersey.support.JerseySpringBridge;
-import org.crazyyak.runner.jersey.support.ResourceConfigAdapter;
+import org.tiogasolutions.runner.jersey.support.JerseySpringBridge;
+import org.tiogasolutions.runner.jersey.support.ResourceConfigAdapter;
 import org.glassfish.jersey.test.JerseyTestNg;
 import org.lqnotify.kernel.TestFactory;
 import org.lqnotify.kernel.domain.DomainKernel;

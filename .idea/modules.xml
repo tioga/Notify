@@ -17,8 +17,6 @@
       <module fileurl="file://$PROJECT_DIR$/tioga-notifyserver-sender-couch/tioga-notifyserver-sender-couch.iml" filepath="$PROJECT_DIR$/tioga-notifyserver-sender-couch/tioga-notifyserver-sender-couch.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notifyserver-sender-http/tioga-notifyserver-sender-http.iml" filepath="$PROJECT_DIR$/tioga-notifyserver-sender-http/tioga-notifyserver-sender-http.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notifyserver-server-grizzly/tioga-notifyserver-server-grizzly.iml" filepath="$PROJECT_DIR$/tioga-notifyserver-server-grizzly/tioga-notifyserver-server-grizzly.iml" />
-      <module fileurl="file://$PROJECT_DIR$/yak-runner-grizzly/yak-runner-grizzly.iml" filepath="$PROJECT_DIR$/yak-runner-grizzly/yak-runner-grizzly.iml" />
-      <module fileurl="file://$PROJECT_DIR$/yak-runner-jersey-spring/yak-runner-jersey-spring.iml" filepath="$PROJECT_DIR$/yak-runner-jersey-spring/yak-runner-jersey-spring.iml" />
     </modules>
   </component>
 </project>
