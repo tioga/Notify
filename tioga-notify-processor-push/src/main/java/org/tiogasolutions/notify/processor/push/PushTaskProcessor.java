@@ -2,11 +2,11 @@ package org.tiogasolutions.notify.processor.push;
 
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.pushserver.gateway.CosmicPushGateway;
-import org.tiogasolutions.pushserver.pub.common.Push;
-import org.tiogasolutions.pushserver.pub.push.EmailPush;
-import org.tiogasolutions.pushserver.pub.push.TwilioSmsPush;
-import org.tiogasolutions.pushserver.pub.push.XmppPush;
+import org.tiogasolutions.push.gateway.CosmicPushGateway;
+import org.tiogasolutions.push.pub.common.Push;
+import org.tiogasolutions.push.pub.EmailPush;
+import org.tiogasolutions.push.pub.TwilioSmsPush;
+import org.tiogasolutions.push.pub.XmppPush;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.UnsupportedMethodException;
 import org.tiogasolutions.notify.kernel.processor.HtmlMessage;

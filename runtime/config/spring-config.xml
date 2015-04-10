@@ -63,7 +63,7 @@
     </constructor-arg>
   </bean>
 
-  <bean class="org.tiogasolutions.pushserver.gateway.LiveCosmicPushGateway">
+  <bean class="org.tiogasolutions.push.gateway.LiveCosmicPushGateway">
     <constructor-arg value="LiquidNotifications"/>
     <constructor-arg value="testing123"/>
   </bean>

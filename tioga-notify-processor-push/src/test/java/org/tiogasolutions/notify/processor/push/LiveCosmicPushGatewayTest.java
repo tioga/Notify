@@ -1,8 +1,8 @@
 package org.tiogasolutions.notify.processor.push;
 
-import org.tiogasolutions.pushserver.gateway.CosmicPushGateway;
-import org.tiogasolutions.pushserver.gateway.LiveCosmicPushGateway;
-import org.tiogasolutions.pushserver.pub.push.XmppPush;
+import org.tiogasolutions.push.gateway.CosmicPushGateway;
+import org.tiogasolutions.push.gateway.LiveCosmicPushGateway;
+import org.tiogasolutions.push.pub.XmppPush;
 import org.tiogasolutions.dev.common.EnvUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

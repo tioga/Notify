@@ -1,8 +1,8 @@
 package org.tiogasolutions.notify.processor.push;
 
-import org.tiogasolutions.pushserver.gateway.CosmicPushGateway;
-import org.tiogasolutions.pushserver.pub.common.Push;
-import org.tiogasolutions.pushserver.pub.common.PushResponse;
+import org.tiogasolutions.push.gateway.CosmicPushGateway;
+import org.tiogasolutions.push.pub.common.Push;
+import org.tiogasolutions.push.pub.common.PushResponse;
 
 public class TestCosmicPushGateway implements CosmicPushGateway {
 
