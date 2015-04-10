@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.engine.core;
 
-import org.tiogasolutions.runner.jersey.support.JerseySpringBridge;
-import org.tiogasolutions.runner.jersey.support.ResourceConfigAdapter;
+import org.tiogasolutions.runners.jersey.support.JerseySpringBridge;
+import org.tiogasolutions.runners.jersey.support.ResourceConfigAdapter;
 import org.glassfish.jersey.test.JerseyTestNg;
 import org.tiogasolutions.notify.kernel.TestFactory;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
