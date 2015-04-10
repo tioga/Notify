@@ -92,33 +92,4 @@ project(':') {
         })
 */
     }
-
-    // Copies distribution from key modules into dist directory
-    task copyDist(type: Copy) {
-        def distModules = subprojects.findAll({proj ->
-            (proj.name == "tioga-notify-server-grizzly")
-        })
-        println "\nModules in distirbution: ${distModules}"
-        distModules.each {distModule ->
-            from(distModule.file('build/distributions'))
-        }
-        destinationDir = new File(projectDir.parentFile, "dist")
-    }
-
-    // Create the distribution - dependsOn copy, then zip up the wars.
-    task dist(type:Zip, dependsOn: copyDist) {
-        destinationDir = new File(projectDir.parentFile, "dist")
-        baseName = project.name
-
-        from(destinationDir)
-        doFirst {
-            // Set the version on the task here since it's not correct during configuration.
-            version = project.version
-            include("*-${version}.zip")
-            exclude("lqnotify*.zip")
-        }
-        doLast  {
-            println "Created distribution : ${dist.archivePath}"
-        }
-    }
 }

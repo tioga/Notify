@@ -21,10 +21,19 @@ project(":tioga-notify-server-grizzly") {
 
   apply plugin:'distribution'
 
+  artifacts {
+    archives distZip
+  }
+
   distributions {
     main {
       contents {
-        from { 'src/dist' }
+        into("runtime") {
+          from {"../runtime"}
+        }
+        into("tioga-notify-admin-app") {
+          from {"../tioga-notify-admin-app"}
+        }
         into("lib") {
           from(jar)
           from(project.configurations.runtime)
@@ -37,7 +46,7 @@ project(":tioga-notify-server-grizzly") {
     manifest {
       attributes(
         "Implementation-Version" : "0.1",
-        "Main-Class"             : "NotifyServer",
+        "Main-Class"             : "org.tiogasolutions.notify.server.grizzly.NotifyServer",
         "Class-Path"             : configurations.compile.collect { it.getName() }.join(' ')
       )
     }
