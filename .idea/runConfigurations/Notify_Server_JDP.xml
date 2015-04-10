@@ -6,7 +6,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="MAIN_CLASS_NAME" value="org.tiogasolutions.notifyserver.server.grizzly.NotifyServer" />
+    <option name="MAIN_CLASS_NAME" value="org.tiogasolutions.notify.server.grizzly.NotifyServer" />
     <option name="VM_PARAMETERS" value="-Dnotify.spring_config=spring-config-jdp.xml" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -15,7 +15,7 @@
     <option name="ENABLE_SWING_INSPECTOR" value="false" />
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
-    <module name="tioga-notifyserver-server-grizzly" />
+    <module name="tioga-notify-server-grizzly" />
     <envs />
     <RunnerSettings RunnerId="Debug">
       <option name="DEBUG_PORT" value="" />

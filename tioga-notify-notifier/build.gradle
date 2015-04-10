@@ -1,0 +1,16 @@
+project(":tioga-notify-notifier") {
+
+    version = "1.0.0"
+
+    dependencies {
+        // Logging
+        compile("org.slf4j:slf4j-api:1.7.10")
+        testCompile("ch.qos.logback:logback-core:1.1.2")
+        testCompile("ch.qos.logback:logback-classic:1.1.2", {
+            exclude module: 'slf4j-api'
+        })
+    }
+
+    apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}
+

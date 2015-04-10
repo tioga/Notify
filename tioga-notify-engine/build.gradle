@@ -1,0 +1,21 @@
+project(":tioga-notify-engine") {
+
+  version = "1.0.0"
+
+  dependencies {
+    compile(project(":tioga-notify-kernel"))
+    compile("org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:5.0.6")
+
+    compile("org.slf4j:slf4j-api:1.7.10")
+    compile("ch.qos.logback:logback-core:1.1.2")
+    compile("ch.qos.logback:logback-classic:1.1.2", {
+      exclude module: 'slf4j-api'
+    })
+
+    testCompile("org.tiogasolutions.runner:tioga-runner-jersey-spring:1.0.0")
+    testCompile("org.glassfish.jersey.test-framework:jersey-test-framework-core:2.16")
+    testCompile("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.16")
+  }
+
+  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}

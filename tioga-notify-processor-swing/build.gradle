@@ -1,0 +1,11 @@
+project(":tioga-notify-processor-swing") {
+
+  version = "1.0.0"
+
+  dependencies {
+    compile(project(":tioga-notify-kernel"))
+  }
+
+  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}
+

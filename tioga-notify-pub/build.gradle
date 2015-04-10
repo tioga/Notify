@@ -1,0 +1,14 @@
+project(":tioga-notify-pub") {
+
+  version = "1.0.0"
+
+  dependencies {
+    compile("org.slf4j:slf4j-api:1.7.10")
+    compile("org.tiogasolutions.dev:tioga-dev-common:4.1.4")
+    compile("com.fasterxml.jackson.core:jackson-annotations:2.5.1")
+    compile("org.tiogasolutions.dev:tioga-dev-jackson:4.1.7")
+  }
+
+  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}
+

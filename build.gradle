@@ -18,7 +18,7 @@ subprojects {
   apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-versions.gradle")
   apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle")
 
-  group = "org.tiogasolutions.notifyserver"
+  group = "org.tiogasolutions.notify"
 
   targetCompatibility = "1.8"
   sourceCompatibility = "1.8"
@@ -96,7 +96,7 @@ project(':') {
     // Copies distribution from key modules into dist directory
     task copyDist(type: Copy) {
         def distModules = subprojects.findAll({proj ->
-            (proj.name == "tioga-notifyserver-server-grizzly")
+            (proj.name == "tioga-notify-server-grizzly")
         })
         println "\nModules in distirbution: ${distModules}"
         distModules.each {distModule ->

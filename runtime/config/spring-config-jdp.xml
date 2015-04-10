@@ -22,14 +22,14 @@
       <prop key="notify.runtime_dir">../runtime</prop>
   </util:properties>
 
-  <bean class="org.tiogasolutions.notifyserver.server.grizzly.GrizzlyServerConfig"
+  <bean class="org.tiogasolutions.notify.server.grizzly.GrizzlyServerConfig"
         p:serverName="localhost"
         p:port="8080"
         p:shutdownPort="8081"
         p:context="lq-server"
         p:openBrowser="true"/>
 
-  <bean class="org.tiogasolutions.notifyserver.kernel.config.CouchServersConfig"
+  <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"
         p:masterUrl="http://localhost:5984"
         p:masterUserName="app-user"
         p:masterPassword="app-user"
@@ -48,7 +48,7 @@
         p:requestDatabaseSuffix="-request"
     />
 
-  <bean class="org.tiogasolutions.notifyserver.kernel.config.TrustedUserStore">
+  <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
     <constructor-arg>
       <util:map id="someId" map-class="java.util.HashMap">
         <entry key="harlann">
@@ -66,14 +66,14 @@
     <constructor-arg value="testing123"/>
   </bean>
 
-  <bean class="org.tiogasolutions.notifyserver.processor.push.PushConfig"
+  <bean class="org.tiogasolutions.notify.processor.push.PushConfig"
     p:emailFromAddress="bot@jacobparr.com"
     p:smsFromNumber="7745677277"/>
 
-  <bean class="org.tiogasolutions.notifyserver.engine.web.StaticContentReader">
-    <constructor-arg value="${notify.runtime_dir}/../tioga-notifyserver-admin-app"/>
+  <bean class="org.tiogasolutions.notify.engine.web.StaticContentReader">
+    <constructor-arg value="${notify.runtime_dir}/../tioga-notify-admin-app"/>
   </bean>
 
-  <context:component-scan base-package="org.tiogasolutions.notifyserver"/>
+  <context:component-scan base-package="org.tiogasolutions.notify"/>
 
 </beans>

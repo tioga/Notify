@@ -9,19 +9,19 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-client" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-engine" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-kernel" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-notifier" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-logger" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-push" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-slack" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-smtp" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-processor-swing" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-pub" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-sender-couch" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-sender-http" />
-            <option value="$PROJECT_DIR$/tioga-notifyserver-server-grizzly" />
+            <option value="$PROJECT_DIR$/tioga-notify-client" />
+            <option value="$PROJECT_DIR$/tioga-notify-engine" />
+            <option value="$PROJECT_DIR$/tioga-notify-kernel" />
+            <option value="$PROJECT_DIR$/tioga-notify-notifier" />
+            <option value="$PROJECT_DIR$/tioga-notify-processor-logger" />
+            <option value="$PROJECT_DIR$/tioga-notify-processor-push" />
+            <option value="$PROJECT_DIR$/tioga-notify-processor-slack" />
+            <option value="$PROJECT_DIR$/tioga-notify-processor-smtp" />
+            <option value="$PROJECT_DIR$/tioga-notify-processor-swing" />
+            <option value="$PROJECT_DIR$/tioga-notify-pub" />
+            <option value="$PROJECT_DIR$/tioga-notify-sender-couch" />
+            <option value="$PROJECT_DIR$/tioga-notify-sender-http" />
+            <option value="$PROJECT_DIR$/tioga-notify-server-grizzly" />
           </set>
         </option>
       </GradleProjectSettings>

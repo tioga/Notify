@@ -73,9 +73,9 @@
     p:smsFromNumber="7745677277"/>
 
   <bean class="StaticContentReader">
-    <constructor-arg value="${notify.runtime_dir}/../tioga-notifyserver-admin-app"/>
+    <constructor-arg value="${notify.runtime_dir}/../tioga-notify-admin-app"/>
   </bean>
 
-  <context:component-scan base-package="org.tiogasolutions.notifyserver"/>
+  <context:component-scan base-package="org.tiogasolutions.notify"/>
 
 </beans>

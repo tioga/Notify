@@ -1,0 +1,28 @@
+project(":tioga-notify-sender-http") {
+
+    version = "1.0.0"
+
+    dependencies {
+        compile project(':tioga-notify-notifier')
+
+        // Jersey Http Client
+        compile("org.glassfish.jersey.core:jersey-common:2.16")
+        compile("org.glassfish.jersey.core:jersey-client:2.16")
+        compile("org.glassfish.jersey.media:jersey-media-multipart:2.16")
+
+        // Logging
+        compile("org.slf4j:slf4j-api:1.7.10")
+
+        // Logging
+        testCompile("org.slf4j:slf4j-api:1.7.10")
+        testCompile("ch.qos.logback:logback-core:1.1.2")
+        testCompile("ch.qos.logback:logback-classic:1.1.2", {
+            exclude module: 'slf4j-api'
+        })
+
+
+    }
+
+    apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+}
+
