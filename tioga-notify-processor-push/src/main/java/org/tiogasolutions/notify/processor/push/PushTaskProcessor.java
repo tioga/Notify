@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.processor.push;
 
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.push.gateway.CosmicPushGateway;
+import org.tiogasolutions.push.client.CosmicPushClient;
 import org.tiogasolutions.push.pub.common.Push;
 import org.tiogasolutions.push.pub.EmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
@@ -34,7 +34,7 @@ public class PushTaskProcessor implements TaskProcessor {
   private static final ProcessorType PROCESSOR_TYPE = new ProcessorType("push");
 
   private final ThymeleafMessageBuilder messageBuilder;
-  /*package*/ CosmicPushGateway gateway;
+  /*package*/ CosmicPushClient client;
   /*package*/ private PushConfig pushConfig;
 
   public PushTaskProcessor() {
@@ -44,7 +44,7 @@ public class PushTaskProcessor implements TaskProcessor {
   @Override
   public void init(BeanFactory beanFactory) {
     this.pushConfig = beanFactory.getBean(PushConfig.class);
-    this.gateway = beanFactory.getBean(CosmicPushGateway.class);
+    this.client = beanFactory.getBean(CosmicPushClient.class);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class PushTaskProcessor implements TaskProcessor {
   @Override
   public boolean isReady() {
     try {
-      gateway.ping();
+      client.ping();
       return true;
 
     } catch (Exception e) {
@@ -66,7 +66,7 @@ public class PushTaskProcessor implements TaskProcessor {
 
   @Override
   public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
-    if (gateway == null) {
+    if (client == null) {
       return TaskResponse.retry("Push gateway was not yet set.");
     }
 
@@ -103,7 +103,7 @@ public class PushTaskProcessor implements TaskProcessor {
     }
 
     // The last thing we need to do is push the Push.
-    pushList.forEach(gateway::send);
+    pushList.forEach(client::send);
 
     return TaskResponse.complete("Ok");
   }

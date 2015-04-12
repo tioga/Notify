@@ -1,10 +1,10 @@
 project(":tioga-notify-processor-push") {
 
-  version = "1.0.0"
+  version = "1.0.1"
 
   dependencies {
     compile(project(":tioga-notify-kernel"))
-    compile("org.tiogasolutions.push:tioga-push-gateway:2.0.4")
+    compile("org.tiogasolutions.push:tioga-push-client:3.0.0")
 
     testCompile("org.springframework:spring-test:4.1.6.RELEASE")
   }

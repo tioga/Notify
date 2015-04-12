@@ -1,10 +1,10 @@
 package org.tiogasolutions.notify.processor.push;
 
-import org.tiogasolutions.push.gateway.CosmicPushGateway;
+import org.tiogasolutions.push.client.CosmicPushClient;
 import org.tiogasolutions.push.pub.common.Push;
 import org.tiogasolutions.push.pub.common.PushResponse;
 
-public class TestCosmicPushGateway implements CosmicPushGateway {
+public class TestCosmicPushGateway implements CosmicPushClient {
 
   /*package*/ Push lastPush;
 

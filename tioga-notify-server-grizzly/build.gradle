@@ -1,6 +1,6 @@
 project(":tioga-notify-server-grizzly") {
 
-  version = "1.0.0"
+  version = "1.0.1"
 
   dependencies {
     compile(project(":tioga-notify-engine"))

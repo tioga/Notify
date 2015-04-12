@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.tiogasolutions.push:tioga-push-pub:2.0.3">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-pub/2.0.3/tioga-push-pub-2.0.3.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-pub/2.0.3/57e0f9335e39cace9f060a3b8a5ec54ab3d2519b/tioga-push-pub-2.0.3.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-pub/2.0.3/tioga-push-pub-2.0.3-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-pub/2.0.3/7ff91b94d3923a636814928758e38a3c1a054afd/tioga-push-pub-2.0.3-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
