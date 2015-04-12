@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.processor.push;
 
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.push.client.CosmicPushClient;
+import org.tiogasolutions.push.client.PushServerClient;
 import org.tiogasolutions.push.pub.common.Push;
 import org.tiogasolutions.push.pub.EmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
@@ -34,7 +34,7 @@ public class PushTaskProcessor implements TaskProcessor {
   private static final ProcessorType PROCESSOR_TYPE = new ProcessorType("push");
 
   private final ThymeleafMessageBuilder messageBuilder;
-  /*package*/ CosmicPushClient client;
+  /*package*/ PushServerClient client;
   /*package*/ private PushConfig pushConfig;
 
   public PushTaskProcessor() {
@@ -44,7 +44,7 @@ public class PushTaskProcessor implements TaskProcessor {
   @Override
   public void init(BeanFactory beanFactory) {
     this.pushConfig = beanFactory.getBean(PushConfig.class);
-    this.client = beanFactory.getBean(CosmicPushClient.class);
+    this.client = beanFactory.getBean(PushServerClient.class);
   }
 
   @Override

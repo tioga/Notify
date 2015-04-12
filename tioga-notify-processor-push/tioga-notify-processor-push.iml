@@ -33,6 +33,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.1.4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-pub:2.0.3" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-jackson:4.0.4" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-client:3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-client:3.0.1" level="project" />
   </component>
 </module>

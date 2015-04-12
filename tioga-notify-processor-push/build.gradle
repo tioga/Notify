@@ -4,7 +4,7 @@ project(":tioga-notify-processor-push") {
 
   dependencies {
     compile(project(":tioga-notify-kernel"))
-    compile("org.tiogasolutions.push:tioga-push-client:3.0.0")
+    compile("org.tiogasolutions.push:tioga-push-client:3.0.1")
 
     testCompile("org.springframework:spring-test:4.1.6.RELEASE")
   }
