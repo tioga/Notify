@@ -55,7 +55,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
     getExecutionManager().clearContext();
   }
 
-  public Invocation.Builder request(WebTarget webTarget) {
+  private Invocation.Builder request(WebTarget webTarget) {
     return webTarget.request()
         .header("Authorization", toHttpAuth("jacobp", "Testing123"));
   }
