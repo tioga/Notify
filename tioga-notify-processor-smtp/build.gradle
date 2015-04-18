@@ -1,12 +1,12 @@
 project(":tioga-notify-processor-smtp") {
 
-  version = "1.0.0"
+  version = "1.0.1"
 
   dependencies {
     compile(project(":tioga-notify-kernel"))
     compile("javax.mail:mail:1.5.0-b01")
   }
 
-  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 }
 

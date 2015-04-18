@@ -1,6 +1,6 @@
 project(":tioga-notify-notifier") {
 
-    version = "1.0.0"
+    version = "1.0.1"
 
     dependencies {
         // Logging
@@ -11,6 +11,6 @@ project(":tioga-notify-notifier") {
         })
     }
 
-    apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle")
+    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 }
 

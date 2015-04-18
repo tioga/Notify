@@ -1,22 +1,15 @@
-buildscript {
-  repositories {
-    mavenCentral()
-    mavenLocal()
-    jcenter()
-  }
-  dependencies {
-    classpath 'org.hidetake:gradle-ssh-plugin:0.3.5'
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.7'
-    classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
-  }
+plugins {
+  id "com.github.ben-manes.versions" version "0.8"
+  id "org.hidetake.ssh" version "1.1.2"
+  id "com.kageiit.url-cache" version "1.0.0"
 }
 
-apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-java.gradle")
+apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-java.gradle"))
 
 subprojects {
 
-  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-versions.gradle")
-  apply(from: "https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle")
+  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-versions.gradle"))
+  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle"))
 
   group = "org.tiogasolutions.notify"
 
@@ -24,28 +17,17 @@ subprojects {
   sourceCompatibility = "1.8"
 
   configurations.all({
-    resolutionStrategy({
-      failOnVersionConflict()
+    resolutionStrategy {
+      if (System.getProperty("no-fail-version-conflict") != "true") {
+        failOnVersionConflict()
+      }
       force(
-        // In general, this list should be kept as small as possible.
-        // That is resolve the conflict, don't just force it here.
-        "org.slf4j:slf4j:1.7.10",
-        "org.slf4j:slf4j-api:1.7.10",
+        "org.slf4j:slf4j:1.7.12",
+        "org.slf4j:slf4j-api:1.7.12",
         "org.javassist:javassist:3.18.1-GA",
-
         "org.thymeleaf:thymeleaf:2.1.4.RELEASE",
-
-        // Need to force couch-ace to latest version.
-        "com.fasterxml.jackson.core:jackson-annotations:2.5.1",
-        "com.fasterxml.jackson.core:jackson-databind:2.5.1",
-        "com.fasterxml.jackson.core:jackson-core:2.5.1",
-
-        "org.glassfish.jersey.core:jersey-common:2.16",
-        "org.glassfish.jersey.core:jersey-client:2.16",
-        "org.glassfish.jersey.core:jersey-server:2.16",
-        "org.glassfish.jersey.media:jersey-media-multipart:2.16",
       )
-    })
+    }
   })
 
   dependencies {
@@ -58,38 +40,4 @@ subprojects {
     pomScmUrl = "https://github.com/tioga"
     pomScmConnection = "https://github.com/tioga/notify-server.git"
   }
-}
-
-// If we are publishing, expand tasks to include clean, build and install.
-// This is to get around the gradle issue where task sequence cannot be controlled.
-if (gradle.startParameter.taskNames.contains("publish")) {
-    gradle.startParameter.setTaskNames(["publish", "clean", "build", "install", "distZip", "dist"])
-    println "We are publishing, expanding task name to: ${gradle.startParameter.taskNames}"
-}
-
-// HACK - some of the versioning is now working, need to figure it out - HN
-// Root project
-project(':') {
-
-    // Publish simple resets the version
-    task publish() << {
-        println "Publishing all modules"
-
-        // Reset the version when we publish
-        Console console = System.console()
-        def versionPrompt = String.format("\nEnter version for publish [%s]: ", "1.0")
-        String newVersion = console.readLine(versionPrompt)
-        newVersion = (newVersion?.length() > 0) ? newVersion : "1.0"
-        if (!newVersion || newVersion.length() < 3 || !newVersion.contains(".")) {
-            throw new RuntimeException("Publish canceled, bad version: " + newVersion)
-        }
-
-        // HACK - some issues here, not sure what's going on
-/*
-        allprojects.each({proj ->
-            println("Setting version: " + proj.name + ":" + newVersion)
-            proj.version = newVersion
-        })
-*/
-    }
 }
