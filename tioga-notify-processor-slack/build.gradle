@@ -6,7 +6,7 @@ project(":tioga-notify-processor-slack") {
     compile(project(":tioga-notify-kernel"))
 
     // Dev
-    compile("org.tiogasolutions.dev:tioga-dev-common:4.+")
+    compile("org.tiogasolutions.dev:tioga-dev-common:+")
 
     // Jersey Http Client
     compile("org.glassfish.jersey.core:jersey-common:2.17")

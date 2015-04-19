@@ -4,8 +4,8 @@ project(":tioga-notify-pub") {
 
   dependencies {
     compile("org.slf4j:slf4j-api:1.7.10")
-    compile("org.tiogasolutions.dev:tioga-dev-common:4.+")
-    compile("org.tiogasolutions.dev:tioga-dev-jackson:4.+")
+    compile("org.tiogasolutions.dev:tioga-dev-common:+")
+    compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
     compile("com.fasterxml.jackson.core:jackson-annotations:2.5.0")
   }
 

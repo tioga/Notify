@@ -8,7 +8,7 @@ project(":tioga-notify-client") {
     compile(project(":tioga-notify-sender-couch"))
     compile(project(":tioga-notify-sender-http"))
 
-    compile("org.tiogasolutions.dev:tioga-dev-jackson:4.+")
+    compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
 
     compile("org.glassfish.jersey.core:jersey-client:2.17")
   }
