@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.push:tioga-push-jackson:4.0.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-jackson/4.0.6/634f09330e86e1f386d8fb7482742a94c3a7019b/tioga-push-jackson-4.0.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-jackson/4.0.6/f135693b693b8175d81ae987d8686912405ff260/tioga-push-jackson-4.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

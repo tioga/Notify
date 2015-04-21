@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.runners:tioga-runners-jersey-spring:1.0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.runners/tioga-runners-jersey-spring/1.0.1/186b480b03119d7e92307286714d970e8b07f118/tioga-runners-jersey-spring-1.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.runners/tioga-runners-jersey-spring/1.0.1/83eec14753196b5390d8bd61af5ebe1ac8938905/tioga-runners-jersey-spring-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
