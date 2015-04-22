@@ -21,7 +21,7 @@ project(":tioga-notify-server-grizzly") {
     FileWriter writer = new FileWriter(serverStartFile);
     writer.write("@echo off\r\ncls\r\n");
     writer.write("echo Starting Tioga Solution's Notify Server\r\n");
-    writer.write("%JAVA_HOME%\\bin\\java.exe -jar ./lib/tioga-notify-server-grizzly-${project.version}.jar");
+    writer.write("%JAVA_HOME%\\bin\\javaw.exe -jar ./lib/tioga-notify-server-grizzly-${project.version}.jar");
     writer.close()
   }
 
