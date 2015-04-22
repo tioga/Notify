@@ -30,7 +30,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw new ApiException(statusCode, "Put of domain FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Put of domain FAILED: " + response.getStatusInfo());
     }
 
     String json = response.readEntity(String.class);
@@ -48,7 +48,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw new ApiException(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
     }
 
     String json = response.readEntity(String.class);
@@ -65,7 +65,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw new ApiException(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
     }
 
     String json = response.readEntity(String.class);
@@ -81,7 +81,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.NO_CONTENT) {
-      throw new ApiException(statusCode, "Delete of notification FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Delete of notification FAILED: " + response.getStatusInfo());
     }
   }
 
@@ -94,7 +94,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw new ApiException(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
     }
 
     String json = response.readEntity(String.class);
@@ -110,7 +110,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.NO_CONTENT) {
-      throw new ApiException(statusCode, "Delete of tasks FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Delete of tasks FAILED: " + response.getStatusInfo());
     }
   }
 
@@ -121,7 +121,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.NO_CONTENT) {
-      throw new ApiException(statusCode, "Delete of request FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Delete of request FAILED: " + response.getStatusInfo());
     }
   }
 
@@ -132,7 +132,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.NO_CONTENT) {
-      throw new ApiException(statusCode, "Start of request receiver failed: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Start of request receiver failed: " + response.getStatusInfo());
     }
   }
 
@@ -143,7 +143,7 @@ public class TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.NO_CONTENT) {
-      throw new ApiException(statusCode, "Start of task processor failed: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Start of task processor failed: " + response.getStatusInfo());
     }
   }
 }

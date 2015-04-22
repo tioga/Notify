@@ -345,8 +345,9 @@ public class DomainStore extends AbstractStore {
           .request()
           .put(Entity.entity(userJson, MediaType.WILDCARD_TYPE));
       statusCode = HttpStatusCode.findByCode(response.getStatus());
+
       if (statusCode.isError()) {
-        throw new ApiException(statusCode, "Error adding user: " + response.readEntity(String.class));
+        throw ApiException.fromCode(statusCode, "Error adding user: " + response.readEntity(String.class));
       }
     }
   }

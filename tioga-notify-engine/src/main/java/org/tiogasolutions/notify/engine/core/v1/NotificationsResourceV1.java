@@ -1,5 +1,6 @@
 package org.tiogasolutions.notify.engine.core.v1;
 
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.pub.*;
@@ -77,7 +78,7 @@ public class NotificationsResourceV1 {
       ExceptionInfo exception = notification.getExceptionInfo();
       if (exception == null) {
         String msg = String.format("Exception info not found for notification %s.", notificationId);
-        ApiNotFoundException e = ApiNotFoundException.notFound(msg);
+        ApiNotFoundException e = ApiException.notFound(msg);
         return Response.status(404).entity(e).build();
 
       } else {

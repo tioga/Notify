@@ -173,7 +173,7 @@ public class AdminApp extends TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw new ApiException(statusCode, "Update of route catalog FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Update of route catalog FAILED: " + response.getStatusInfo());
     }
 
     JOptionPane.showMessageDialog(null, "The catalog has been updated:\n"+jsonFile, "Catalog Updated", JOptionPane.INFORMATION_MESSAGE);
@@ -202,7 +202,7 @@ public class AdminApp extends TestMainSupport {
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw new ApiException(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, "Get of tasks FAILED: " + response.getStatusInfo());
     }
 
     String json = response.readEntity(String.class);
