@@ -12,14 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class NotifyServer {
+
   private static final Logger log = LoggerFactory.getLogger(NotifyServer.class);
 
-  public static void main(String...args) {
+  public static void main(String...args) throws Exception {
 
     // Identify runtimeDir from system property or program argument
     String runtimeDirArg = EnvUtils.findProperty("notify.runtime_dir");
@@ -82,9 +84,36 @@ public class NotifyServer {
     log.info("Active spring profiles: " + activeProfiles);
 
     // Initialize Spring
-    String springFileName = EnvUtils.findProperty("notify.spring_config", "spring-config.xml");
-    Path springConfig = configDir.resolve(springFileName);
-    String springConfigPath = springConfig.toUri().toString();
+    final String NOTIFY_SPRING_CONFIG_PROPERTY = "notify.spring_config";
+    final String NOTIFY_SPRING_CONFIG_FILE_NAME = "spring-config.xml";
+
+    String springFileName = EnvUtils.findProperty(NOTIFY_SPRING_CONFIG_PROPERTY);
+    String springConfigPath;
+
+    if (springFileName != null) {
+      // The spring file was specified, make sure it actually exists.
+      Path springConfig = configDir.resolve(springFileName);
+      springConfigPath = springConfig.toUri().toString();
+      if (springConfig.toFile().exists() == false) {
+        String msg = "The specified spring config file does not exist: " + springConfig;
+        throw new FileNotFoundException(msg);
+      } else {
+        log.info("Using the specified spring config file: {}", springConfig);
+      }
+    } else {
+      Path springConfig = configDir.resolve(NOTIFY_SPRING_CONFIG_FILE_NAME);
+      if (springConfig.toFile().exists()) {
+        log.info("Using the external spring config file: {}", springConfig);
+        springConfigPath = springConfig.toUri().toString();
+
+      } else {
+        springConfigPath = "classpath:/tioga-notify-server-grizzly/spring-config.xml";
+        log.info("Using the internal spring config file: {}", springConfigPath);
+        log.info("  Override by using the external spring config file: {}", springConfig);
+        log.info("  Override by specifying the location of the external spring config file with the system property \"{}\"", NOTIFY_SPRING_CONFIG_PROPERTY);
+      }
+    }
+
     NotifyJaxRsConfig jaxRsConfig = new NotifyJaxRsConfig(activeProfiles, springConfigPath);
     ResourceConfigAdapter adapter = new ResourceConfigAdapter(jaxRsConfig);
     adapter.register(new JerseySpringBridge(jaxRsConfig.getBeanFactory()));

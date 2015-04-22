@@ -1,6 +1,6 @@
 project(":tioga-notify-processor-swing") {
 
-  version = "1.0.2"
+  version = tiogaAppVersion
 
   dependencies {
     compile(project(":tioga-notify-kernel"))

@@ -12,7 +12,6 @@ import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.domain.validation.BeanValidator;
 import org.tiogasolutions.dev.domain.validation.Jsr349BeanValidator;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

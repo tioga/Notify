@@ -1,6 +1,6 @@
 project(":tioga-notify-server-grizzly") {
 
-  version = "1.0.2"
+  version = tiogaAppVersion
 
   dependencies {
     compile(project(":tioga-notify-engine"))
@@ -14,9 +14,15 @@ project(":tioga-notify-server-grizzly") {
     compile("org.tiogasolutions.runners:tioga-runners-jersey-spring:+")
   }
 
-  jar {
-    // Remove version from the jar name to help with deployment.
-    archiveName = "tioga-notify-server-grizzly.jar"
+  File serverStartFile = file("$buildDir/scripts/server-start.bat");
+
+  task createStartScript << {
+    serverStartFile.parentFile.mkdirs()
+    FileWriter writer = new FileWriter(serverStartFile);
+    writer.write("@echo off\r\ncls\r\n");
+    writer.write("echo Starting Tioga Solution's Notify Server\r\n");
+    writer.write("%JAVA_HOME%\\bin\\java.exe -jar ./lib/tioga-notify-server-grizzly-${project.version}.jar");
+    writer.close()
   }
 
   apply plugin:'distribution'
@@ -38,6 +44,7 @@ project(":tioga-notify-server-grizzly") {
           from(jar)
           from(project.configurations.runtime)
         }
+        from(serverStartFile, createStartScript)
       }
     }
   }

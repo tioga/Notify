@@ -1,12 +1,13 @@
 project(":tioga-notify-kernel") {
 
-  version = "1.0.2"
+  version = tiogaAppVersion
 
   dependencies {
     compile(project(":tioga-notify-notifier"))
     compile(project(":tioga-notify-pub"))
 
     compile("org.tiogasolutions.lib:tioga-lib-thymeleaf:+")
+    compile("org.tiogasolutions.lib:tioga-lib-spring-couchace:+")
 
     // Logging
     compile("org.slf4j:slf4j-api:1.7.10")
@@ -29,8 +30,8 @@ project(":tioga-notify-kernel") {
     compile("org.tiogasolutions.couchace:tioga-couchace-jackson:+")
 
     // Spring
-    compile("org.springframework:spring-context:4.1.6.RELEASE")
-    compile("org.aspectj:aspectjweaver:1.8.5")
+     compile("org.springframework:spring-context:4.1.6.RELEASE")
+     compile("org.aspectj:aspectjweaver:1.8.5")
 
     // Grizzly
     compile("org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.17")
