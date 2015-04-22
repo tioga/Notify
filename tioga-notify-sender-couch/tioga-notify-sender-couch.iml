@@ -471,24 +471,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_3rd_party_tioga_solutions_Notify_tioga_notify_kernel_build_classes_test">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/test" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_3rd_party_tioga_solutions_Notify_tioga_notify_kernel_build_resources_test">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/resources/test" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: C__dvlp_3rd_party_tioga_solutions_Notify_tioga_notify_kernel_build_classes_main">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/main" />
@@ -582,6 +564,24 @@
       <library name="Gradle: tioga-lib-couchace-5.0.10">
         <CLASSES>
           <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-couchace/5.0.10/tioga-lib-couchace-5.0.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_solutions_Notify_tioga_notify_kernel_build_classes_test">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/test" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_solutions_Notify_tioga_notify_kernel_build_resources_test">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/resources/test" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
