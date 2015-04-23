@@ -6,6 +6,7 @@ import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
 import org.tiogasolutions.notify.pub.*;
+import org.tiogasolutions.notify.sender.couch.LqCouchSenderSetup;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -23,14 +24,21 @@ public class TestMainSupport {
   protected String apiKey;
   protected String apiPassword;
 
+  protected String apiPath;
+  protected LqCouchSenderSetup couchSenderSetup;
+
+  public TestMainSupport() {
+  }
+
   public DomainProfile getOrCreateDomainProfile(Client client, String domainName) throws IOException {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName)
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName)
       .request(MediaType.APPLICATION_JSON_TYPE)
       .put(Entity.entity("", MediaType.WILDCARD_TYPE));
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {
-      throw ApiException.fromCode(statusCode, "Put of domain FAILED: " + response.getStatusInfo());
+      String msg = String.format("Put of domain \"%s\" FAILED: %s", domainName, response.getStatusInfo());
+      throw ApiException.fromCode(statusCode, msg);
     }
 
     String json = response.readEntity(String.class);
@@ -41,7 +49,7 @@ public class TestMainSupport {
 
   @SuppressWarnings("unchecked")
   public QueryResult<Task> getTasks(TaskStatus taskStatus) throws IOException {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("tasks")
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("tasks")
       .queryParam("taskStatus", taskStatus)
       .request(MediaType.APPLICATION_JSON_TYPE)
       .get();
@@ -59,7 +67,7 @@ public class TestMainSupport {
 
   @SuppressWarnings("unchecked")
   public QueryResult<Notification> getNotifications(String domainName) throws IOException {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("notifications")
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("notifications")
       .request(MediaType.APPLICATION_JSON_TYPE)
       .get();
 
@@ -75,7 +83,7 @@ public class TestMainSupport {
   }
 
   public void deleteNotification(String domainName, Notification notification) {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("notifications").path(notification.getNotificationId())
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("notifications").path(notification.getNotificationId())
       .request(MediaType.APPLICATION_JSON_TYPE)
       .delete();
 
@@ -87,7 +95,7 @@ public class TestMainSupport {
 
   @SuppressWarnings("unchecked")
   public QueryResult<Request> getRequests(String domainName, RequestStatus requestStatus) throws IOException {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("requests")
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("requests")
       .queryParam("requestStatus", requestStatus)
       .request(MediaType.APPLICATION_JSON_TYPE)
       .get();
@@ -104,7 +112,7 @@ public class TestMainSupport {
   }
 
   public void deleteTask(String domainName, Task task) {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("tasks").path(task.getTaskId())
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("tasks").path(task.getTaskId())
       .request(MediaType.APPLICATION_JSON_TYPE)
       .delete();
 
@@ -115,7 +123,7 @@ public class TestMainSupport {
   }
 
   public void deleteRequest(String domainName, Request request) {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("requests").path(request.getRequestId())
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("requests").path(request.getRequestId())
       .request(MediaType.APPLICATION_JSON_TYPE)
       .delete();
 
@@ -126,7 +134,7 @@ public class TestMainSupport {
   }
 
   public void startReceiver() {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/system/request-receiver/actions/execute")
+    Response response = client.target(apiPath + "/v1/admin/system/request-receiver/actions/execute")
       .request(MediaType.APPLICATION_JSON_TYPE)
       .post(Entity.entity("", MediaType.WILDCARD_TYPE));
 
@@ -137,7 +145,7 @@ public class TestMainSupport {
   }
 
   public void startProcessor() {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/system/task-processor/actions/execute")
+    Response response = client.target(apiPath + "/v1/admin/system/task-processor/actions/execute")
       .request(MediaType.APPLICATION_JSON_TYPE)
       .post(Entity.entity("", MediaType.WILDCARD_TYPE));
 

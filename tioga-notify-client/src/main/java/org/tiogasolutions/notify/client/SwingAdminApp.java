@@ -35,25 +35,25 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Future;
 
-public class AdminApp extends TestMainSupport {
+public class SwingAdminApp extends TestMainSupport {
 
-  private static final Logger log = LoggerFactory.getLogger(AdminApp.class);
+  private static final Logger log = LoggerFactory.getLogger(SwingAdminApp.class);
 
   public static void main(String[] args) {
     try {
-      new AdminApp().run();
+      new SwingAdminApp().run();
     } catch (Throwable e) {
       e.printStackTrace();
     }
   }
 
-  public AdminApp() {
+  public SwingAdminApp() {
     Configuration httpClientConfig = new ClientConfig();
     ClientBuilder clientBuilder = ClientBuilder.newBuilder().withConfig(httpClientConfig);
     client = clientBuilder.build();
 
     // Credentials for the Admin API
-    client.register(HttpAuthenticationFeature.basic("jacobp", "Testing123"));
+    client.register(HttpAuthenticationFeature.basic("admin", "North2South!"));
   }
 
   private void run() throws Exception {
@@ -64,6 +64,9 @@ public class AdminApp extends TestMainSupport {
 
     domainName = JOptionPane.showInputDialog("New/Existing domain name:", domainName);
     if (domainName == null) return;
+
+    initDomainName(domainName);
+
     DomainProfile domainProfile = getOrCreateDomainProfile(client, domainName);
     this.apiKey = domainProfile.getApiKey();
     this.apiPassword = domainProfile.getApiPassword();
@@ -167,7 +170,7 @@ public class AdminApp extends TestMainSupport {
     File jsonFile = new File(configDir, fileName);
     String json = IoUtils.toString(jsonFile);
 
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/admin/domains").path(domainName).path("route-catalog")
+    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("route-catalog")
       .request(MediaType.APPLICATION_JSON_TYPE)
       .post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
 
@@ -176,13 +179,13 @@ public class AdminApp extends TestMainSupport {
       throw ApiException.fromCode(statusCode, "Update of route catalog FAILED: " + response.getStatusInfo());
     }
 
-    JOptionPane.showMessageDialog(null, "The catalog has been updated:\n"+jsonFile, "Catalog Updated", JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(null, "The catalog has been updated:\n" + jsonFile, "Catalog Updated", JOptionPane.INFORMATION_MESSAGE);
   }
 
   public void generateRequestsByHttp() throws Exception {
 
     LqHttpSenderConfig config = new LqHttpSenderConfig()
-        .setUrl("http://localhost:8080/lq-server/api/v1/client/requests")
+        .setUrl(apiPath + "/v1/client/requests")
         .setUserName(apiKey)
         .setPassword(apiPassword);
 
@@ -196,7 +199,7 @@ public class AdminApp extends TestMainSupport {
   }
 
   public void checkStatus() throws Exception {
-    Response response = client.target("http://localhost:8080/lq-server/api/v1/status")
+    Response response = client.target(apiPath + "/v1/status")
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
 
@@ -207,13 +210,12 @@ public class AdminApp extends TestMainSupport {
 
     String json = response.readEntity(String.class);
 
-    JOptionPane.showMessageDialog(null, json, "Status: "+statusCode, JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(null, json, "Status: " + statusCode, JOptionPane.INFORMATION_MESSAGE);
   }
 
   public void generateRequestsByCouch() throws Exception {
 
-    LqCouchSenderSetup setup = getCouchSenderSetup();
-    LqCouchSender sender = new LqCouchSender(setup);
+    LqCouchSender sender = new LqCouchSender(couchSenderSetup);
 
     // noinspection ThrowableResultOfMethodCallIgnored
     sender.onFailure(f -> throwError("Failure in SENDING request: " + f.getThrowable().getMessage()));
@@ -237,7 +239,7 @@ public class AdminApp extends TestMainSupport {
     // Send notifications
     for(int i=0; i<notificationsToSend; i++) {
       LqBuilder builder = notifier.begin()
-          .topic("PubFi")
+          .topic("Swing Admin App")
           .summary("Here is a longer summary message. There really is no maximum length but it would be awkward for it to be too long: " + i)
           .trait("key1", "value1")
           .trait("index", String.valueOf(i))
@@ -264,26 +266,6 @@ public class AdminApp extends TestMainSupport {
     startReceiver();
   }
 
-  private LqCouchSenderSetup getCouchSenderSetup() throws IOException {
-
-    if ("jacobp".equals(domainName)) {
-      return new LqCouchSenderSetup(
-        "http://localhost:5984",
-        "notify-"+domainName+"-request",
-        "app-user",
-        "app-user");
-    }
-
-    DomainProfile domainProfile = getOrCreateDomainProfile(client, domainName);
-
-    // Create the sender
-    return new LqCouchSenderSetup(
-      "http://localhost:5984",
-      domainProfile.getRequestDbName(),
-      domainProfile.getApiKey(),
-      domainProfile.getApiPassword());
-  }
-
   private static void throwError(String msg) {
     System.out.println(msg);
     System.out.flush();
@@ -296,5 +278,38 @@ public class AdminApp extends TestMainSupport {
 
   public static interface Operation {
     public void execute() throws Exception;
+  }
+
+  private void initDomainName(String domainName) throws IOException {
+
+    if ("jacobp".equals(domainName)) {
+
+      apiPath = "http://localhost:39011/notify-server/api";
+      couchSenderSetup = new LqCouchSenderSetup(
+        "http://localhost:5984",
+        "tioga-notify-jacobp-request",
+        "app-user",
+        "app-user");
+
+    } else if ("proto".equals(domainName)) {
+
+      apiPath = "https://proto.stcg.net/notify-server/api";
+      couchSenderSetup = new LqCouchSenderSetup(
+        "http://proto.stcg.net:5984",
+        "tioga-notify-proto-request",
+        "app-user",
+        "app-user");
+
+    } else {
+
+      DomainProfile domainProfile = getOrCreateDomainProfile(client, domainName);
+
+      apiPath = "http://localhost:8080/notify-server/api";
+      couchSenderSetup = new LqCouchSenderSetup(
+        "http://localhost:5984",
+        domainProfile.getRequestDbName(),
+        domainProfile.getApiKey(),
+        domainProfile.getApiPassword());
+    }
   }
 }
