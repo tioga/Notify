@@ -25,6 +25,9 @@
     <envs />
     <properties />
     <listeners />
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="56411" />
+    </RunnerSettings>
     <method />
   </configuration>
 </component>
