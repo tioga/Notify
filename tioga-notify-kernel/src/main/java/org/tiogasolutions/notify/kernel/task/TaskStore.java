@@ -117,7 +117,7 @@ public class TaskStore extends AbstractStore {
     } else {
       viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByCreatedAt.name())
         .start("\\ufff0")
-        .end(null)
+        .end((Object)null)
         .limit(limit + 1)
         .skip(query.getOffset())
         .descending(true)

@@ -65,7 +65,7 @@ public class NotificationStore extends AbstractStore {
     String errorSuffix;
     if (StringUtils.isNotBlank(query.getNotificationId())) {
       NotificationEntity notificationEntity = findNotificationById(query.getNotificationId());
-      return ListQueryResult.newComplete(Notification.class, notificationEntity.toNotification());
+      return ListQueryResult.newSingle(Notification.class, notificationEntity.toNotification());
 
     } else if (StringUtils.isNotBlank(query.getTrackingId())) {
       errorSuffix = "by tracking id " + query.getTrackingId();
@@ -126,7 +126,7 @@ public class NotificationStore extends AbstractStore {
       errorSuffix = "by created at";
       viewQuery = CouchViewQuery.builder(CouchConst.NOTIFICATION_DESIGN_NAME, NotificationCouchView.ByCreatedAt.name())
           .start("\\ufff0")
-          .end(null)
+          .end((Object)null)
           .limit(limit+1)
           .skip(query.getOffset())
           .descending(true)
