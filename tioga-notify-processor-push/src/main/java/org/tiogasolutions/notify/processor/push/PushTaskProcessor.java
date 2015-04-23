@@ -1,7 +1,11 @@
 package org.tiogasolutions.notify.processor.push;
 
+import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
+import org.tiogasolutions.dev.common.exceptions.ApiUnauthorizedException;
+import org.tiogasolutions.lib.jaxrs.jackson.SimpleRestClient;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.push.client.LivePushServerClient;
 import org.tiogasolutions.push.client.PushServerClient;
 import org.tiogasolutions.push.pub.common.Push;
 import org.tiogasolutions.push.pub.EmailPush;
@@ -58,10 +62,27 @@ public class PushTaskProcessor implements TaskProcessor {
       client.ping();
       return true;
 
+    } catch (ApiUnauthorizedException e) {
+
+      String msg = "Credentials for the push-server are invalid (domain = \"";
+      if (client instanceof LivePushServerClient) {
+        msg += ((LivePushServerClient)client).getClient().getUsername();
+        msg += "\")";
+      }
+
+      log.error(msg);
+
+    } catch (ApiNotFoundException e) {
+      String msg = "The push-server client is improperly configured";
+      if (client instanceof LivePushServerClient) {
+        msg += ": " + ((LivePushServerClient)client).getClient().getApiUrl();
+      }
+      log.error(msg);
+
     } catch (Exception e) {
-      log.warn("The push-server is not responding to a ping.");
-      return false;
+      log.warn("The push-server is not responding to a ping.", e);
     }
+    return false;
   }
 
   @Override
