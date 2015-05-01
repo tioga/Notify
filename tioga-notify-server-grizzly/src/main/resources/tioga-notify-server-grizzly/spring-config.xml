@@ -23,12 +23,12 @@
     <constructor-arg value="notify-server"/>
   </bean>
 
-  <bean class="org.tiogasolutions.notify.server.grizzly.GrizzlyServerConfig"
-        p:serverName="${notify.server.name}"
+  <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
+        p:hostName="${notify.server.hostName}"
         p:port="${notify.server.port}"
         p:shutdownPort="${notify.server.shutdownPort}"
         p:context="${notify.server.context}"
-        p:openBrowser="false"/>
+        p:toOpenBrowser="false"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"
         p:masterUrl="${couchdb.master.url}"

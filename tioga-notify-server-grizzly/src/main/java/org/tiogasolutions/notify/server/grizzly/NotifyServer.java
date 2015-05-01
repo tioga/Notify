@@ -4,12 +4,15 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
-import org.tiogasolutions.dev.common.EnvUtils;
-import org.tiogasolutions.dev.common.IoUtils;
-import org.tiogasolutions.runners.jersey.support.JerseySpringBridge;
-import org.tiogasolutions.runners.jersey.support.ResourceConfigAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tiogasolutions.dev.common.EnvUtils;
+import org.tiogasolutions.dev.common.IoUtils;
+import org.tiogasolutions.notify.engine.web.NotifyApplication;
+import org.tiogasolutions.runners.grizzly.GrizzlyServer;
+import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
+import org.tiogasolutions.runners.grizzly.LoggerFacade;
+import org.tiogasolutions.runners.jersey.support.JerseySpringBridge;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -114,15 +117,25 @@ public class NotifyServer {
       }
     }
 
-    NotifyJaxRsConfig jaxRsConfig = new NotifyJaxRsConfig(activeProfiles, springConfigPath);
-    ResourceConfigAdapter adapter = new ResourceConfigAdapter(jaxRsConfig);
-    adapter.register(new JerseySpringBridge(jaxRsConfig.getBeanFactory()));
-    GrizzlyServerConfig serverConfig = jaxRsConfig.getBeanFactory().getBean(GrizzlyServerConfig.class);
+    // Create our application, initializing it with the specified spring file.
+    NotifyApplication notifyApp = new NotifyApplication(activeProfiles, springConfigPath);
 
-    // Startup Grizzly
-    GrizzlyServer grizzlyServer = new GrizzlyServer(serverConfig);
-    grizzlyServer.start(adapter);
+    // Get from the app an instance of the grizzly server config.
+    GrizzlyServerConfig serverConfig = notifyApp.getBeanFactory().getBean(GrizzlyServerConfig.class);
 
+    // Create a facade around Slf4j for the server's initialization routines.
+    LoggerFacade loggerFacade = new LoggerFacade() {
+      @Override public void info(String message) { log.info(message); }
+      @Override public void error(String message, Throwable e) { log.error(message, e); }
+    };
+
+    // Create an instance of the grizzly server.
+    GrizzlyServer grizzlyServer = new GrizzlyServer(notifyApp, serverConfig, loggerFacade);
+
+    // Before we start it, register a hook for our jersey-spring bridge.
+    grizzlyServer.getResourceConfig().register(new JerseySpringBridge(notifyApp.getBeanFactory()));
+
+    // Lastly, start the server.
+    grizzlyServer.start();
   }
-
 }

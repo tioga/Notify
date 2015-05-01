@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.engine.web;
+package org.tiogasolutions.notify.engine.web.writers;
 
 import org.tiogasolutions.dev.common.StringUtils;
 import org.thymeleaf.TemplateEngine;

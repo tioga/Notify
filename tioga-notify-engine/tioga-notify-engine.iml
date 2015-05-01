@@ -32,16 +32,8 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.hk2:osgi-resource-locator:1.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.javassist:javassist:3.18.1-GA" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-context:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-aop:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-beans:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-core:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.12" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.runners:tioga-runners-jersey-spring:1.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.core:jersey-server:2.17" level="project" />
@@ -58,7 +50,16 @@
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:5.1.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.1.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.1.10" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.1.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.1.7" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-jaxrs:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-context:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-beans:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-aop:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-core:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.runners:tioga-runners-jersey-spring:1.0.2" level="project" />
   </component>
 </module>

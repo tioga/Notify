@@ -11,7 +11,10 @@ project(":tioga-notify-server-grizzly") {
     compile(project(":tioga-notify-processor-logger"))
     compile(project(":tioga-notify-processor-slack"))
 
+    compile("org.tiogasolutions.runners:tioga-runners-grizzly:+")
     compile("org.tiogasolutions.runners:tioga-runners-jersey-spring:+")
+
+    // compile("org.tiogasolutions.runners:tioga-runners-jersey-spring:+")
   }
 
   File serverStartFile = file("$buildDir/scripts/server-start.bat");

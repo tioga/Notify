@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.engine.web;
+package org.tiogasolutions.notify.engine.web.writers;
 
 import java.net.URL;
 

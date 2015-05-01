@@ -554,7 +554,7 @@
     <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: tioga-dev-domain-4.1.6">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-domain/4.1.6/tioga-dev-domain-4.1.6.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.1.6/fec6bbee54954fc63f3f2055ae21a4838f2fdd67/tioga-dev-domain-4.1.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -563,7 +563,7 @@
     <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: tioga-dev-jackson-4.1.10">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-jackson/4.1.10/tioga-dev-jackson-4.1.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.1.10/a01db2a7755fcf3fbfa50d7b3ce38b3d2efb300/tioga-dev-jackson-4.1.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -572,16 +572,16 @@
     <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: tioga-dev-common-5.0.1">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-common/5.0.1/tioga-dev-common-5.0.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.0.1/dc758e94924211944ed9423dc7bb0b7bcf5bcf21/tioga-dev-common-5.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-lib-couchace-5.0.11">
+      <library name="Gradle: tioga-lib-couchace-5.0.12">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-couchace/5.0.11/81ca05ebfb735e47fa731f06b951e87628c5c80d/tioga-lib-couchace-5.0.11.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-couchace/5.0.12/bf659b8cf395356c3a65c29f9dd71cbc3f9b57c8/tioga-lib-couchace-5.0.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

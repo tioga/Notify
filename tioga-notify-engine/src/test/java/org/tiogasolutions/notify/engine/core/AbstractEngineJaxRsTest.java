@@ -1,5 +1,6 @@
 package org.tiogasolutions.notify.engine.core;
 
+import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.jersey.support.JerseySpringBridge;
 import org.tiogasolutions.runners.jersey.support.ResourceConfigAdapter;
 import org.glassfish.jersey.test.JerseyTestNg;
@@ -13,12 +14,12 @@ import javax.ws.rs.core.Application;
 
 public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest {
 
-  private EngApplication application;
+  private NotifyApplication application;
   private TestFactory testFactory;
 
   @Override
   protected Application configure() {
-    application = new EngApplication("test", "classpath:/config/spring-test-lq-engine.xml");
+    application = new NotifyApplication("test", "classpath:/config/spring-test-lq-engine.xml");
 
     ResourceConfigAdapter adapter = new ResourceConfigAdapter(application);
     adapter.register(new JerseySpringBridge(application.getBeanFactory()));
@@ -36,7 +37,7 @@ public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest 
     return testFactory;
   }
 
-  public EngApplication getApplication() {
+  public NotifyApplication getApplication() {
     return application;
   }
 

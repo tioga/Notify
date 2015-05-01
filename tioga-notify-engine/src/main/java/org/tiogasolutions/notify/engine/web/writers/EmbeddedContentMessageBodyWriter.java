@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.engine.web;
+package org.tiogasolutions.notify.engine.web.writers;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;

@@ -5,6 +5,7 @@ project(":tioga-notify-engine") {
   dependencies {
     compile(project(":tioga-notify-kernel"))
     compile("org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:+")
+    compile("org.tiogasolutions.lib:tioga-lib-spring-jaxrs:+")
 
     compile("org.slf4j:slf4j-api:1.7.10")
     compile("ch.qos.logback:logback-core:1.1.2")
@@ -12,7 +13,9 @@ project(":tioga-notify-engine") {
       exclude module: 'slf4j-api'
     })
 
+
     testCompile("org.tiogasolutions.runners:tioga-runners-jersey-spring:+")
+
     testCompile("org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17")
     testCompile("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17")
   }

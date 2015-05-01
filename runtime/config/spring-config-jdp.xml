@@ -23,11 +23,11 @@
   </util:properties>
 
   <bean class="org.tiogasolutions.notify.server.grizzly.GrizzlyServerConfig"
-        p:serverName="localhost"
+        p:hostName="localhost"
         p:port="8080"
         p:shutdownPort="8081"
         p:context="lq-server"
-        p:openBrowser="true"/>
+        p:toOpenBrowser="true"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"
         p:masterUrl="http://localhost:5984"

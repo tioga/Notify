@@ -1,20 +1,23 @@
-package org.tiogasolutions.notify.engine.core;
+package org.tiogasolutions.notify.engine.web;
 
-import org.tiogasolutions.notify.engine.web.*;
+import org.tiogasolutions.lib.spring.jaxrs.TiogaSpringApplication;
+import org.tiogasolutions.notify.engine.core.EngRootResource;
+import org.tiogasolutions.notify.engine.web.writers.EmbeddedContentMessageBodyWriter;
+import org.tiogasolutions.notify.engine.web.writers.ThymeleafMessageBodyWriter;
 
 import java.util.*;
 
-public class EngApplication extends LqApplicationSupport {
+public class NotifyApplication extends TiogaSpringApplication {
 
-  public EngApplication(String profile, String springFile) {
+  public NotifyApplication(String profile, String springFile) {
     super(profile, springFile, createProperties(), createClasses(), createSingletons());
   }
 
-  public static Set<Object> createSingletons() {
+  private static Set<Object> createSingletons() {
     return Collections.emptySet();
   }
 
-  public static Map<String,Object> createProperties() {
+  private static Map<String,Object> createProperties() {
     Map<String,Object> properties = new HashMap<>();
 
     properties.put("app.admin.context", "/api/v1/admin");
@@ -23,7 +26,7 @@ public class EngApplication extends LqApplicationSupport {
     return properties;
   }
 
-  public static Set<Class<?>> createClasses() {
+  private static Set<Class<?>> createClasses() {
     Set<Class<?>> classes = new HashSet<>();
 
     // Filters
