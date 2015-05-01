@@ -11,11 +11,8 @@ project(":tioga-notify-server-grizzly") {
     compile(project(":tioga-notify-processor-logger"))
     compile(project(":tioga-notify-processor-slack"))
 
+    compile("org.tiogasolutions.lib:tioga-lib-spring-jersey:+")
     compile("org.tiogasolutions.runners:tioga-runners-grizzly:+")
-    compile("org.tiogasolutions.runners:tioga-runners-jersey-spring:+")
-
-    compile("org.slf4j:jul-to-slf4j:1.7.12")
-    compile("org.slf4j:log4j-over-slf4j:1.7.12")
   }
 
   File serverStartFile = file("$buildDir/scripts/server-start.bat");
@@ -64,4 +61,15 @@ project(":tioga-notify-server-grizzly") {
   }
 
   apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+
+  task importAdminApp << {
+    File dest = file("${projectDir}/src/main/resources/tioga-notify-admin-app")
+    if (dest.deleteDir() == false) throw new IOException("Unable to delete files: " + dest)
+
+    copy {
+      from "${projectDir}/../tioga-notify-admin-app"
+      into dest
+    }
+  }
+  build.dependsOn(importAdminApp)
 }

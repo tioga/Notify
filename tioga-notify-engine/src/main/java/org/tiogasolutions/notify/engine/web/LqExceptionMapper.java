@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.engine.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiogasolutions.lib.jaxrs.TiogaJaxRsExceptionMapper;
 
 import javax.ws.rs.NotAuthorizedException;
@@ -8,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LqExceptionMapper extends TiogaJaxRsExceptionMapper {
+
+  private static final Logger log = LoggerFactory.getLogger(LqExceptionMapper.class);
 
   public LqExceptionMapper() {
     super(true);
@@ -32,16 +36,12 @@ public class LqExceptionMapper extends TiogaJaxRsExceptionMapper {
 
   @Override
   protected void logInfo(String msg, Throwable ex) {
-    // TODO - need to wire in a logging solution.
-    System.out.printf("INFO: %s%n", msg);
-    if (ex != null) ex.printStackTrace();
+    log.info(msg, ex);
   }
 
   @Override
   protected void logError(String msg, Throwable ex) {
-    // TODO - need to wire in a logging solution.
-    System.out.printf("ERROR: %s%n", msg);
-    if (ex != null) ex.printStackTrace();
+    log.error(msg, ex);
   }
 
   protected void logMessage(String msg) {

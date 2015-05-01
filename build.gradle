@@ -22,10 +22,8 @@ subprojects {
         failOnVersionConflict()
       }
       force(
-        "org.slf4j:slf4j:1.7.12",
-        "org.slf4j:slf4j-api:1.7.12",
+        "org.slf4j:slf4j-api:1.7.7", // override Thymeleaf
         "org.javassist:javassist:3.18.1-GA",
-        "org.thymeleaf:thymeleaf:2.1.4.RELEASE",
       )
     }
   })

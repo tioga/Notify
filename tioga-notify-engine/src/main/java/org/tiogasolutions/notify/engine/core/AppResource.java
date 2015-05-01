@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.engine.core;
 
 import org.tiogasolutions.dev.common.net.InetMediaType;
-import org.tiogasolutions.notify.engine.web.StaticContentReader;
+import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

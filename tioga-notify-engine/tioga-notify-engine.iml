@@ -15,8 +15,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tioga-notify-kernel" exported="" />
-    <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-core:1.1.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: ch.qos.logback:logback-classic:1.1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.1" level="project" />
@@ -32,7 +30,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.hk2:osgi-resource-locator:1.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.javassist:javassist:3.18.1-GA" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.12" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17" level="project" />
@@ -60,11 +57,11 @@
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.runners:tioga-runners-grizzly:1.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.grizzly:grizzly-http-server:2.3.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.grizzly:grizzly-http:2.3.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.grizzly:grizzly-framework:2.3.16" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-jersey:1.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.runners:tioga-runners-grizzly:1.0.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-jersey:1.0.1" level="project" />
   </component>
 </module>

@@ -9,8 +9,8 @@ project(":tioga-notify-kernel") {
     compile("org.tiogasolutions.lib:tioga-lib-thymeleaf:+")
     compile("org.tiogasolutions.lib:tioga-lib-spring-couchace:+")
 
-    // Logging
-    compile("org.slf4j:slf4j-api:1.7.10")
+    // Logging and App Utils
+    compile("org.tiogasolutions.app:tioga-app-common:+")
 
     // Validation
     compile("javax.validation:validation-api:1.1.0.Final")

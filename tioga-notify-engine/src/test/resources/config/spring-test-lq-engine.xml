@@ -35,7 +35,7 @@
           p:requestPassword="unittest"
           p:requestDatabasePrefix="lqt-request-"/>
 
-  <bean class="org.tiogasolutions.notify.engine.web.StaticContentReader">
+  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
     <constructor-arg value="path-to-nowhere"/>
   </bean>
 
