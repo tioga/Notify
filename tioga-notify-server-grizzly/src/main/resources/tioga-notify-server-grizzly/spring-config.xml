@@ -63,7 +63,7 @@
     p:smsFromNumber="${push.sms.from}"/>
 
   <bean class="org.tiogasolutions.notify.engine.web.StaticContentReader">
-    <constructor-arg value="${notify.runtime_dir}/../tioga-notify-admin-app"/>
+    <constructor-arg value="${notify.runtime.dir}/../tioga-notify-admin-app"/>
   </bean>
 
 </beans>

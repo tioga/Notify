@@ -1,6 +1,6 @@
 <configuration>
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${notify.runtime_dir}/log/notify-current.log</file>
+    <file>${notify.runtime.dir}/log/notify-current.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- daily rollover -->
       <fileNamePattern>notify-%d{yyyy-MM-dd}.log</fileNamePattern>

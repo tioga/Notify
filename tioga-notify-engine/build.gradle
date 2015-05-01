@@ -13,8 +13,8 @@ project(":tioga-notify-engine") {
       exclude module: 'slf4j-api'
     })
 
-
-    testCompile("org.tiogasolutions.runners:tioga-runners-jersey-spring:+")
+    testCompile("org.tiogasolutions.lib:tioga-lib-spring-jersey:+")
+    testCompile("org.tiogasolutions.runners:tioga-runners-grizzly:+")
 
     testCompile("org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17")
     testCompile("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17")

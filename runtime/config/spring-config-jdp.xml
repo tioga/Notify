@@ -19,7 +19,7 @@
 
   <context:property-placeholder properties-ref="envProperties"/>
   <util:properties id="envProperties">
-      <prop key="notify.runtime_dir">../runtime</prop>
+      <prop key="notify.runtime.dir">../runtime</prop>
   </util:properties>
 
   <bean class="org.tiogasolutions.notify.server.grizzly.GrizzlyServerConfig"
@@ -71,7 +71,7 @@
     p:smsFromNumber="7745677277"/>
 
   <bean class="org.tiogasolutions.notify.engine.web.StaticContentReader">
-    <constructor-arg value="${notify.runtime_dir}/../tioga-notify-admin-app"/>
+    <constructor-arg value="${notify.runtime.dir}/../tioga-notify-admin-app"/>
   </bean>
 
   <context:component-scan base-package="org.tiogasolutions.notify"/>
