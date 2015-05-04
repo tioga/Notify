@@ -75,7 +75,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.0.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-couchace:5.0.12" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.app:tioga-app-common:2.0.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:slf4j-api:1.7.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.slf4j:jul-to-slf4j:1.7.7" level="project" />
@@ -88,5 +87,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.4.3" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.4.3" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.4.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.app:tioga-app-common:2.0.1" level="project" />
   </component>
 </module>

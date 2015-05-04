@@ -462,15 +462,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-app-common-2.0.0">
-        <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.0.0/tioga-app-common-2.0.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: slf4j-api-1.7.7">
         <CLASSES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.7/2b8019b6249bb05d81d3a3094e468753e2b21311/slf4j-api-1.7.7.jar!/" />
@@ -627,6 +618,15 @@
       <library name="Gradle: C__dvlp_3rd_party_tioga_solutions_Notify_tioga_notify_pub_build_libs_tioga_notify_pub_1_0_1_jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../tioga-notify-pub/build/libs/tioga-notify-pub-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: tioga-app-common-2.0.1">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.0.1/tioga-app-common-2.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
