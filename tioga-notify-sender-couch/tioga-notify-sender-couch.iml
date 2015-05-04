@@ -408,15 +408,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-lib-spring-couchace-1.0.15">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-spring-couchace/1.0.15/c9f49cea009f8e1744a417f4cb38f208fedb6dc3/tioga-lib-spring-couchace-1.0.15.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: tioga-dev-domain-4.1.6">
         <CLASSES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.1.6/fec6bbee54954fc63f3f2055ae21a4838f2fdd67/tioga-dev-domain-4.1.6.jar!/" />
@@ -624,9 +615,18 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-app-common-2.0.1">
+      <library name="Gradle: tioga-app-common-2.0.2">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.0.1/tioga-app-common-2.0.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.0.2/tioga-app-common-2.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: tioga-lib-spring-couchace-1.0.16">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-spring-couchace/1.0.16/tioga-lib-spring-couchace-1.0.16.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
