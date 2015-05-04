@@ -9,6 +9,7 @@ import java.io.StringWriter;
  * Time: 11:08 PM
  */
 public final class LqExceptionInfo {
+
   private final String exceptionType;
   private final String message;
   private final String stackTrace;

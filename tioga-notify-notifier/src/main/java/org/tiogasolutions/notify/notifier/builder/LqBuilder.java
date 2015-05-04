@@ -106,6 +106,11 @@ public class LqBuilder {
     return this;
   }
 
+  public LqBuilder exception(LqExceptionInfo exceptionInfo) {
+    this.exceptionInfo = exceptionInfo;
+    return this;
+  }
+
   public LqBuilder attach(String name, String contentType, byte[] content) {
     this.attachments.add(new LqAttachment(name, contentType, content));
     return this;
