@@ -24,7 +24,7 @@ import javax.ws.rs.core.Response;
 
 public class SlackTaskProcessor implements TaskProcessor {
 
-  public static final String DEFAULT_TEMPLATE_PATH = "classpath:/lq-processor-slack/default-slack-template.html";
+  public static final String DEFAULT_TEMPLATE_PATH = "classpath:/notify-processor-slack/default-slack-template.html";
 
   private final ThymeleafMessageBuilder messageBuilder;
 

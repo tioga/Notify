@@ -9,7 +9,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
  * Date: 10/28/13
  * Time: 10:05 PM
  */
-@ContextConfiguration({"/config/spring-test-lq-kernel.xml"})
+@ContextConfiguration({"/config/spring-test-notify-kernel.xml"})
 @ActiveProfiles({"test"})
 public abstract class KernelAbstractTest extends AbstractTestNGSpringContextTests {
 

@@ -9,18 +9,18 @@ import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.tiogasolutions.notify.notifier.LqNotifier;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.sender.couch.LqCouchSender;
-import org.tiogasolutions.notify.notifier.builder.LqBuilder;
-import org.tiogasolutions.notify.notifier.request.LqResponse;
-import org.tiogasolutions.notify.notifier.sender.LqSimpleSender;
+import org.tiogasolutions.notify.sender.couch.CouchNotificationSender;
+import org.tiogasolutions.notify.notifier.builder.NotificationBuilder;
+import org.tiogasolutions.notify.notifier.request.NotificationResponse;
+import org.tiogasolutions.notify.notifier.sender.LoggingNotificationSender;
 import org.tiogasolutions.notify.pub.Request;
 import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.sender.couch.LqCouchSenderSetup;
-import org.tiogasolutions.notify.sender.http.LqHttpSender;
-import org.tiogasolutions.notify.sender.http.LqHttpSenderConfig;
+import org.tiogasolutions.notify.sender.couch.CouchNotificationSenderSetup;
+import org.tiogasolutions.notify.sender.http.HttpNotificationSender;
+import org.tiogasolutions.notify.sender.http.HttpNotificationSenderConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,17 +184,17 @@ public class SwingAdminApp extends TestMainSupport {
 
   public void generateRequestsByHttp() throws Exception {
 
-    LqHttpSenderConfig config = new LqHttpSenderConfig()
+    HttpNotificationSenderConfig config = new HttpNotificationSenderConfig()
         .setUrl(apiPath + "/v1/client/requests")
         .setUserName(apiKey)
         .setPassword(apiPassword);
 
-    LqSimpleSender simpleSender = new LqSimpleSender();
+    LoggingNotificationSender simpleSender = new LoggingNotificationSender();
 
-    LqHttpSender httpSender = new LqHttpSender(config);
+    HttpNotificationSender httpSender = new HttpNotificationSender(config);
     httpSender.onResponse(r -> simpleSender.send(r.getRequest()));
 
-    generateRequests(new LqNotifier(httpSender));
+    generateRequests(new Notifier(httpSender));
     httpSender.dispose();
   }
 
@@ -215,7 +215,7 @@ public class SwingAdminApp extends TestMainSupport {
 
   public void generateRequestsByCouch() throws Exception {
 
-    LqCouchSender sender = new LqCouchSender(couchSenderSetup);
+    CouchNotificationSender sender = new CouchNotificationSender(couchSenderSetup);
 
     // noinspection ThrowableResultOfMethodCallIgnored
     sender.onFailure(f -> throwError("Failure in SENDING request: " + f.getThrowable().getMessage()));
@@ -223,22 +223,22 @@ public class SwingAdminApp extends TestMainSupport {
     // noinspection ThrowableResultOfMethodCallIgnored
     sender.onFailure(f -> throwError("Failure in SENDING attachment: " + f.getThrowable().getMessage()));
 
-    generateRequests(new LqNotifier(sender));
+    generateRequests(new Notifier(sender));
     sender.dispose();
   }
 
-  private void generateRequests(LqNotifier notifier) {
+  private void generateRequests(Notifier notifier) {
     String countString = JOptionPane.showInputDialog("How many task should we create?", "1");
     if (countString == null) return;
     int notificationsToSend = Integer.valueOf(countString.trim());
 
     notifier.onBegin(b -> b.topic("hn-test").trackingId(TimeUuid.randomUUID().toString()));
 
-    List<Future<LqResponse>> futures = new ArrayList<>();
+    List<Future<NotificationResponse>> futures = new ArrayList<>();
 
     // Send notifications
     for(int i=0; i<notificationsToSend; i++) {
-      LqBuilder builder = notifier.begin()
+      NotificationBuilder builder = notifier.begin()
           .topic("Swing Admin App")
           .summary("Here is a longer summary message. There really is no maximum length but it would be awkward for it to be too long: " + i)
           .trait("key1", "value1")
@@ -249,7 +249,7 @@ public class SwingAdminApp extends TestMainSupport {
           .attach("attachOne", MediaType.TEXT_PLAIN, "Test main attachment one")
           .attach("attachTwo", MediaType.TEXT_PLAIN, "Test main attachment two");
 
-      Future<LqResponse> future = builder.send();
+      Future<NotificationResponse> future = builder.send();
 
       futures.add(future);
       log.debug("Notification " + i);
@@ -285,7 +285,7 @@ public class SwingAdminApp extends TestMainSupport {
     if ("jacobp".equals(domainName)) {
 
       apiPath = "http://localhost:39011/notify-server/api";
-      couchSenderSetup = new LqCouchSenderSetup(
+      couchSenderSetup = new CouchNotificationSenderSetup(
         "http://localhost:5984",
         "tioga-notify-jacobp-request",
         "app-user",
@@ -294,7 +294,7 @@ public class SwingAdminApp extends TestMainSupport {
     } else if ("proto".equals(domainName)) {
 
       apiPath = "https://proto.stcg.net/notify-server/api";
-      couchSenderSetup = new LqCouchSenderSetup(
+      couchSenderSetup = new CouchNotificationSenderSetup(
         "http://proto.stcg.net:5984",
         "tioga-notify-proto-request",
         "app-user",
@@ -305,7 +305,7 @@ public class SwingAdminApp extends TestMainSupport {
       DomainProfile domainProfile = getOrCreateDomainProfile(client, domainName);
 
       apiPath = "http://localhost:8080/notify-server/api";
-      couchSenderSetup = new LqCouchSenderSetup(
+      couchSenderSetup = new CouchNotificationSenderSetup(
         "http://localhost:5984",
         domainProfile.getRequestDbName(),
         domainProfile.getApiKey(),

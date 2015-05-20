@@ -30,7 +30,7 @@ public class NotificationEntity {
   private final String trackingId;
   private final ZonedDateTime createdAt;
   private final Map<String, String> traitMap;
-  // TODO should we use ExceptionInfo instead of Lq
+  // TODO should we use NotificationExceptionInfo instead of pub
   private final ExceptionInfo exceptionInfo;
   private CouchAttachmentInfoMap attachmentInfoMap;
 

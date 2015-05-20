@@ -6,7 +6,7 @@ import org.tiogasolutions.couchace.core.api.response.GetAttachmentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
 import org.tiogasolutions.dev.common.exceptions.ApiConflictException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
-import org.tiogasolutions.notify.notifier.LqException;
+import org.tiogasolutions.notify.notifier.NotifierException;
 
 import static java.lang.String.format;
 
@@ -33,7 +33,7 @@ public class AbstractStore {
 
     } else {
       message = format("%s: %s", message, response.getErrorReason()).trim();
-      throw new LqException(message);
+      throw new NotifierException(message);
     }
   }
 

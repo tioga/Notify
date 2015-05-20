@@ -1,9 +1,9 @@
 package org.tiogasolutions.notify.kernel;
 
-import org.tiogasolutions.notify.kernel.request.LqRequestEntity;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 
 public interface RequestEventListener {
 
-  void requestCreated(String domainName, LqRequestEntity request);
+  void requestCreated(String domainName, NotificationRequestEntity request);
 
 }

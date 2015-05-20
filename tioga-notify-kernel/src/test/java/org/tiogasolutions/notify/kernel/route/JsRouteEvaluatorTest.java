@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.kernel.route;
 
 import org.tiogasolutions.dev.common.json.JsonTranslator;
-import org.tiogasolutions.notify.notifier.builder.LqTrait;
+import org.tiogasolutions.notify.notifier.builder.NotificationTrait;
 import org.tiogasolutions.notify.pub.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
@@ -114,7 +114,7 @@ public class JsRouteEvaluatorTest {
         "some summary",
         null,
         ZonedDateTime.now(),
-        LqTrait.toTraitMap(traits),
+        NotificationTrait.toTraitMap(traits),
         null,
         null);
   }

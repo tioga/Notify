@@ -10,7 +10,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
  * Date: 10/28/13
  * Time: 10:05 PM
  */
-@ContextConfiguration({"/config/spring-test-lq-processor-push.xml"})
+@ContextConfiguration({"/config/spring-test-notify-processor-push.xml"})
 @ActiveProfiles({"test"})
 public abstract class ProcessorPushAbstractTest extends AbstractTestNGSpringContextTests {
 

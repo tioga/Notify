@@ -20,7 +20,7 @@ import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
-import org.tiogasolutions.notify.notifier.LqException;
+import org.tiogasolutions.notify.notifier.NotifierException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -227,11 +227,11 @@ public class DomainStore extends AbstractStore {
         .builder()
         .add(CouchFeature.ALLOW_DB_DELETE, true)
         .build();
-    CouchDatabase notificationDatabase = requestCouchServer.database("lqt-request-" + domainName, featureSet);
+    CouchDatabase notificationDatabase = requestCouchServer.database("notify-request-" + domainName, featureSet);
     if (notificationDatabase.exists()) {
       notificationDatabase.deleteDatabase();
     }
-    CouchDatabase requestDatabase = requestCouchServer.database("lqt-notification-" + domainName, featureSet);
+    CouchDatabase requestDatabase = requestCouchServer.database("notify-notification-" + domainName, featureSet);
     if (requestDatabase.exists()) {
       requestDatabase.deleteDatabase();
     }
@@ -242,7 +242,7 @@ public class DomainStore extends AbstractStore {
     WriteResponse createResponse = couchDatabase.createDatabase();
     if (createResponse.isError()) {
       String msg = format("Exception creating notification database %s for domain %s: %s", couchDatabase.getDatabaseName(), domainProfile.getDomainName(), createResponse.getHttpStatus());
-      throw new LqException(msg);
+      throw new NotifierException(msg);
     }
 
 //    try {
@@ -298,27 +298,27 @@ public class DomainStore extends AbstractStore {
     // Create the database
     WriteResponse createResponse = couchDatabase.createDatabase();
     if (createResponse.isError()) {
-      throw new LqException("Exception creating notify request database: " + createResponse.getErrorReason());
+      throw new NotifierException("Exception creating notify request database: " + createResponse.getErrorReason());
     }
 
     // Create the designs
-    String designPath = "/couch/LqRequest-design.json";
+    String designPath = "/couch/NotificationRequest-design.json";
     // URL designUrl = getClass().getClassLoader().getResource(designPath);
     InputStream designStream = getClass().getResourceAsStream(designPath);
     if (designStream == null) {
       String msg = String.format("Unable to find design file at: %s", designPath);
-      throw new LqException(msg);
+      throw new NotifierException(msg);
     }
     try {
       String designContent = IoUtils.toString(designStream);
-      WriteResponse response = couchDatabase.put().design("LqRequest", designContent).execute();
+      WriteResponse response = couchDatabase.put().design("NotificationRequest", designContent).execute();
       if (response.isError()) {
         String msg = String.format("Error creating views %s - %s", response.getHttpStatus(), response.getErrorReason());
-        throw new LqException(msg);
+        throw new NotifierException(msg);
       }
     } catch (IOException ex) {
       String msg = "Error reading design file: " + designPath;
-      throw new LqException(msg, ex);
+      throw new NotifierException(msg, ex);
     }
 
     // Add the user.

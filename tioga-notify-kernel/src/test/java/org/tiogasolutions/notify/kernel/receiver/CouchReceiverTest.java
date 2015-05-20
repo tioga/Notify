@@ -4,15 +4,15 @@ import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.TestFactory;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.request.LqRequestEntity;
-import org.tiogasolutions.notify.notifier.request.LqRequest;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
+import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.request.LqRequestEntityStatus;
-import org.tiogasolutions.notify.kernel.request.LqRequestStore;
-import org.tiogasolutions.notify.notifier.request.LqResponse;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestEntityStatus;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
+import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -43,7 +43,7 @@ public class CouchReceiverTest extends KernelAbstractTest {
   @Inject
   private NotificationKernel notificationKernel;
 
-  private LqRequestStore requestStore;
+  private NotificationRequestStore requestStore;
   private CouchRequestReceiver receiver;
   private DomainProfile domainProfile;
   private CouchDatabase requestDatabase;
@@ -59,25 +59,25 @@ public class CouchReceiverTest extends KernelAbstractTest {
 
     // Create sender and sender store.
     requestDatabase = domainKernel.requestDb(domainProfile);
-    requestStore = new LqRequestStore(requestDatabase);
+    requestStore = new NotificationRequestStore(requestDatabase);
 
   }
 
-  private void assertNotification(LqResponse response) {
-    LqRequest lqRequest = response.getRequest();
+  private void assertNotification(NotificationResponse response) {
+    NotificationRequest notificationRequest = response.getRequest();
 
     // Request should be ready.
-    LqRequestEntity requestEntity = requestStore.findByTrackingId(lqRequest.getTrackingId());
-    assertEquals(requestEntity.getTopic(), lqRequest.getTopic());
-    assertEquals(requestEntity.getRequestStatus(), LqRequestEntityStatus.READY);
+    NotificationRequestEntity notificationRequestEntity = requestStore.findByTrackingId(notificationRequest.getTrackingId());
+    assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
+    assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.READY);
 
     // Run the receiver
     receiver.receiveRequests(domainProfile);
 
     // Request should now be COMPLETED.
-    requestEntity = requestStore.findByTrackingId(lqRequest.getTrackingId());
-    assertEquals(requestEntity.getTopic(), lqRequest.getTopic());
-    assertEquals(requestEntity.getRequestStatus(), LqRequestEntityStatus.COMPLETED);
+    notificationRequestEntity = requestStore.findByTrackingId(notificationRequest.getTrackingId());
+    assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
+    assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.COMPLETED);
 
     // From here on need an execution context for the test domain
 
@@ -86,14 +86,14 @@ public class CouchReceiverTest extends KernelAbstractTest {
 
       // Now should have a notification
       NotificationQuery notificationQuery = new NotificationQuery()
-          .setTrackingId(lqRequest.getTrackingId());
+          .setTrackingId(notificationRequest.getTrackingId());
       QueryResult<Notification> result = notificationKernel.query(notificationQuery);
       assertEquals(result.getSize(), 1);
       Notification notification = result.getFirst();
-      assertEquals(notification.getTopic(), lqRequest.getTopic());
-      assertEquals(notification.getSummary(), lqRequest.getSummary());
+      assertEquals(notification.getTopic(), notificationRequest.getTopic());
+      assertEquals(notification.getSummary(), notificationRequest.getSummary());
       assertNotNull(notification.getExceptionInfo());
-      assertEquals(notification.getExceptionInfo().getMessage(), lqRequest.getExceptionInfo().getMessage());
+      assertEquals(notification.getExceptionInfo().getMessage(), notificationRequest.getExceptionInfo().getMessage());
 
       // Notification should also have two attachments.
       List<AttachmentInfo> attachmentInfoList = notification.getAttachmentInfoList();

@@ -13,7 +13,7 @@ import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.AbstractStore;
 import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.kernel.request.LqRequestCouchView;
+import org.tiogasolutions.notify.kernel.request.RequestCouchView;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.AttachmentHolder;
 import org.tiogasolutions.notify.pub.NotificationQuery;
@@ -70,7 +70,7 @@ public class NotificationStore extends AbstractStore {
     } else if (StringUtils.isNotBlank(query.getTrackingId())) {
       errorSuffix = "by tracking id " + query.getTrackingId();
       String trackingId = query.getTrackingId();
-      viewQuery = CouchViewQuery.builder(CouchConst.NOTIFICATION_DESIGN_NAME, LqRequestCouchView.ByTrackingId.name())
+      viewQuery = CouchViewQuery.builder(CouchConst.NOTIFICATION_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
           .key(trackingId)
           .limit(limit + 1)
           .skip(query.getOffset())

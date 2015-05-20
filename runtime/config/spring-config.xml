@@ -38,7 +38,7 @@
         p:masterUrl="http://127.0.0.1:5984"
         p:masterUserName="app-user"
         p:masterPassword="app-user"
-        p:masterDatabaseName="tioga-notify"
+        p:masterDatabaseName="tioga-notify-master"
 
         p:notificationUrl="http://127.0.0.1:5984"
         p:notificationUserName="app-user"

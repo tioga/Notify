@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.receiver;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.notify.kernel.request.*;
-import org.tiogasolutions.notify.kernel.LqPubUtils;
+import org.tiogasolutions.notify.kernel.NotifyConversionUtils;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateAttachment;
@@ -43,11 +43,11 @@ public class CouchRequestReceiver implements RequestReceiver {
       executionManager.newApiContext(domainProfile);
 
       CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
-      LqRequestStore requestStore = new LqRequestStore(requestDb);
+      NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-      List<LqRequestEntity> readyRequests = requestStore.findByStatus(LqRequestEntityStatus.READY);
+      List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestEntityStatus.READY);
 
-      for (LqRequestEntity request : readyRequests) {
+      for (NotificationRequestEntity request : readyRequests) {
         NotificationRef notificationRef = null;
         try {
           // Mark request as processing.
@@ -55,7 +55,7 @@ public class CouchRequestReceiver implements RequestReceiver {
           request = requestStore.saveAndReload(request);
 
           // Create notification in the kernel.
-          ExceptionInfo exceptionInfo = LqPubUtils.toExceptionInfo(request.getExceptionInfo());
+          ExceptionInfo exceptionInfo = NotifyConversionUtils.toExceptionInfo(request.getExceptionInfo());
 
           CreateNotification createNotification = new CreateNotification(
               request.getTopic(),
@@ -67,8 +67,8 @@ public class CouchRequestReceiver implements RequestReceiver {
           notificationRef = notificationKernel.createNotification(createNotification);
 
           // Create attachments.
-          for (LqAttachmentInfo attachmentInfo : request.listAttachmentInfo()) {
-            LqAttachmentHolder holder = requestStore.findAttachment(request.getRequestId(), attachmentInfo.getName());
+          for (AttachmentInfo attachmentInfo : request.listAttachmentInfo()) {
+            AttachmentHolder holder = requestStore.findAttachment(request.getRequestId(), attachmentInfo.getName());
             CreateAttachment createAttachment = new CreateAttachment(notificationRef, holder.getName(), holder.getContentType(), holder.getContent());
             notificationRef = notificationKernel.createAttachment(createAttachment);
           }
@@ -93,7 +93,7 @@ public class CouchRequestReceiver implements RequestReceiver {
 
   }
 
-  protected void handleFailure(LqRequestStore requestStore, LqRequestEntity request, NotificationRef notificationRef) {
+  protected void handleFailure(NotificationRequestStore requestStore, NotificationRequestEntity request, NotificationRef notificationRef) {
     // TODO - use the notificationRef in dealing with the failure (this would mean the notification was created but attachments or something else FAILED).
     try {
       request.failed();

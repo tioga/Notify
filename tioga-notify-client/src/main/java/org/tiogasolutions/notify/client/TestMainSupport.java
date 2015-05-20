@@ -6,7 +6,7 @@ import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
 import org.tiogasolutions.notify.pub.*;
-import org.tiogasolutions.notify.sender.couch.LqCouchSenderSetup;
+import org.tiogasolutions.notify.sender.couch.CouchNotificationSenderSetup;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -25,7 +25,7 @@ public class TestMainSupport {
   protected String apiPassword;
 
   protected String apiPath;
-  protected LqCouchSenderSetup couchSenderSetup;
+  protected CouchNotificationSenderSetup couchSenderSetup;
 
   public TestMainSupport() {
   }

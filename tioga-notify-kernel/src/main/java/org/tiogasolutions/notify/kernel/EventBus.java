@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.kernel;
 
-import org.tiogasolutions.notify.kernel.request.LqRequestEntity;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.Notification;
 
@@ -29,7 +29,7 @@ public class EventBus {
     taskEventListeners.forEach((listener) -> listener.taskCreated(domainName, task, notification));
   }
 
-  public void requestCreated(String domainName, LqRequestEntity request) {
+  public void requestCreated(String domainName, NotificationRequestEntity request) {
     requestEventListener.forEach((listener) -> listener.requestCreated(domainName, request));
   }
 }
