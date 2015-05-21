@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by jacobp on 3/16/2015.
  */
-public class JsonParser {
+class JsonParser {
 
   public JsonParser() {
   }
@@ -25,7 +25,7 @@ public class JsonParser {
 
     int marker = 0;
     String lastKey = null;
-    State state = State.none;
+    ReaderState state = ReaderState.none;
     Map<String,String> map = new LinkedHashMap<>();
 
     for (int i = start; i < text.length(); i++) {
@@ -34,38 +34,38 @@ public class JsonParser {
       if (state.isNone()) {
         if (curr == '"') {
           marker = i+1;
-          state = State.inKey;
+          state = ReaderState.inKey;
         }
       } else if (state.isInKey()) {
         if (curr == '"') {
           lastKey = text.substring(marker, i);
-          state = State.afterKey;
+          state = ReaderState.afterKey;
         }
       } else if (state.isAfterKey()) {
         if (curr == ':') {
-          state = State.beforeValue;
+          state = ReaderState.beforeValue;
         }
       } else if (state.isBeforeValue()) {
         if (curr == '"') {
           marker = i+1;
-          state = State.inString;
+          state = ReaderState.inString;
         } else if (curr == '{') {
           marker = i;
-          state = State.inObject;
+          state = ReaderState.inObject;
         } else if (Character.isWhitespace(curr) == false) {
-          state = State.inNumber;
+          state = ReaderState.inNumber;
         }
       } else if (state.isInString()) {
         if (curr == '\"' && text.charAt(i-1) != '\\') {
           String lastValue = text.substring(marker, i);
           map.put(lastKey, lastValue);
-          state = State.afterValue;
+          state = ReaderState.afterValue;
         }
       } else if (state.isInNumber()) {
         if (curr == ',' || Character.isWhitespace(curr)) {
           String lastValue = text.substring(marker, i);
           map.put(lastKey, lastValue);
-          state = State.afterValue;
+          state = ReaderState.afterValue;
         }
       } else if (state.isInObject()) {
         int brackets = 1;
@@ -79,13 +79,13 @@ public class JsonParser {
           if (brackets == 0)  {
             String lastValue = text.substring(marker, i+1);
             map.put(lastKey, lastValue);
-            state = State.afterValue;
+            state = ReaderState.afterValue;
             break;
           }
         }
       } else if (state.isAfterValue()) {
         if (curr == ',') {
-          state = State.none;
+          state = ReaderState.none;
         }
       }
     }
@@ -93,7 +93,7 @@ public class JsonParser {
     return map;
   }
 
-  public enum State {
+  private enum ReaderState {
     none, inKey, afterKey, beforeValue, inString, inObject, inNumber, afterValue;
     public boolean isNone() { return this == none; }
     public boolean isInKey() { return this == inKey; }

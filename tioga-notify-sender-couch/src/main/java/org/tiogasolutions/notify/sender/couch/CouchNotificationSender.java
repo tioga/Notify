@@ -92,8 +92,9 @@ public class CouchNotificationSender extends AbstractNotificationSender {
             revision = putDocument(request, client, requestId, revision, is, attachment.getContentType(), attachment.getName());
           }
 
+          // Now change status to READY.
           status = NotificationRequestStatus.READY;
-          String suffix = parseSuffix(request, client, requestId);
+          String suffix = generateAttachmentJson(request, client, requestId);
           is = toInputStream(request, requestId, revision, status, suffix);
           putDocument(request, client, requestId, revision, is, MediaType.APPLICATION_JSON);
         }
@@ -109,7 +110,18 @@ public class CouchNotificationSender extends AbstractNotificationSender {
     return executorService.submit(callable);
   }
 
-  protected String parseSuffix(NotificationRequest request, Client client, String requestId) throws ProcessingException {
+  /***
+   * Appears this methods generates the attachment meta portion of the couch document by re-fetching the request.
+   *
+   * @param request -
+   * @param client -
+   * @param requestId -
+   * @return -
+   * @throws ProcessingException
+   */
+  protected String generateAttachmentJson(NotificationRequest request,
+                                          Client client,
+                                          String requestId) throws ProcessingException {
 
     UriBuilder uriBuilder = UriBuilder.fromUri(couchUrl).path(databaseName).path(requestId);
 
@@ -132,7 +144,13 @@ public class CouchNotificationSender extends AbstractNotificationSender {
     return ", \"_attachments\" : " + attachments + "}";
   }
 
-  private String putDocument(NotificationRequest request, Client client, String requestId, String revision, InputStream content, String contentType, String...paths) throws ProcessingException {
+  private String putDocument(NotificationRequest request,
+                             Client client,
+                             String requestId,
+                             String revision,
+                             InputStream content,
+                             String contentType,
+                             String...paths) throws ProcessingException {
 
     UriBuilder uriBuilder = UriBuilder.fromUri(couchUrl).path(databaseName).path(requestId);
     for (String path : paths) {
@@ -159,7 +177,12 @@ public class CouchNotificationSender extends AbstractNotificationSender {
     return parseRevision(couchResponse);
   }
 
-  private InputStream toInputStream(NotificationRequest request, String requestId, String revision, NotificationRequestStatus status, String suffix) {
+  private InputStream toInputStream(NotificationRequest request,
+                                    String requestId,
+                                    String revision,
+                                    NotificationRequestStatus status,
+                                    String attachmentJson) {
+
     String json = new NotificationRequestJsonBuilder().toJson(request, status);
     String prefix;
 
@@ -177,15 +200,9 @@ public class CouchNotificationSender extends AbstractNotificationSender {
         "   \"entity\": ";
     }
 
-    String content = prefix + json + suffix;
+    String content = prefix + json + attachmentJson;
 
     return new ByteArrayInputStream(content.getBytes());
-  }
-
-  public static class ProcessingException extends Exception {
-    private final NotificationResponse notificationResponse;
-    public ProcessingException(NotificationResponse notificationResponse) { this.notificationResponse = notificationResponse; }
-    public NotificationResponse getNotificationResponse() { return notificationResponse; }
   }
 
   private String parseRevision(String response) {
@@ -219,4 +236,11 @@ public class CouchNotificationSender extends AbstractNotificationSender {
   public void dispose() {
     executorService.shutdown();
   }
+
+  public static class ProcessingException extends Exception {
+    private final NotificationResponse notificationResponse;
+    public ProcessingException(NotificationResponse notificationResponse) { this.notificationResponse = notificationResponse; }
+    public NotificationResponse getNotificationResponse() { return notificationResponse; }
+  }
+
 }

@@ -18,7 +18,6 @@ public class NotificationRequestJsonBuilder {
 
   private final StringBuilder sb = new StringBuilder();
   private String indent = "";
-  private NotificationRequestStatus status;
 
   public String toJson(NotificationRequest request, NotificationRequestStatus status) {
     beginObject();
