@@ -80,7 +80,4 @@ public class SimpleHttpNotificationSender extends HttpNotificationSender {
         .post(entity);
   }
 
-
-
-
 }

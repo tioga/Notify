@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.processor.slack;
 
 import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.processor.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.testng.annotations.Test;

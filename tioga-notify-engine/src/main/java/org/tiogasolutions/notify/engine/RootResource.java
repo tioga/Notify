@@ -4,11 +4,11 @@ import org.tiogasolutions.notify.engine.v1.AdminResourceV1;
 import org.tiogasolutions.notify.engine.v1.ClientResourceV1;
 import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
-import org.tiogasolutions.notify.kernel.EventBus;
+import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.processor.ProcessorExecutor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
 
 import javax.inject.Inject;
@@ -46,7 +46,7 @@ public class RootResource {
 
   @Inject // Injected by CDI, not Spring
   @SuppressWarnings("SpringJavaAutowiringInspection")
-  private ProcessorExecutor processorExecutor;
+  private TaskProcessorExecutor processorExecutor;
 
   @Inject // Injected by CDI, not Spring
   @SuppressWarnings("SpringJavaAutowiringInspection")

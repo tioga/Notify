@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.engine.v1;
 
-import org.tiogasolutions.notify.kernel.EventBus;
+import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;

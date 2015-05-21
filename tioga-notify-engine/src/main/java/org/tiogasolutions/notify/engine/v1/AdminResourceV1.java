@@ -5,9 +5,9 @@ import org.tiogasolutions.dev.common.net.InetMediaType;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.processor.ProcessorExecutor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.kernel.EventBus;
+import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
@@ -23,10 +23,10 @@ public class AdminResourceV1 {
   private final ExecutionManager executionManager;
   private final NotificationKernel notificationKernel;
   private final ReceiverExecutor receiverExecutor;
-  private final ProcessorExecutor processorExecutor;
+  private final TaskProcessorExecutor processorExecutor;
   private final EventBus eventBus;
 
-  public AdminResourceV1(ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel, ReceiverExecutor receiverExecutor, ProcessorExecutor processorExecutor, EventBus eventBus) {
+  public AdminResourceV1(ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel, ReceiverExecutor receiverExecutor, TaskProcessorExecutor processorExecutor, EventBus eventBus) {
     this.eventBus = eventBus;
     this.domainKernel = domainKernel;
     this.executionManager = executionManager;

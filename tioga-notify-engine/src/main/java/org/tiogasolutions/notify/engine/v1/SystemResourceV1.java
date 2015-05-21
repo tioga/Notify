@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.engine.v1;
 
-import org.tiogasolutions.notify.kernel.processor.ProcessorExecutor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
 
 import javax.ws.rs.Path;
@@ -11,9 +11,9 @@ import javax.ws.rs.Path;
 public class SystemResourceV1 {
 
   private final ReceiverExecutor receiverExecutor;
-  private final ProcessorExecutor processorExecutor;
+  private final TaskProcessorExecutor processorExecutor;
 
-  public SystemResourceV1(ReceiverExecutor receiverExecutor, ProcessorExecutor processorExecutor) {
+  public SystemResourceV1(ReceiverExecutor receiverExecutor, TaskProcessorExecutor processorExecutor) {
     this.receiverExecutor = receiverExecutor;
     this.processorExecutor = processorExecutor;
   }

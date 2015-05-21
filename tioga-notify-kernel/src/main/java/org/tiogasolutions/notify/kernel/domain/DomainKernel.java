@@ -5,7 +5,7 @@ import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.id.IdGenerator;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.EventBus;
+import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.tiogasolutions.notify.kernel.task.TaskGenerator;

@@ -32,6 +32,9 @@ public class NotificationEntity {
   private final Map<String, String> traitMap;
   // TODO should we use NotificationExceptionInfo instead of pub
   private final ExceptionInfo exceptionInfo;
+  /**
+   * Required for couch attachments -- looks unused but do not delete - HN
+   */
   private CouchAttachmentInfoMap attachmentInfoMap;
 
   public static NotificationEntity newEntity(String domainName, CreateNotification create) {

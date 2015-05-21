@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.processor;
+package org.tiogasolutions.notify.kernel.message;
 
 import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;

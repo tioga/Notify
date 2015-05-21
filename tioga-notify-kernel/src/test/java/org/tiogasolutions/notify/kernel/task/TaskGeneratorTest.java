@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.pub.Notification;

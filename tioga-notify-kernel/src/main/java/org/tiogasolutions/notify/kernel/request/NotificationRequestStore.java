@@ -7,8 +7,10 @@ import org.tiogasolutions.couchace.core.api.response.CouchResponse;
 import org.tiogasolutions.couchace.core.api.response.GetAttachmentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
+import org.tiogasolutions.notify.kernel.common.CouchConst;
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
+import org.tiogasolutions.notify.pub.AttachmentHolder;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -92,7 +94,7 @@ public class NotificationRequestStore {
   }
 
   public NotificationRequestEntity findByTrackingId(String trackingId) {
-    CouchViewQuery viewQuery = CouchViewQuery.builder(CouchSenderConst.REQUEST_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
+    CouchViewQuery viewQuery = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
         .key(trackingId)
         .build();
     GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
@@ -107,7 +109,7 @@ public class NotificationRequestStore {
 
   public List<NotificationRequestEntity> findByStatus(NotificationRequestEntityStatus status) {
 
-    CouchViewQuery.CouchViewQueryBuilder builder = CouchViewQuery.builder(CouchSenderConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
+    CouchViewQuery.CouchViewQueryBuilder builder = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
 
     if (status != null) {
       builder.start(status, null);

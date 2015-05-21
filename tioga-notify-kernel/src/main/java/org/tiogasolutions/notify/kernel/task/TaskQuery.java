@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.notification;
+package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.notify.pub.TaskStatus;
 

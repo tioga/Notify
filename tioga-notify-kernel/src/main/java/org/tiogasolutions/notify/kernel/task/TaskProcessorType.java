@@ -1,11 +1,11 @@
-package org.tiogasolutions.notify.kernel.processor;
+package org.tiogasolutions.notify.kernel.task;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProcessorType {
+public class TaskProcessorType {
 
-  private static Map<String,ProcessorType> map = new HashMap<>();
+  private static Map<String,TaskProcessorType> map = new HashMap<>();
 
   public static boolean isValueOf(String code) {
     return map.containsKey(code);
@@ -21,7 +21,7 @@ public class ProcessorType {
    * @return the value.
    * @throws IllegalArgumentException if the specified code does a known processor type.
    */
-  public static ProcessorType valueOf(String code) throws IllegalArgumentException {
+  public static TaskProcessorType valueOf(String code) throws IllegalArgumentException {
     if (map.containsKey(code) == false) {
       String msg = String.format("The processor type \"%s\" was not found.%n", code);
       throw new IllegalArgumentException(msg);
@@ -31,7 +31,7 @@ public class ProcessorType {
 
   private final String code;
 
-  public ProcessorType(String code) {
+  public TaskProcessorType(String code) {
     this.code = code;
     map.put(code, this);
   }
@@ -45,7 +45,7 @@ public class ProcessorType {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    ProcessorType that = (ProcessorType) o;
+    TaskProcessorType that = (TaskProcessorType) o;
 
     if (code != null ? !code.equals(that.code) : that.code != null) return false;
 

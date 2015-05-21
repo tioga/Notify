@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntityStatus;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
@@ -42,7 +43,7 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
 
   @BeforeClass
   public void setup() {
-    org.tiogasolutions.notify.pub.DomainProfile domainProfile = domainKernel.findByApiKey(org.tiogasolutions.notify.kernel.TestFactory.API_KEY);
+    org.tiogasolutions.notify.pub.DomainProfile domainProfile = domainKernel.findByApiKey(TestFactory.API_KEY);
     CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
     requestStore = new NotificationRequestStore(requestDb);
 

@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.engine.v1.client;
 
 import org.tiogasolutions.dev.common.ReflectUtils;
 import org.tiogasolutions.notify.engine.AbstractEngineJaxRsTest;
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 import org.tiogasolutions.notify.pub.NotificationRef;

@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.processor;
+package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.Notification;
@@ -12,7 +12,7 @@ public interface TaskProcessor {
 
   TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task);
 
-  ProcessorType getType();
+  TaskProcessorType getType();
 
   void init(BeanFactory beanFactory);
 }

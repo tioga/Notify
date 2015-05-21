@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel;
+package org.tiogasolutions.notify.kernel.common;
 
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;

@@ -9,7 +9,7 @@ import org.tiogasolutions.lib.jaxrs.jackson.JacksonReaderWriterProvider;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.pub.route.*;
-import org.tiogasolutions.notify.kernel.request.NotifierJacksonModule;
+import org.tiogasolutions.notify.kernel.jackson.NotifyKernelJacksonModule;
 import org.tiogasolutions.notify.kernel.domain.DomainProfileEntity;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 
@@ -45,7 +45,7 @@ public class EngineReaderWriterProvider extends JacksonReaderWriterProvider {
     TiogaJacksonObjectMapper objectMapper = new TiogaJacksonObjectMapper(
           Arrays.asList(
             new TiogaJacksonModule(),
-            new NotifierJacksonModule()
+            new NotifyKernelJacksonModule()
           ),
           Collections.emptyList()
     );

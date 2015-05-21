@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.engine.v1;
 
-import org.tiogasolutions.notify.kernel.processor.ProcessorExecutor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +14,9 @@ public class ProcessorExecutorResourceV1 {
 
   private static final Logger log = LoggerFactory.getLogger(ProcessorExecutorResourceV1.class);
 
-  private final ProcessorExecutor processorExecutor;
+  private final TaskProcessorExecutor processorExecutor;
 
-  public ProcessorExecutorResourceV1(ProcessorExecutor processorExecutor) {
+  public ProcessorExecutorResourceV1(TaskProcessorExecutor processorExecutor) {
     this.processorExecutor = processorExecutor;
   }
 

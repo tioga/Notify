@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.processor;
+package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.dev.common.exceptions.ApiConflictException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
@@ -6,16 +6,14 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
-import org.tiogasolutions.notify.kernel.notification.TaskQuery;
-import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.tiogasolutions.notify.kernel.EventBus;
-import org.tiogasolutions.notify.kernel.TaskEventListener;
+import org.tiogasolutions.notify.kernel.event.EventBus;
+import org.tiogasolutions.notify.kernel.event.TaskEventListener;
 import org.tiogasolutions.notify.pub.Notification;
 import org.tiogasolutions.notify.pub.TaskResponse;
 import org.tiogasolutions.notify.pub.TaskStatus;
@@ -30,16 +28,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static java.lang.String.*;
 
 @Named
-public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
+public class TaskProcessorExecutor implements BeanFactoryAware, TaskEventListener {
 
-  private static final String NAME = ProcessorExecutor.class.getSimpleName();
-  private static final Logger log = LoggerFactory.getLogger(ProcessorExecutor.class);
+  private static final String NAME = TaskProcessorExecutor.class.getSimpleName();
+  private static final Logger log = LoggerFactory.getLogger(TaskProcessorExecutor.class);
 
-  private ProcessorExecutorStatus executorStatus;
+  private TaskProcessorExecutorStatus executorStatus;
 
   private final DomainKernel domainKernel;
 
-  private final Map<ProcessorType, TaskProcessor> processorMap = new HashMap<>();
+  private final Map<TaskProcessorType, TaskProcessor> processorMap = new HashMap<>();
 
   private final AtomicBoolean running = new AtomicBoolean(false);
   private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
@@ -48,8 +46,8 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
   private final ExecutorService threadPoolExecutor;
 
   @Inject
-  public ProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
-    this.executorStatus = ProcessorExecutorStatus.STOPPED;
+  public TaskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
+    this.executorStatus = TaskProcessorExecutorStatus.STOPPED;
 
     this.domainKernel = domainKernel;
     this.threadPoolExecutor = Executors.newCachedThreadPool();
@@ -58,7 +56,7 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
     loader.reload();
 
     for (TaskProcessor processor : loader) {
-      ProcessorType type = processor.getType();
+      TaskProcessorType type = processor.getType();
 
       if (processorMap.containsKey(type)) {
         String msg = format("The processor type \"%s\" has already been registered.", type);
@@ -71,7 +69,7 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
     eventBus.subscribe(this);
   }
 
-  public ProcessorExecutorStatus getExecutorStatus() {
+  public TaskProcessorExecutorStatus getExecutorStatus() {
     return executorStatus;
   }
 
@@ -94,7 +92,7 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
     executorFuture = scheduledExecutorService.scheduleWithFixedDelay(this::execute, 15, 60, TimeUnit.SECONDS);
 
     // Change our status.
-    this.executorStatus = ProcessorExecutorStatus.IDLE;
+    this.executorStatus = TaskProcessorExecutorStatus.IDLE;
 
     log.info(NAME + " started, now idle.");
   }
@@ -105,7 +103,7 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
       executorFuture.cancel(false);
       executorFuture = null;
     }
-    executorStatus = ProcessorExecutorStatus.STOPPED;
+    executorStatus = TaskProcessorExecutorStatus.STOPPED;
 
     log.info(NAME + " stopped.");
   }
@@ -132,12 +130,12 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
   }
 
   /**
-   * Allows for direct execution of the receiver
+   * Allows for direct execution of the processor
    */
   public void execute() {
     if (running.compareAndSet(false, true)) {
       log.debug(NAME + "is executing.");
-      executorStatus = ProcessorExecutorStatus.EXECUTING;
+      executorStatus = TaskProcessorExecutorStatus.EXECUTING;
 
       try {
         List<NotificationDomain> activeNotificationDomains = domainKernel.listActiveNotificationDomains();
@@ -148,7 +146,7 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
         log.error("Unexpected exception during processing.", e);
 
       } finally {
-        executorStatus = ProcessorExecutorStatus.IDLE;
+        executorStatus = TaskProcessorExecutorStatus.IDLE;
         log.debug(NAME + " finished, now idle.");
         running.set(false);
       }
@@ -183,7 +181,7 @@ public class ProcessorExecutor implements BeanFactoryAware, TaskEventListener {
   }
 
   private TaskProcessor findTaskProcessor(String providerName) {
-    ProcessorType processorType = ProcessorType.valueOf(providerName);
+    TaskProcessorType processorType = TaskProcessorType.valueOf(providerName);
     return processorMap.get(processorType);
   }
 

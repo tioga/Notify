@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.receiver;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;

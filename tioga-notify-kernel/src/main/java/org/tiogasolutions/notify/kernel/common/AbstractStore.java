@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel;
+package org.tiogasolutions.notify.kernel.common;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.response.CouchResponse;

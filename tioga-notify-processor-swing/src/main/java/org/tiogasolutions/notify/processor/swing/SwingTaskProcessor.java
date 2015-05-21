@@ -1,8 +1,8 @@
 package org.tiogasolutions.notify.processor.swing;
 
 import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.kernel.processor.ProcessorType;
-import org.tiogasolutions.notify.kernel.processor.TaskProcessor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.kernel.task.TaskProcessor;
 import org.tiogasolutions.notify.pub.Notification;
 import org.tiogasolutions.notify.pub.Task;
 import org.tiogasolutions.notify.pub.TaskResponse;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SwingTaskProcessor implements TaskProcessor {
 
-  private static final ProcessorType PROVIDER_TYPE = new ProcessorType("swing");
+  private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("swing");
   private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm");
 
   private JFrame frame;
@@ -33,7 +33,7 @@ public class SwingTaskProcessor implements TaskProcessor {
   }
 
   @Override
-  public ProcessorType getType() {
+  public TaskProcessorType getType() {
     return PROVIDER_TYPE;
   }
 

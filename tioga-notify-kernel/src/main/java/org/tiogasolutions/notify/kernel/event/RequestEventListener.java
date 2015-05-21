@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel;
+package org.tiogasolutions.notify.kernel.event;
 
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 

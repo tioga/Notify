@@ -4,9 +4,9 @@ import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.kernel.processor.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.kernel.processor.ProcessorType;
-import org.tiogasolutions.notify.kernel.processor.TaskProcessor;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.kernel.task.TaskProcessor;
 import org.tiogasolutions.notify.pub.Notification;
 import org.tiogasolutions.notify.pub.Task;
 import org.tiogasolutions.notify.pub.TaskResponse;
@@ -28,7 +28,7 @@ public class SlackTaskProcessor implements TaskProcessor {
 
   private final ThymeleafMessageBuilder messageBuilder;
 
-  private static final ProcessorType PROVIDER_TYPE = new ProcessorType("slack");
+  private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("slack");
   private static final Logger log = LoggerFactory.getLogger(SlackTaskProcessor.class);
 
   private final Client client;
@@ -55,7 +55,7 @@ public class SlackTaskProcessor implements TaskProcessor {
   }
 
   @Override
-  public ProcessorType getType() {
+  public TaskProcessorType getType() {
     return PROVIDER_TYPE;
   }
 

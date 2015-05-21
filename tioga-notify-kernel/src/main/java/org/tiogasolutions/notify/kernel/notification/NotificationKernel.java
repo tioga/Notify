@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.kernel.notification;
 
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.domain.query.QueryResult;
+import org.tiogasolutions.notify.kernel.task.TaskQuery;
 import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionAccessor;

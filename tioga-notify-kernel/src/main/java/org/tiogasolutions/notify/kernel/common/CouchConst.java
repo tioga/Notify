@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.notification;
+package org.tiogasolutions.notify.kernel.common;
 
 /**
  * User: Harlan
@@ -8,4 +8,6 @@ package org.tiogasolutions.notify.kernel.notification;
 public class CouchConst {
   public static final String TASK_DESIGN_NAME = "Task";
   public static final String NOTIFICATION_DESIGN_NAME = "Notification";
+  public static final String REQUEST_DESIGN_NAME = "NotificationRequest";
+
 }

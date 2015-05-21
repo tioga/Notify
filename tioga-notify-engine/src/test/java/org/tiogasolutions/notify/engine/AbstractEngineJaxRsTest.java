@@ -4,7 +4,7 @@ import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.grizzly.ResourceConfigAdapter;
 import org.glassfish.jersey.test.JerseyTestNg;
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;

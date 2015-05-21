@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.processor;
+package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
@@ -11,12 +11,12 @@ import javax.inject.Named;
  * Created by jacobp on 3/6/2015.
  */
 @Named
-public class ProcessorKernel {
+public class TaskProcessorKernel {
 
-  private final ProcessorExecutor processorExecutor;
+  private final TaskProcessorExecutor processorExecutor;
 
   @Inject
-  public ProcessorKernel(ProcessorExecutor processorExecutor, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel) {
+  public TaskProcessorKernel(TaskProcessorExecutor processorExecutor, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel) {
     this.processorExecutor = processorExecutor;
 
 //    new ProcessorExecutor(executionManager, domainKernel, notificationKernel).start();

@@ -1,6 +1,8 @@
-package org.tiogasolutions.notify.kernel.processor;
+package org.tiogasolutions.notify.kernel.message;
 
 import org.tiogasolutions.dev.common.BeanUtils;
+import org.tiogasolutions.notify.kernel.message.HtmlMessage;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.pub.route.Destination;

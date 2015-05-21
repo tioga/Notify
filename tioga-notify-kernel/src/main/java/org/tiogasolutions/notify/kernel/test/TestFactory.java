@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel;
+package org.tiogasolutions.notify.kernel.test;
 
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;

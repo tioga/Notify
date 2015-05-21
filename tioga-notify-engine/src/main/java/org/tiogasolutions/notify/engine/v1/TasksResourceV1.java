@@ -4,7 +4,7 @@ import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.jvnet.hk2.annotations.Optional;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.notification.TaskQuery;
+import org.tiogasolutions.notify.kernel.task.TaskQuery;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;

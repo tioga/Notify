@@ -11,15 +11,13 @@ import org.tiogasolutions.couchace.jersey.JerseyCouchHttpClient;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.notify.kernel.request.NotifierJacksonModule;
+import org.tiogasolutions.notify.kernel.jackson.NotifyKernelJacksonModule;
 import org.springframework.core.env.Environment;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by harlan on 2/14/15.
@@ -53,7 +51,7 @@ public class CouchServers {
 
     // CouchJsonStrategy used by all.
     JacksonCouchJsonStrategy jsonStrategy = new JacksonCouchJsonStrategy(
-        new JSR310Module(), new NotifierJacksonModule());
+        new JSR310Module(), new NotifyKernelJacksonModule());
 
     // Master
     CouchSetup masterConfig = new CouchSetup(serversConfig.getMasterUrl())
@@ -96,24 +94,6 @@ public class CouchServers {
     // Create database if it does not exist
     if (!localMasterDatabase.exists()) {
       localMasterDatabase.createDatabase();
-
-      // TODO - would be better to verify the views and create what is needed regardless of the database creation.
-//      try {
-        // Need to create the file system to load from the jar (ZipFileSystemProvider does not do this on it's own).
-        Map<String, String> env = new HashMap<>();
-        env.put("create", "true");
-//        URL designUrl = getClass().getClassLoader().getResource("couch");
-//        if (designUrl == null) {
-//          throw ApiException.internalServerError("Unable to find base couch url.");
-//        }
-//        if (designUrl.getProtocol().equalsIgnoreCase("jar")) {
-//          FileSystems.newFileSystem(designUrl.toURI(), env);
-//        }
-//      } catch (IOException e) {
-//        throw ApiException.internalServerError("Error accessing base design url.");
-//      } catch (URISyntaxException e) {
-//        throw ApiException.internalServerError(e, "Error accessing base design url.");
-//      }
 
       String[] designNames = new String[] {"DomainProfile", "Entity"};
       for (String designName : designNames) {

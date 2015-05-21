@@ -3,7 +3,7 @@ package org.tiogasolutions.notify.kernel.notification;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.pub.Notification;
 import org.tiogasolutions.notify.pub.NotificationQuery;
