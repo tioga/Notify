@@ -8,6 +8,7 @@ import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateAttachment;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
+import org.tiogasolutions.notify.pub.AttachmentInfo;
 import org.tiogasolutions.notify.pub.DomainProfile;
 import org.tiogasolutions.notify.pub.ExceptionInfo;
 import org.tiogasolutions.notify.pub.NotificationRef;

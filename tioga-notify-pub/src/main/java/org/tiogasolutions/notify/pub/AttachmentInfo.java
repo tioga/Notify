@@ -8,19 +8,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Time: 5:28 PM
  */
 public class AttachmentInfo {
-    private final String name;
-    private final String contentType;
+  private final String name;
+  private final String contentType;
 
-    public AttachmentInfo(@JsonProperty("name") String name, @JsonProperty("contentType") String contentType) {
-        this.name = name;
-        this.contentType = contentType;
-    }
+  public AttachmentInfo(@JsonProperty("name") String name, @JsonProperty("contentType") String contentType) {
+    this.name = name;
+    this.contentType = contentType;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+      return name;
+  }
 
-    public String getContentType() {
-        return contentType;
-    }
+  public String getContentType() {
+      return contentType;
+  }
 }

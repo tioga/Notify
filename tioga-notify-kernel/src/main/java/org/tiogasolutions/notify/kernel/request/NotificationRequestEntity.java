@@ -7,6 +7,7 @@ import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
+import org.tiogasolutions.notify.pub.AttachmentInfo;
 
 import java.time.ZonedDateTime;
 import java.util.*;
