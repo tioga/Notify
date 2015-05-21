@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.event;
 
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.notification.Notification;
 
 import javax.inject.Named;
 import java.util.List;

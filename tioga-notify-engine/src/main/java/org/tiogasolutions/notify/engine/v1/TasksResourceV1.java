@@ -4,14 +4,14 @@ import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.jvnet.hk2.annotations.Optional;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.task.TaskQuery;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.task.TaskQuery;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
-import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.pub.TaskStatus;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

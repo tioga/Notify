@@ -4,7 +4,6 @@ import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
 import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
-import org.tiogasolutions.notify.notifier.request.NotificationRequestStatus;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.tiogasolutions.notify.notifier.sender.AbstractNotificationSender;
 import org.tiogasolutions.notify.notifier.uuid.TimeUuid;
@@ -73,17 +72,17 @@ public class CouchNotificationSender extends AbstractNotificationSender {
         InputStream is;
         String requestId = TimeUuid.randomUUID().toString();
         Client client = ClientBuilder.newBuilder().build();
-        NotificationRequestStatus status;
+        NotificationRequest.Status status;
 
         if (request.getAttachments().isEmpty()) {
           // There are no attachments, we will assume the status to ready for processing.
-          status = NotificationRequestStatus.READY;
+          status = NotificationRequest.Status.READY;
           is = toInputStream(request, requestId, null, status, "}");
           putDocument(request, client, requestId, null, is, MediaType.APPLICATION_JSON);
 
         } else {
           // Just in case someone gave us a request that is in the wrong state, force it here.
-          status = NotificationRequestStatus.SENDING;
+          status = NotificationRequest.Status.SENDING;
           is = toInputStream(request, requestId, null, status, "}");
           String revision = putDocument(request, client, requestId, null, is, MediaType.APPLICATION_JSON);
 
@@ -93,7 +92,7 @@ public class CouchNotificationSender extends AbstractNotificationSender {
           }
 
           // Now change status to READY.
-          status = NotificationRequestStatus.READY;
+          status = NotificationRequest.Status.READY;
           String suffix = generateAttachmentJson(request, client, requestId);
           is = toInputStream(request, requestId, revision, status, suffix);
           putDocument(request, client, requestId, revision, is, MediaType.APPLICATION_JSON);
@@ -180,7 +179,7 @@ public class CouchNotificationSender extends AbstractNotificationSender {
   private InputStream toInputStream(NotificationRequest request,
                                     String requestId,
                                     String revision,
-                                    NotificationRequestStatus status,
+                                    NotificationRequest.Status status,
                                     String attachmentJson) {
 
     String json = new NotificationRequestJsonBuilder().toJson(request, status);

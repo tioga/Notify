@@ -2,8 +2,7 @@ package org.tiogasolutions.notify.kernel.notification;
 
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.notify.kernel.task.TaskQuery;
-import org.tiogasolutions.notify.pub.*;
+import org.tiogasolutions.notify.pub.task.TaskQuery;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionAccessor;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
@@ -11,6 +10,11 @@ import org.tiogasolutions.notify.kernel.task.CreateTask;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.attachment.AttachmentQuery;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.route;
 
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.notify.notifier.builder.NotificationTrait;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.KernelFixture;

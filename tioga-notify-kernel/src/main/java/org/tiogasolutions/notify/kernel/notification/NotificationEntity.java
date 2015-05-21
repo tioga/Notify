@@ -4,10 +4,10 @@ import org.tiogasolutions.couchace.annotations.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
-import org.tiogasolutions.notify.pub.AttachmentInfo;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.ExceptionInfo;
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

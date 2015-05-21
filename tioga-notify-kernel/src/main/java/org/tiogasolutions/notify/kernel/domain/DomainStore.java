@@ -16,7 +16,7 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.tiogasolutions.notify.kernel.common.AbstractStore;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;

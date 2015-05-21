@@ -3,6 +3,8 @@ package org.tiogasolutions.notify.pub;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.testng.annotations.Test;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import java.net.URI;
 import java.time.ZonedDateTime;

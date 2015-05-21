@@ -1,11 +1,11 @@
 package org.tiogasolutions.notify.processor.swing;
 
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
 import org.tiogasolutions.notify.kernel.task.TaskProcessor;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.pub.TaskResponse;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.swing.*;

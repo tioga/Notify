@@ -6,7 +6,7 @@ import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;

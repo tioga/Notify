@@ -6,15 +6,20 @@ import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestEntityStatus;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.attachment.AttachmentQuery;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
@@ -69,7 +74,7 @@ public class CouchReceiverTest extends KernelAbstractTest {
     // Request should be ready.
     NotificationRequestEntity notificationRequestEntity = requestStore.findByTrackingId(notificationRequest.getTrackingId());
     assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
-    assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.READY);
+    assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
 
     // Run the receiver
     receiver.receiveRequests(domainProfile);
@@ -77,7 +82,7 @@ public class CouchReceiverTest extends KernelAbstractTest {
     // Request should now be COMPLETED.
     notificationRequestEntity = requestStore.findByTrackingId(notificationRequest.getTrackingId());
     assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
-    assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.COMPLETED);
+    assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.COMPLETED);
 
     // From here on need an execution context for the test domain
 

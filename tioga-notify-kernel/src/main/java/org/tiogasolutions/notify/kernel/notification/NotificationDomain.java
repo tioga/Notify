@@ -7,13 +7,14 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.route.RouteEvaluator;
 import org.tiogasolutions.notify.kernel.task.*;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.NotificationQuery;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.route.JsRouteEvaluator;
-import org.tiogasolutions.notify.pub.AttachmentHolder;
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
+import org.tiogasolutions.notify.pub.task.TaskQuery;
 
 import java.util.Set;
 

@@ -7,9 +7,9 @@ import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestEntityStatus;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -53,7 +53,7 @@ public class SimpleRequestEntryResourceV1 {
     notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
 
     // If it's not ready, make it ready.
-    if (notificationRequestEntity.getRequestStatus() != NotificationRequestEntityStatus.READY) {
+    if (notificationRequestEntity.getRequestStatus() != NotificationRequestStatus.READY) {
       notificationRequestEntity.ready();
       notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
     }

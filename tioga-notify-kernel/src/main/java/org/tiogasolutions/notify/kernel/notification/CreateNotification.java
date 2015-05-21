@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.kernel.notification;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.tiogasolutions.notify.pub.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;

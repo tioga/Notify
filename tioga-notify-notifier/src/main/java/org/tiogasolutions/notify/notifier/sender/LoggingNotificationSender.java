@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.notifier.request.NotificationRequestStatus;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 
 import java.util.concurrent.CompletableFuture;
@@ -25,7 +24,7 @@ public class LoggingNotificationSender extends AbstractNotificationSender {
 
     this.lastRequest = request;
     if (log.isTraceEnabled()) {
-      log.trace(new NotificationRequestJsonBuilder().toJson(request, NotificationRequestStatus.READY));
+      log.trace(new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.READY));
     } else {
       log.debug("Notification {}:{}", lastRequest.getTopic(), lastRequest.getSummary());
     }

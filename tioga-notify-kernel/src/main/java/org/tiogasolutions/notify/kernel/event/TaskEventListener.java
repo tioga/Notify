@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.kernel.event;
 
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.notification.Notification;
 
 /**
  * Created by jacobp on 3/6/2015.

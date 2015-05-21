@@ -2,9 +2,9 @@ package org.tiogasolutions.notify.kernel.common;
 
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
-import org.tiogasolutions.notify.pub.Request;
-import org.tiogasolutions.notify.pub.RequestStatus;
-import org.tiogasolutions.notify.pub.ExceptionInfo;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
 /**
  * Used to convert notify objects to the corresponding pub objects. The two modules,
@@ -24,11 +24,11 @@ public class NotifyConversionUtils {
     );
   }
 
-  public static Request toRequest(NotificationRequestEntity entity) {
-    return new Request(
+  public static NotificationRequest toRequest(NotificationRequestEntity entity) {
+    return new NotificationRequest(
         entity.getRequestId(),
         entity.getRevision(),
-        RequestStatus.valueOf(entity.getRequestStatus().name()),
+        NotificationRequestStatus.valueOf(entity.getRequestStatus().name()),
         entity.getTopic(),
         entity.getSummary(),
         entity.getTrackingId(),

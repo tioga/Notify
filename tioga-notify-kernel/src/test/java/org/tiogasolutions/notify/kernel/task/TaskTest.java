@@ -3,7 +3,7 @@ package org.tiogasolutions.notify.kernel.task;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
-import org.tiogasolutions.notify.pub.Task;
+import org.tiogasolutions.notify.pub.task.Task;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;

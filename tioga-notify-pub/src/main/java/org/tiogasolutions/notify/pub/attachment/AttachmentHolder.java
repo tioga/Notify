@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.attachment;
 
 /**
  * User: Harlan

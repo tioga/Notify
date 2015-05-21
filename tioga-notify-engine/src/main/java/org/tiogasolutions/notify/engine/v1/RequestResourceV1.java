@@ -8,12 +8,11 @@ import org.tiogasolutions.notify.kernel.common.NotifyConversionUtils;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestEntityStatus;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Request;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -43,7 +42,7 @@ public class RequestResourceV1 {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public QueryResult<Request> getRequests(@QueryParam("status") NotificationRequestEntityStatus status) {
+  public QueryResult<NotificationRequest> getRequests(@QueryParam("status") NotificationRequestStatus status) {
     DomainProfile domainProfile = getDomainProfile();
     CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
     NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
@@ -53,19 +52,19 @@ public class RequestResourceV1 {
     // the extra dependencies in the couch sender.
 
     List<NotificationRequestEntity> requestEntities = requestStore.findByStatus(status);
-    List<Request> requests = new ArrayList<>();
+    List<NotificationRequest> requests = new ArrayList<>();
 
     requestEntities.forEach((entity)->{
-      Request request = NotifyConversionUtils.toRequest(entity);
+      NotificationRequest request = NotifyConversionUtils.toRequest(entity);
       requests.add(request);
     });
 
-    return ListQueryResult.newComplete(Request.class, requests);
+    return ListQueryResult.newComplete(NotificationRequest.class, requests);
   }
 
   @PUT
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putRequest(@Context UriInfo uriInfo, NotificationRequest request) {
+  public Response putRequest(@Context UriInfo uriInfo, org.tiogasolutions.notify.notifier.request.NotificationRequest request) {
 
     NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
     CouchDatabase requestDb = domainKernel.requestDb(getDomainProfile());

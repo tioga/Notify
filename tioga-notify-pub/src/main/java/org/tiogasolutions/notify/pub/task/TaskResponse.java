@@ -1,8 +1,9 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
 /**
  * Created by harlan on 3/7/15.

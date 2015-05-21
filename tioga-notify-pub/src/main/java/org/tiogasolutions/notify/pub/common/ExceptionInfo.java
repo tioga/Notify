@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
-import org.tiogasolutions.notify.pub.TaskResponse;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.notify.pub.route.ArgValue;
-import org.tiogasolutions.notify.pub.TaskRef;
+import org.tiogasolutions.notify.pub.task.TaskRef;
 import org.tiogasolutions.notify.pub.route.Destination;
-import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.pub.TaskStatus;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

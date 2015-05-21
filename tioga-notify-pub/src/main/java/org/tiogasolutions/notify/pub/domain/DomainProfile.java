@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;

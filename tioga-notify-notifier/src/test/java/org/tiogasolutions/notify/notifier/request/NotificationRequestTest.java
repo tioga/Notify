@@ -41,7 +41,7 @@ public class NotificationRequestTest {
           new NotificationAttachment("bla", "text/plain", "bla, bla, bla"),
           new NotificationAttachment("moo", "text/plain", "moo, moo, moo")));
 
-    String requestJson = new NotificationRequestJsonBuilder().toJson(request, NotificationRequestStatus.SENDING);
+    String requestJson = new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.SENDING);
 
     String expected = String.format(EXPECTED_JSON, request.getCreatedAt());
     assertEquals(requestJson, expected);

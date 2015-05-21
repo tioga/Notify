@@ -1,7 +1,9 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -13,10 +15,10 @@ import java.util.Map;
  * Date: 1/31/2015
  * Time: 7:15 PM
  */
-public class Request {
+public class NotificationRequest {
   private final String requestId;
   private String revision;
-  public RequestStatus requestStatus;
+  public NotificationRequestStatus requestStatus;
   private final String topic;
   private final String summary;
   private final String trackingId;
@@ -26,16 +28,16 @@ public class Request {
   private final List<AttachmentInfo> attachmentInfos;
 
   @JsonCreator
-  public Request(@JsonProperty("requestId") String requestId,
-                 @JsonProperty("revision") String revision,
-                 @JsonProperty("requestStatus") RequestStatus requestStatus,
-                 @JsonProperty("topic") String topic,
-                 @JsonProperty("summary") String summary,
-                 @JsonProperty("trackingId") String trackingId,
-                 @JsonProperty("createdAt") ZonedDateTime createdAt,
-                 @JsonProperty("traitMap") Map<String, String> traitMap,
-                 @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo,
-                 @JsonProperty("attachmentInfos") List<AttachmentInfo> attachmentInfos) {
+  public NotificationRequest(@JsonProperty("requestId") String requestId,
+                             @JsonProperty("revision") String revision,
+                             @JsonProperty("requestStatus") NotificationRequestStatus requestStatus,
+                             @JsonProperty("topic") String topic,
+                             @JsonProperty("summary") String summary,
+                             @JsonProperty("trackingId") String trackingId,
+                             @JsonProperty("createdAt") ZonedDateTime createdAt,
+                             @JsonProperty("traitMap") Map<String, String> traitMap,
+                             @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo,
+                             @JsonProperty("attachmentInfos") List<AttachmentInfo> attachmentInfos) {
 
     this.requestId = requestId;
     this.revision = revision;
@@ -57,7 +59,7 @@ public class Request {
     return revision;
   }
 
-  public RequestStatus getRequestStatus() {
+  public NotificationRequestStatus getRequestStatus() {
     return requestStatus;
   }
 

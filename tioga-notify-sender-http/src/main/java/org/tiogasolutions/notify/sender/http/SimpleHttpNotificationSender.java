@@ -1,7 +1,6 @@
 package org.tiogasolutions.notify.sender.http;
 
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.notifier.request.NotificationRequestStatus;
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
@@ -36,7 +35,7 @@ public class SimpleHttpNotificationSender extends HttpNotificationSender {
       Response sendResponse;
       try {
         // Send the request
-        sendResponse = sendRequest(request, NotificationRequestStatus.READY);
+        sendResponse = sendRequest(request, NotificationRequest.Status.READY);
 
       } catch (Exception t) {
         NotificationResponse notificationResponse = NotificationResponse.newFailure(request, t);
@@ -67,7 +66,7 @@ public class SimpleHttpNotificationSender extends HttpNotificationSender {
   }
 
   @Override
-  protected Response sendRequest(NotificationRequest request, NotificationRequestStatus status) {
+  protected Response sendRequest(NotificationRequest request, NotificationRequest.Status status) {
 
     String json = new NotificationRequestJsonBuilder().toJson(request, status);
 

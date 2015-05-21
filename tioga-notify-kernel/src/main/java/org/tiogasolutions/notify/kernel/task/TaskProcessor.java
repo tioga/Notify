@@ -1,9 +1,9 @@
 package org.tiogasolutions.notify.kernel.task;
 
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.TaskResponse;
-import org.tiogasolutions.notify.pub.Task;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
+import org.tiogasolutions.notify.pub.task.Task;
 import org.springframework.beans.factory.BeanFactory;
 
 public interface TaskProcessor {

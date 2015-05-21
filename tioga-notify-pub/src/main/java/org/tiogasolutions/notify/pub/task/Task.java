@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.task;
 
 import com.fasterxml.jackson.annotation.*;
 import org.tiogasolutions.notify.pub.route.ArgValue;

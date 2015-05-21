@@ -10,6 +10,10 @@ import java.util.*;
  */
 public final class NotificationRequest {
 
+  public enum Status {
+    SENDING, READY, PROCESSING, FAILED, COMPLETED
+  }
+
   private final String topic;
   private final String summary;
   private final String trackingId;

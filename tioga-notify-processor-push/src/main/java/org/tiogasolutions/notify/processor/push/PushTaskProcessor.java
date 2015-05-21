@@ -2,8 +2,8 @@ package org.tiogasolutions.notify.processor.push;
 
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.exceptions.ApiUnauthorizedException;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.push.client.LivePushServerClient;
 import org.tiogasolutions.push.client.PushServerClient;
 import org.tiogasolutions.push.pub.common.Push;
@@ -22,8 +22,8 @@ import org.tiogasolutions.notify.pub.route.Destination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
-import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.pub.TaskResponse;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
 
 import java.util.ArrayList;
 import java.util.List;

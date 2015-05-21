@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.kernel.receiver;
 
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
 /**
  * Created by harlan on 2/14/15.

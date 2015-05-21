@@ -1,8 +1,10 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.notification;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
 import java.net.URI;
 import java.time.LocalDateTime;

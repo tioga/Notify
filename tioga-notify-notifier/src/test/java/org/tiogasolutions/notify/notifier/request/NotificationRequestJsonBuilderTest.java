@@ -39,7 +39,7 @@ public class NotificationRequestJsonBuilderTest {
       exceptionInfo,
       attachments);
 
-    String json = new NotificationRequestJsonBuilder().toJson(request, NotificationRequestStatus.READY);
+    String json = new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.READY);
 
     assertNotNull(json);
   }

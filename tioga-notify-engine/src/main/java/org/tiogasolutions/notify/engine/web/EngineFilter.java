@@ -4,7 +4,7 @@ import org.tiogasolutions.dev.common.EqualsUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.notify.kernel.admin.AdminKernel;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.springframework.util.StringUtils;
 

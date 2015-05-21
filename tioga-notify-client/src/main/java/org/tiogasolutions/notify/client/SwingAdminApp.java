@@ -10,14 +10,14 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.sender.couch.CouchNotificationSender;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilder;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.tiogasolutions.notify.notifier.sender.LoggingNotificationSender;
-import org.tiogasolutions.notify.pub.Request;
-import org.tiogasolutions.notify.pub.Task;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
+import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.sender.couch.CouchNotificationSenderSetup;
 import org.tiogasolutions.notify.sender.http.HttpNotificationSender;
 import org.tiogasolutions.notify.sender.http.HttpNotificationSenderConfig;
@@ -147,7 +147,7 @@ public class SwingAdminApp extends TestMainSupport {
     int count = 0;
 
     try {
-      QueryResult<Request> result;
+      QueryResult<NotificationRequest> result;
       do {
         result = getRequests(domainName, null);
         count += result.getSize();

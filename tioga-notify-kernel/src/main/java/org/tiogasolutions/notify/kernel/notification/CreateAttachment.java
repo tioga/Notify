@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.kernel.notification;
 
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

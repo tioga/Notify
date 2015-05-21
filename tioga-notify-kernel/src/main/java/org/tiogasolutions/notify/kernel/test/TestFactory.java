@@ -2,7 +2,11 @@ package org.tiogasolutions.notify.kernel.test;
 
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.notify.pub.*;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainStatus;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;

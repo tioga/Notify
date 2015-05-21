@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.pub;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
 import org.testng.annotations.*;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;

@@ -1,15 +1,19 @@
 package org.tiogasolutions.notify.kernel.message;
 
 import org.tiogasolutions.dev.common.BeanUtils;
-import org.tiogasolutions.notify.kernel.message.HtmlMessage;
-import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.pub.*;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainStatus;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.DestinationStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import java.io.File;
 import java.io.FileNotFoundException;

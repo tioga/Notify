@@ -7,7 +7,8 @@ import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.pub.AttachmentInfo;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -22,7 +23,7 @@ public class NotificationRequestEntity {
 
   private final String requestId;
   private String revision;
-  public NotificationRequestEntityStatus requestStatus;
+  public NotificationRequestStatus requestStatus;
   private final String topic;
   private final String summary;
   private final String trackingId;
@@ -34,7 +35,7 @@ public class NotificationRequestEntity {
   @JsonCreator
   public NotificationRequestEntity(@JsonProperty("requestId") String requestId,
                                    @JsonProperty("revision") String revision,
-                                   @JsonProperty("requestStatus") NotificationRequestEntityStatus requestStatus,
+                                   @JsonProperty("requestStatus") NotificationRequestStatus requestStatus,
                                    @JsonProperty("topic") String topic,
                                    @JsonProperty("summary") String summary,
                                    @JsonProperty("trackingId") String trackingId,
@@ -54,38 +55,38 @@ public class NotificationRequestEntity {
   }
 
   public void ready() {
-    if (requestStatus != NotificationRequestEntityStatus.SENDING) {
+    if (requestStatus != NotificationRequestStatus.SENDING) {
       throw new NotifierException("Cannot set request to ready, status is " + requestStatus);
     }
-    requestStatus = NotificationRequestEntityStatus.READY;
+    requestStatus = NotificationRequestStatus.READY;
   }
 
   public void processing() {
-    if (requestStatus != NotificationRequestEntityStatus.READY) {
+    if (requestStatus != NotificationRequestStatus.READY) {
       throw new NotifierException("Cannot set request to processing, status is " + requestStatus);
     }
-    requestStatus = NotificationRequestEntityStatus.PROCESSING;
+    requestStatus = NotificationRequestStatus.PROCESSING;
   }
 
   public void completed() {
-    if (requestStatus != NotificationRequestEntityStatus.PROCESSING) {
+    if (requestStatus != NotificationRequestStatus.PROCESSING) {
       throw new NotifierException("Cannot set request to completed, status is " + requestStatus);
     }
-    requestStatus = NotificationRequestEntityStatus.COMPLETED;
+    requestStatus = NotificationRequestStatus.COMPLETED;
   }
 
   public void failed() {
-    if (requestStatus != NotificationRequestEntityStatus.PROCESSING) {
+    if (requestStatus != NotificationRequestStatus.PROCESSING) {
       throw new NotifierException("Cannot set request to failed, status is " + requestStatus);
     }
-    requestStatus = NotificationRequestEntityStatus.FAILED;
+    requestStatus = NotificationRequestStatus.FAILED;
   }
 
   public void ready(String currentRevision) {
-    if (requestStatus != NotificationRequestEntityStatus.SENDING) {
+    if (requestStatus != NotificationRequestStatus.SENDING) {
       throw new NotifierException("Cannot change status to READY, current status is " + requestStatus);
     }
-    requestStatus = NotificationRequestEntityStatus.READY;
+    requestStatus = NotificationRequestStatus.READY;
     this.revision = currentRevision;
   }
 
@@ -103,7 +104,7 @@ public class NotificationRequestEntity {
     this.revision = revision;
   }
 
-  public NotificationRequestEntityStatus getRequestStatus() {
+  public NotificationRequestStatus getRequestStatus() {
     return requestStatus;
   }
 
@@ -207,7 +208,7 @@ public class NotificationRequestEntity {
     return new NotificationRequestEntity(
       TimeUuid.randomUUID().toString(),
       null,
-      NotificationRequestEntityStatus.SENDING,
+        NotificationRequestStatus.SENDING,
       request.getTopic(),
       request.getSummary(),
       request.getTrackingId(),

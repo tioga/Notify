@@ -10,7 +10,8 @@ import org.tiogasolutions.couchace.core.api.response.WriteResponse;
 import org.tiogasolutions.notify.kernel.common.CouchConst;
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
-import org.tiogasolutions.notify.pub.AttachmentHolder;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -107,7 +108,7 @@ public class NotificationRequestStore {
 
   }
 
-  public List<NotificationRequestEntity> findByStatus(NotificationRequestEntityStatus status) {
+  public List<NotificationRequestEntity> findByStatus(NotificationRequestStatus status) {
 
     CouchViewQuery.CouchViewQueryBuilder builder = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
 

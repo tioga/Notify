@@ -5,13 +5,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestEntityStatus;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
@@ -43,7 +44,7 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
 
   @BeforeClass
   public void setup() {
-    org.tiogasolutions.notify.pub.DomainProfile domainProfile = domainKernel.findByApiKey(TestFactory.API_KEY);
+    DomainProfile domainProfile = domainKernel.findByApiKey(TestFactory.API_KEY);
     CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
     requestStore = new NotificationRequestStore(requestDb);
 
@@ -88,7 +89,7 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
     Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
     Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
-    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.READY);
+    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
     Assert.assertEquals(notificationRequestEntity.listAttachmentInfo().size(), 2);
     assertTrue(notificationRequestEntity.listAttachmentInfo().stream().anyMatch(a -> a.getName().equals("attachOne")));
     assertTrue(notificationRequestEntity.listAttachmentInfo().stream().anyMatch(a -> a.getName().equals("attachTwo")));
@@ -99,7 +100,7 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
     Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
     Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
-    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.READY);
+    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
 
     // Check attachments
     notificationRequestEntity = requestStore.findByRequestId(notificationRequestEntity.getRequestId());
@@ -107,17 +108,17 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
     Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
     Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
-    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.READY);
+    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
 
     // Mark processing.
     notificationRequestEntity.processing();
     notificationRequestEntity = requestStore.saveAndReload(notificationRequestEntity);
-    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.PROCESSING);
+    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.PROCESSING);
 
     // Mark Completed.
     notificationRequestEntity.completed();
     notificationRequestEntity = requestStore.saveAndReload(notificationRequestEntity);
-    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestEntityStatus.COMPLETED);
+    Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.COMPLETED);
 
     // Check attachments
     notificationRequestEntity = requestStore.findByRequestId(notificationRequestEntity.getRequestId());
@@ -155,7 +156,7 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);
 
     // Query for ready, should only find two.
-    List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestEntityStatus.READY);
+    List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestStatus.READY);
     assertEquals(readyRequests.size(), 2);
     assertTrue(readyRequests.stream().anyMatch(r -> r.getTrackingId().equals(request1.getTrackingId())));
     assertTrue(readyRequests.stream().anyMatch(r -> r.getTrackingId().equals(request2.getTrackingId())));
@@ -166,7 +167,7 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     requestStore.save(entity);
 
     // Query for ready, should only find one.
-    readyRequests = requestStore.findByStatus(NotificationRequestEntityStatus.READY);
+    readyRequests = requestStore.findByStatus(NotificationRequestStatus.READY);
     assertEquals(readyRequests.size(), 1);
     assertTrue(readyRequests.stream().anyMatch(r -> r.getTrackingId().equals(request2.getTrackingId())));
   }

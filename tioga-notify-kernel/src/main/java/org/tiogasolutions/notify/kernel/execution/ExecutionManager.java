@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.execution;
 
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
 import javax.inject.Inject;
 import javax.inject.Named;

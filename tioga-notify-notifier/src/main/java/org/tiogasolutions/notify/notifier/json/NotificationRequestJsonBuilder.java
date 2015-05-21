@@ -2,7 +2,6 @@ package org.tiogasolutions.notify.notifier.json;
 
 import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.notifier.request.NotificationRequestStatus;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -19,7 +18,7 @@ public class NotificationRequestJsonBuilder {
   private final StringBuilder sb = new StringBuilder();
   private String indent = "";
 
-  public String toJson(NotificationRequest request, NotificationRequestStatus status) {
+  public String toJson(NotificationRequest request, NotificationRequest.Status status) {
     beginObject();
 
     // Basic fields

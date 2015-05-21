@@ -1,10 +1,10 @@
 package org.tiogasolutions.notify.kernel.message;
 
 import org.tiogasolutions.dev.common.StringUtils;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
-import org.tiogasolutions.notify.pub.Task;
+import org.tiogasolutions.notify.pub.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.context.Context;

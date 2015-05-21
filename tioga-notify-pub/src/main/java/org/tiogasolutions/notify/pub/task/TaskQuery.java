@@ -1,6 +1,4 @@
-package org.tiogasolutions.notify.kernel.task;
-
-import org.tiogasolutions.notify.pub.TaskStatus;
+package org.tiogasolutions.notify.pub.task;
 
 /**
  * Created by jacobp on 2/26/2015.

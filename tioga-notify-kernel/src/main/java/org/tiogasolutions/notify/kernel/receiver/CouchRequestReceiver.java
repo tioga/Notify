@@ -8,9 +8,14 @@ import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateAttachment;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.pub.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import java.util.List;
 
@@ -43,7 +48,7 @@ public class CouchRequestReceiver implements RequestReceiver {
       CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
       NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-      List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestEntityStatus.READY);
+      List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestStatus.READY);
 
       for (NotificationRequestEntity request : readyRequests) {
         NotificationRef notificationRef = null;

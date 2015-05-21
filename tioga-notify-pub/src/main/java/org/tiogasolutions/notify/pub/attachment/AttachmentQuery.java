@@ -1,4 +1,6 @@
-package org.tiogasolutions.notify.pub;
+package org.tiogasolutions.notify.pub.attachment;
+
+import org.tiogasolutions.notify.pub.notification.Notification;
 
 /**
  * User: Harlan

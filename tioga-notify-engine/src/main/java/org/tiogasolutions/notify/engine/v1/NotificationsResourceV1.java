@@ -3,9 +3,13 @@ package org.tiogasolutions.notify.engine.v1;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.pub.*;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.dev.domain.query.QueryResult;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.attachment.AttachmentQuery;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

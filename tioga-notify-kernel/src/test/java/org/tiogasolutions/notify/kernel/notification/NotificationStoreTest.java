@@ -5,9 +5,9 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.NotificationQuery;
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.testng.annotations.*;
 
 import javax.inject.Inject;
