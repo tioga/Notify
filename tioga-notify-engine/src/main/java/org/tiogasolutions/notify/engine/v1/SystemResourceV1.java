@@ -24,8 +24,8 @@ public class SystemResourceV1 {
   }
 
   @Path("/task-processor")
-  public ProcessorExecutorResourceV1 getProcessorExecutorResourceV1() {
-    return new ProcessorExecutorResourceV1(processorExecutor);
+  public TaskProcessorExecutorResourceV1 getProcessorExecutorResourceV1() {
+    return new TaskProcessorExecutorResourceV1(processorExecutor);
   }
 
 }

@@ -23,13 +23,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestResourceV1 {
+public class NotificationRequestResourceV1 {
 
   private final DomainKernel domainKernel;
   private final ExecutionManager executionManager;
   private final EventBus eventBus;
 
-  public RequestResourceV1(ExecutionManager executionManager, DomainKernel domainKernel, EventBus eventBus) {
+  public NotificationRequestResourceV1(ExecutionManager executionManager, DomainKernel domainKernel, EventBus eventBus) {
     this.eventBus = eventBus;
     this.domainKernel = domainKernel;
     this.executionManager = executionManager;

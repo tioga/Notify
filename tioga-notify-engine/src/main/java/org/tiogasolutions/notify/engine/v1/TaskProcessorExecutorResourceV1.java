@@ -10,13 +10,13 @@ import javax.ws.rs.Path;
 /**
  * Created by jacobp on 3/6/2015.
  */
-public class ProcessorExecutorResourceV1 {
+public class TaskProcessorExecutorResourceV1 {
 
-  private static final Logger log = LoggerFactory.getLogger(ProcessorExecutorResourceV1.class);
+  private static final Logger log = LoggerFactory.getLogger(TaskProcessorExecutorResourceV1.class);
 
   private final TaskProcessorExecutor processorExecutor;
 
-  public ProcessorExecutorResourceV1(TaskProcessorExecutor processorExecutor) {
+  public TaskProcessorExecutorResourceV1(TaskProcessorExecutor processorExecutor) {
     this.processorExecutor = processorExecutor;
   }
 

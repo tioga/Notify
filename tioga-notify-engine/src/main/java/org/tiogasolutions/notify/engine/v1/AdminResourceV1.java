@@ -85,11 +85,11 @@ public class AdminResourceV1 {
   }
 
   @Path("/domains/{domainName}/requests")
-  public RequestResourceV1 getRequestResourceV1(@PathParam("domainName") String domainName) {
+  public NotificationRequestResourceV1 getRequestResourceV1(@PathParam("domainName") String domainName) {
     DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
     // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
     executionManager.newApiContext(domainProfile);
-    return new RequestResourceV1(executionManager, domainKernel, eventBus);
+    return new NotificationRequestResourceV1(executionManager, domainKernel, eventBus);
   }
 
   @Path("/domains/{domainName}/tasks")

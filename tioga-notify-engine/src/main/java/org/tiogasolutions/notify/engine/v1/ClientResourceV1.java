@@ -43,8 +43,8 @@ public class ClientResourceV1 {
   }
 
   @Path("/requests")
-  public RequestResourceV1 getRequestResourceV1() {
-    return new RequestResourceV1(executionManager, domainKernel, eventBus);
+  public NotificationRequestResourceV1 getRequestResourceV1() {
+    return new NotificationRequestResourceV1(executionManager, domainKernel, eventBus);
   }
 
   @Path("/simple-request-entry")
