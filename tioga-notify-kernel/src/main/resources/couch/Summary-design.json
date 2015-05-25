@@ -1,0 +1,14 @@
+{
+  "_id": "_design/Summary",
+  "language": "javascript",
+  "views": {
+    "TopicInfo": {
+      "map": "function(doc) {\nif (doc.entityType == 'Notification' && doc.entity.topic) emit(doc.entity.topic, 1);\n}\n",
+      "reduce": "function(keys, values) {\nreturn sum(values);\n}\n"
+    },
+    "TraitInfo": {
+      "map": "function(doc) {\n  if (doc.entityType == 'Notification' && doc.entity.traitMap) {\n    for (var key in doc.entity.traitMap) \n    {\n    emit(key.toLowerCase(), 1);}\n  }\n}",
+      "reduce": "function(keys, values) {\nreturn sum(values);\n}\n"
+    }
+  }
+}
