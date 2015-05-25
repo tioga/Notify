@@ -1,15 +1,19 @@
 package org.tiogasolutions.notify.engine.v1;
 
+import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class ClientResourceV1 {
 
@@ -30,6 +34,20 @@ public class ClientResourceV1 {
   public DomainProfile getDefaultPage() {
     String domainName = executionManager.context().getDomainName();
     return domainKernel.findByDomainName(domainName);
+  }
+
+  @GET
+  @Path("summary")
+  @Produces({MediaType.APPLICATION_JSON})
+  public Response getDomainSummary() {
+    try {
+      String domainName = executionManager.context().getDomainName();
+      DomainSummary summary = domainKernel.fetchSummary(domainName);
+      return Response.ok(summary).build();
+
+    } catch(ApiNotFoundException e) {
+      return Response.status(404).entity(e).build();
+    }
   }
 
   @Path("/notifications")
