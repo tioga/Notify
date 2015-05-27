@@ -660,36 +660,36 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-core-1.4.4">
+      <library name="Gradle: tioga-couchace-core-1.4.3">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/couchace/tioga-couchace-core/1.4.4/tioga-couchace-core-1.4.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-core/1.4.3/27fd059dc741803f474d73ef0f261279442666e3/tioga-couchace-core-1.4.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-annotations-1.4.4">
+      <library name="Gradle: tioga-couchace-annotations-1.4.3">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/couchace/tioga-couchace-annotations/1.4.4/tioga-couchace-annotations-1.4.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-annotations/1.4.3/f644c4d15d1b1c37dc746792ecd57ff209163023/tioga-couchace-annotations-1.4.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-jersey-1.4.4">
+      <library name="Gradle: tioga-couchace-jersey-1.4.3">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/couchace/tioga-couchace-jersey/1.4.4/tioga-couchace-jersey-1.4.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.4.3/8e4c970139657f8af850deabfdcc2fae02197466/tioga-couchace-jersey-1.4.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-jackson-1.4.4">
+      <library name="Gradle: tioga-couchace-jackson-1.4.3">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/couchace/tioga-couchace-jackson/1.4.4/tioga-couchace-jackson-1.4.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jackson/1.4.3/a609691f705cf016cf909dac3e85fea64d6868a5/tioga-couchace-jackson-1.4.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

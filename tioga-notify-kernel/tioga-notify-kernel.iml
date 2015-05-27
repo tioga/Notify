@@ -84,9 +84,9 @@
     <orderEntry type="library" exported="" name="Gradle: org.unbescape:unbescape:1.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.app:tioga-app-common:2.0.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-couchace:1.0.16" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-core:1.4.4" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.4.4" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.4.4" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.4.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-core:1.4.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.4.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.4.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.4.3" level="project" />
   </component>
 </module>
