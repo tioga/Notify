@@ -10,7 +10,7 @@
     <h2>Details</h2>
     <ul>
         <li>Topic: <span th:text="${it.topic}"></span></li>
-        <li>Created: <span th:text="${#temporals.format(it.createdAt, 'MM-dd-yy hh:mm a')}"></span></li>
+        <li>Created: <span th:text="${#temporals.format(it.createdAt, 'MM-dd-yy hh:mm a zzz')}"></span></li>
         <li>Link: <a th:href="${it.self}" th:text="${it.self}"></a></li>
     </ul>
 

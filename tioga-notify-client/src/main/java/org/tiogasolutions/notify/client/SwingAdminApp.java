@@ -76,6 +76,7 @@ public class SwingAdminApp extends TestMainSupport {
     operationsMap.put("Status", this::checkStatus);
     operationsMap.put("Generate Requests (Couch Sender)", this::generateRequestsByCouch);
     operationsMap.put("Generate Requests (HTTP Sender)", this::generateRequestsByHttp);
+    operationsMap.put("Process Requests", this::startReceiver);
     operationsMap.put("Update Catalog", this::updateCatalog);
     operationsMap.put("Kill 'em All", this::deleteAll);
     operationsMap.put("Delete Tasks", this::deleteTasks);
@@ -172,7 +173,7 @@ public class SwingAdminApp extends TestMainSupport {
 
     Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("route-catalog")
       .request(MediaType.APPLICATION_JSON_TYPE)
-      .post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
+      .put(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
 
     HttpStatusCode statusCode = HttpStatusCode.findByCode(response.getStatus());
     if (statusCode != HttpStatusCode.OK) {

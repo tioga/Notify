@@ -9,6 +9,8 @@ import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.pub.task.Task;
 
+import java.net.URI;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -53,11 +55,12 @@ public class MessageModel {
     topic = notification.getTopic();
     summary = notification.getSummary();
     trackingId = notification.getTrackingId();
-    createdAt = notification.getCreatedAt();
     attachmentInfoList = notification.getAttachmentInfoList();
     exceptionInfo = notification.getExceptionInfo();
     traitMap = notification.getTraitMap();
 
+    ZoneId zoneId = ZoneId.systemDefault();
+    createdAt = notification.getCreatedAt().withZoneSameInstant(zoneId);
 
     profileId = domainProfile.getProfileId();
     domainName = domainProfile.getDomainName();
