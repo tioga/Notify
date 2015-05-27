@@ -286,12 +286,21 @@ public class SwingAdminApp extends TestMainSupport {
 
       apiPath = "http://localhost:39011/notify-server/api";
       couchSenderSetup = new CouchNotificationSenderSetup(
-        "http://localhost:5984",
-        "tioga-notify-jacobp-request",
-        "app-user",
-        "app-user");
+              "http://localhost:5984",
+              "tioga-notify-jacobp-request",
+              "app-user",
+              "app-user");
 
-    } else if ("proto".equals(domainName)) {
+    } else if ("production".equals(domainName)) {
+
+      apiPath = "https://oakwinprod.stcg.net/notify-server/api";
+      couchSenderSetup = new CouchNotificationSenderSetup(
+              "http://oakwinprod.stcg.net:5984",
+              "tioga-notify-production-request",
+              "app-user",
+              "app-user");
+
+      } else if ("proto".equals(domainName)) {
 
       apiPath = "https://proto.stcg.net/notify-server/api";
       couchSenderSetup = new CouchNotificationSenderSetup(
