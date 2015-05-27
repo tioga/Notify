@@ -116,7 +116,7 @@ public class CouchNotificationSender extends AbstractNotificationSender {
    * @param client -
    * @param requestId -
    * @return -
-   * @throws ProcessingException
+   * @throws ProcessingException -
    */
   protected String generateAttachmentJson(NotificationRequest request,
                                           Client client,
