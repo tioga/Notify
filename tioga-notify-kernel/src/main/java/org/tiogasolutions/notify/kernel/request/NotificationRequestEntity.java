@@ -18,8 +18,10 @@ import java.util.*;
  * Date: 1/31/2015
  * Time: 7:15 PM
  */
-@CouchEntity("NotificationRequest")
+@CouchEntity(NotificationRequestEntity.ENTITY_TYPE)
 public class NotificationRequestEntity {
+
+  public static final String ENTITY_TYPE = "NotificationRequest";
 
   private final String requestId;
   private String revision;

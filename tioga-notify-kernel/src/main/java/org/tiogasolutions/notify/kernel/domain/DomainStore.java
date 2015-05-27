@@ -355,23 +355,25 @@ public class DomainStore extends AbstractStore {
     }
 
     // Create the designs
-    String designPath = "/couch/NotificationRequest-design.json";
-    // URL designUrl = getClass().getClassLoader().getResource(designPath);
-    InputStream designStream = getClass().getResourceAsStream(designPath);
-    if (designStream == null) {
-      String msg = String.format("Unable to find design file at: %s", designPath);
-      throw new NotifierException(msg);
-    }
-    try {
-      String designContent = IoUtils.toString(designStream);
-      WriteResponse response = couchDatabase.put().design("NotificationRequest", designContent).execute();
-      if (response.isError()) {
-        String msg = String.format("Error creating views %s - %s", response.getHttpStatus(), response.getErrorReason());
+    String[] designNames = new String[] {"Entity", "NotificationRequest"};
+    for (String designName : designNames) {
+      String designPath = String.format("/couch/%s-design.json", designName);
+      InputStream designStream = getClass().getResourceAsStream(designPath);
+      if (designStream == null) {
+        String msg = String.format("Unable to find design file at: %s", designPath);
         throw new NotifierException(msg);
       }
-    } catch (IOException ex) {
-      String msg = "Error reading design file: " + designPath;
-      throw new NotifierException(msg, ex);
+      try {
+        String designContent = IoUtils.toString(designStream);
+        WriteResponse response = couchDatabase.put().design(designName, designContent).execute();
+        if (response.isError()) {
+          String msg = String.format("Error creating views %s - %s", response.getHttpStatus(), response.getErrorReason());
+          throw new NotifierException(msg);
+        }
+      } catch (IOException ex) {
+        String msg = "Error reading design file: " + designPath;
+        throw new NotifierException(msg, ex);
+      }
     }
 
     // Add the user.

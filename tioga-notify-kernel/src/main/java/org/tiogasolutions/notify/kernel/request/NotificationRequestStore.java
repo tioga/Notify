@@ -110,9 +110,15 @@ public class NotificationRequestStore {
 
   public List<NotificationRequestEntity> findByStatus(NotificationRequestStatus status) {
 
-    CouchViewQuery.CouchViewQueryBuilder builder = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
+    CouchViewQuery.CouchViewQueryBuilder builder;
 
-    if (status != null) {
+    if (status == null) {
+      builder = CouchViewQuery.builder(CouchConst.ENTITY, "byEntityType");
+      builder.key(NotificationRequestEntity.ENTITY_TYPE);
+
+    } else {
+      builder = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
+
       builder.start(status, null);
       builder.end(status, "Z");
     }
@@ -122,7 +128,7 @@ public class NotificationRequestStore {
     GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
         .entity(NotificationRequestEntity.class, viewQuery)
         .onError(r -> throwError(r, "Error finding " + status + " requests"))
-        .execute();
+      .execute();
 
     return getResponse.getEntityList();
   }
