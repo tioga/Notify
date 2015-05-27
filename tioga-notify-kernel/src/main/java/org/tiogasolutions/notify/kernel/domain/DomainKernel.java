@@ -4,6 +4,7 @@ import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.id.IdGenerator;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
@@ -135,6 +136,10 @@ public class DomainKernel {
     domainProfile = domainProfileEntity.toModel();
     domainProfileMap.put(domainProfile.getApiKey(), domainProfileEntity.toModel());
     return domainProfile;
+  }
+
+  public DomainSummary fetchSummary(String domainName) {
+    return domainStore.fetchSummary(domainName);
   }
 
   public NotificationDomain notificationDomain(ExecutionContext ec) {

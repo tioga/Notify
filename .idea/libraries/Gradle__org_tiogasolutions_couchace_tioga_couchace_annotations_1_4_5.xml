@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.4.5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/couchace/tioga-couchace-annotations/1.4.5/tioga-couchace-annotations-1.4.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/couchace/tioga-couchace-annotations/1.4.5/tioga-couchace-annotations-1.4.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

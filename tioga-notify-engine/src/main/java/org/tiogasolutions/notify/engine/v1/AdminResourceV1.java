@@ -11,6 +11,7 @@ import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -66,6 +67,19 @@ public class AdminResourceV1 {
   @Produces({MediaType.APPLICATION_JSON})
   public DomainProfile createDomain(@PathParam("domainName") String domainName) {
     return domainKernel.getOrCreateDomain(domainName);
+  }
+
+  @GET
+  @Path("/domains/{domainName}/summary")
+  @Produces({MediaType.APPLICATION_JSON})
+  public Response getDomainSummary(@PathParam("domainName") String domainName) {
+    try {
+      DomainSummary summary = domainKernel.fetchSummary(domainName);
+      return Response.ok(summary).build();
+
+    } catch(ApiNotFoundException e) {
+      return Response.status(404).entity(e).build();
+    }
   }
 
   @Path("/domains/{domainName}/notifications")

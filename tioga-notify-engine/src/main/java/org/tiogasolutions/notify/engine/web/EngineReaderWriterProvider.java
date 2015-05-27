@@ -9,6 +9,7 @@ import org.tiogasolutions.lib.jaxrs.jackson.JacksonReaderWriterProvider;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.*;
 import org.tiogasolutions.notify.kernel.jackson.NotifyKernelJacksonModule;
@@ -39,6 +40,7 @@ public class EngineReaderWriterProvider extends JacksonReaderWriterProvider {
     addSupportedType(RouteDef.class);
     addSupportedType(DestinationDef.class);
     addSupportedType(SystemStatus.class);
+    addSupportedType(DomainSummary.class);
   }
 
   public static TiogaJacksonObjectMapper newObjectMapper() {
