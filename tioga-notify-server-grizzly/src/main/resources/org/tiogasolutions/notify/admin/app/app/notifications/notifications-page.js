@@ -2,11 +2,30 @@ function NotificationsPage() {
     var self = this;
     self.searchResults = new NotificationSearchResult(self);
     self.topic = app.mvc.observable();
+    self.topicOptions = app.mvc.observableArray();
     self.notificationId = app.mvc.observable();
     self.traitKey = app.mvc.observable();
+    self.traitKeyOptions = app.mvc.observableArray();
     self.traitValue = app.mvc.observable();
     self.domainOptions = app.mvc.observableArray();
     self.domain = app.mvc.observable();
+    self.domain.subscribe(function(selectedDomain) {
+        // Fetch domain summary
+        app.notifyClient.fetchDomainSummary(selectedDomain)
+            .then(function(data) {
+                // Update topic options.
+                self.topicOptions.removeAll();
+                $.each(data.topics, function (i, o) {
+                    self.topicOptions.push(o.name)
+                });
+                // Update trait key options.
+                self.traitKeyOptions.removeAll();
+                $.each(data.traits, function (i, o) {
+                    self.traitKeyOptions.push(o.key)
+                });
+            })
+            .catchFinally();
+    });
 
     self.beforeShow = function() {
         // Fetch domains.
