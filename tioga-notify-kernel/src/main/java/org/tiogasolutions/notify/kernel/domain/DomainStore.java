@@ -5,7 +5,9 @@ import org.tiogasolutions.couchace.core.api.CouchServer;
 import org.tiogasolutions.couchace.core.api.query.CouchViewQuery;
 import org.tiogasolutions.couchace.core.api.request.CouchFeature;
 import org.tiogasolutions.couchace.core.api.request.CouchFeatureSet;
+import org.tiogasolutions.couchace.core.api.response.GetDocumentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
+import org.tiogasolutions.couchace.core.api.response.TextDocument;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
@@ -16,7 +18,10 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.tiogasolutions.notify.kernel.common.AbstractStore;
+import org.tiogasolutions.notify.pub.common.TopicInfo;
+import org.tiogasolutions.notify.pub.common.TraitInfo;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
@@ -34,8 +39,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.String.format;
 
@@ -105,6 +109,55 @@ public class DomainStore extends AbstractStore {
 
     return response.getFirstEntity();
   }
+
+  public DomainSummary fetchSummary(String domainName) {
+
+    // HACK - should this func. be here? Should it be done this way?
+    DomainProfileEntity domainProfile = findByDomainName(domainName);
+    CouchDatabase notificationDb = this.notificationDb(domainProfile);
+
+
+    // Topic info
+    CouchViewQuery viewQuery = CouchViewQuery.builder("Summary", "TopicInfo")
+        .includeDocs(false)
+        .group(true)
+        .build();
+    GetDocumentResponse response = notificationDb.get()
+        .document(viewQuery)
+        .onError(r -> throwError(r, format("Failure retrieving topic info for summary [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
+        .execute();
+
+    List<TopicInfo> topics = new ArrayList<>();
+    List<TextDocument> documents = response.getDocumentList();
+    for(TextDocument document : documents) {
+      String key = document.getKey().getJsonValue().replaceAll("\"", "");
+      TopicInfo topicInfo = new TopicInfo(key, document.getContentAsLong());
+      topics.add(topicInfo);
+    }
+
+    // Topic info
+    viewQuery = CouchViewQuery.builder("Summary", "TraitInfo")
+        .includeDocs(false)
+        .group(true)
+        .build();
+    response = notificationDb.get()
+        .document(viewQuery)
+        .onError(r -> throwError(r, format("Failure retrieving trait info for summary [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
+        .execute();
+    if (response.isError()) {
+      throw ApiException.fromCode(response.getHttpStatusCode(), "Error reading topic info" + response.getErrorContent().getError());
+    }
+    List<TraitInfo> traits = new ArrayList<>();
+    documents = response.getDocumentList();
+    for(TextDocument document : documents) {
+      String key = document.getKey().getJsonValue().replaceAll("\"", "");
+      TraitInfo traitInfo = new TraitInfo(key, document.getContentAsLong());
+      traits.add(traitInfo);
+    }
+
+    return new DomainSummary(topics, traits);
+  }
+
 
   // TODO - need a DomainProfileQuery.
   public QueryResult<DomainProfileEntity> queryActive() {
@@ -270,7 +323,7 @@ public class DomainStore extends AbstractStore {
 //    }
 
     // Create the designs
-    String[] designNames = new String[] {"Entity", "Notification", "Task"};
+    String[] designNames = new String[] {"Entity", "Notification", "Task", "Summary"};
     for (String designName : designNames) {
       String designPath = String.format("/couch/%s-design.json", designName);
       InputStream designStream = getClass().getResourceAsStream(designPath);
@@ -388,4 +441,5 @@ public class DomainStore extends AbstractStore {
 
   // HACK - using admin role here and should not.
   private static final String USER_JSON_TEMPLATE = "{\"_id\": \"%s\",\"name\": \"%s\",\"type\": \"user\",\"roles\": [],\"password\": \"%s\"}";
+
 }

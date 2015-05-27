@@ -12,12 +12,20 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <label for="topic-input">Topic</label>
-                    <input id="topic-input" class="form-control" data-bind="value: topic"/>
+                    <label for="topic-select">Topic</label>
+                    <select id="topic-select" class="form-control"
+                            data-bind="options: topicOptions,
+                              value: topic,
+                              optionsCaption: 'Select Topic...'">
+                    </select>
                 </div>
                 <div class="col-sm-2">
-                    <label for="trait-key-input">Trait Key</label>
-                    <input id="trait-key-input" class="form-control" data-bind="value: traitKey"/>
+                    <label for="trait-key-select">Trait Key</label>
+                    <select id="trait-key-select" class="form-control"
+                            data-bind="options: traitKeyOptions,
+                                value: traitKey,
+                                optionsCaption: 'Select Trait...'">
+                    </select>
                 </div>
                 <div class="col-sm-2">
                     <label for="trait-value-input">Trait Value</label>

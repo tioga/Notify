@@ -36,7 +36,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
       CreateNotification create = new CreateNotification(
           "TEST_TOPIC_RED",
           "some message",
-          "store-test-9000",
+          "store-test-9022",
           tenYearsAgo,
           null,
           BeanUtils.toMap("color:red", "xyz_test_key"));
@@ -99,7 +99,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
   }
 
   public void findByTrackingId() {
-    NotificationQuery query = new NotificationQuery().setTrackingId("store-test-9000");
+    NotificationQuery query = new NotificationQuery().setTrackingId("store-test-9022");
     QueryResult<Notification> result = notificationKernel.query(query);
     assertEquals(result.getSize(), 1);
     Notification notification = result.getAt(0);
