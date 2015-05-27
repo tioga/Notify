@@ -6,6 +6,7 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
 import org.tiogasolutions.notify.engine.AbstractEngineJaxRsTest;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.task.TaskQuery;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
@@ -22,6 +23,7 @@ import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("unchecked")
@@ -61,27 +63,27 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
   }
   
   public void test_api_v1_admin_$NoAuthorization() {
-    String path = String.format("/api/v1/admin");
+    String path = "/api/v1/admin";
     Response response = target(path).request().get();
     assertEquals(response.getStatus(), 401);
   }
 
   public void test_api_v1_admin_$BadAuthorization() {
-    String path = String.format("/api/v1/admin");
+    String path = "/api/v1/admin";
     Response response = request(target(path)).header("Authorization", toHttpAuth("bad","guy")).get();
 
     assertEquals(response.getStatus(), 401);
   }
 
   public void test_api_v1_admin() {
-    String path = String.format("/api/v1/admin");
+    String path = "/api/v1/admin";
     Response response = request(target(path)).get();
 
     assertEquals(response.getStatus(), 200);
   }
 
   public void test_api_v1_admin_domains() {
-    String path = String.format("/api/v1/admin/domains");
+    String path = "/api/v1/admin/domains";
     Response response = request(target(path)).get();
 
     assertEquals(response.getStatus(), 200);
@@ -217,5 +219,17 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
     Response response = request(target(path)).get();
 
     assertEquals(response.getStatus(), 200);
+  }
+
+  public void test_api_v1_admin_domains_KernelTest_requests() throws Exception {
+    String path = String.format("/api/v1/admin/domains/%s/requests", TestFactory.DOMAIN_NAME);
+    Response response = request(target(path)).get();
+
+    assertEquals(response.getStatus(), 200);
+
+    String json = response.readEntity(String.class);
+    QueryResult<NotificationRequest> result = objectMapper.readValue(json, QueryResult.class);
+
+    assertNotNull(result);
   }
 }
