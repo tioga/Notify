@@ -21,6 +21,19 @@ import java.util.*;
 @CouchEntity("NotificationRequest")
 public class NotificationRequestEntity {
 
+  public static NotificationRequestEntity newEntity(NotificationRequest request) {
+    return new NotificationRequestEntity(
+        TimeUuid.randomUUID().toString(),
+        null,
+        NotificationRequestStatus.SENDING,
+        request.getTopic(),
+        request.getSummary(),
+        request.getTrackingId(),
+        request.getCreatedAt(),
+        request.getTraitMap(),
+        request.getExceptionInfo());
+  }
+
   private final String requestId;
   private String revision;
   public NotificationRequestStatus requestStatus;
@@ -202,18 +215,5 @@ public class NotificationRequestEntity {
         ", exceptionInfo=" + exceptionInfo +
         ", traitMap=" + traitMap +
         '}';
-  }
-
-  public static NotificationRequestEntity newEntity(NotificationRequest request) {
-    return new NotificationRequestEntity(
-      TimeUuid.randomUUID().toString(),
-      null,
-        NotificationRequestStatus.SENDING,
-      request.getTopic(),
-      request.getSummary(),
-      request.getTrackingId(),
-      request.getCreatedAt(),
-      request.getTraitMap(),
-      request.getExceptionInfo());
   }
 }
