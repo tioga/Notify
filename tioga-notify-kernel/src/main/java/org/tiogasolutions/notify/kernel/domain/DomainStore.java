@@ -25,7 +25,6 @@ import org.tiogasolutions.notify.pub.domain.DomainSummary;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
-import org.tiogasolutions.notify.notifier.NotifierException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -295,7 +294,7 @@ public class DomainStore extends AbstractStore {
     WriteResponse createResponse = couchDatabase.createDatabase();
     if (createResponse.isError()) {
       String msg = format("Exception creating notification database %s for domain %s: %s", couchDatabase.getDatabaseName(), domainProfile.getDomainName(), createResponse.getHttpStatus());
-      throw new NotifierException(msg);
+      throw ApiException.internalServerError(msg);
     }
 
 //    try {
@@ -351,7 +350,7 @@ public class DomainStore extends AbstractStore {
     // Create the database
     WriteResponse createResponse = couchDatabase.createDatabase();
     if (createResponse.isError()) {
-      throw new NotifierException("Exception creating notify request database: " + createResponse.getErrorReason());
+      throw ApiException.internalServerError("Exception creating notify request database: " + createResponse.getErrorReason());
     }
 
     // Create the designs
@@ -360,18 +359,18 @@ public class DomainStore extends AbstractStore {
     InputStream designStream = getClass().getResourceAsStream(designPath);
     if (designStream == null) {
       String msg = String.format("Unable to find design file at: %s", designPath);
-      throw new NotifierException(msg);
+      throw ApiException.internalServerError(msg);
     }
     try {
       String designContent = IoUtils.toString(designStream);
       WriteResponse response = couchDatabase.put().design("NotificationRequest", designContent).execute();
       if (response.isError()) {
         String msg = String.format("Error creating views %s - %s", response.getHttpStatus(), response.getErrorReason());
-        throw new NotifierException(msg);
+        throw ApiException.internalServerError(msg);
       }
     } catch (IOException ex) {
       String msg = "Error reading design file: " + designPath;
-      throw new NotifierException(msg, ex);
+      throw ApiException.internalServerError(msg, ex);
     }
 
     // Add the user.

@@ -1,5 +1,8 @@
 package org.tiogasolutions.notify.pub.attachment;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 /**
  * User: Harlan
  * Date: 2/7/2015
@@ -25,4 +28,8 @@ public class AttachmentHolder {
   }
 
   public byte[] getContent() { return content;}
+
+  public InputStream getInputStream() {
+    return new ByteArrayInputStream(content);
+  }
 }
