@@ -34,6 +34,16 @@ public class JsonParserTest {
     "           \"key1\": \"value1\",\n" +
     "           \"index\": \"0\"\n" +
     "       },\n" +
+    "      \"links\" : [\n" +
+    "        {\n" +
+    "          \"name\" : \"example\",\n" +
+    "          \"href\" : \"http://example.com\"\n" +
+    "        },\n" +
+    "        {\n" +
+    "          \"name\" : \"google\",\n" +
+    "          \"href\" : \"http://google.com\"\n" +
+    "        }\n" + "" +
+    "      ],\n" +
     "       \"exceptionInfo\": {\n" +
     "           \"exceptionType\": \"java.lang.Throwable\",\n" +
     "           \"message\": \"This is notification exception\",\n" +
@@ -105,6 +115,16 @@ public class JsonParserTest {
     "           \"key1\": \"value1\",\n" +
     "           \"index\": \"0\"\n" +
     "       },\n" +
+    "      \"links\" : [\n" +
+    "        {\n" +
+    "          \"name\" : \"example\",\n" +
+    "          \"href\" : \"http://example.com\"\n" +
+    "        },\n" +
+    "        {\n" +
+    "          \"name\" : \"google\",\n" +
+    "          \"href\" : \"http://google.com\"\n" +
+    "        }\n" +
+    "      ],\n" +
     "       \"exceptionInfo\": {\n" +
     "           \"exceptionType\": \"java.lang.Throwable\",\n" +
     "           \"message\": \"This is notification exception\",\n" +

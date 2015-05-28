@@ -1,14 +1,16 @@
 package org.tiogasolutions.notify.notifier.json;
 
 import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
+import org.tiogasolutions.notify.notifier.request.NotificationLink;
 import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import static java.lang.String.*;
 
 /**
+ * This class is NOT thread safe
  * User: Harlan
  * Date: 1/27/2015
  * Time: 10:40 PM
@@ -17,6 +19,7 @@ public class NotificationRequestJsonBuilder {
 
   private final StringBuilder sb = new StringBuilder();
   private String indent = "";
+  private boolean firstElement;
 
   public String toJson(NotificationRequest request, NotificationRequest.Status status) {
     beginObject();
@@ -37,6 +40,9 @@ public class NotificationRequestJsonBuilder {
     // Traits
     traits(request.getTraitMap());
 
+    // Links
+    links(request.getLinks());
+
     // Exception
     if (request.getExceptionInfo() != null) {
       exceptionInfo(true, request.getExceptionInfo());
@@ -47,7 +53,7 @@ public class NotificationRequestJsonBuilder {
   }
 
   protected void traits(Map<String, String> traitMap) {
-    sb.append(format(",%n%s\"traitMap\" : ", indent));
+    sb.append(String.format(",%n%s\"traitMap\" : ", indent));
 
     beginObject();
 
@@ -65,11 +71,27 @@ public class NotificationRequestJsonBuilder {
     endObject();
   }
 
+  protected void links(List<NotificationLink> links) {
+    sb.append(String.format(",%n%s\"links\" : ", indent));
+
+    beginArray();
+
+    for(NotificationLink link : links) {
+      nextElement();
+      beginObject();
+      firstField("name", link.getName());
+      field("href", link.getHref());
+      endObject();
+    }
+
+    endArray();
+  }
+
   protected void exceptionInfo(boolean first, NotificationExceptionInfo exInfo) {
     if (first) {
-      sb.append(format(",%n%s\"exceptionInfo\" : ", indent));
+      sb.append(String.format(",%n%s\"exceptionInfo\" : ", indent));
     } else {
-      sb.append(format(",%n%s\"cause\" : ", indent));
+      sb.append(String.format(",%n%s\"cause\" : ", indent));
     }
 
     beginObject();
@@ -81,7 +103,7 @@ public class NotificationRequestJsonBuilder {
     field("stackTrace", stackTrace);
 
     if (exInfo.getCause() == null) {
-      sb.append(format(",%n%s\"cause\" : null", indent));
+      sb.append(String.format(",%n%s\"cause\" : null", indent));
     } else {
       exceptionInfo(false, exInfo.getCause());
     }
@@ -90,32 +112,51 @@ public class NotificationRequestJsonBuilder {
   }
 
   protected void beginObject() {
-    sb.append(format("{%n"));
+    sb.append(String.format("{%n"));
     indent += "  ";
   }
 
   protected void endObject() {
     indent = indent.substring(2);
-    sb.append(format("%n%s}", indent));
+    sb.append(String.format("%n%s}", indent));
+  }
+
+  protected void beginArray() {
+    indent += "  ";
+    sb.append(String.format("[%n%s", indent));
+    firstElement = true;
+  }
+
+  protected void nextElement() {
+    if (!firstElement) {
+      sb.append(String.format(",%n%s", indent));
+    }
+    firstElement = false;
+  }
+
+  protected void endArray() {
+    indent = indent.substring(2);
+    sb.append(String.format("%n%s]", indent));
+    firstElement = false;
   }
 
   protected void firstField(String key, String value) {
     if (value == null) {
-      sb.append(format("%s\"%s\" : null", indent, key));
+      sb.append(String.format("%s\"%s\" : null", indent, key));
     } else {
-      sb.append(format("%s\"%s\" : \"%s\"", indent, key, value));
+      sb.append(String.format("%s\"%s\" : \"%s\"", indent, key, value));
     }
   }
 
   protected void field(String key, String value) {
     if (value == null) {
-      sb.append(format(",%n%s\"%s\" : null", indent, key));
+      sb.append(String.format(",%n%s\"%s\" : null", indent, key));
     } else {
-      sb.append(format(",%n%s\"%s\" : \"%s\"", indent, key, value));
+      sb.append(String.format(",%n%s\"%s\" : \"%s\"", indent, key, value));
     }
   }
 
   protected void field(String key, int value) {
-    sb.append(format(",%n%s\"%s\" : %d", indent, key, value));
+    sb.append(String.format(",%n%s\"%s\" : %d", indent, key, value));
   }
 }
