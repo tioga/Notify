@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.processor.slack;
 
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.notification.Notification;
@@ -138,6 +139,7 @@ public class SlackTaskProcessorTest {
         "track-9999",
         ZonedDateTime.now(),
         null,
+        Collections.singletonList(new Link("example", "http://example.com")),
         new ExceptionInfo(new RuntimeException("Opps, I tripped.")),
         null);
   }

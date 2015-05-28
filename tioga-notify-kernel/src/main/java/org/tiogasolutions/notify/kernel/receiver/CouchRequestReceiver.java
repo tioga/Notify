@@ -2,7 +2,6 @@ package org.tiogasolutions.notify.kernel.receiver;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.notify.kernel.request.*;
-import org.tiogasolutions.notify.kernel.common.NotifyConversionUtils;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateAttachment;
@@ -12,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
 import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
-import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
@@ -58,14 +56,13 @@ public class CouchRequestReceiver implements RequestReceiver {
           request = requestStore.saveAndReload(request);
 
           // Create notification in the kernel.
-          ExceptionInfo exceptionInfo = NotifyConversionUtils.toExceptionInfo(request.getExceptionInfo());
-
           CreateNotification createNotification = new CreateNotification(
               request.getTopic(),
               request.getSummary(),
               request.getTrackingId(),
               request.getCreatedAt(),
-              exceptionInfo,
+              request.getExceptionInfo(),
+              request.getLinks(),
               request.getTraitMap());
           notificationRef = notificationKernel.createNotification(createNotification);
 

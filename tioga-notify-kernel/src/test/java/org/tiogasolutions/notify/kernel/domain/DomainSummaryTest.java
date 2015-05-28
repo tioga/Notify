@@ -12,6 +12,7 @@ import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
+import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.common.TopicInfo;
 import org.tiogasolutions.notify.pub.common.TraitInfo;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
@@ -20,6 +21,7 @@ import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 
 import javax.inject.Inject;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.testng.Assert.assertEquals;
@@ -54,6 +56,7 @@ public class DomainSummaryTest extends KernelAbstractTest {
           "store-test-9000",
           tenYearsAgo,
           null,
+          Collections.singletonList(new Link("example", "http://example.com")),
           BeanUtils.toMap(SUMMARY_TEST_TRAIT_1));
       notificationKernel.createNotification(create);
       create = new CreateNotification(
@@ -62,6 +65,7 @@ public class DomainSummaryTest extends KernelAbstractTest {
           "store-test-9001",
           ZonedDateTime.now(),
           null,
+          Collections.singletonList(new Link("example", "http://example.com")),
           BeanUtils.toMap(SUMMARY_TEST_TRAIT_1 + ":green"));
       notificationKernel.createNotification(create);
       create = new CreateNotification(
@@ -70,6 +74,7 @@ public class DomainSummaryTest extends KernelAbstractTest {
           "store-test-9002",
           ZonedDateTime.now(),
           null,
+          Collections.singletonList(new Link("example", "http://example.com")),
           BeanUtils.toMap(SUMMARY_TEST_TRAIT_2));
       notificationKernel.createNotification(create);
 

@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.kernel.message;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.notification.Notification;
@@ -58,6 +59,7 @@ public class MessageBuilderTest {
       "Something really bad just happened.", "tracking id #321",
       ZonedDateTime.now(),
       BeanUtils.toMap("color:red", "size:medium"),
+      Collections.singletonList(new Link("example", "http://example.com")),
       new ExceptionInfo(new RuntimeException("Oops, I tripped.")),
       Arrays.asList(new AttachmentInfo("screenshot.png", "image/png")));
 

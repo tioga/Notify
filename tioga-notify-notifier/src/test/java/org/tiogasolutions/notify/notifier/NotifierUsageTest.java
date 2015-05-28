@@ -25,6 +25,7 @@ public class NotifierUsageTest {
         .summary("Say something")
         .trackingId("99999")
         .trait("key", "value")
+        .link("google", "http://google.com")
         .exception(new Exception("Some Trouble"))
         .attach("some-text", "text/plain", "text attach content")
         .send();

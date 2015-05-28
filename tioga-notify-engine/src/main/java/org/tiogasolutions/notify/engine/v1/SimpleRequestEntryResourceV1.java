@@ -6,9 +6,9 @@ import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.ws.rs.*;

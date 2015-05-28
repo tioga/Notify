@@ -5,6 +5,7 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
@@ -13,6 +14,7 @@ import org.testng.annotations.*;
 import javax.inject.Inject;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -39,6 +41,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
           "store-test-9022",
           tenYearsAgo,
           null,
+          Collections.singletonList(new Link("example", "http://example.com")),
           BeanUtils.toMap("color:red", "xyz_test_key"));
       tenYearsAgoRef = notificationKernel.createNotification(create);
       create = new CreateNotification(
@@ -47,6 +50,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
           "store-test-9001",
           ZonedDateTime.now(),
           null,
+          Collections.singletonList(new Link("example", "http://example.com")),
           BeanUtils.toMap("color:green", "XyZ_TeSt_KeY"));
       notificationKernel.createNotification(create);
       create = new CreateNotification(
@@ -55,6 +59,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
           "store-test-9002",
           ZonedDateTime.now(),
           null,
+          Collections.singletonList(new Link("example", "http://example.com")),
           BeanUtils.toMap("xyz_test_key"));
       notificationKernel.createNotification(create);
 

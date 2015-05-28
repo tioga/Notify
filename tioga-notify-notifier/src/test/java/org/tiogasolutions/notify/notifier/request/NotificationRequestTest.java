@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class NotificationRequestTest {
         "trackingId",
         ZonedDateTime.now(),
         traitMap,
+        Collections.singletonList(new NotificationLink("google", "http://google.om")),
         new NotificationExceptionInfo(new RuntimeException("Oops I tripped", new IOException("some thing"))),
         Arrays.asList(
           new NotificationAttachment("bla", "text/plain", "bla, bla, bla"),
