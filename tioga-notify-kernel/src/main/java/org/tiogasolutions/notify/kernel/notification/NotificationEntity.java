@@ -70,7 +70,7 @@ public class NotificationEntity {
     this.topic = topic;
     this.summary = summary;
     this.trackingId = trackingId;
-    this.createdAt = createdAt;
+    this.createdAt = (createdAt != null) ? createdAt : ZonedDateTime.now();
     this.links = (links != null) ? Collections.unmodifiableList(links) : null;
     this.exceptionInfo = exceptionInfo;
     this.traitMap = (traitMap != null) ? Collections.unmodifiableMap(traitMap) : Collections.emptyMap();

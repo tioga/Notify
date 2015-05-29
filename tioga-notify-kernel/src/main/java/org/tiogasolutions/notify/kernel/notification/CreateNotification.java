@@ -34,7 +34,7 @@ public class CreateNotification {
     this.topic = topic;
     this.summary = summary;
     this.trackingId = trackingId;
-    this.createdAt = createdAt;
+    this.createdAt = (createdAt != null) ? createdAt : ZonedDateTime.now();
     this.exceptionInfo = exceptionInfo;
     this.links = (links != null) ? Collections.unmodifiableList(links) : Collections.emptyList();
     Map<String, String> localMap = new HashMap<>();
