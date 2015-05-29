@@ -7,9 +7,8 @@ import org.tiogasolutions.couchace.core.api.response.CouchResponse;
 import org.tiogasolutions.couchace.core.api.response.GetAttachmentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.kernel.common.CouchConst;
-import org.tiogasolutions.notify.notifier.NotifierException;
-import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
 import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
@@ -52,7 +51,7 @@ public class NotificationRequestStore {
 
   }
 
-  public WriteResponse addAttachment(String documentId, String revision, NotificationAttachment attachment) {
+  public WriteResponse addAttachment(String documentId, String revision, AttachmentHolder attachment) {
     CouchMediaType mediaType = CouchMediaType.fromString(attachment.getContentType());
 
     return couchDatabase.put().attachment(
@@ -148,18 +147,18 @@ public class NotificationRequestStore {
 
   private void throwError(CouchResponse response, String message) {
     String msg = format("%s: %s", message, response.getErrorReason());
-    throw new NotifierException(msg);
+    throw ApiException.internalServerError(msg);
   }
 
   private void throwIfNotFound(GetEntityResponse response, String message) {
     if (response.isEmpty() || response.isNotFound()) {
-      throw new NotifierException(message);
+      throw ApiException.notFound(message);
     }
   }
 
   private void throwIfNotFound(GetAttachmentResponse response, String message) {
     if (response.isEmpty() || response.isNotFound()) {
-      throw new NotifierException(message);
+      throw ApiException.notFound(message);
     }
   }
 }

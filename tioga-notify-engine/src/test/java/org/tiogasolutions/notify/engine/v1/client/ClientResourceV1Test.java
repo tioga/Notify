@@ -75,7 +75,7 @@ public class ClientResourceV1Test extends AbstractEngineJaxRsTest {
 
     NotificationRef ref = getNotificationKernel().createNotification(new CreateNotification(
         "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
-        null, ZonedDateTime.now(), null, Collections.emptyMap()));
+        null, ZonedDateTime.now(), null, Collections.emptyList(), Collections.emptyMap()));
 
     String path = format("/api/v1/client/notifications/%s", ref.getNotificationId());
     Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();

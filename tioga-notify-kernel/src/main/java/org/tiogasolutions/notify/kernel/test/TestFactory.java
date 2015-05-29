@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.kernel.test;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.notification.Notification;
@@ -23,6 +24,7 @@ import javax.inject.Named;
 import javax.xml.bind.DatatypeConverter;
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Temporarily moved to main source so that we can reuse it in other modules.
@@ -80,6 +82,10 @@ public class TestFactory {
     return NotificationEntity.newEntity(execContext.getDomainName(), create);
   }
 
+  public List<Link> newLinks() {
+    return Collections.singletonList(new Link("example", "http://example.com"));
+  }
+
   public CreateNotification newCreateNotificationWithException() {
     return new CreateNotification(
       "test-topic",
@@ -87,6 +93,7 @@ public class TestFactory {
       "tracking-id-123",
       ZonedDateTime.now(),
       newExceptionInfo(),
+      newLinks(),
       BeanUtils.toMap("color:red", "sex:male", "test"));
   }
 
@@ -97,6 +104,7 @@ public class TestFactory {
       "tracking-id-123",
       ZonedDateTime.now(),
       null,
+      newLinks(),
       BeanUtils.toMap("color:red", "sex:male", "test"));
   }
 

@@ -112,7 +112,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
 
       CreateNotification create = new CreateNotification(
           "test-"+i, "This is task #"+i, "tracking #"+i,
-          ZonedDateTime.now(), null, traits);
+          ZonedDateTime.now(), null, Collections.emptyList(), traits);
       getNotificationKernel().createNotification(create);
     }
 
@@ -206,7 +206,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
 
     NotificationRef ref = getNotificationKernel().createNotification(new CreateNotification(
         "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
-        null, ZonedDateTime.now(), null, Collections.emptyMap()));
+        null, ZonedDateTime.now(), null, Collections.emptyList(), Collections.emptyMap()));
 
     String path = String.format("/api/v1/admin/domains/%s/notifications/%s", TestFactory.DOMAIN_NAME, ref.getNotificationId());
     Response response = request(target(path)).get();

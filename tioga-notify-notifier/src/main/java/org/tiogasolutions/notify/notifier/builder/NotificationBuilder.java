@@ -1,17 +1,13 @@
 package org.tiogasolutions.notify.notifier.builder;
 
-import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
+import org.tiogasolutions.notify.notifier.request.*;
 import org.tiogasolutions.notify.notifier.sender.NotificationSender;
-import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
 
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Future;
 
 /**
@@ -28,6 +24,7 @@ public class NotificationBuilder {
   private ZonedDateTime createdAt;
   private NotificationExceptionInfo exceptionInfo;
   private List<NotificationTrait> traits = new ArrayList<>();
+  private List<NotificationLink> links = new ArrayList<>();
   private List<NotificationAttachment> attachments = new ArrayList<>();
 
   public NotificationBuilder(NotificationSender sender, NotificationBuilderCallbacks callbacks) {
@@ -54,6 +51,7 @@ public class NotificationBuilder {
       trackingId,
       createdAt,
       NotificationTrait.toTraitMap(traits),
+      links,
       exceptionInfo,
       attachments);
 
@@ -98,6 +96,21 @@ public class NotificationBuilder {
 
   public NotificationBuilder traits(Map<String, String> traitMap) {
     this.traits.addAll(NotificationTrait.toTraits(traitMap));
+    return this;
+  }
+
+  public NotificationBuilder link(String name, String href) {
+    this.links.add(new NotificationLink(name, href));
+    return this;
+  }
+
+  public NotificationBuilder links(Collection<NotificationLink> linksArg) {
+    this.links.addAll(linksArg);
+    return this;
+  }
+
+  public NotificationBuilder links(NotificationLink link) {
+    this.links.add(link);
     return this;
   }
 

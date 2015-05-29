@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertNotNull;
@@ -30,16 +32,22 @@ public class NotificationRequestJsonBuilderTest {
     byte[] content = "some text".getBytes(StandardCharsets.UTF_8);
     attachments.add(new NotificationAttachment("name1", "text/plain", content));
 
+    NotificationLink link1 = new NotificationLink("example", "http://example.com");
+    NotificationLink link2 = new NotificationLink("google", "http://google.com");
+
     NotificationRequest request = new NotificationRequest(
       "topic1",
       "summary1",
       "traceId1",
       ZonedDateTime.now(),
       NotificationTrait.toTraitMap(traits),
+      Arrays.asList(link1, link2),
       exceptionInfo,
       attachments);
 
     String json = new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.READY);
+
+    System.out.println("Json: " + json);
 
     assertNotNull(json);
   }

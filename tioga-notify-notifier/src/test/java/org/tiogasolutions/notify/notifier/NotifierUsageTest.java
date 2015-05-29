@@ -21,13 +21,15 @@ public class NotifierUsageTest {
     Notifier notifier = new Notifier(sender);
 
     notifier.begin()
-        .topic("simple")
-        .summary("Say something")
-        .trackingId("99999")
-        .trait("key", "value")
-        .exception(new Exception("Some Trouble"))
-        .attach("some-text", "text/plain", "text attach content")
-        .send();
+      .topic("simple")
+      .summary("Say something")
+      .trackingId("99999")
+      .trait("key", "value")
+      .link("example", "http://example.com")
+      .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
+      .exception(new Exception("Some Trouble"))
+      .attach("some-text", "text/plain", "text attach content")
+      .send();
 
     assertNotNull(sender.getLastRequest());
   }

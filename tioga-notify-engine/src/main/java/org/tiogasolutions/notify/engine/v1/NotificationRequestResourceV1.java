@@ -4,7 +4,6 @@ import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.event.EventBus;
-import org.tiogasolutions.notify.kernel.common.NotifyConversionUtils;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
@@ -55,8 +54,7 @@ public class NotificationRequestResourceV1 {
     List<NotificationRequest> requests = new ArrayList<>();
 
     requestEntities.forEach((entity)->{
-      NotificationRequest request = NotifyConversionUtils.toRequest(entity);
-      requests.add(request);
+      requests.add(entity.toRequest());
     });
 
     return ListQueryResult.newComplete(NotificationRequest.class, requests);
@@ -64,7 +62,7 @@ public class NotificationRequestResourceV1 {
 
   @PUT
   @Produces(MediaType.APPLICATION_JSON)
-  public Response putRequest(@Context UriInfo uriInfo, org.tiogasolutions.notify.notifier.request.NotificationRequest request) {
+  public Response putRequest(@Context UriInfo uriInfo, NotificationRequest request) {
 
     NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
     CouchDatabase requestDb = domainKernel.requestDb(getDomainProfile());
@@ -75,7 +73,7 @@ public class NotificationRequestResourceV1 {
     eventBus.requestCreated(domainName, notificationRequestEntity);
 
     URI uri = uriInfo.getRequestUriBuilder().path(notificationRequestEntity.getRequestId()).build();
-    return Response.created(uri).build();
+    return Response.created(uri).entity(notificationRequestEntity).build();
   }
 
   @Path("simple-entry")

@@ -67,12 +67,14 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
 
     // Send a notification
     Future<NotificationResponse> responseFuture = notifier.begin()
-        .summary("Test message")
-        .trait("key1", "value1")
-        .exception(new Throwable("Some kind of trouble"))
-        .attach("attachOne", MediaType.TEXT_PLAIN, "this is attachment one")
-        .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
-        .send();
+      .summary("Test message")
+      .trait("key1", "value1")
+      .link("example", "http://example.com")
+      .link("Tioga YouTrack", "http://tioga.myjetbrains.com")
+      .exception(new Throwable("Some kind of trouble"))
+      .attach("attachOne", MediaType.TEXT_PLAIN, "this is attachment one")
+      .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
+      .send();
 
     NotificationResponse response = responseFuture.get();
     assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);
@@ -90,6 +92,11 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
     Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
     Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
+
+    Assert.assertEquals(notificationRequestEntity.getLinks().size(), 2);
+    assertTrue(notificationRequestEntity.getLinks().stream().anyMatch(l -> l.getName().equals("example") && l.getHref().equals("http://example.com")));
+    assertTrue(notificationRequestEntity.getLinks().stream().anyMatch(l -> l.getName().equals("Tioga YouTrack") && l.getHref().equals("http://tioga.myjetbrains.com")));
+
     Assert.assertEquals(notificationRequestEntity.listAttachmentInfo().size(), 2);
     assertTrue(notificationRequestEntity.listAttachmentInfo().stream().anyMatch(a -> a.getName().equals("attachOne")));
     assertTrue(notificationRequestEntity.listAttachmentInfo().stream().anyMatch(a -> a.getName().equals("attachTwo")));
@@ -109,6 +116,10 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
     Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
     Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
+
+    // Check links
+    assertTrue(notificationRequestEntity.getLinks().stream().anyMatch(l -> l.getName().equals("example") && l.getHref().equals("http://example.com")));
+    assertTrue(notificationRequestEntity.getLinks().stream().anyMatch(l -> l.getName().equals("Tioga YouTrack") && l.getHref().equals("http://tioga.myjetbrains.com")));
 
     // Mark processing.
     notificationRequestEntity.processing();
@@ -136,6 +147,8 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     Future<NotificationResponse> responseFuture = notifier.begin()
         .summary("Test message")
         .trait("key1", "value1")
+        .link("example", "http://example.com")
+        .link("google", "http://google.com")
         .exception(new Throwable("Some kind of trouble"))
         .attach("attachOne", MediaType.TEXT_PLAIN, "this is attachment one")
         .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
@@ -146,6 +159,8 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
     responseFuture = notifier.begin()
         .summary("Another Test message")
         .trait("key1", "value1")
+        .link("example", "http://example.com")
+        .link("google", "http://google.com")
         .exception(new Throwable("Some kind of trouble"))
         .attach("attachOne", MediaType.TEXT_PLAIN, "this is another attachment one")
         .attach("attachTwo", MediaType.TEXT_PLAIN, "this is another attachment two")

@@ -5,12 +5,10 @@ import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
@@ -19,6 +17,7 @@ import org.tiogasolutions.notify.pub.attachment.AttachmentQuery;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.inject.Inject;
@@ -68,6 +67,7 @@ public class CouchReceiverTest extends KernelAbstractTest {
 
   }
 
+/* HACK - at some point this was no longer being used, should re-enable - HN
   private void assertNotification(NotificationResponse response) {
     NotificationRequest notificationRequest = response.getRequest();
 
@@ -128,5 +128,6 @@ public class CouchReceiverTest extends KernelAbstractTest {
       executionManager.clearContext();
     }
   }
+*/
 
 }

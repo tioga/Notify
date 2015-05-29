@@ -5,11 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.Link;
 
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ public class Notification implements Comparable<Notification> {
   private final String trackingId;
   private final ZonedDateTime createdAt;
   private final Map<String, String> traitMap;
+  private final List<Link> links;
   private final ExceptionInfo exceptionInfo;
   private final List<AttachmentInfo> attachmentInfoList;
 
@@ -38,6 +41,7 @@ public class Notification implements Comparable<Notification> {
                       @JsonProperty("trackingId") String trackingId,
                       @JsonProperty("createdAt") ZonedDateTime createdAt,
                       @JsonProperty("traitMap") Map<String, String> traitMap,
+                      @JsonProperty("links") List<Link> links,
                       @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo,
                       @JsonProperty("attachmentInfoList") List<AttachmentInfo> attachmentInfoList) {
     this.self = self;
@@ -49,8 +53,9 @@ public class Notification implements Comparable<Notification> {
     this.trackingId = trackingId;
     this.createdAt = createdAt;
     this.traitMap = traitMap;
+    this.links = (links != null) ? Collections.unmodifiableList(links) : Collections.emptyList();
     this.exceptionInfo = exceptionInfo;
-    this.attachmentInfoList = attachmentInfoList;
+    this.attachmentInfoList =  (attachmentInfoList != null) ? Collections.unmodifiableList(attachmentInfoList) : Collections.emptyList();
   }
 
   public NotificationRef toNotificationRef() {
@@ -97,6 +102,10 @@ public class Notification implements Comparable<Notification> {
     return traitMap;
   }
 
+  public List<Link> getLinks() {
+    return links;
+  }
+
   public ExceptionInfo getExceptionInfo() {
     return exceptionInfo;
   }
@@ -114,41 +123,62 @@ public class Notification implements Comparable<Notification> {
   }
 
   @Override
-  public String toString() {
-    return "Notification{" +
-        "self=" + self +
-        ", domainName='" + domainName + '\'' +
-        ", notificationId='" + notificationId + '\'' +
-        ", revision='" + revision + '\'' +
-        ", topic='" + topic + '\'' +
-        ", summary='" + summary + '\'' +
-        ", trackingId='" + trackingId + '\'' +
-        ", createdAt=" + createdAt +
-        ", traitMap=" + traitMap +
-        ", exceptionInfo=" + exceptionInfo +
-        ", attachmentInfoList=" + attachmentInfoList +
-        '}';
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
     Notification that = (Notification) o;
 
-    if (!domainName.equals(that.domainName)) return false;
-    if (!notificationId.equals(that.notificationId)) return false;
-    if (!revision.equals(that.revision)) return false;
+    if (attachmentInfoList != null ? !attachmentInfoList.equals(that.attachmentInfoList) : that.attachmentInfoList != null)
+      return false;
+    if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
+    if (domainName != null ? !domainName.equals(that.domainName) : that.domainName != null) return false;
+    if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
+    if (links != null ? !links.equals(that.links) : that.links != null) return false;
+    if (notificationId != null ? !notificationId.equals(that.notificationId) : that.notificationId != null)
+      return false;
+    if (revision != null ? !revision.equals(that.revision) : that.revision != null) return false;
+    if (self != null ? !self.equals(that.self) : that.self != null) return false;
+    if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+    if (topic != null ? !topic.equals(that.topic) : that.topic != null) return false;
+    if (trackingId != null ? !trackingId.equals(that.trackingId) : that.trackingId != null) return false;
+    if (traitMap != null ? !traitMap.equals(that.traitMap) : that.traitMap != null) return false;
 
     return true;
   }
 
   @Override
   public int hashCode() {
-    int result = domainName.hashCode();
-    result = 31 * result + notificationId.hashCode();
-    result = 31 * result + revision.hashCode();
+    int result = self != null ? self.hashCode() : 0;
+    result = 31 * result + (domainName != null ? domainName.hashCode() : 0);
+    result = 31 * result + (notificationId != null ? notificationId.hashCode() : 0);
+    result = 31 * result + (revision != null ? revision.hashCode() : 0);
+    result = 31 * result + (topic != null ? topic.hashCode() : 0);
+    result = 31 * result + (summary != null ? summary.hashCode() : 0);
+    result = 31 * result + (trackingId != null ? trackingId.hashCode() : 0);
+    result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+    result = 31 * result + (traitMap != null ? traitMap.hashCode() : 0);
+    result = 31 * result + (links != null ? links.hashCode() : 0);
+    result = 31 * result + (exceptionInfo != null ? exceptionInfo.hashCode() : 0);
+    result = 31 * result + (attachmentInfoList != null ? attachmentInfoList.hashCode() : 0);
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return "Notification{" +
+      "self=" + self +
+      ", domainName='" + domainName + '\'' +
+      ", notificationId='" + notificationId + '\'' +
+      ", revision='" + revision + '\'' +
+      ", topic='" + topic + '\'' +
+      ", summary='" + summary + '\'' +
+      ", trackingId='" + trackingId + '\'' +
+      ", createdAt=" + createdAt +
+      ", traitMap=" + traitMap +
+      ", links=" + links +
+      ", exceptionInfo=" + exceptionInfo +
+      ", attachmentInfoList=" + attachmentInfoList +
+      '}';
   }
 }

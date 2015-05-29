@@ -1,7 +1,8 @@
 package org.tiogasolutions.notify.kernel.route;
 
 import org.tiogasolutions.dev.common.json.JsonTranslator;
-import org.tiogasolutions.notify.notifier.builder.NotificationTrait;
+import org.tiogasolutions.notify.pub.common.Link;
+import org.tiogasolutions.notify.pub.common.TraitUtil;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
@@ -14,6 +15,7 @@ import org.testng.annotations.Test;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
@@ -114,7 +116,8 @@ public class JsRouteEvaluatorTest {
         "some summary",
         null,
         ZonedDateTime.now(),
-        NotificationTrait.toTraitMap(traits),
+        TraitUtil.toTraitMap(traits),
+        Collections.singletonList(new Link("example", "http://example.com")),
         null,
         null);
   }
