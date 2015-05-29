@@ -2,7 +2,6 @@ package org.tiogasolutions.notify.server.grizzly;
 
 import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.tiogasolutions.app.common.AppPathResolver;
 import org.tiogasolutions.app.common.LogUtils;
 import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
@@ -10,9 +9,7 @@ import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
 import org.tiogasolutions.runners.grizzly.LoggerFacade;
-
 import java.nio.file.Path;
-
 import static org.slf4j.LoggerFactory.*;
 
 public class NotifyServer {
@@ -51,10 +48,10 @@ public class NotifyServer {
       "  *  Spring Path:  {}", runtimeDir, configDir, logbackFile, springConfigPath);
 
     // Create our application, initializing it with the specified spring file.
-    NotifyApplication notifyApp = new NotifyApplication(activeProfiles, springConfigPath);
+    NotifyApplication application = new NotifyApplication(activeProfiles, springConfigPath);
 
     // Get from the app an instance of the grizzly server config.
-    GrizzlyServerConfig serverConfig = notifyApp.getBeanFactory().getBean(GrizzlyServerConfig.class);
+    GrizzlyServerConfig serverConfig = application.getBeanFactory().getBean(GrizzlyServerConfig.class);
 
     // Create a facade around Slf4j for the server's initialization routines.
     LoggerFacade loggerFacade = new LoggerFacade() {
@@ -64,10 +61,10 @@ public class NotifyServer {
     };
 
     // Create an instance of the grizzly server.
-    GrizzlyServer grizzlyServer = new GrizzlyServer(notifyApp, serverConfig, loggerFacade);
+    GrizzlyServer grizzlyServer = new GrizzlyServer(application, serverConfig, loggerFacade);
 
     // Before we start it, register a hook for our jersey-spring bridge.
-    JerseySpringBridge jerseySpringBridge = new JerseySpringBridge(notifyApp.getBeanFactory());
+    JerseySpringBridge jerseySpringBridge = new JerseySpringBridge(application.getBeanFactory());
     grizzlyServer.getResourceConfig().register(jerseySpringBridge);
 
     // Lastly, start the server.

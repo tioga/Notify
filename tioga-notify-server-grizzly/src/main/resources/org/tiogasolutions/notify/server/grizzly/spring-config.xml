@@ -41,15 +41,18 @@
     <prop key="notify.server.port">39011</prop>
     <prop key="notify.server.shutdownPort">39012</prop>
     <prop key="notify.server.context">notify-server</prop>
+
     <prop key="couchdb.master.url">http://localhost:5984</prop>
     <prop key="couchdb.master.username">app-user</prop>
     <prop key="couchdb.master.password">app-user</prop>
     <prop key="couchdb.master.dbName">tioga-notify</prop>
+
     <prop key="couchdb.notification.url">http://localhost:5984</prop>
     <prop key="couchdb.notification.username">app-user</prop>
     <prop key="couchdb.notification.password">app-user</prop>
     <prop key="couchdb.notification.dbNamePrefix">tioga-notify-</prop>
     <prop key="couchdb.notification.dbNameSuffix">-notification</prop>
+
     <prop key="couchdb.request.url">http://localhost:5984</prop>
     <prop key="couchdb.request.username">app-user</prop>
     <prop key="couchdb.request.password">app-user</prop>
