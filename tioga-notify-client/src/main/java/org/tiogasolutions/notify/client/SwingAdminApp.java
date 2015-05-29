@@ -239,15 +239,17 @@ public class SwingAdminApp extends TestMainSupport {
     // Send notifications
     for(int i=0; i<notificationsToSend; i++) {
       NotificationBuilder builder = notifier.begin()
-          .topic("Swing Admin App")
-          .summary("Here is a longer summary message. There really is no maximum length but it would be awkward for it to be too long: " + i)
-          .trait("key1", "value1")
-          .trait("index", String.valueOf(i))
-          .trait("no_value_key", null)
+        .topic("Swing Admin App")
+        .summary("Here is a longer summary message. There really is no maximum length but it would be awkward for it to be too long: " + i)
+        .trait("key1", "value1")
+        .trait("index", String.valueOf(i))
+        .trait("no_value_key", null)
 //          .trait("ReallyLongKeyName", "AndAreallyLong value")
-          .exception(new Throwable("This is notification exception"))
-          .attach("attachOne", MediaType.TEXT_PLAIN, "Test main attachment one")
-          .attach("attachTwo", MediaType.TEXT_PLAIN, "Test main attachment two");
+        .link("example", "http://example.com")
+        .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
+        .exception(new Throwable("This is notification exception"))
+        .attach("attachOne", MediaType.TEXT_PLAIN, "Test main attachment one")
+        .attach("attachTwo", MediaType.TEXT_PLAIN, "Test main attachment two");
 
       Future<NotificationResponse> future = builder.send();
 

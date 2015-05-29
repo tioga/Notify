@@ -23,6 +23,7 @@ import java.util.*;
 public class NotificationRequestEntity {
 
   public static NotificationRequestEntity newEntity(NotificationRequest request) {
+
     return new NotificationRequestEntity(
         TimeUuid.randomUUID().toString(),
         null,

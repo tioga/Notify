@@ -51,7 +51,7 @@ public class NotificationBuilder {
       trackingId,
       createdAt,
       NotificationTrait.toTraitMap(traits),
-        links,
+      links,
       exceptionInfo,
       attachments);
 

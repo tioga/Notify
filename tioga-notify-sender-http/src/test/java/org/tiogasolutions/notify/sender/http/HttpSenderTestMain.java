@@ -31,13 +31,15 @@ public class HttpSenderTestMain {
     log.info("Building notification");
     byte[] attachBytes = "this is some attachment text".getBytes();
     Future<NotificationResponse> responseFuture = notifier.begin()
-        .topic("test topic")
-        .trackingId("trace this")
-        .summary("Test message")
-        .trait("key1", "value1")
-        .exception(new Throwable("Some kind of trouble"))
-        .attach("some", MediaType.TEXT_PLAIN, attachBytes)
-        .send();
+      .topic("test topic")
+      .trackingId("trace this")
+      .summary("Test message")
+      .trait("key1", "value1")
+      .link("example", "http://example.com")
+      .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
+      .exception(new Throwable("Some kind of trouble"))
+      .attach("some", MediaType.TEXT_PLAIN, attachBytes)
+      .send();
 
     log.info("Sending notification");
     try {

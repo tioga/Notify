@@ -73,7 +73,7 @@ public class NotificationRequestResourceV1 {
     eventBus.requestCreated(domainName, notificationRequestEntity);
 
     URI uri = uriInfo.getRequestUriBuilder().path(notificationRequestEntity.getRequestId()).build();
-    return Response.created(uri).build();
+    return Response.created(uri).entity(notificationRequestEntity).build();
   }
 
   @Path("simple-entry")

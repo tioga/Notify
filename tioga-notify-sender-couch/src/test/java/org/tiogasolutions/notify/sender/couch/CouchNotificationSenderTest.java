@@ -67,14 +67,14 @@ public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kerne
 
     // Send a notification
     Future<NotificationResponse> responseFuture = notifier.begin()
-        .summary("Test message")
-        .trait("key1", "value1")
-        .link("example", "http://example.com")
-        .link("google", "http://google.com")
-        .exception(new Throwable("Some kind of trouble"))
-        .attach("attachOne", MediaType.TEXT_PLAIN, "this is attachment one")
-        .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
-        .send();
+      .summary("Test message")
+      .trait("key1", "value1")
+      .link("example", "http://example.com")
+      .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
+      .exception(new Throwable("Some kind of trouble"))
+      .attach("attachOne", MediaType.TEXT_PLAIN, "this is attachment one")
+      .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
+      .send();
 
     NotificationResponse response = responseFuture.get();
     assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);

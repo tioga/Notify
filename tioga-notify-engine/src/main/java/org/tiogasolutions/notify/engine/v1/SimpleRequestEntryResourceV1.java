@@ -41,7 +41,6 @@ public class SimpleRequestEntryResourceV1 {
 
   // Need to support POST as PUT is not available in some http clients.
   @POST
-  @Produces(MediaType.APPLICATION_JSON)
   public Response postRequest(@Context UriInfo uriInfo, NotificationRequest request) {
 
     // TODO - is this something we should support on NotificationDomain?
