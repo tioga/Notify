@@ -21,6 +21,29 @@ public class CouchServersConfig {
   private String requestDatabasePrefix;
   private String requestDatabaseSuffix;
 
+  public CouchServersConfig() {
+  }
+
+  public CouchServersConfig(CouchServersConfig couch) {
+    setMasterUrl(couch.getMasterUrl());
+    setMasterUserName(couch.getMasterUserName());
+    setMasterPassword(couch.getMasterPassword());
+    setMasterDatabaseName(couch.getMasterDatabaseName());
+
+    setNotificationUrl(couch.getNotificationUrl());
+    setNotificationUserName(couch.getNotificationUserName());
+    setNotificationPassword(couch.getNotificationPassword());
+    setNotificationDatabasePrefix(couch.getNotificationDatabasePrefix());
+    setNotificationDatabaseSuffix(couch.getNotificationDatabaseSuffix());
+
+    setRequestUrl(couch.getRequestUrl());
+    setRequestUserName(couch.getRequestUserName());
+    setRequestPassword(couch.getRequestPassword());
+    setRequestDatabasePrefix(couch.getRequestDatabasePrefix());
+    setRequestDatabaseSuffix(couch.getRequestDatabaseSuffix());
+  }
+
+
   public String getMasterUrl() {
     return masterUrl;
   }
@@ -131,5 +154,81 @@ public class CouchServersConfig {
 
   public void setRequestDatabaseSuffix(String requestDatabaseSuffix) {
     this.requestDatabaseSuffix = requestDatabaseSuffix;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    CouchServersConfig that = (CouchServersConfig) o;
+
+    if (masterDatabaseName != null ? !masterDatabaseName.equals(that.masterDatabaseName) : that.masterDatabaseName != null)
+      return false;
+    if (masterPassword != null ? !masterPassword.equals(that.masterPassword) : that.masterPassword != null)
+      return false;
+    if (masterUrl != null ? !masterUrl.equals(that.masterUrl) : that.masterUrl != null) return false;
+    if (masterUserName != null ? !masterUserName.equals(that.masterUserName) : that.masterUserName != null)
+      return false;
+    if (notificationDatabasePrefix != null ? !notificationDatabasePrefix.equals(that.notificationDatabasePrefix) : that.notificationDatabasePrefix != null)
+      return false;
+    if (notificationDatabaseSuffix != null ? !notificationDatabaseSuffix.equals(that.notificationDatabaseSuffix) : that.notificationDatabaseSuffix != null)
+      return false;
+    if (notificationPassword != null ? !notificationPassword.equals(that.notificationPassword) : that.notificationPassword != null)
+      return false;
+    if (notificationUrl != null ? !notificationUrl.equals(that.notificationUrl) : that.notificationUrl != null)
+      return false;
+    if (notificationUserName != null ? !notificationUserName.equals(that.notificationUserName) : that.notificationUserName != null)
+      return false;
+    if (requestDatabasePrefix != null ? !requestDatabasePrefix.equals(that.requestDatabasePrefix) : that.requestDatabasePrefix != null)
+      return false;
+    if (requestDatabaseSuffix != null ? !requestDatabaseSuffix.equals(that.requestDatabaseSuffix) : that.requestDatabaseSuffix != null)
+      return false;
+    if (requestPassword != null ? !requestPassword.equals(that.requestPassword) : that.requestPassword != null)
+      return false;
+    if (requestUrl != null ? !requestUrl.equals(that.requestUrl) : that.requestUrl != null) return false;
+    if (requestUserName != null ? !requestUserName.equals(that.requestUserName) : that.requestUserName != null)
+      return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = masterUrl != null ? masterUrl.hashCode() : 0;
+    result = 31 * result + (masterUserName != null ? masterUserName.hashCode() : 0);
+    result = 31 * result + (masterPassword != null ? masterPassword.hashCode() : 0);
+    result = 31 * result + (masterDatabaseName != null ? masterDatabaseName.hashCode() : 0);
+    result = 31 * result + (notificationUrl != null ? notificationUrl.hashCode() : 0);
+    result = 31 * result + (notificationUserName != null ? notificationUserName.hashCode() : 0);
+    result = 31 * result + (notificationPassword != null ? notificationPassword.hashCode() : 0);
+    result = 31 * result + (notificationDatabasePrefix != null ? notificationDatabasePrefix.hashCode() : 0);
+    result = 31 * result + (notificationDatabaseSuffix != null ? notificationDatabaseSuffix.hashCode() : 0);
+    result = 31 * result + (requestUrl != null ? requestUrl.hashCode() : 0);
+    result = 31 * result + (requestUserName != null ? requestUserName.hashCode() : 0);
+    result = 31 * result + (requestPassword != null ? requestPassword.hashCode() : 0);
+    result = 31 * result + (requestDatabasePrefix != null ? requestDatabasePrefix.hashCode() : 0);
+    result = 31 * result + (requestDatabaseSuffix != null ? requestDatabaseSuffix.hashCode() : 0);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "CouchServersConfig{" +
+        "masterUrl='" + masterUrl + '\'' +
+        ", masterUserName='" + masterUserName + '\'' +
+        ", masterPassword='" + masterPassword + '\'' +
+        ", masterDatabaseName='" + masterDatabaseName + '\'' +
+        ", notificationUrl='" + notificationUrl + '\'' +
+        ", notificationUserName='" + notificationUserName + '\'' +
+        ", notificationPassword='" + notificationPassword + '\'' +
+        ", notificationDatabasePrefix='" + notificationDatabasePrefix + '\'' +
+        ", notificationDatabaseSuffix='" + notificationDatabaseSuffix + '\'' +
+        ", requestUrl='" + requestUrl + '\'' +
+        ", requestUserName='" + requestUserName + '\'' +
+        ", requestPassword='" + requestPassword + '\'' +
+        ", requestDatabasePrefix='" + requestDatabasePrefix + '\'' +
+        ", requestDatabaseSuffix='" + requestDatabaseSuffix + '\'' +
+        '}';
   }
 }

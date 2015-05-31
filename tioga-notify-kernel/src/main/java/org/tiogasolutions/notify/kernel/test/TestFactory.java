@@ -1,7 +1,11 @@
 package org.tiogasolutions.notify.kernel.test;
 
+import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.tiogasolutions.couchace.core.api.request.CouchFeature;
+import org.tiogasolutions.couchace.core.api.request.CouchFeatureSet;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
+import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
@@ -40,9 +44,12 @@ public class TestFactory {
   private final NotificationKernel notificationKernel;
 
   @Inject
-  public TestFactory(DomainKernel domainKernel, NotificationKernel notificationKernel) {
+  public TestFactory(CouchServers couchServers, DomainKernel domainKernel, NotificationKernel notificationKernel) {
     try {
       this.notificationKernel = notificationKernel;
+
+      // Delete any existing test databases.
+      couchServers.deleteDomainDatabases(DOMAIN_NAME);
 
       // Create a test domain.
       domainKernel.recreateDomain(DOMAIN_NAME, API_KEY, API_PASSWORD);

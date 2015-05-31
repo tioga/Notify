@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.engine;
 
 import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
+import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.runners.grizzly.ResourceConfigAdapter;
 import org.glassfish.jersey.test.JerseyTestNg;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
@@ -24,7 +25,7 @@ public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest 
     ResourceConfigAdapter adapter = new ResourceConfigAdapter(application);
     adapter.register(new JerseySpringBridge(application.getBeanFactory()));
 
-    testFactory = new TestFactory(getDomainKernel(), getNotificationKernel());
+    testFactory = new TestFactory(getCouchServers(), getDomainKernel(), getNotificationKernel());
 
     return adapter;
   }
@@ -51,6 +52,10 @@ public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest 
 
   public NotificationKernel getNotificationKernel() {
     return getBeanFactory().getBean(NotificationKernel.class);
+  }
+
+  public CouchServers getCouchServers() {
+    return getBeanFactory().getBean(CouchServers.class);
   }
 
   public ExecutionManager getExecutionManager() {
