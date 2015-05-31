@@ -40,12 +40,12 @@
         p:notificationUrl="http://127.0.0.1:5984"
         p:notificationUserName="couchace"
         p:notificationPassword="unittest"
-        p:notificationDatabasePrefix="notify-notification-"
+        p:notificationDatabasePrefix="hn-notify-"
 
         p:requestUrl="http://127.0.0.1:5984"
         p:requestUserName="couchace"
         p:requestPassword="unittest"
-        p:requestDatabasePrefix="notify-request-"/>
+        p:requestDatabasePrefix="hn-notify-request-"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
     <constructor-arg>

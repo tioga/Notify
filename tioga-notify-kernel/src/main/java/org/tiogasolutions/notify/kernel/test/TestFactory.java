@@ -1,8 +1,5 @@
 package org.tiogasolutions.notify.kernel.test;
 
-import org.tiogasolutions.couchace.core.api.CouchDatabase;
-import org.tiogasolutions.couchace.core.api.request.CouchFeature;
-import org.tiogasolutions.couchace.core.api.request.CouchFeatureSet;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
@@ -123,8 +120,4 @@ public class TestFactory {
     byte[] value = (username + ":" + password).getBytes();
     return "Basic " + DatatypeConverter.printBase64Binary(value);
   }
-//  jacobp:Testing123
-//  "Basic OTk5OTp1bml0dGVzdA==";
-//  public static final String API_ADMIN_AUTH = "Basic amFjb2JwOlRlc3RpbmcxMjM=";
-//  public static final String API_BAD_AUTH = "Basic YmFkLWd1eTpPcGVuIFNlc2FtZQ==";
 }

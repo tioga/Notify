@@ -53,8 +53,8 @@ public class DomainStoreTest extends KernelAbstractTest {
       assertEquals(profileEntity.getDomainName(), DOMAIN_NAME);
 
       // Verify notification and request db names are correct.
-      assertEquals(profileEntity.getNotificationDbName(), "notify-notification-" + DOMAIN_NAME);
-      assertEquals(profileEntity.getRequestDbName(), "notify-request-" + DOMAIN_NAME);
+      assertEquals(profileEntity.getNotificationDbName(), "test-notify-" + DOMAIN_NAME);
+      assertEquals(profileEntity.getRequestDbName(), "test-notify-request-" + DOMAIN_NAME);
 
     } finally {
       if (profileEntity != null) {

@@ -28,12 +28,12 @@
           p:notificationUrl="http://127.0.0.1:5984"
           p:notificationUserName="couchace"
           p:notificationPassword="unittest"
-          p:notificationDatabasePrefix="notify-notification-"
+          p:notificationDatabasePrefix="test-notify-"
 
           p:requestUrl="http://127.0.0.1:5984"
           p:requestUserName="couchace"
           p:requestPassword="unittest"
-          p:requestDatabasePrefix="notify-request-"/>
+          p:requestDatabasePrefix="test-notify-request-"/>
 
   <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
     <constructor-arg value="path-to-nowhere"/>
