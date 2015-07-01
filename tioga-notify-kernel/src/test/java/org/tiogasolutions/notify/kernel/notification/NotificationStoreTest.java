@@ -42,7 +42,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
           tenYearsAgo,
           null,
           Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap("color:red", "xyz_test_key"));
+          BeanUtils.toMap("color:aqua", "xyz_test_key"));
       tenYearsAgoRef = notificationKernel.createNotification(create);
       create = new CreateNotification(
           "TEST_TOPIC_RED",
@@ -51,7 +51,7 @@ public class NotificationStoreTest extends KernelAbstractTest {
           ZonedDateTime.now(),
           null,
           Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap("color:green", "XyZ_TeSt_KeY"));
+          BeanUtils.toMap("color:purple", "XyZ_TeSt_KeY"));
       notificationKernel.createNotification(create);
       create = new CreateNotification(
           "TEST_TOPIC_BLUE",
@@ -127,15 +127,15 @@ public class NotificationStoreTest extends KernelAbstractTest {
   }
 
   public void findByTraitKeyAndValue() {
-    NotificationQuery query = new NotificationQuery().setTraitKey("color").setTraitValue("red");
+    NotificationQuery query = new NotificationQuery().setTraitKey("color").setTraitValue("purple");
     QueryResult<Notification> result = notificationKernel.query(query);
     assertEquals(result.getSize(), 1);
 
-    query = new NotificationQuery().setTraitKey("color").setTraitValue("green");
+    query = new NotificationQuery().setTraitKey("color").setTraitValue("aqua");
     result = notificationKernel.query(query);
     assertEquals(result.getSize(), 1);
 
-    query = new NotificationQuery().setTraitKey("color").setTraitValue("black");
+    query = new NotificationQuery().setTraitKey("color").setTraitValue("clear");
     result = notificationKernel.query(query);
     assertEquals(result.getSize(), 0);
 
