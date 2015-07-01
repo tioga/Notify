@@ -36,25 +36,25 @@ public class NotificationStoreTest extends KernelAbstractTest {
       ZonedDateTime tenYearsAgo = ZonedDateTime.now().minusYears(10);
       // Create a few test notifications.
       CreateNotification create = new CreateNotification(
-          "TEST_TOPIC_RED",
+          "TEST_TOPIC_22",
           "some message",
           "store-test-9022",
           tenYearsAgo,
           null,
           Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap("color:aqua", "xyz_test_key"));
+          BeanUtils.toMap("fav_color:aqua", "xyz_test_key"));
       tenYearsAgoRef = notificationKernel.createNotification(create);
       create = new CreateNotification(
-          "TEST_TOPIC_RED",
+          "TEST_TOPIC_22",
           "some message",
           "store-test-9001",
           ZonedDateTime.now(),
           null,
           Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap("color:purple", "XyZ_TeSt_KeY"));
+          BeanUtils.toMap("fav_color:purple", "XyZ_TeSt_KeY"));
       notificationKernel.createNotification(create);
       create = new CreateNotification(
-          "TEST_TOPIC_BLUE",
+          "TEST_TOPIC_23",
           "some message",
           "store-test-9002",
           ZonedDateTime.now(),
@@ -86,14 +86,14 @@ public class NotificationStoreTest extends KernelAbstractTest {
   }
 
   public void findByTopic() {
-    NotificationQuery query = new NotificationQuery().setTopic("TEST_TOPIC_RED");
+    NotificationQuery query = new NotificationQuery().setTopic("TEST_TOPIC_22");
     QueryResult<Notification> result = notificationKernel.query(query);
     assertEquals(result.getSize(), 2);
 
     // Ten years ago should be the second one
     assertEquals(result.getAt(1).getNotificationId(), tenYearsAgoRef.getNotificationId());
 
-    query = new NotificationQuery().setTopic("TEST_TOPIC_BLUE");
+    query = new NotificationQuery().setTopic("TEST_TOPIC_23");
     result = notificationKernel.query(query);
     assertEquals(result.getSize(), 1);
 
@@ -121,21 +121,21 @@ public class NotificationStoreTest extends KernelAbstractTest {
     QueryResult<Notification> result = notificationKernel.query(query);
     assertEquals(result.getSize(), 3);
 
-    query = new NotificationQuery().setTraitKey("color");
+    query = new NotificationQuery().setTraitKey("fav_color");
     result = notificationKernel.query(query);
     assertEquals(result.getSize(), 2);
   }
 
   public void findByTraitKeyAndValue() {
-    NotificationQuery query = new NotificationQuery().setTraitKey("color").setTraitValue("purple");
+    NotificationQuery query = new NotificationQuery().setTraitKey("fav_color").setTraitValue("purple");
     QueryResult<Notification> result = notificationKernel.query(query);
     assertEquals(result.getSize(), 1);
 
-    query = new NotificationQuery().setTraitKey("color").setTraitValue("aqua");
+    query = new NotificationQuery().setTraitKey("fav_color").setTraitValue("aqua");
     result = notificationKernel.query(query);
     assertEquals(result.getSize(), 1);
 
-    query = new NotificationQuery().setTraitKey("color").setTraitValue("clear");
+    query = new NotificationQuery().setTraitKey("fav_color").setTraitValue("clear");
     result = notificationKernel.query(query);
     assertEquals(result.getSize(), 0);
 
