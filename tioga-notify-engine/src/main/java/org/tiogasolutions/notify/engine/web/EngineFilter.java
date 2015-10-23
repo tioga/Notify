@@ -92,10 +92,7 @@ public class EngineFilter implements ContainerRequestFilter, ContainerResponseFi
 
   private void authenticateClientRequest(ContainerRequestContext requestContext) {
     if ("OPTIONS".equalsIgnoreCase(requestContext.getMethod())) {
-      String requestUri = uriInfo.getRequestUri().toString();
-      if (requestUri.endsWith("/client/sign-in")) {
-        return;
-      }
+      return; // do not authenticate OPTIONS calls.
     }
 
     String authHeader = requestContext.getHeaderString("Authorization");
