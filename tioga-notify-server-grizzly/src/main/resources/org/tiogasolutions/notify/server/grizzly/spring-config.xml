@@ -69,6 +69,10 @@
     <!--<prop key="trusted.users">admin1:password1,admin2:password2</prop>-->
   </util:properties>
 
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+    <property name="accessControlAllowOrigin" value="system.config.accessControlAllowOrigin"/>
+  </bean>
+
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="${notify.server.hostName}"
         p:port="${notify.server.port}"
