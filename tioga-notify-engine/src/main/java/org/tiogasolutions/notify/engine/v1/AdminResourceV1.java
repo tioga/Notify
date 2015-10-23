@@ -14,8 +14,7 @@ import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import java.util.List;
 
 public class AdminResourceV1 {
@@ -83,11 +82,11 @@ public class AdminResourceV1 {
   }
 
   @Path("/domains/{domainName}/notifications")
-  public NotificationsResourceV1 getNotificationsResourceV1(@PathParam("domainName") String domainName) {
+  public NotificationsResourceV1 getNotificationsResourceV1(@Context Request request, @PathParam("domainName") String domainName) {
     DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
     // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
     executionManager.newApiContext(domainProfile);
-    return new NotificationsResourceV1(executionManager, notificationKernel);
+    return new NotificationsResourceV1(request, executionManager, notificationKernel);
   }
 
   @Path("/domains/{domainName}/route-catalog")

@@ -9,8 +9,7 @@ import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 
 public class ClientResourceV1 {
 
@@ -55,8 +54,8 @@ public class ClientResourceV1 {
   }
 
   @Path("/notifications")
-  public NotificationsResourceV1 getNotificationsResource() {
-    return new NotificationsResourceV1(executionManager, notificationKernel);
+  public NotificationsResourceV1 getNotificationsResource(@Context Request request) {
+    return new NotificationsResourceV1(request, executionManager, notificationKernel);
   }
 
   @Path("/route-catalog")

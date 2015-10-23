@@ -12,18 +12,17 @@ import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import java.io.IOException;
 
 public class NotificationsResourceV1 {
 
   private final NotificationKernel notificationKernel;
 
-  public NotificationsResourceV1(ExecutionManager executionManager, NotificationKernel notificationKernel) {
+  public NotificationsResourceV1(Request request, ExecutionManager executionManager, NotificationKernel notificationKernel) {
     this.notificationKernel = notificationKernel;
 
-    if (executionManager.hasContext() == false) {
+    if ("OPTIONS".equals(request.getMethod()) == false && executionManager.hasContext() == false) {
       String msg = String.format("The execution context does not exist.");
       throw new UnsupportedOperationException(msg);
     }
