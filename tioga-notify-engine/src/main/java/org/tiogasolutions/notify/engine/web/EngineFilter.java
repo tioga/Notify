@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.engine.web;
 import org.tiogasolutions.dev.common.EqualsUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.notify.kernel.admin.AdminKernel;
+import org.tiogasolutions.notify.kernel.config.SystemConfiguration;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
@@ -34,22 +35,24 @@ public class EngineFilter implements ContainerRequestFilter, ContainerResponseFi
 
   @Context
   private UriInfo uriInfo;
+
   @Context
   private HttpHeaders headers;
+
   @Context
   Application application;
 
   @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
   private AdminKernel adminKernel;
 
   @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
   private ExecutionManager executionManager;
 
   @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
   private DomainKernel domainKernel;
+
+  @Inject
+  private SystemConfiguration systemConfiguration;
 
   public EngineFilter() {
   }
@@ -69,8 +72,10 @@ public class EngineFilter implements ContainerRequestFilter, ContainerResponseFi
 
     if (path.equals(clientContext) || path.startsWith(clientContext+"/")) {
       authenticateClientRequest(requestContext);
+
     } else if (path.equals(adminContext) || path.startsWith(adminContext+"/")) {
       authenticateAdminRequest(requestContext);
+
     } else if (path.startsWith("/app")) {
       authenticateAdminRequest(requestContext);
     }
@@ -79,10 +84,20 @@ public class EngineFilter implements ContainerRequestFilter, ContainerResponseFi
   @Override
   public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
     executionManager.clearContext();
-
+    responseContext.getHeaders().add("Access-Control-Allow-Origin", systemConfiguration.getAccessControlAllowOrigin());
+    responseContext.getHeaders().add("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization");
+    responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET");
+    responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
   }
 
   private void authenticateClientRequest(ContainerRequestContext requestContext) {
+    if ("OPTIONS".equalsIgnoreCase(requestContext.getMethod())) {
+      String requestUri = uriInfo.getRequestUri().toString();
+      if (requestUri.endsWith("/client/sign-in")) {
+        return;
+      }
+    }
+
     String authHeader = requestContext.getHeaderString("Authorization");
 
     if (authHeader == null || authHeader.startsWith("Basic ") == false) {

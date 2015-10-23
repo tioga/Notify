@@ -65,6 +65,10 @@
     </constructor-arg>
   </bean>
 
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+      <property name="accessControlAllowOrigin" value="http://www.localhost:63343"/>
+  </bean>
+
   <bean class="org.tiogasolutions.push.client.LivePushServerClient">
     <constructor-arg value="https://tiogasolutions.org/push-server/api/v2"/>
     <constructor-arg value="domain-name"/>

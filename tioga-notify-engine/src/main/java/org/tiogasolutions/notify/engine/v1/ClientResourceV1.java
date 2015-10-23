@@ -8,10 +8,7 @@ import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -31,9 +28,16 @@ public class ClientResourceV1 {
 
   @GET
   @Produces({MediaType.APPLICATION_JSON})
-  public DomainProfile getDefaultPage() {
+  public DomainProfile getDomainProfile() {
     String domainName = executionManager.context().getDomainName();
     return domainKernel.findByDomainName(domainName);
+  }
+
+  @GET
+  @Path("sign-in")
+  @Produces({MediaType.APPLICATION_JSON})
+  public DomainProfile signIn() {
+    return getDomainProfile();
   }
 
   @GET
