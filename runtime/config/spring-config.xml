@@ -79,10 +79,10 @@
     p:emailFromAddress="from@example.com"
     p:smsFromNumber="555-444-3210"/>
 
-  <bean class="org.tiogasolutions.notify.engine.web.readers.ExternalizedStaticContentReader">
-    <constructor-arg value="${notify.runtime.dir}/../tioga-notify-admin-app"/>
-  </bean>
-
   <context:component-scan base-package="org.tiogasolutions.notify"/>
+
+  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
+    <constructor-arg value="/org/tiogasolutions/notify/admin/app"/>
+  </bean>
 
 </beans>
