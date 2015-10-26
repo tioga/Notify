@@ -70,7 +70,7 @@
   </util:properties>
 
   <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
-    <property name="accessControlAllowOrigin" value="system.config.accessControlAllowOrigin"/>
+    <property name="accessControlAllowOrigin" value="${system.config.accessControlAllowOrigin}"/>
   </bean>
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
