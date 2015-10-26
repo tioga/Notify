@@ -35,6 +35,10 @@
           p:requestPassword="unittest"
           p:requestDatabasePrefix="test-notify-request-"/>
 
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+    <property name="accessControlAllowOrigin" value="http://www.localhost:63342"/>
+  </bean>
+
   <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
     <constructor-arg value="path-to-nowhere"/>
   </bean>
