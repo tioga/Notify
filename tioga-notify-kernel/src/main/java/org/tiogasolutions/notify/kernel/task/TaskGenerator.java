@@ -1,9 +1,9 @@
 package org.tiogasolutions.notify.kernel.task;
 
-import org.tiogasolutions.notify.kernel.EventBus;
+import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.Destination;
 
 import javax.annotation.PreDestroy;

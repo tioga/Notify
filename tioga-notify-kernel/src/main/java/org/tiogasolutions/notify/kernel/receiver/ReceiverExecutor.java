@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.receiver;
 
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

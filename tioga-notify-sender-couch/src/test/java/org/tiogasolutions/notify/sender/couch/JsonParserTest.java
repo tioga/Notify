@@ -18,7 +18,7 @@ public class JsonParserTest {
 
     assertEquals(extracted.get("_id"), "bed8a060-cc2d-11e4-a61d-b8ca3a8e2d05");
     assertEquals(extracted.get("_rev"), "6-2e8c0fac4105c93671f4d652b4ce9474");
-    assertEquals(extracted.get("entityType"), "LqRequest");
+    assertEquals(extracted.get("entityType"), "NotificationRequest");
     assertEquals(extracted.get("entity"), ENTITY_EXTRACTED);
     assertEquals(extracted.get("_attachments"), ATTACHMENTS_EXTRACTED);
   }
@@ -34,6 +34,16 @@ public class JsonParserTest {
     "           \"key1\": \"value1\",\n" +
     "           \"index\": \"0\"\n" +
     "       },\n" +
+    "      \"links\" : [\n" +
+    "        {\n" +
+    "          \"name\" : \"example\",\n" +
+    "          \"href\" : \"http://example.com\"\n" +
+    "        },\n" +
+    "        {\n" +
+    "          \"name\" : \"google\",\n" +
+    "          \"href\" : \"http://google.com\"\n" +
+    "        }\n" + "" +
+    "      ],\n" +
     "       \"exceptionInfo\": {\n" +
     "           \"exceptionType\": \"java.lang.Throwable\",\n" +
     "           \"message\": \"This is notification exception\",\n" +
@@ -94,7 +104,7 @@ public class JsonParserTest {
   private static final String TEST_SOURCE = "{\n" +
     "   \"_id\": \"bed8a060-cc2d-11e4-a61d-b8ca3a8e2d05\",\n" +
     "   \"_rev\": \"6-2e8c0fac4105c93671f4d652b4ce9474\",\n" +
-    "   \"entityType\": \"LqRequest\",\n" +
+    "   \"entityType\": \"NotificationRequest\",\n" +
     "   \"entity\": {\n" +
     "       \"requestStatus\": \"COMPLETED\",\n" +
     "       \"topic\": \"test-main\",\n" +
@@ -105,6 +115,16 @@ public class JsonParserTest {
     "           \"key1\": \"value1\",\n" +
     "           \"index\": \"0\"\n" +
     "       },\n" +
+    "      \"links\" : [\n" +
+    "        {\n" +
+    "          \"name\" : \"example\",\n" +
+    "          \"href\" : \"http://example.com\"\n" +
+    "        },\n" +
+    "        {\n" +
+    "          \"name\" : \"google\",\n" +
+    "          \"href\" : \"http://google.com\"\n" +
+    "        }\n" +
+    "      ],\n" +
     "       \"exceptionInfo\": {\n" +
     "           \"exceptionType\": \"java.lang.Throwable\",\n" +
     "           \"message\": \"This is notification exception\",\n" +

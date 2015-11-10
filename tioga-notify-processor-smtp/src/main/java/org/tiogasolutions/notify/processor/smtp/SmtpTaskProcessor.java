@@ -1,16 +1,16 @@
 package org.tiogasolutions.notify.processor.smtp;
 
 import org.tiogasolutions.dev.domain.comm.AuthenticationMethod;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.kernel.processor.HtmlMessage;
-import org.tiogasolutions.notify.kernel.processor.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.kernel.processor.ProcessorType;
-import org.tiogasolutions.notify.kernel.processor.TaskProcessor;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.kernel.message.HtmlMessage;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.kernel.task.TaskProcessor;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.springframework.beans.factory.BeanFactory;
-import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.pub.TaskResponse;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
 
 import java.util.Arrays;
 
@@ -19,7 +19,7 @@ import java.util.Arrays;
  */
 public class SmtpTaskProcessor implements TaskProcessor {
 
-  private static final ProcessorType PROCESSOR_TYPE = new ProcessorType("smtp");
+  private static final TaskProcessorType PROCESSOR_TYPE = new TaskProcessorType("smtp");
 
   private final ThymeleafMessageBuilder messageBuilder;
 
@@ -72,7 +72,7 @@ public class SmtpTaskProcessor implements TaskProcessor {
   }
 
   @Override
-  public ProcessorType getType() {
+  public TaskProcessorType getType() {
     return PROCESSOR_TYPE;
   }
 

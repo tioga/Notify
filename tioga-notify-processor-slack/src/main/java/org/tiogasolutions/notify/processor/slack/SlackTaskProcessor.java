@@ -3,13 +3,13 @@ package org.tiogasolutions.notify.processor.slack;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.kernel.processor.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.kernel.processor.ProcessorType;
-import org.tiogasolutions.notify.kernel.processor.TaskProcessor;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.pub.Task;
-import org.tiogasolutions.notify.pub.TaskResponse;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.kernel.task.TaskProcessor;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +24,11 @@ import javax.ws.rs.core.Response;
 
 public class SlackTaskProcessor implements TaskProcessor {
 
-  public static final String DEFAULT_TEMPLATE_PATH = "classpath:/lq-processor-slack/default-slack-template.html";
+  public static final String DEFAULT_TEMPLATE_PATH = "classpath:/notify-processor-slack/default-slack-template.html";
 
   private final ThymeleafMessageBuilder messageBuilder;
 
-  private static final ProcessorType PROVIDER_TYPE = new ProcessorType("slack");
+  private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("slack");
   private static final Logger log = LoggerFactory.getLogger(SlackTaskProcessor.class);
 
   private final Client client;
@@ -55,7 +55,7 @@ public class SlackTaskProcessor implements TaskProcessor {
   }
 
   @Override
-  public ProcessorType getType() {
+  public TaskProcessorType getType() {
     return PROVIDER_TYPE;
   }
 

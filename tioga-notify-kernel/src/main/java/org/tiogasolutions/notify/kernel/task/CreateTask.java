@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.notify.pub.route.Destination;
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 
 public class CreateTask {
   // While not following the exact same pattern as CreateNotification and CreateAttachment,

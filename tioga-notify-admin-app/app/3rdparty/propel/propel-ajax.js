@@ -213,7 +213,7 @@ function AjaxErrorPredicate(util, statusCodes) {
             return false;
         }
         if (codes.length == 0) {
-            return true;
+            return error.status > 299;
         }
         for (var i = 0; i < codes.length; i++) {
             if (error.status == codes[i]) {

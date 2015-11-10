@@ -7,10 +7,10 @@ import org.tiogasolutions.dev.common.StringUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
-import org.tiogasolutions.notify.kernel.AbstractStore;
-import org.tiogasolutions.notify.kernel.notification.TaskQuery;
-import org.tiogasolutions.notify.kernel.notification.CouchConst;
-import org.tiogasolutions.notify.pub.TaskStatus;
+import org.tiogasolutions.notify.kernel.common.AbstractStore;
+import org.tiogasolutions.notify.kernel.common.CouchConst;
+import org.tiogasolutions.notify.pub.task.TaskQuery;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import java.util.List;
 

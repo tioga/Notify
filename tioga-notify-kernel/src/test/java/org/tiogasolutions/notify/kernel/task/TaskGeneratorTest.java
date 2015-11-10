@@ -1,10 +1,10 @@
 package org.tiogasolutions.notify.kernel.task;
 
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
@@ -12,7 +12,7 @@ import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.tiogasolutions.notify.pub.TaskStatus;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import javax.inject.Inject;
 

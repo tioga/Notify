@@ -1,8 +1,5 @@
 package org.tiogasolutions.notify.kernel.config;
 
-import org.tiogasolutions.dev.common.BeanUtils;
-
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 

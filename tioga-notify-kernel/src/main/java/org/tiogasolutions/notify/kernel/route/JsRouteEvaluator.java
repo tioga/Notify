@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.kernel.route;
 
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.Route;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;

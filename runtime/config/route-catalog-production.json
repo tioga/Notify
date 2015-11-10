@@ -1,0 +1,22 @@
+{
+  "destinations": [
+    {
+      "name": "Email",
+      "provider": "push",
+      "type": "emailMsg",
+      "recipients": [
+        "jacobp@stcg.net",
+        "alerts@jacobparr.com"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "name": "Everything",
+      "eval": "function(topic, traits) {return true};",
+      "destinations": [
+        "Email"
+      ]
+    }
+  ]
+}

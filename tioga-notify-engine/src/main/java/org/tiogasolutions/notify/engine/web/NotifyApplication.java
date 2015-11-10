@@ -1,7 +1,7 @@
 package org.tiogasolutions.notify.engine.web;
 
 import org.tiogasolutions.lib.spring.jaxrs.TiogaSpringApplication;
-import org.tiogasolutions.notify.engine.core.RootResource;
+import org.tiogasolutions.notify.engine.RootResource;
 import org.tiogasolutions.notify.engine.web.writers.EmbeddedContentMessageBodyWriter;
 import org.tiogasolutions.notify.engine.web.writers.ThymeleafMessageBodyWriter;
 
@@ -30,12 +30,12 @@ public class NotifyApplication extends TiogaSpringApplication {
     Set<Class<?>> classes = new HashSet<>();
 
     // Filters
-    classes.add(LqFilter.class);
+    classes.add(EngineFilter.class);
     // Resources
     classes.add(RootResource.class);
     // JAX-RS internals
-    classes.add(LqReaderWriterProvider.class);
-    classes.add(LqExceptionMapper.class);
+    classes.add(EngineReaderWriterProvider.class);
+    classes.add(EngineExceptionMapper.class);
     classes.add(ThymeleafMessageBodyWriter.class);
     classes.add(EmbeddedContentMessageBodyWriter.class);
 

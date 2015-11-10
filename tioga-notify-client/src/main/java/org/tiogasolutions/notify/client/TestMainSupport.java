@@ -5,8 +5,13 @@ import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
-import org.tiogasolutions.notify.pub.*;
-import org.tiogasolutions.notify.sender.couch.LqCouchSenderSetup;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
+import org.tiogasolutions.notify.sender.couch.CouchNotificationSenderSetup;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -25,7 +30,7 @@ public class TestMainSupport {
   protected String apiPassword;
 
   protected String apiPath;
-  protected LqCouchSenderSetup couchSenderSetup;
+  protected CouchNotificationSenderSetup couchSenderSetup;
 
   public TestMainSupport() {
   }
@@ -94,7 +99,7 @@ public class TestMainSupport {
   }
 
   @SuppressWarnings("unchecked")
-  public QueryResult<Request> getRequests(String domainName, RequestStatus requestStatus) throws IOException {
+  public QueryResult<NotificationRequest> getRequests(String domainName, NotificationRequestStatus requestStatus) throws IOException {
     Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("requests")
       .queryParam("requestStatus", requestStatus)
       .request(MediaType.APPLICATION_JSON_TYPE)
@@ -122,7 +127,7 @@ public class TestMainSupport {
     }
   }
 
-  public void deleteRequest(String domainName, Request request) {
+  public void deleteRequest(String domainName, NotificationRequest request) {
     Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("requests").path(request.getRequestId())
       .request(MediaType.APPLICATION_JSON_TYPE)
       .delete();

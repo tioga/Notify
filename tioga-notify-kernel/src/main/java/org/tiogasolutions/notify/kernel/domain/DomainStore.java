@@ -5,8 +5,11 @@ import org.tiogasolutions.couchace.core.api.CouchServer;
 import org.tiogasolutions.couchace.core.api.query.CouchViewQuery;
 import org.tiogasolutions.couchace.core.api.request.CouchFeature;
 import org.tiogasolutions.couchace.core.api.request.CouchFeatureSet;
+import org.tiogasolutions.couchace.core.api.response.GetDocumentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
+import org.tiogasolutions.couchace.core.api.response.TextDocument;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
+import org.tiogasolutions.couchace.core.internal.util.StringUtil;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
@@ -15,12 +18,14 @@ import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.tiogasolutions.notify.kernel.AbstractStore;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.kernel.common.AbstractStore;
+import org.tiogasolutions.notify.pub.common.TopicInfo;
+import org.tiogasolutions.notify.pub.common.TraitInfo;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
-import org.tiogasolutions.notify.notifier.LqException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +39,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.String.format;
 
@@ -106,6 +110,55 @@ public class DomainStore extends AbstractStore {
     return response.getFirstEntity();
   }
 
+  public DomainSummary fetchSummary(String domainName) {
+
+    // HACK - should this func. be here? Should it be done this way?
+    DomainProfileEntity domainProfile = findByDomainName(domainName);
+    CouchDatabase notificationDb = this.notificationDb(domainProfile);
+
+
+    // Topic info
+    CouchViewQuery viewQuery = CouchViewQuery.builder("Summary", "TopicInfo")
+        .includeDocs(false)
+        .group(true)
+        .build();
+    GetDocumentResponse response = notificationDb.get()
+        .document(viewQuery)
+        .onError(r -> throwError(r, format("Failure retrieving topic info for summary [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
+        .execute();
+
+    List<TopicInfo> topics = new ArrayList<>();
+    List<TextDocument> documents = response.getDocumentList();
+    for(TextDocument document : documents) {
+      String key = document.getKey().getJsonValue().replaceAll("\"", "");
+      TopicInfo topicInfo = new TopicInfo(key, document.getContentAsLong());
+      topics.add(topicInfo);
+    }
+
+    // Topic info
+    viewQuery = CouchViewQuery.builder("Summary", "TraitInfo")
+        .includeDocs(false)
+        .group(true)
+        .build();
+    response = notificationDb.get()
+        .document(viewQuery)
+        .onError(r -> throwError(r, format("Failure retrieving trait info for summary [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
+        .execute();
+    if (response.isError()) {
+      throw ApiException.fromCode(response.getHttpStatusCode(), "Error reading topic info" + response.getErrorContent().getError());
+    }
+    List<TraitInfo> traits = new ArrayList<>();
+    documents = response.getDocumentList();
+    for(TextDocument document : documents) {
+      String key = document.getKey().getJsonValue().replaceAll("\"", "");
+      TraitInfo traitInfo = new TraitInfo(key, document.getContentAsLong());
+      traits.add(traitInfo);
+    }
+
+    return new DomainSummary(topics, traits);
+  }
+
+
   // TODO - need a DomainProfileQuery.
   public QueryResult<DomainProfileEntity> queryActive() {
 
@@ -136,12 +189,12 @@ public class DomainStore extends AbstractStore {
 
   public DomainProfileEntity createDomain(String domainName, String apiKey, String apiPassword) {
 
-    String notificationDbName = buildDbName(
-      domainName, "notifier-notification-",
-      couchServers.getNotificationDatabasePrefix(),
-      couchServers.getNotificationDatabaseSuffix());
+    String notificationDbName = couchServers.buildDbName(
+        domainName, "notifier-notification-",
+        couchServers.getNotificationDatabasePrefix(),
+        couchServers.getNotificationDatabaseSuffix());
 
-    String requestDbName = buildDbName(
+    String requestDbName = couchServers.buildDbName(
       domainName, "notifier-request-",
       couchServers.getRequestDatabasePrefix(),
       couchServers.getRequestDatabaseSuffix());
@@ -163,12 +216,6 @@ public class DomainStore extends AbstractStore {
 
     // Create the profile and store in couch and in the map.
     return profileEntity;
-  }
-
-  private String buildDbName(String domainName, String defaultPrefix, String prefix, String suffix) {
-    if (prefix == null) prefix = defaultPrefix;
-    if (suffix == null) suffix = "";
-    return prefix+domainName+suffix;
   }
 
   public DomainProfileEntity save(DomainProfileEntity profileEntity) {
@@ -196,81 +243,43 @@ public class DomainStore extends AbstractStore {
       throw ApiException.badRequest("Can only create domain in test environment");
     }
 
-    deleteDomain(domainName);
+    // Delete mast entry, if it exists.
+    if (hasDomain(domainName)) {
+      DomainProfileEntity domainProfileEntity = findByDomainName(domainName);
+      deleteDomain(domainProfileEntity);
+    }
 
+    // Create domain profile.
     DomainProfileEntity domainProfile = createDomain(domainName, apiKey, apiPassword);
 
     return domainProfile.toModel();
   }
 
-  private void deleteDomain(String domainName) {
+  /**
+   * Delete the domain and request and notification databases.
+   * @param domainProfile -
+   */
+  public void deleteDomain(DomainProfileEntity domainProfile) {
 
     // Delete mast entry, if it exists.
-    CouchViewQuery viewQuery = CouchViewQuery.builder("DomainProfile", "ByDomainName")
-        .key(domainName)
-        .build();
-    GetEntityResponse<DomainProfileEntity> response = couchDatabase.get()
-        .entity(DomainProfileEntity.class, viewQuery)
-        .onError(r -> throwError(r, format("Failure retrieving active domain profile by name [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
+    couchDatabase.delete()
+        .entity(domainProfile)
+        .onError(r -> log.error(format("Failure deleting domain %s from master db [%s] - %s", domainProfile.getDomainName(), r.getHttpStatus(), r.getErrorReason())))
         .execute();
-    if (response.isNotEmpty()) {
-      DomainProfileEntity domainProfile = response.getFirstEntity();
-      couchDatabase.delete()
-          .entity(domainProfile)
-          .onError(r -> log.error(format("Failure deleting domain %s from master db [%s] - %s", domainProfile.getDomainName(), r.getHttpStatus(), r.getErrorReason())))
-          .execute();
-    }
 
-    // HACK - hard coded for test pattern.
-    // Delete any databases that exist - may exist even if master does not.
-    CouchFeatureSet featureSet = CouchFeatureSet
-        .builder()
-        .add(CouchFeature.ALLOW_DB_DELETE, true)
-        .build();
-    CouchDatabase notificationDatabase = requestCouchServer.database("lqt-request-" + domainName, featureSet);
-    if (notificationDatabase.exists()) {
-      notificationDatabase.deleteDatabase();
-    }
-    CouchDatabase requestDatabase = requestCouchServer.database("lqt-notification-" + domainName, featureSet);
-    if (requestDatabase.exists()) {
-      requestDatabase.deleteDatabase();
-    }
+    couchServers.deleteDomainDatabases(domainProfile.getDomainName());
   }
 
   private void createNotifyDatabase(DomainProfileEntity domainProfile) {
     CouchDatabase couchDatabase = notificationDb(domainProfile);
     WriteResponse createResponse = couchDatabase.createDatabase();
     if (createResponse.isError()) {
-      String msg = format("Exception creating notification database %s for domain %s: %s", couchDatabase.getDatabaseName(), domainProfile.getDomainName(), createResponse.getHttpStatus());
-      throw new LqException(msg);
+      String msg = String.format("Error creating notify couch database [%s] - %s", domainProfile.getNotificationDbName(), createResponse.getErrorReason());
+      throw ApiException.internalServerError(msg);
     }
 
-//    try {
-      // Need to create the file system to load from the jar (ZipFileSystemProvider does not do this on it's own).
-      Map<String, String> env = new HashMap<>();
-      env.put("create", "true");
-//      URL designUrl = getClass().getClassLoader().getResource("couch");
-//      if (designUrl == null) {
-//        throw ApiException.internalServerError("Unable to find base couch url.");
-//      }
-//      if (designUrl.getProtocol().equalsIgnoreCase("jar")) {
-//        try {
-//          TODO - can this be improved?
-//          Throws exception if not found
-//          FileSystems.getFileSystem(designUrl.toURI());
-//
-//        } catch (FileSystemNotFoundException ex) {
-//          FileSystems.newFileSystem(designUrl.toURI(), env);
-//        }
-//      }
-//    } catch (IOException e) {
-//      throw ApiException.internalServerError("Error accessing base design url.");
-//    } catch (URISyntaxException e) {
-//      throw ApiException.internalServerError(e, "Error accessing base design url.");
-//    }
-
     // Create the designs
-    String[] designNames = new String[] {"Entity", "Notification", "Task"};
+    String[] designNames = new String[] {"Entity", "Notification", "Task", "Summary"};
     for (String designName : designNames) {
       String designPath = String.format("/couch/%s-design.json", designName);
       InputStream designStream = getClass().getResourceAsStream(designPath);
@@ -298,27 +307,30 @@ public class DomainStore extends AbstractStore {
     // Create the database
     WriteResponse createResponse = couchDatabase.createDatabase();
     if (createResponse.isError()) {
-      throw new LqException("Exception creating notify request database: " + createResponse.getErrorReason());
+      String msg = String.format("Error creating request couch database [%s] - %s", domainProfile.getRequestDbName(), createResponse.getErrorReason());
+      throw ApiException.internalServerError(msg);
     }
 
     // Create the designs
-    String designPath = "/couch/LqRequest-design.json";
-    // URL designUrl = getClass().getClassLoader().getResource(designPath);
-    InputStream designStream = getClass().getResourceAsStream(designPath);
-    if (designStream == null) {
-      String msg = String.format("Unable to find design file at: %s", designPath);
-      throw new LqException(msg);
-    }
-    try {
-      String designContent = IoUtils.toString(designStream);
-      WriteResponse response = couchDatabase.put().design("LqRequest", designContent).execute();
-      if (response.isError()) {
-        String msg = String.format("Error creating views %s - %s", response.getHttpStatus(), response.getErrorReason());
-        throw new LqException(msg);
+    String[] designNames = new String[] {"Entity", "NotificationRequest"};
+    for (String designName : designNames) {
+      String designPath = String.format("/couch/%s-design.json", designName);
+      InputStream designStream = getClass().getResourceAsStream(designPath);
+      if (designStream == null) {
+        String msg = String.format("Unable to find design file at: %s", designPath);
+        throw ApiException.internalServerError(msg);
       }
-    } catch (IOException ex) {
-      String msg = "Error reading design file: " + designPath;
-      throw new LqException(msg, ex);
+      try {
+        String designContent = IoUtils.toString(designStream);
+        WriteResponse response = couchDatabase.put().design(designName, designContent).execute();
+        if (response.isError()) {
+          String msg = String.format("Error creating views %s - %s", response.getHttpStatus(), response.getErrorReason());
+            throw ApiException.internalServerError(msg);
+        }
+      } catch (IOException ex) {
+        String msg = "Error reading design file: " + designPath;
+          throw ApiException.internalServerError(msg);
+      }
     }
 
     // Add the user.
@@ -388,4 +400,5 @@ public class DomainStore extends AbstractStore {
 
   // HACK - using admin role here and should not.
   private static final String USER_JSON_TEMPLATE = "{\"_id\": \"%s\",\"name\": \"%s\",\"type\": \"user\",\"roles\": [],\"password\": \"%s\"}";
+
 }

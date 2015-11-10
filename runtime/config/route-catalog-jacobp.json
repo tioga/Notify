@@ -22,7 +22,7 @@
     "smtpPassword" : null,
     "smtpFrom" : "notify@stcg.net",
     "smtpRecipients" : "jacobp@stcg.net",
-    "templatePath" : "C:/dvlp/3rd-party/liquid-notifications/lqnotify/runtime/config/email-template.html"
+    "templatePath" : "C:/dvlp/3rd-party/tioga/notify/runtime/config/email-template.html"
   } ],
   "routes" : [ {
     "name" : "Everything",

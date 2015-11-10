@@ -1,8 +1,8 @@
 package org.tiogasolutions.notify.sender.http;
 
-import org.tiogasolutions.notify.notifier.LqNotifier;
-import org.tiogasolutions.notify.notifier.request.LqResponseType;
-import org.tiogasolutions.notify.notifier.request.LqResponse;
+import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
+import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,29 +20,31 @@ public class HttpSenderTestMain {
 
   public static void main(String[] args) {
 
-    LqHttpSenderConfig config = new LqHttpSenderConfig()
-        .setUrl("http://localhost:8080/lq-server/api/v1/client/simple-request-entry")
+    HttpNotificationSenderConfig config = new HttpNotificationSenderConfig()
+        .setUrl("http://localhost:8080/notify-server/api/v1/client/simple-request-entry")
         .setUserName("KGQZZ-2940190")
         .setPassword("GoFish");
 
-    LqSimpleHttpSender httpSender = new LqSimpleHttpSender(config);
-    LqNotifier notifier = new LqNotifier(httpSender);
+    SimpleHttpNotificationSender httpSender = new SimpleHttpNotificationSender(config);
+    Notifier notifier = new Notifier(httpSender);
 
     log.info("Building notification");
     byte[] attachBytes = "this is some attachment text".getBytes();
-    Future<LqResponse> responseFuture = notifier.begin()
-        .topic("test topic")
-        .trackingId("trace this")
-        .summary("Test message")
-        .trait("key1", "value1")
-        .exception(new Throwable("Some kind of trouble"))
-        .attach("some", MediaType.TEXT_PLAIN, attachBytes)
-        .send();
+    Future<NotificationResponse> responseFuture = notifier.begin()
+      .topic("test topic")
+      .trackingId("trace this")
+      .summary("Test message")
+      .trait("key1", "value1")
+      .link("example", "http://example.com")
+      .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
+      .exception(new Throwable("Some kind of trouble"))
+      .attach("some", MediaType.TEXT_PLAIN, attachBytes)
+      .send();
 
     log.info("Sending notification");
     try {
-      LqResponse response = responseFuture.get();
-      if (response.getResponseType() == LqResponseType.SUCCESS) {
+      NotificationResponse response = responseFuture.get();
+      if (response.getResponseType() == NotificationResponseType.SUCCESS) {
         log.info("Notification successful");
       } else {
         log.error("Notification failure.", response.getThrowable());

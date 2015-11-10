@@ -6,20 +6,19 @@ import org.tiogasolutions.couchace.core.api.CouchSetup;
 import org.tiogasolutions.couchace.core.api.request.CouchFeature;
 import org.tiogasolutions.couchace.core.api.request.CouchFeatureSet;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
+import org.tiogasolutions.couchace.core.internal.util.StringUtil;
 import org.tiogasolutions.couchace.jackson.JacksonCouchJsonStrategy;
 import org.tiogasolutions.couchace.jersey.JerseyCouchHttpClient;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.notify.kernel.request.LqNotifierJacksonModule;
+import org.tiogasolutions.notify.kernel.jackson.NotifyKernelJacksonModule;
 import org.springframework.core.env.Environment;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by harlan on 2/14/15.
@@ -53,7 +52,7 @@ public class CouchServers {
 
     // CouchJsonStrategy used by all.
     JacksonCouchJsonStrategy jsonStrategy = new JacksonCouchJsonStrategy(
-        new JSR310Module(), new LqNotifierJacksonModule());
+        new JSR310Module(), new NotifyKernelJacksonModule());
 
     // Master
     CouchSetup masterConfig = new CouchSetup(serversConfig.getMasterUrl())
@@ -97,24 +96,6 @@ public class CouchServers {
     if (!localMasterDatabase.exists()) {
       localMasterDatabase.createDatabase();
 
-      // TODO - would be better to verify the views and create what is needed regardless of the database creation.
-//      try {
-        // Need to create the file system to load from the jar (ZipFileSystemProvider does not do this on it's own).
-        Map<String, String> env = new HashMap<>();
-        env.put("create", "true");
-//        URL designUrl = getClass().getClassLoader().getResource("couch");
-//        if (designUrl == null) {
-//          throw ApiException.internalServerError("Unable to find base couch url.");
-//        }
-//        if (designUrl.getProtocol().equalsIgnoreCase("jar")) {
-//          FileSystems.newFileSystem(designUrl.toURI(), env);
-//        }
-//      } catch (IOException e) {
-//        throw ApiException.internalServerError("Error accessing base design url.");
-//      } catch (URISyntaxException e) {
-//        throw ApiException.internalServerError(e, "Error accessing base design url.");
-//      }
-
       String[] designNames = new String[] {"DomainProfile", "Entity"};
       for (String designName : designNames) {
         String designPath = String.format("/couch/%s-design.json", designName);
@@ -140,6 +121,75 @@ public class CouchServers {
     }
     return localMasterDatabase;
 
+  }
+
+  public void deleteDomainDatabases(String domainName) {
+    if (!isTestEnvironment()) {
+      throw ApiException.badRequest("Can only create databases in test environment");
+    }
+
+    CouchFeatureSet featureSet = CouchFeatureSet
+        .builder()
+        .add(CouchFeature.ALLOW_DB_DELETE, true)
+        .build();
+
+    // Notification DB.
+    String notificationDbName = buildNotificationDbName(domainName);
+    CouchDatabase notificationDatabase = notificationServer.database(notificationDbName, featureSet);
+    if (notificationDatabase.exists()) {
+      notificationDatabase.deleteDatabase();
+    }
+
+    // Request DB
+    String requestDbName = buildRequestDbName(domainName);
+    CouchDatabase requestDatabase = requestServer.database(requestDbName, featureSet);
+    if (requestDatabase.exists()) {
+      requestDatabase.deleteDatabase();
+    }
+  }
+
+  public String buildDbName(String domainName, String defaultPrefix, String prefix, String suffix) {
+    if (StringUtil.isNotBlank(prefix) && StringUtil.isNotBlank(suffix)) {
+      return prefix + domainName + suffix;
+    } else if (StringUtil.isNotBlank(prefix)) {
+      return prefix + domainName;
+    } else if (StringUtil.isNotBlank(suffix)) {
+      return domainName + suffix;
+    } else {
+      return defaultPrefix + domainName;
+    }
+  }
+
+  public String buildRequestDbName(String domainName) {
+
+    String prefix = this.requestDatabasePrefix;
+    String suffix = this.requestDatabaseSuffix;
+
+    if (StringUtil.isNotBlank(prefix) && StringUtil.isNotBlank(suffix)) {
+      return prefix + domainName + suffix;
+    } else if (StringUtil.isNotBlank(prefix)) {
+      return prefix + domainName;
+    } else if (StringUtil.isNotBlank(suffix)) {
+      return domainName + suffix;
+    } else {
+      return domainName + "-notify-request";
+    }
+  }
+
+  public String buildNotificationDbName(String domainName) {
+
+    String prefix = this.notificationDatabasePrefix;
+    String suffix = this.notificationDatabaseSuffix;
+
+    if (StringUtil.isNotBlank(prefix) && StringUtil.isNotBlank(suffix)) {
+      return prefix + domainName + suffix;
+    } else if (StringUtil.isNotBlank(prefix)) {
+      return prefix + domainName;
+    } else if (StringUtil.isNotBlank(suffix)) {
+      return domainName + suffix;
+    } else {
+      return domainName + "-notify";
+    }
   }
 
   public boolean isTestEnvironment() {

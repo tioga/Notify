@@ -30,6 +30,12 @@
             .execute();
     };
 
+    self.fetchDomainSummary = function (domainName) {
+        app.overlay.show();
+        return app.ajax.get("api/v1/admin/domains", domainName, "summary")
+            .execute();
+    };
+
     self.fetchDomainByName = function (domainName) {
         app.overlay.show();
         return app.ajax.get("api/v1/admin/domains", domainName)

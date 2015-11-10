@@ -1,11 +1,19 @@
 package org.tiogasolutions.notify.processor.slack;
 
-import org.tiogasolutions.notify.pub.*;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.Link;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainStatus;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.processor.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.testng.annotations.Test;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
+import org.tiogasolutions.notify.pub.task.TaskResponseAction;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import java.net.URI;
 import java.time.ZonedDateTime;
@@ -65,7 +73,7 @@ public class SlackTaskProcessorTest {
     argMap.put("channel", "#notify-test");
     argMap.put("iconEmoji", ":smile:");
     argMap.put("userName", "notifier");
-    argMap.put("templatePath", "file:/dvlp/lqnotify/runtime/config/templates/slack-template-debug.html");
+    argMap.put("templatePath", "file:/dvlp/tioga/notify/runtime/config/templates/slack-template-debug.html");
     Destination destination = new Destination("test", "slack", argMap);
     Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 
@@ -131,6 +139,7 @@ public class SlackTaskProcessorTest {
         "track-9999",
         ZonedDateTime.now(),
         null,
+        Collections.singletonList(new Link("example", "http://example.com")),
         new ExceptionInfo(new RuntimeException("Opps, I tripped.")),
         null);
   }

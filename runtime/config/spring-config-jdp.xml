@@ -26,7 +26,7 @@
         p:hostName="localhost"
         p:port="8080"
         p:shutdownPort="8081"
-        p:context="lq-server"
+        p:context="notify-server"
         p:toOpenBrowser="true"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"

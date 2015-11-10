@@ -41,15 +41,18 @@
     <prop key="notify.server.port">39011</prop>
     <prop key="notify.server.shutdownPort">39012</prop>
     <prop key="notify.server.context">notify-server</prop>
+
     <prop key="couchdb.master.url">http://localhost:5984</prop>
     <prop key="couchdb.master.username">app-user</prop>
     <prop key="couchdb.master.password">app-user</prop>
     <prop key="couchdb.master.dbName">tioga-notify</prop>
+
     <prop key="couchdb.notification.url">http://localhost:5984</prop>
     <prop key="couchdb.notification.username">app-user</prop>
     <prop key="couchdb.notification.password">app-user</prop>
     <prop key="couchdb.notification.dbNamePrefix">tioga-notify-</prop>
     <prop key="couchdb.notification.dbNameSuffix">-notification</prop>
+
     <prop key="couchdb.request.url">http://localhost:5984</prop>
     <prop key="couchdb.request.username">app-user</prop>
     <prop key="couchdb.request.password">app-user</prop>
@@ -65,6 +68,10 @@
     <!--<prop key="push.sms.from">5554443210</prop>-->
     <!--<prop key="trusted.users">admin1:password1,admin2:password2</prop>-->
   </util:properties>
+
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+    <property name="accessControlAllowOrigin" value="${system.config.accessControlAllowOrigin}"/>
+  </bean>
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="${notify.server.hostName}"
@@ -88,8 +95,8 @@
         p:requestUrl="${couchdb.request.url}"
         p:requestUserName="${couchdb.request.username}"
         p:requestPassword="${couchdb.request.password}"
-  p:requestDatabasePrefix="${couchdb.request.dbNamePrefix}"
-  p:requestDatabaseSuffix="${couchdb.request.dbNameSuffix}"/>
+        p:requestDatabasePrefix="${couchdb.request.dbNamePrefix}"
+        p:requestDatabaseSuffix="${couchdb.request.dbNameSuffix}"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
     <constructor-arg value="${trusted.users}"/>

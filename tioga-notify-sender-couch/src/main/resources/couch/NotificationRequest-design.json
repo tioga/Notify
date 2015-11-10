@@ -1,0 +1,12 @@
+{
+  "_id": "_design/NotificationRequest",
+  "language": "javascript",
+  "views": {
+    "ByTrackingId": {
+      "map": "function(doc) {\n  if (doc.entityType == 'NotificationRequest' && doc.entity.trackingId) {\n    emit(doc.entity.trackingId, null);\n  }\n}"
+    },
+    "ByRequestStatusAndCreatedAt": {
+      "map": "function(doc) {\n  if (doc.entityType == 'NotificationRequest' && doc.entity.requestStatus && doc.entity.createdAt) {\n    emit([doc.entity.requestStatus, doc.entity.createdAt], null);\n  }\n}"
+    }
+  }
+}

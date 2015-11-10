@@ -5,9 +5,9 @@ import org.tiogasolutions.couchace.annotations.CouchId;
 import org.tiogasolutions.couchace.annotations.CouchRevision;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
-import org.tiogasolutions.notify.pub.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.pub.DomainStatus;
+import org.tiogasolutions.notify.pub.domain.DomainStatus;
 
 @CouchEntity("DomainProfile")
 public class DomainProfileEntity {

@@ -1,10 +1,10 @@
 package org.tiogasolutions.notify.processor.push;
 
-import org.tiogasolutions.notify.kernel.TestFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.task.CreateTask;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
-import org.tiogasolutions.notify.pub.DomainProfile;
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.DestinationDef;
 import org.tiogasolutions.push.pub.EmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;

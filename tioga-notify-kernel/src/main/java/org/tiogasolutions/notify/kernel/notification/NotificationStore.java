@@ -11,13 +11,14 @@ import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.notify.kernel.AbstractStore;
-import org.tiogasolutions.notify.pub.Notification;
-import org.tiogasolutions.notify.kernel.request.LqRequestCouchView;
+import org.tiogasolutions.notify.kernel.common.AbstractStore;
+import org.tiogasolutions.notify.kernel.common.CouchConst;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.kernel.request.RequestCouchView;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
-import org.tiogasolutions.notify.pub.AttachmentHolder;
-import org.tiogasolutions.notify.pub.NotificationQuery;
-import org.tiogasolutions.notify.pub.NotificationRef;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +71,7 @@ public class NotificationStore extends AbstractStore {
     } else if (StringUtils.isNotBlank(query.getTrackingId())) {
       errorSuffix = "by tracking id " + query.getTrackingId();
       String trackingId = query.getTrackingId();
-      viewQuery = CouchViewQuery.builder(CouchConst.NOTIFICATION_DESIGN_NAME, LqRequestCouchView.ByTrackingId.name())
+      viewQuery = CouchViewQuery.builder(CouchConst.NOTIFICATION_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
           .key(trackingId)
           .limit(limit + 1)
           .skip(query.getOffset())

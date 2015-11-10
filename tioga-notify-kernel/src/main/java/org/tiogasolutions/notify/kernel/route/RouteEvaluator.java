@@ -1,6 +1,6 @@
 package org.tiogasolutions.notify.kernel.route;
 
-import org.tiogasolutions.notify.pub.Notification;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 
 import java.util.Set;
