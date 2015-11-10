@@ -15,7 +15,7 @@ project(":tioga-notify-server-grizzly") {
     compile("org.tiogasolutions.runners:tioga-runners-grizzly:+")
   }
 
-  File windowsServerStartFile = file("$buildDir/scripts/server-start.bat");
+  File windowsServerStartFile = file("$buildDir/scripts/notify-server-start.bat");
   task createWindowsStartScript << {
     windowsServerStartFile.parentFile.mkdirs()
     FileWriter writer = new FileWriter(windowsServerStartFile);
@@ -25,7 +25,7 @@ project(":tioga-notify-server-grizzly") {
     writer.close()
   }
 
-  File linuxServerStartFile = file("$buildDir/scripts/server-start.sh");
+  File linuxServerStartFile = file("$buildDir/scripts/notify-server-start.sh");
   task createLinuxStartScript << {
     linuxServerStartFile.parentFile.mkdirs()
     FileWriter writer = new FileWriter(linuxServerStartFile);
