@@ -19,9 +19,9 @@ project(":tioga-notify-server-grizzly") {
   task createWindowsStartScript << {
     windowsServerStartFile.parentFile.mkdirs()
     FileWriter writer = new FileWriter(windowsServerStartFile);
-    writer.write("@echo off\r\ncls\r\n");
-    writer.write("echo Starting application\r\n");
-    writer.write("%JAVA_HOME%\\bin\\javaw.exe -jar ./lib/${project.name}-${project.version}.jar");
+    writer.write("@echo off\ncls\n");
+    writer.write("echo Starting application\n");
+    writer.write("%JAVA_HOME%\\bin\\javaw.exe -jar ./lib/${project.name}-${project.version}.jar\n");
     writer.close()
   }
 
@@ -29,9 +29,9 @@ project(":tioga-notify-server-grizzly") {
   task createLinuxStartScript << {
     linuxServerStartFile.parentFile.mkdirs()
     FileWriter writer = new FileWriter(linuxServerStartFile);
-    writer.write("clear\r\n");
-    writer.write("echo Starting application\r\n");
-    writer.write("%JAVA_HOME%/bin/java -jar ./lib/${project.name}-${project.version}.jar");
+    writer.write("clear\n");
+    writer.write("echo Starting application\n");
+    writer.write("%JAVA_HOME%/bin/java -jar ./lib/${project.name}-${project.version}.jar\n");
     writer.close()
   }
 
