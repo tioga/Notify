@@ -31,7 +31,7 @@ project(":tioga-notify-server-grizzly") {
     FileWriter writer = new FileWriter(linuxServerStartFile);
     writer.write("clear\n");
     writer.write("echo Starting application\n");
-    writer.write("$JAVA_HOME/bin/java -jar ./lib/${project.name}-${project.version}.jar\n");
+    writer.write("\$JAVA_HOME/bin/java -jar ./lib/${project.name}-${project.version}.jar\n");
     writer.close()
   }
 
