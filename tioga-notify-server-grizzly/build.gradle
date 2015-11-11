@@ -65,7 +65,8 @@ project(":tioga-notify-server-grizzly") {
           from(project.configurations.runtime)
         }
         from(windowsServerStartFile, createWindowsStartScript)
-        from(linuxServerStartFile, createLinuxStartScript, createLinuxStopScript)
+        from(linuxServerStartFile, createLinuxStartScript)
+        from(linuxServerStopFile, createLinuxStopScript)
       }
     }
   }
