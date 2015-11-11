@@ -36,9 +36,9 @@ project(":tioga-notify-server-grizzly") {
   }
 
   File linuxServerStopFile = file("$buildDir/scripts/notify-server-stop.sh");
-  task createLinuxStartScript << {
-    linuxServerStartFile.parentFile.mkdirs()
-    FileWriter writer = new FileWriter(linuxServerStartFile);
+  task createLinuxStopScript << {
+    linuxServerStopFile.parentFile.mkdirs()
+    FileWriter writer = new FileWriter(linuxServerStopFile);
     writer.write("clear\n");
     writer.write("cd \"\$(dirname \$(readlink -f \$0))\"\n");
     writer.write("nohup \$JAVA_HOME/bin/java -jar ./lib/tioga-notify-server-grizzly-1.1.12.jar -shutdown > ./notify-server-shutdown.log 2>&1 &\n");
@@ -65,7 +65,7 @@ project(":tioga-notify-server-grizzly") {
           from(project.configurations.runtime)
         }
         from(windowsServerStartFile, createWindowsStartScript)
-        from(linuxServerStartFile, createLinuxStartScript)
+        from(linuxServerStartFile, createLinuxStartScript, createLinuxStopScript)
       }
     }
   }
