@@ -30,8 +30,18 @@ project(":tioga-notify-server-grizzly") {
     linuxServerStartFile.parentFile.mkdirs()
     FileWriter writer = new FileWriter(linuxServerStartFile);
     writer.write("clear\n");
-    writer.write("echo Starting application\n");
-    writer.write("\$JAVA_HOME/bin/java -jar ./lib/${project.name}-${project.version}.jar\n");
+    writer.write("cd \"\$(dirname \$(readlink -f \$0))\"\n");
+    writer.write("nohup \$JAVA_HOME/bin/java -jar ./lib/tioga-notify-server-grizzly-1.1.12.jar > ./notify-server.log 2>&1 &\n");
+    writer.close()
+  }
+
+  File linuxServerStopFile = file("$buildDir/scripts/notify-server-stop.sh");
+  task createLinuxStartScript << {
+    linuxServerStartFile.parentFile.mkdirs()
+    FileWriter writer = new FileWriter(linuxServerStartFile);
+    writer.write("clear\n");
+    writer.write("cd \"\$(dirname \$(readlink -f \$0))\"\n");
+    writer.write("nohup \$JAVA_HOME/bin/java -jar ./lib/tioga-notify-server-grizzly-1.1.12.jar -shutdown > ./notify-server-shutdown.log 2>&1 &\n");
     writer.close()
   }
 

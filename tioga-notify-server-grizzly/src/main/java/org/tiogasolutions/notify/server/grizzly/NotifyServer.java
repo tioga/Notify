@@ -9,16 +9,19 @@ import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
 import org.tiogasolutions.runners.grizzly.LoggerFacade;
+
 import java.nio.file.Path;
-import static org.slf4j.LoggerFactory.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class NotifyServer {
 
   private static final Logger log = getLogger(NotifyServer.class);
 
-  public static final String DEFAULT_SPRING_FILE = "/org/tiogasolutions/notify/server/grizzly/spring-config.xml";
-
   public static void main(String...args) throws Exception {
+    List<String> arguments = Arrays.asList(args);
 
     // Priority #1, configure default logging levels. This will be overridden later
     // when/if the logback.xml is found and loaded.
@@ -38,7 +41,7 @@ public class NotifyServer {
     Path logbackFile = LogUtils.initLogback(configDir, "notify.log.config", "logback.xml");
 
     // Locate the spring file for this app or use DEFAULT_SPRING_FILE from the classpath if one is not found.
-    String springConfigPath = resolver.resolveSpringPath(configDir, "classpath:" + DEFAULT_SPRING_FILE);
+    String springConfigPath = resolver.resolveSpringPath(configDir, null);
     String activeProfiles = resolver.resolveSpringProfiles(); // defaults to "hosted"
 
     log.info("Starting Notify Server:\n" +
@@ -62,6 +65,14 @@ public class NotifyServer {
 
     // Create an instance of the grizzly server.
     GrizzlyServer grizzlyServer = new GrizzlyServer(application, serverConfig, loggerFacade);
+
+    if (arguments.contains("-shutdown")) {
+      GrizzlyServer.shutdownRemote(serverConfig.getHostName(), serverConfig.getShutdownPort());
+      String msg = String.format("Shutting down Notify Server at %s:%s", serverConfig.getHostName(), serverConfig.getShutdownPort());
+      loggerFacade.warn(msg);
+      System.exit(0);
+      return;
+    }
 
     // Before we start it, register a hook for our jersey-spring bridge.
     JerseySpringBridge jerseySpringBridge = new JerseySpringBridge(application.getBeanFactory());

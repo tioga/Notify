@@ -19,10 +19,16 @@
 
   <context:property-placeholder properties-ref="envProperties"/>
   <util:properties id="envProperties">
-      <prop key="notify.runtime.dir">../runtime</prop>
+    <prop key="notify.runtime.dir">../runtime</prop>
+    <prop key="push.server.url">http://www.tiogasolutions.com/push-server</prop>
+    <prop key="push.server.username">notify-server</prop>
+    <prop key="push.server.password">notify-server-password</prop>
+    <prop key="push.email.from">notify-server@tiogasolutions.org</prop>
+    <prop key="push.sms.from">559-640-7277</prop>
+    <prop key="system.config.accessControlAllowOrigin">*</prop>
   </util:properties>
 
-  <bean class="org.tiogasolutions.notify.server.grizzly.GrizzlyServerConfig"
+  <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="localhost"
         p:port="8080"
         p:shutdownPort="8081"
@@ -61,17 +67,22 @@
     </constructor-arg>
   </bean>
 
-  <bean class="org.tiogasolutions.push.gateway.LiveCosmicPushGateway">
-    <constructor-arg value="LiquidNotifications"/>
-    <constructor-arg value="testing123"/>
+  <bean class="org.tiogasolutions.push.client.LivePushServerClient">
+    <constructor-arg value="${push.server.url}"/>
+    <constructor-arg value="${push.server.username}"/>
+    <constructor-arg value="${push.server.password}"/>
   </bean>
 
   <bean class="org.tiogasolutions.notify.processor.push.PushConfig"
-    p:emailFromAddress="bot@jacobparr.com"
-    p:smsFromNumber="7745677277"/>
+    p:emailFromAddress="${push.email.from}"
+    p:smsFromNumber="${push.sms.from}"/>
 
-  <bean class="org.tiogasolutions.notify.engine.web.StaticContentReader">
-    <constructor-arg value="${notify.runtime.dir}/../tioga-notify-admin-app"/>
+  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
+    <constructor-arg value="/org/tiogasolutions/notify/admin/app"/>
+  </bean>
+
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+    <property name="accessControlAllowOrigin" value="${system.config.accessControlAllowOrigin}"/>
   </bean>
 
   <context:component-scan base-package="org.tiogasolutions.notify"/>
