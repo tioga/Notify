@@ -19,29 +19,24 @@
         <prop key="some.prop">value</prop>
     </util:properties>
 
-    <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"
-          p:masterUrl="http://127.0.0.1:5984"
-          p:masterUserName="couchace"
-          p:masterPassword="unittest"
-          p:masterDatabaseName="notify-master"
+  <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"
+      p:masterUrl="http://127.0.0.1:5984"
+      p:masterUserName="test-user"
+      p:masterPassword="test-user"
+      p:masterDatabaseName="test-notify-master"
 
-          p:notificationUrl="http://127.0.0.1:5984"
-          p:notificationUserName="couchace"
-          p:notificationPassword="unittest"
-          p:notificationDatabasePrefix="test-notify-"
+      p:notificationUrl="http://127.0.0.1:5984"
+      p:notificationUserName="test-user"
+      p:notificationPassword="test-user"
+      p:notificationDatabasePrefix="test-notify-"
+      p:notificationDatabaseSuffix="-notification"
 
-          p:requestUrl="http://127.0.0.1:5984"
-          p:requestUserName="couchace"
-          p:requestPassword="unittest"
-          p:requestDatabasePrefix="test-notify-request-"/>
-
-  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
-    <property name="accessControlAllowOrigin" value="http://www.localhost:63342"/>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
-    <constructor-arg value="path-to-nowhere"/>
-  </bean>
+      p:requestUrl="http://127.0.0.1:5984"
+      p:requestUserName="test-user"
+      p:requestPassword="test-user"
+      p:requestDatabasePrefix="test-notify-"
+      p:requestDatabaseSuffix="-request"
+  />
 
   <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
     <constructor-arg>
@@ -54,6 +49,14 @@
         </entry>
       </util:map>
     </constructor-arg>
+  </bean>
+
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+    <property name="accessControlAllowOrigin" value="http://www.localhost:63342"/>
+  </bean>
+
+  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
+    <constructor-arg value="path-to-nowhere"/>
   </bean>
 
   <context:component-scan base-package="org.tiogasolutions.notify"/>

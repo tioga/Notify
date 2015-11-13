@@ -38,18 +38,18 @@
         p:masterUrl="http://127.0.0.1:5984"
         p:masterUserName="app-user"
         p:masterPassword="app-user"
-        p:masterDatabaseName="tioga-notify-master"
+        p:masterDatabaseName="notify-master"
 
         p:notificationUrl="http://127.0.0.1:5984"
         p:notificationUserName="app-user"
         p:notificationPassword="app-user"
-        p:notificationDatabasePrefix="tioga-notify-"
+        p:notificationDatabasePrefix="notify-"
         p:notificationDatabaseSuffix="-notification"
 
         p:requestUrl="http://127.0.0.1:5984"
-        p:requestUserName="couchace"
-        p:requestPassword="unittest"
-        p:requestDatabasePrefix="tioga-notify-"
+        p:requestUserName="app-user"
+        p:requestPassword="app-user"
+        p:requestDatabasePrefix="notify-"
         p:requestDatabaseSuffix="-request"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
