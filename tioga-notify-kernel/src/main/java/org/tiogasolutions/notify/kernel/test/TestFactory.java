@@ -36,7 +36,7 @@ public class TestFactory {
 
   public static final String API_KEY = "9999";
   public static final String API_PASSWORD = "unittest";
-  public static final String DOMAIN_NAME = "kernel-test";
+  public static final String DOMAIN_NAME = "kernel";
 
   private final NotificationKernel notificationKernel;
 
