@@ -1,15 +1,15 @@
 package org.tiogasolutions.notify.engine;
 
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTestNg;
+import org.springframework.beans.factory.BeanFactory;
 import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
-import org.tiogasolutions.runners.grizzly.ResourceConfigAdapter;
-import org.glassfish.jersey.test.JerseyTestNg;
-import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.springframework.beans.factory.BeanFactory;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 
 import javax.ws.rs.core.Application;
 
@@ -22,7 +22,7 @@ public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest 
   protected Application configure() {
     application = new NotifyApplication("test", "classpath:/config/spring-test-notify-engine.xml");
 
-    ResourceConfigAdapter adapter = new ResourceConfigAdapter(application);
+    ResourceConfig adapter = ResourceConfig.forApplication(application);
     adapter.register(new JerseySpringBridge(application.getBeanFactory()));
 
     testFactory = new TestFactory(getCouchServers(), getDomainKernel(), getNotificationKernel());

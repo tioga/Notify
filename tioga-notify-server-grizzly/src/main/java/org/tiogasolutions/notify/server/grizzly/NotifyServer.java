@@ -8,7 +8,6 @@ import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
-import org.tiogasolutions.runners.grizzly.LoggerFacade;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -56,20 +55,13 @@ public class NotifyServer {
     // Get from the app an instance of the grizzly server config.
     GrizzlyServerConfig serverConfig = application.getBeanFactory().getBean(GrizzlyServerConfig.class);
 
-    // Create a facade around Slf4j for the server's initialization routines.
-    LoggerFacade loggerFacade = new LoggerFacade() {
-      @Override public void info(String message) { getLogger(GrizzlyServer.class).info(message); }
-      @Override public void warn(String message) { getLogger(GrizzlyServer.class).warn(message); }
-      @Override public void error(String message, Throwable e) { getLogger(GrizzlyServer.class).error(message, e); }
-    };
-
     // Create an instance of the grizzly server.
-    GrizzlyServer grizzlyServer = new GrizzlyServer(application, serverConfig, loggerFacade);
+    GrizzlyServer grizzlyServer = new GrizzlyServer(serverConfig, application);
 
     if (arguments.contains("-shutdown")) {
       GrizzlyServer.shutdownRemote(serverConfig.getHostName(), serverConfig.getShutdownPort());
       String msg = String.format("Shutting down Notify Server at %s:%s", serverConfig.getHostName(), serverConfig.getShutdownPort());
-      loggerFacade.warn(msg);
+      log.warn(msg);
       System.exit(0);
       return;
     }
