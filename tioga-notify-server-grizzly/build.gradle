@@ -11,8 +11,14 @@ project(":tioga-notify-server-grizzly") {
     compile(project(":tioga-notify-processor-logger"))
     compile(project(":tioga-notify-processor-slack"))
 
-    compile("org.tiogasolutions.lib:tioga-lib-spring-jersey:+")
-    compile("org.tiogasolutions.runners:tioga-runners-grizzly:+")
+    compile("org.springframework:spring-aop:4.1.6.RELEASE") {force = true}
+    compile("org.springframework:spring-core:4.1.6.RELEASE") {force = true}
+    compile("org.springframework:spring-beans:4.1.6.RELEASE") {force = true}
+    compile("org.springframework:spring-context:4.1.6.RELEASE") {force = true}
+    compile("org.tiogasolutions.runners:tioga-runners-spring-grizzly:+")
+
+     // required by Jersey-Spring's stupid attempt to check for a ServletContext
+		 runtime("javax.servlet:javax.servlet-api:3.1.0")
   }
 
   File windowsServerStartFile = file("$buildDir/scripts/notify-server-start.bat");

@@ -1,8 +1,9 @@
 package org.tiogasolutions.notify.engine.web.writers;
 
-import org.tiogasolutions.dev.common.StringUtils;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.tiogasolutions.dev.common.StringUtils;
 import org.tiogasolutions.lib.thymeleaf.ClassPathTemplateResolver;
 
 import javax.ws.rs.WebApplicationException;
@@ -11,18 +12,22 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
+@Provider
+@Component
 public class ThymeleafMessageBodyWriter implements MessageBodyWriter<Thymeleaf> {
 
+  @Context
   UriInfo uriInfo;
+
   private final TemplateEngine engine;
 
-  public ThymeleafMessageBodyWriter(@Context UriInfo uriInfo) {
-    this.uriInfo = uriInfo;
+  public ThymeleafMessageBodyWriter() {
 
     ClassPathTemplateResolver templateResolver = new ClassPathTemplateResolver();
     templateResolver.setTemplateMode("HTML5");

@@ -1,11 +1,11 @@
 package org.tiogasolutions.notify.kernel.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.BeanUtils;
-import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
@@ -16,16 +16,12 @@ import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.common.TopicInfo;
 import org.tiogasolutions.notify.pub.common.TraitInfo;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 
-import javax.inject.Inject;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 @Test
@@ -35,12 +31,15 @@ public class DomainSummaryTest extends KernelAbstractTest {
   private static String SUMMARY_TEST_TRAIT_1 = "SUMMARY_TEST_TRAIT_1";
   private static String SUMMARY_TEST_TRAIT_2 = "SUMMARY_TEST_TRAIT_2";
 
-  @Inject
+  @Autowired
   private ExecutionManager executionManager;
-  @Inject
+
+  @Autowired
   private NotificationKernel notificationKernel;
-  @Inject
+
+  @Autowired
   private DomainKernel domainKernel;
+
   private ExecutionContext executionContext;
 
   @BeforeClass

@@ -1,12 +1,11 @@
 package org.tiogasolutions.notify.kernel.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.pub.task.Task;
-import org.testng.annotations.Test;
-
-import javax.inject.Inject;
 
 import static org.testng.Assert.assertEquals;
 
@@ -16,7 +15,7 @@ import static org.testng.Assert.assertEquals;
 @Test(enabled = false)
 public class TaskTest extends KernelAbstractTest {
 
-  @Inject
+  @Autowired
   private JsonTranslator translator;
 
   public TaskTest() {

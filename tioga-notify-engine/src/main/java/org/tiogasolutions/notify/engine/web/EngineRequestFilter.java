@@ -1,27 +1,30 @@
 package org.tiogasolutions.notify.engine.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.tiogasolutions.dev.common.EqualsUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.notify.kernel.admin.AdminKernel;
 import org.tiogasolutions.notify.kernel.config.SystemConfiguration;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.springframework.util.StringUtils;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
 import javax.annotation.Priority;
-import javax.inject.Inject;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.ext.Provider;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Map;
 
-import static org.tiogasolutions.dev.common.exceptions.ExceptionUtils.*;
+import static org.tiogasolutions.dev.common.exceptions.ExceptionUtils.assertNotZeroLength;
 
 /**
  * This is the "global" filter for the Engine. It's primary responsibility is
@@ -29,32 +32,36 @@ import static org.tiogasolutions.dev.common.exceptions.ExceptionUtils.*;
  *
  * All other filters should be processed after this one.
  */
+@Provider
 @PreMatching
-@Priority(Priorities.AUTHENTICATION)
-public class EngineFilter implements ContainerRequestFilter, ContainerResponseFilter {
+@Priority(Priorities.AUTHORIZATION)
+public class EngineRequestFilter implements ContainerRequestFilter {
+
+  private static final Logger log = LoggerFactory.getLogger(EngineRequestFilter.class);
 
   @Context
   private UriInfo uriInfo;
 
   @Context
-  private HttpHeaders headers;
-
-  @Context
   Application application;
 
-  @Inject // Injected by CDI, not Spring
-  private AdminKernel adminKernel;
+  @Context
+  private HttpHeaders headers;
 
-  @Inject // Injected by CDI, not Spring
+  @Autowired // Injected by CDI, not Spring
   private ExecutionManager executionManager;
 
-  @Inject // Injected by CDI, not Spring
+  @Autowired // Injected by CDI, not Spring
   private DomainKernel domainKernel;
 
-  @Inject
+  @Autowired // Injected by CDI, not Spring
+  private AdminKernel adminKernel;
+
+  @Autowired
   private SystemConfiguration systemConfiguration;
 
-  public EngineFilter() {
+  public EngineRequestFilter() {
+    log.info("Created");
   }
 
   @Override
@@ -70,24 +77,24 @@ public class EngineFilter implements ContainerRequestFilter, ContainerResponseFi
     String clientContext = assertNotZeroLength((String) properties.get("app.client.context"), "app.client.context");
     String adminContext = assertNotZeroLength((String) properties.get("app.admin.context"), "app.admin.context");
 
-    if (path.equals(clientContext) || path.startsWith(clientContext+"/")) {
-      authenticateClientRequest(requestContext);
+    try {
+      if (path.equals(clientContext) || path.startsWith(clientContext+"/")) {
+        authenticateClientRequest(requestContext);
 
-    } else if (path.equals(adminContext) || path.startsWith(adminContext+"/")) {
-      authenticateAdminRequest(requestContext);
+      } else if (path.equals(adminContext) || path.startsWith(adminContext+"/")) {
+        authenticateAdminRequest(requestContext);
 
-    } else if (path.startsWith("/app")) {
-      authenticateAdminRequest(requestContext);
+      } else if (path.startsWith("/app")) {
+        authenticateAdminRequest(requestContext);
+      }
+    } catch (NotAuthorizedException e) {
+      requestContext.abortWith(Response
+        .status(Response.Status.UNAUTHORIZED)
+        .header("WWW-Authenticate", "Basic realm=\"Notify\"")
+        .type("text/plain")
+        .entity("Not authorized")
+        .build());
     }
-  }
-
-  @Override
-  public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-    executionManager.clearContext();
-    responseContext.getHeaders().add("Access-Control-Allow-Origin", systemConfiguration.getAccessControlAllowOrigin());
-    responseContext.getHeaders().add("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization");
-    responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET");
-    responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
   }
 
   private void authenticateClientRequest(ContainerRequestContext requestContext) {

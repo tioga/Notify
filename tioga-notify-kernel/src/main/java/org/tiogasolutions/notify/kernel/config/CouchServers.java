@@ -1,5 +1,9 @@
 package org.tiogasolutions.notify.kernel.config;
 
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.CouchServer;
 import org.tiogasolutions.couchace.core.api.CouchSetup;
@@ -9,21 +13,14 @@ import org.tiogasolutions.couchace.core.api.response.WriteResponse;
 import org.tiogasolutions.couchace.core.internal.util.StringUtil;
 import org.tiogasolutions.couchace.jackson.JacksonCouchJsonStrategy;
 import org.tiogasolutions.couchace.jersey.JerseyCouchHttpClient;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.kernel.jackson.NotifyKernelJacksonModule;
-import org.springframework.core.env.Environment;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by harlan on 2/14/15.
- */
-@Named
+@Component
 public class CouchServers {
   private final Environment environment;
   private final CouchServersConfig serversConfig;
@@ -39,7 +36,7 @@ public class CouchServers {
   private final String requestDatabasePrefix;
   private final String requestDatabaseSuffix;
 
-  @Inject
+  @Autowired
   public CouchServers(Environment environment, CouchServersConfig serversConfig) {
     this.environment = environment;
     this.serversConfig = serversConfig;

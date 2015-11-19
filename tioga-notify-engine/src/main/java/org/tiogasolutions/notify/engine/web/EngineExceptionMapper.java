@@ -2,33 +2,37 @@ package org.tiogasolutions.notify.engine.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.lib.jaxrs.TiogaJaxRsExceptionMapper;
 
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Provider;
 import java.util.Arrays;
 import java.util.List;
 
+@Provider
+@Component
 public class EngineExceptionMapper extends TiogaJaxRsExceptionMapper {
 
   private static final Logger log = LoggerFactory.getLogger(EngineExceptionMapper.class);
 
   public EngineExceptionMapper() {
     super(true);
+    log.info("Created");
   }
 
   @Override
   public Response toResponse(Throwable ex) {
 
-    if (ex instanceof NotAuthorizedException) {
-      // Not authorized so return correct headers.
-      return Response
-          .status(Response.Status.UNAUTHORIZED)
-          .header("WWW-Authenticate", "Basic realm=\"Notify\"")
-          .type("text/plain")
-          .entity("Not authorized")
-          .build();
-    }
+//    if (ex instanceof NotAuthorizedException) {
+//      // Not authorized so return correct headers.
+//      return Response
+//          .status(Response.Status.UNAUTHORIZED)
+//          .header("WWW-Authenticate", "Basic realm=\"Notify\"")
+//          .type("text/plain")
+//          .entity("Not authorized")
+//          .build();
+//    }
 
     return super.toResponse(ex);
   }

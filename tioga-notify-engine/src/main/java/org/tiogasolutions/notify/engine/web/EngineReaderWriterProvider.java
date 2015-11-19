@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.engine.web;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.jackson.TiogaJacksonModule;
@@ -17,9 +18,12 @@ import org.tiogasolutions.notify.kernel.domain.DomainProfileEntity;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.ext.Provider;
 import java.util.Arrays;
 import java.util.Collections;
 
+@Provider
+@Component
 public class EngineReaderWriterProvider extends JacksonReaderWriterProvider {
 
   public EngineReaderWriterProvider() {

@@ -1,14 +1,14 @@
 package org.tiogasolutions.notify.kernel.event;
 
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.notification.Notification;
 
-import javax.inject.Named;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@Named
+@Component
 public class EventBus {
 
   private List<TaskEventListener> taskEventListeners = new CopyOnWriteArrayList<>();

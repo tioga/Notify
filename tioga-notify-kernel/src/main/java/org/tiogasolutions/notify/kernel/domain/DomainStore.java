@@ -1,36 +1,34 @@
 package org.tiogasolutions.notify.kernel.domain;
 
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.CouchServer;
 import org.tiogasolutions.couchace.core.api.query.CouchViewQuery;
-import org.tiogasolutions.couchace.core.api.request.CouchFeature;
 import org.tiogasolutions.couchace.core.api.request.CouchFeatureSet;
 import org.tiogasolutions.couchace.core.api.response.GetDocumentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
 import org.tiogasolutions.couchace.core.api.response.TextDocument;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
-import org.tiogasolutions.couchace.core.internal.util.StringUtil;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.tiogasolutions.notify.kernel.common.AbstractStore;
+import org.tiogasolutions.notify.kernel.config.CouchServers;
+import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
 import org.tiogasolutions.notify.pub.common.TopicInfo;
 import org.tiogasolutions.notify.pub.common.TraitInfo;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.config.CouchServers;
-import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -39,16 +37,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.String.format;
 
-/**
- * User: Harlan
- * Date: 2/12/2015
- * Time: 9:46 PM
- */
-@Named
+@Component
 public class DomainStore extends AbstractStore {
 
   private static final Logger log = LoggerFactory.getLogger(DomainStore.class);
@@ -56,7 +50,7 @@ public class DomainStore extends AbstractStore {
   private final CouchServer notificationCouchServer;
   private final CouchServer requestCouchServer;
 
-  @Inject
+  @Autowired
   public DomainStore(CouchServers couchServers) {
     super(couchServers.getMasterDatabase());
 

@@ -6,6 +6,7 @@
 
 package org.tiogasolutions.notify.kernel.config;
 
+import org.slf4j.Logger;
 import org.tiogasolutions.dev.common.id.IdGenerator;
 import org.tiogasolutions.dev.common.id.TwoPartIdGenerator;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
@@ -20,6 +21,8 @@ import javax.validation.Validation;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * User: harlan
  * Date: 10/19/13
@@ -28,6 +31,12 @@ import java.time.ZonedDateTime;
 @Configuration
 @EnableAspectJAutoProxy
 public class SpringConfig {
+
+  private static final Logger log = getLogger(SpringConfig.class);
+
+  public SpringConfig() {
+    log.info("Created.");
+  }
 
   @Bean
   public JsonTranslator jsonTranslator() {

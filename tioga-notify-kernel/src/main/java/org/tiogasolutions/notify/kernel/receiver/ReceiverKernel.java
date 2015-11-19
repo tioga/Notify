@@ -1,18 +1,15 @@
 package org.tiogasolutions.notify.kernel.receiver;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by harlan on 2/14/15.
- */
 // TODO - make schedule an external property and support stop/start
-@Named
+@Component
 public class ReceiverKernel {
 
   private final ReceiverExecutor receiverExecutor;
 
-  @Inject
+  @Autowired
   public ReceiverKernel(ReceiverExecutor receiverExecutor) {
     this.receiverExecutor = receiverExecutor;
 

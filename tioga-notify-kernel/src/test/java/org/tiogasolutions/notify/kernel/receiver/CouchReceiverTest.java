@@ -1,30 +1,16 @@
 package org.tiogasolutions.notify.kernel.receiver;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
-import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.notify.kernel.test.TestFactory;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
-import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
-import org.tiogasolutions.notify.pub.attachment.AttachmentQuery;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.notification.NotificationQuery;
-import org.tiogasolutions.notify.pub.request.NotificationRequest;
-import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
-
-import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 /**
  * User: Harlan
@@ -40,11 +26,11 @@ public class CouchReceiverTest extends KernelAbstractTest {
     return String.valueOf(lastTrackingId++);
   }
 
-  @Inject
+  @Autowired
   private DomainKernel domainKernel;
-  @Inject
+  @Autowired
   private ExecutionManager executionManager;
-  @Inject
+  @Autowired
   private NotificationKernel notificationKernel;
 
   private NotificationRequestStore requestStore;

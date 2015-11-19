@@ -36,6 +36,7 @@ public class AdminResourceV1 {
   }
 
   @GET
+  @Produces({MediaType.APPLICATION_JSON})
   public Response getDefaultPage() {
     return Response.ok("{\"status\":\"200\"}", InetMediaType.APPLICATION_JSON_VALUE).build();
   }

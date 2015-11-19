@@ -4,10 +4,12 @@ import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
 import org.tiogasolutions.app.common.AppPathResolver;
 import org.tiogasolutions.app.common.LogUtils;
-import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
+import org.tiogasolutions.runners.grizzlyspring.ApplicationResolver;
+import org.tiogasolutions.runners.grizzlyspring.GrizzlySpringServer;
+import org.tiogasolutions.runners.grizzlyspring.ServerConfigResolver;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -49,26 +51,22 @@ public class NotifyServer {
       "  *  Logback File: {}\n" +
       "  *  Spring Path:  {}", runtimeDir, configDir, logbackFile, springConfigPath);
 
-    // Create our application, initializing it with the specified spring file.
-    NotifyApplication application = new NotifyApplication(activeProfiles, springConfigPath);
-
-    // Get from the app an instance of the grizzly server config.
-    GrizzlyServerConfig serverConfig = application.getBeanFactory().getBean(GrizzlyServerConfig.class);
-
     // Create an instance of the grizzly server.
-    GrizzlyServer grizzlyServer = new GrizzlyServer(serverConfig, application);
+    GrizzlySpringServer grizzlyServer = new GrizzlySpringServer(
+      ServerConfigResolver.fromClass(GrizzlyServerConfig.class),
+      ApplicationResolver.fromClass(NotifyApplication.class),
+      activeProfiles,
+      springConfigPath
+    );
+
+    grizzlyServer.packages("org.tiogasolutions.notify");
 
     if (arguments.contains("-shutdown")) {
-      GrizzlyServer.shutdownRemote(serverConfig.getHostName(), serverConfig.getShutdownPort());
-      String msg = String.format("Shutting down Notify Server at %s:%s", serverConfig.getHostName(), serverConfig.getShutdownPort());
-      log.warn(msg);
+      GrizzlyServer.shutdownRemote(grizzlyServer.getConfig());
+      log.warn("Shutting down Notify Server at {}:{}", grizzlyServer.getConfig().getHostName(), grizzlyServer.getConfig().getShutdownPort());
       System.exit(0);
       return;
     }
-
-    // Before we start it, register a hook for our jersey-spring bridge.
-    JerseySpringBridge jerseySpringBridge = new JerseySpringBridge(application.getBeanFactory());
-    grizzlyServer.getResourceConfig().register(jerseySpringBridge);
 
     // Lastly, start the server.
     grizzlyServer.start();

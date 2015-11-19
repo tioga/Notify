@@ -1,9 +1,12 @@
 package org.tiogasolutions.notify.engine;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.spring.SpringLifecycleListener;
+import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.test.JerseyTestNg;
 import org.springframework.beans.factory.BeanFactory;
-import org.tiogasolutions.lib.spring.jersey.JerseySpringBridge;
+import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
@@ -15,19 +18,31 @@ import javax.ws.rs.core.Application;
 
 public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest {
 
+  private BeanFactory beanFactory;
   private NotifyApplication application;
   private TestFactory testFactory;
+  private AbstractXmlApplicationContext applicationContext;
 
   @Override
   protected Application configure() {
-    application = new NotifyApplication("test", "classpath:/config/spring-test-notify-engine.xml");
 
-    ResourceConfig adapter = ResourceConfig.forApplication(application);
-    adapter.register(new JerseySpringBridge(application.getBeanFactory()));
+    beanFactory = applicationContext = new ClassPathXmlApplicationContext();
+    applicationContext.setConfigLocation("classpath:/config/spring-test-notify-engine.xml");
+    applicationContext.getEnvironment().setActiveProfiles("test");
+    applicationContext.refresh();
 
     testFactory = new TestFactory(getCouchServers(), getDomainKernel(), getNotificationKernel());
 
-    return adapter;
+    NotifyApplication application = beanFactory.getBean(NotifyApplication.class);
+
+    ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
+    resourceConfig.register(SpringLifecycleListener.class);
+    resourceConfig.register(RequestContextFilter.class);
+    resourceConfig.property("contextConfig", applicationContext);
+
+    resourceConfig.packages("org.tiogasolutions.notify");
+
+    return resourceConfig;
   }
 
   public String toHttpAuth(String username, String password) {
@@ -43,7 +58,7 @@ public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest 
   }
 
   public BeanFactory getBeanFactory() {
-    return application.getBeanFactory();
+    return beanFactory;
   }
 
   public DomainKernel getDomainKernel() {

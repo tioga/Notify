@@ -1,33 +1,26 @@
 package org.tiogasolutions.notify.kernel.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.id.IdGenerator;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.pub.domain.DomainSummary;
-import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.tiogasolutions.notify.kernel.task.TaskGenerator;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.tiogasolutions.notify.pub.domain.DomainSummary;
+import org.tiogasolutions.notify.pub.route.RouteCatalog;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
-
-/**
- * User: Harlan
- * Date: 2/12/2015
- * Time: 9:46 PM
- */
-@Named
+@Component
 public class DomainKernel {
 
   private final static String DEFAULT_PASSWORD = "GoFish";
@@ -38,7 +31,7 @@ public class DomainKernel {
   private final TaskGenerator taskGenerator;
   private final EventBus eventBus;
 
-  @Inject
+  @Autowired
   public DomainKernel(DomainStore domainStore,
                       @Qualifier("DomainKeyGenerator") IdGenerator idGenerator,
                       TaskGenerator taskGenerator,

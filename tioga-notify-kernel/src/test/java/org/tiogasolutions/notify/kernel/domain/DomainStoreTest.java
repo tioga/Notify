@@ -1,13 +1,12 @@
 package org.tiogasolutions.notify.kernel.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.env.MockEnvironment;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
-
-import javax.inject.Inject;
 
 import static org.testng.Assert.assertEquals;
 
@@ -17,9 +16,9 @@ public class DomainStoreTest extends KernelAbstractTest {
   private final String API_KEY = "api-key";
   private final String API_PASSWORD = "api-password";
 
-  @Inject
+  @Autowired
   private CouchServersConfig couchServersConfig;
-  @Inject
+  @Autowired
   private CouchServers couchServers;
 
   @BeforeClass

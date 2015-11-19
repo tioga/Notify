@@ -1,34 +1,34 @@
 package org.tiogasolutions.notify.kernel.task;
 
-import org.tiogasolutions.dev.common.exceptions.ApiConflictException;
-import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
-import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
-import org.tiogasolutions.notify.pub.route.Destination;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.tiogasolutions.dev.common.exceptions.ApiConflictException;
+import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
+import org.tiogasolutions.dev.domain.query.QueryResult;
+import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.event.TaskEventListener;
+import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.TaskQuery;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
-@Named
+@Component
 public class TaskProcessorExecutor implements BeanFactoryAware, TaskEventListener {
 
   private static final String NAME = TaskProcessorExecutor.class.getSimpleName();
@@ -46,7 +46,7 @@ public class TaskProcessorExecutor implements BeanFactoryAware, TaskEventListene
 
   private final ExecutorService threadPoolExecutor;
 
-  @Inject
+  @Autowired
   public TaskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
     this.executorStatus = TaskProcessorExecutorStatus.STOPPED;
 

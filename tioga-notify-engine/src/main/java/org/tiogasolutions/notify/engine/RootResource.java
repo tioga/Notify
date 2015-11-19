@@ -1,17 +1,21 @@
 package org.tiogasolutions.notify.engine;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.engine.v1.AdminResourceV1;
 import org.tiogasolutions.notify.engine.v1.ClientResourceV1;
-import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
-import org.tiogasolutions.notify.kernel.event.EventBus;
+import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
+import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,39 +27,38 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 @Path("/")
+@Component
+@Scope(value="prototype")
 public class RootResource {
+
+  private static final Logger log = LoggerFactory.getLogger(RootResource.class);
 
   @Context
   UriInfo uriInfo;
 
-  @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Autowired
   private DomainKernel domainKernel;
 
-  @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Autowired
   private ExecutionManager executionManager;
 
-  @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Autowired
   private NotificationKernel notificationKernel;
 
-  @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Autowired
   private ReceiverExecutor receiverExecutor;
 
-  @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Autowired
   private TaskProcessorExecutor processorExecutor;
 
-  @Inject // Injected by CDI, not Spring
-  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Autowired
   private EventBus eventBus;
 
-  @Inject
+  @Autowired
   private StaticContentReader staticContentReader;
 
   public RootResource() {
+    log.info("Created.");
   }
 
   @GET

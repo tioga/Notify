@@ -1,9 +1,10 @@
 package org.tiogasolutions.notify.sender.couch;
 
-import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
@@ -14,7 +15,6 @@ import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
-import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -30,7 +30,7 @@ import static org.testng.Assert.*;
 @Test
 public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kernel.KernelAbstractTest {
 
-  @Inject
+  @Autowired
   private org.tiogasolutions.notify.kernel.domain.DomainKernel domainKernel;
 
   private static int lastTrackingId = 4400;

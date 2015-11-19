@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.kernel.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.tiogasolutions.notify.pub.notification.Notification;
@@ -7,8 +9,6 @@ import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.Destination;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,16 +17,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-/**
- * Created by harlan on 2/14/15.
- */
-@Named
+@Component
 public class TaskGenerator {
 
   private final EventBus eventBus;
   private final ExecutorService executorService;
 
-  @Inject
+  @Autowired
   public TaskGenerator(EventBus eventBus) {
     this.eventBus = eventBus;
     this.executorService = Executors.newCachedThreadPool();

@@ -1,41 +1,40 @@
 package org.tiogasolutions.notify.processor.push;
 
-import org.tiogasolutions.notify.kernel.test.TestFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import org.tiogasolutions.dev.common.exceptions.UnsupportedMethodException;
+import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 import org.tiogasolutions.notify.kernel.task.CreateTask;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.DestinationDef;
 import org.tiogasolutions.push.pub.EmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
 import org.tiogasolutions.push.pub.XmppPush;
-import org.tiogasolutions.dev.common.exceptions.UnsupportedMethodException;
-import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.CreateNotification;
-import org.tiogasolutions.notify.pub.route.Destination;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import javax.inject.Inject;
 
 import static org.testng.Assert.*;
 
 @Test
 public class PushTaskProcessorTest extends ProcessorPushAbstractTest implements BeanFactoryAware {
 
-  @Inject
+  @Autowired
   private TestFactory testFactory;
 
-  @Inject
+  @Autowired
   private ExecutionManager executionManager;
 
   private PushTaskProcessor processor;
 
-  @Inject
+  @Autowired
   private TestCosmicPushGateway gateway;
 
   @Override

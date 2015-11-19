@@ -1,5 +1,6 @@
 package org.tiogasolutions.notify.kernel.request;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.http.CouchMediaType;
 import org.tiogasolutions.couchace.core.api.query.CouchViewQuery;
@@ -12,7 +13,6 @@ import org.tiogasolutions.notify.kernel.common.CouchConst;
 import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
-import javax.inject.Inject;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -26,7 +26,7 @@ public class NotificationRequestStore {
 
   private final CouchDatabase couchDatabase;
 
-  @Inject
+  @Autowired
   public NotificationRequestStore(CouchDatabase couchDatabase) {
     this.couchDatabase = couchDatabase;
   }

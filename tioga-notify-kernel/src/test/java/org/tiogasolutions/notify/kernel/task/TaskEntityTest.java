@@ -1,31 +1,30 @@
 package org.tiogasolutions.notify.kernel.task;
 
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
-import org.tiogasolutions.notify.kernel.test.TestFactory;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.CreateNotification;
-import org.tiogasolutions.notify.pub.route.ArgValueMap;
-import org.tiogasolutions.notify.pub.route.Destination;
-import org.tiogasolutions.notify.pub.task.TaskStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import javax.inject.Inject;
+import org.tiogasolutions.notify.kernel.KernelAbstractTest;
+import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.CreateNotification;
+import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.route.ArgValueMap;
+import org.tiogasolutions.notify.pub.route.Destination;
+import org.tiogasolutions.notify.pub.task.TaskStatus;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 @Test
 public class TaskEntityTest extends KernelAbstractTest {
-  @Inject
+  @Autowired
   private TestFactory testFactory;
-  @Inject
+  @Autowired
   private ExecutionManager executionManager;
-  @Inject
+  @Autowired
   private NotificationKernel notificationKernel;
 
   @BeforeMethod

@@ -30,8 +30,8 @@
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="localhost"
-        p:port="8080"
-        p:shutdownPort="8081"
+        p:port="39011"
+        p:shutdownPort="39012"
         p:context="notify-server"
         p:toOpenBrowser="true"/>
 

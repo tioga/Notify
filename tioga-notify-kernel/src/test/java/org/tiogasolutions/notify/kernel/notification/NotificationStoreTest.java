@@ -1,17 +1,19 @@
 package org.tiogasolutions.notify.kernel.notification;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.KernelAbstractTest;
-import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
-import org.testng.annotations.*;
-
-import javax.inject.Inject;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -21,9 +23,9 @@ import static org.testng.Assert.assertNotNull;
 
 @Test
 public class NotificationStoreTest extends KernelAbstractTest {
-  @Inject
+  @Autowired
   private ExecutionManager executionManager;
-  @Inject
+  @Autowired
   private NotificationKernel notificationKernel;
 
   private NotificationRef tenYearsAgoRef;

@@ -1,17 +1,17 @@
 package org.tiogasolutions.notify.kernel.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.config.TrustedUserStore;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.NotAuthorizedException;
 
-@Named
+@Component
 public class AdminKernel {
 
   private TrustedUserStore trustedUserStore;
 
-  @Inject
+  @Autowired
   public AdminKernel(TrustedUserStore trustedUserStore) {
     this.trustedUserStore = trustedUserStore;
   }

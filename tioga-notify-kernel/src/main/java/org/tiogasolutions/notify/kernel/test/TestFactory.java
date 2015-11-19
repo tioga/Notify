@@ -1,15 +1,11 @@
 package org.tiogasolutions.notify.kernel.test;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
-import org.tiogasolutions.notify.pub.common.ExceptionInfo;
-import org.tiogasolutions.notify.pub.common.Link;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.pub.domain.DomainStatus;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.notification.NotificationRef;
-import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
@@ -17,11 +13,15 @@ import org.tiogasolutions.notify.kernel.notification.NotificationEntity;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.task.CreateTask;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
+import org.tiogasolutions.notify.pub.common.Link;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.domain.DomainStatus;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.DestinationDef;
-import org.springframework.context.annotation.Profile;
+import org.tiogasolutions.notify.pub.route.RouteCatalog;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.xml.bind.DatatypeConverter;
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Temporarily moved to main source so that we can reuse it in other modules.
  */
-@Named
+@Component
 @Profile("test")
 public class TestFactory {
 
@@ -40,7 +40,7 @@ public class TestFactory {
 
   private final NotificationKernel notificationKernel;
 
-  @Inject
+  @Autowired
   public TestFactory(CouchServers couchServers, DomainKernel domainKernel, NotificationKernel notificationKernel) {
     try {
       this.notificationKernel = notificationKernel;

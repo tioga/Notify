@@ -1,15 +1,15 @@
 package org.tiogasolutions.notify.kernel.receiver;
 
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.tiogasolutions.notify.kernel.domain.DomainKernel;
+import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -18,12 +18,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * User: Harlan
- * Date: 2/12/2015
- * Time: 9:08 PM
- */
-@Named
+@Component
 public class ReceiverExecutor {
 
   private static final String NAME = ReceiverExecutor.class.getSimpleName();
@@ -37,7 +32,7 @@ public class ReceiverExecutor {
   private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
   private ScheduledFuture executorFuture = null;
 
-  @Inject
+  @Autowired
   public ReceiverExecutor(DomainKernel domainKernel,
                           NotificationKernel notificationKernel,
                           ExecutionManager executionManager) {

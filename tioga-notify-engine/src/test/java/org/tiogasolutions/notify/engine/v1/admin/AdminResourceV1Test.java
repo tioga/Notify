@@ -26,7 +26,6 @@ import java.util.*;
 import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
 
-@SuppressWarnings("unchecked")
 @Test
 public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
 
@@ -121,6 +120,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
     Response response = request(target(path)).get();
     assertEquals(response.getStatus(), 200);
     String json = response.readEntity(String.class);
+    // noinspection unchecked
     QueryResult<Notification> result = objectMapper.readValue(json, QueryResult.class);
     assertEquals(result.getSize(), 8);
     assertEquals(result.getLimit(), 10);
@@ -143,6 +143,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
     response = request(target(path).queryParam("offset", 3).queryParam("limit", 5)).get();
     assertEquals(response.getStatus(), 200);
     json = response.readEntity(String.class);
+    // noinspection unchecked
     result = objectMapper.readValue(json, QueryResult.class);
     assertEquals(result.getSize(), 5);
     assertEquals(result.getLimit(), 5);

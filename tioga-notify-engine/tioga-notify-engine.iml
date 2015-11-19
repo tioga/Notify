@@ -28,26 +28,11 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish.jersey.containers:jersey-container-servlet-core:2.17" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:5.1.5" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.1.6" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.1.10" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.0.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.1.7" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-context:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-beans:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-aop:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-core:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-jersey:1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-jaxrs:1.0.0" level="project" />
     <orderEntry type="module" module-name="tioga-notify-pub" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-couchace:1.0.16" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.app:tioga-app-common:2.0.2" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-validator:5.1.3.Final" level="project" />
     <orderEntry type="library" name="Gradle: javax.el:javax.el-api:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish:javax.el:3.0.0" level="project" />
@@ -55,11 +40,9 @@
     <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.5.0" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.5.0" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.5.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.aspectj:aspectjweaver:1.8.5" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.17" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.7" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-java8time:2.1.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-couchace:5.0.12" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.7" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.7" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.3" level="project" />
@@ -89,14 +72,293 @@
     <orderEntry type="library" name="Gradle: org.glassfish.hk2.external:aopalliance-repackaged:2.4.0-b10" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.grizzly:grizzly-framework:2.3.16" level="project" />
     <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: org.tiogasolutions.runners:tioga-runners-grizzly:1.1.0">
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:5.1.6">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/runners/tioga-runners-grizzly/1.1.0/tioga-runners-grizzly-1.1.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs-jackson/5.1.6/tioga-lib-jaxrs-jackson-5.1.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/runners/tioga-runners-grizzly/1.1.0/tioga-runners-grizzly-1.1.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs-jackson/5.1.6/tioga-lib-jaxrs-jackson-5.1.6-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.0.3">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-thymeleaf/1.0.3/tioga-lib-thymeleaf-1.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-thymeleaf/1.0.3/tioga-lib-thymeleaf-1.0.3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-couchace:1.0.17">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-spring-couchace/1.0.17/tioga-lib-spring-couchace-1.0.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-spring-couchace/1.0.17/tioga-lib-spring-couchace-1.0.17-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.0.3">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.0.3/tioga-app-common-2.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.0.3/tioga-app-common-2.0.3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.1.7">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-domain/4.1.7/tioga-dev-domain-4.1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-domain/4.1.7/tioga-dev-domain-4.1.7-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.1.11">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-jackson/4.1.11/tioga-dev-jackson-4.1.11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-jackson/4.1.11/tioga-dev-jackson-4.1.11-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.aspectj:aspectjweaver:1.8.5">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.8.5/6004670a8cbcbe794d73ad00106779561ad1b180/aspectjweaver-1.8.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.8.5/f7a7b1dfc6a9f208f271252ca9592c252de36238/aspectjweaver-1.8.5-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.1.8">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.1.8/tioga-lib-jaxrs-4.1.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.1.8/tioga-lib-jaxrs-4.1.8-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.0.2">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-common/5.0.2/tioga-dev-common-5.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-common/5.0.2/tioga-dev-common-5.0.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-couchace:5.0.13">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-couchace/5.0.13/tioga-lib-couchace-5.0.13.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-couchace/5.0.13/tioga-lib-couchace-5.0.13-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.jersey.ext:jersey-spring3:2.17">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-spring3/2.17/53564bfeba91f64fdebae891161b4a8a80038a03/jersey-spring3-2.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-spring3/2.17/f86732c573cd64e99a17808bdaf275ff969c6386/jersey-spring3-2.17-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.17">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.test-framework.providers/jersey-test-framework-provider-grizzly2/2.17/81abd9d74f449d953b186505469a20e79950b46d/jersey-test-framework-provider-grizzly2-2.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.test-framework.providers/jersey-test-framework-provider-grizzly2/2.17/652398a60858058d7a96c1ab7654574d914c5e69/jersey-test-framework-provider-grizzly2-2.17-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:hk2:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2/2.4.0-b10/e0a83d8e517225c2341a9053e8ffdd3da5fc8d64/hk2-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2/2.4.0-b10/b203881895fd4d47d248b2896d1f2b385f678728/hk2-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:spring-bridge:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/spring-bridge/2.4.0-b10/80dda3e0b3ef5e7148fede3338d5914786e2da39/spring-bridge-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/spring-bridge/2.4.0-b10/f7d7895c579d8df6d576e91f10058b71734afac7/spring-bridge-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.springframework:spring-web:3.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/3.2.3.RELEASE/833c5e9a60f82209a3f669a5026dfa8de57c1df3/spring-web-3.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/3.2.3.RELEASE/913394ac47d255c3473d48619102255599845695/spring-web-3.2.3.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.17">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.containers/jersey-container-grizzly2-servlet/2.17/198f8776bf668a5cc5cf0cc8eec4664f5498b52d/jersey-container-grizzly2-servlet-2.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.containers/jersey-container-grizzly2-servlet/2.17/5450bc368ee86f495e90221b2993a388db35706f/jersey-container-grizzly2-servlet-2.17-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:config-types:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/config-types/2.4.0-b10/fff76571af142d67a310add37dad88d51ae2d3b6/config-types-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/config-types/2.4.0-b10/2033511579fe20c41de2e7bf1ea48d22c5fae00f/config-types-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:core:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/core/2.4.0-b10/a52fe05b2039a80f3429b5a06f0f7af3ec88ef89/core-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/core/2.4.0-b10/a4aff697c9cb6af5a2d23ed3dac143abcdf9d823/core-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:hk2-config:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-config/2.4.0-b10/837b576077f2d2edd7dc38636e847a835329f394/hk2-config-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-config/2.4.0-b10/afa2d5f9d624dc79959fbbc00e24df3014d86d41/hk2-config-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:hk2-runlevel:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-runlevel/2.4.0-b10/92f899f5300b2dfb9fcad1c87850d3fde2b9d73c/hk2-runlevel-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/hk2-runlevel/2.4.0-b10/e2affb2e87dfafa83281cb3c8281005c17f6f6ea/hk2-runlevel-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2:class-model:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/class-model/2.4.0-b10/6c7f4aa016f1e97b2eb15f780d3edd9a9b07e0f3/class-model-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/class-model/2.4.0-b10/d41c379772f702af437849d324a7fb5bc89701fa/class-model-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.jersey.containers:jersey-container-servlet:2.17">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.containers/jersey-container-servlet/2.17/fd13156730bf872bf2c96d030cec48527530136a/jersey-container-servlet-2.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.containers/jersey-container-servlet/2.17/fd8ce0f9f723839a2e242bdc97a8b8bbcf57b113/jersey-container-servlet-2.17-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.grizzly:grizzly-http-servlet:2.3.16">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.grizzly/grizzly-http-servlet/2.3.16/1c2e9606bd47adcf639d726c059dc0c67d5ffcc/grizzly-http-servlet-2.3.16.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.grizzly/grizzly-http-servlet/2.3.16/856d75c56c48dc0cb543250118de0424b2dc1a4/grizzly-http-servlet-2.3.16-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.jvnet:tiger-types:1.4">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jvnet/tiger-types/1.4/9f75db7dea926f497e76eae2cea36eca74ea508/tiger-types-1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jvnet/tiger-types/1.4/3ee0fb831e883a546d7e678aa4fa8ffbce8e7d53/tiger-types-1.4-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2.external:bean-validator:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/bean-validator/2.4.0-b10/84a3d7e17611f6884e90132a03dd7c11e3945f7/bean-validator-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/bean-validator/2.4.0-b10/56c5a7cb9eb59c734b78e7a0a30f1a34a993547c/bean-validator-2.4.0-b10-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.glassfish.hk2.external:asm-all-repackaged:2.4.0-b10">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/asm-all-repackaged/2.4.0-b10/228262d9bc7293935323e0caddbf296424360e9f/asm-all-repackaged-2.4.0-b10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2.external/asm-all-repackaged/2.4.0-b10/bbb7d589cd1c140e71ee02488c201972c4c38604/asm-all-repackaged-2.4.0-b10-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

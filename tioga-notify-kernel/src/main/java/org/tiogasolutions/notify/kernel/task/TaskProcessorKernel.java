@@ -1,21 +1,17 @@
 package org.tiogasolutions.notify.kernel.task;
 
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
-/**
- * Created by jacobp on 3/6/2015.
- */
-@Named
+@Component
 public class TaskProcessorKernel {
 
   private final TaskProcessorExecutor processorExecutor;
 
-  @Inject
+  @Autowired
   public TaskProcessorKernel(TaskProcessorExecutor processorExecutor, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel) {
     this.processorExecutor = processorExecutor;
 

@@ -1,25 +1,20 @@
 package org.tiogasolutions.notify.kernel.execution;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 
-/**
- * User: Harlan
- * Date: 2/9/2015
- * Time: 11:22 PM
- */
-@Named
+@Component
 public class ExecutionManager implements ExecutionAccessor {
   private final DomainKernel domainKernel;
   private final ThreadLocal<ExecutionContext> threadLocal = new ThreadLocal<>();
 
-  @Inject
+  @Autowired
   public ExecutionManager(DomainKernel domainKernel) {
     this.domainKernel = domainKernel;
   }

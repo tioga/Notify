@@ -1,22 +1,27 @@
 package org.tiogasolutions.notify.engine.web.writers;
 
+import org.springframework.stereotype.Component;
+
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+@Provider
+@Component
 public class EmbeddedContentMessageBodyWriter implements MessageBodyWriter<EmbeddedContent> {
 
   @Context UriInfo uriInfo;
 
   // HACK - if we want to go this way will need to uncomment this!
-  //@Inject // Injected by CDI, not Spring
+  //@Autowired // Injected by CDI, not Spring
   //private StaticContentReader contentReader;
 
   public EmbeddedContentMessageBodyWriter() {

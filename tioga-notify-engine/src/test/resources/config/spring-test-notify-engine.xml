@@ -55,9 +55,7 @@
     <property name="accessControlAllowOrigin" value="http://www.localhost:63342"/>
   </bean>
 
-  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
-    <constructor-arg value="path-to-nowhere"/>
-  </bean>
+  <bean class="org.tiogasolutions.notify.engine.web.readers.MockContentReader"/>
 
   <context:component-scan base-package="org.tiogasolutions.notify"/>
 
