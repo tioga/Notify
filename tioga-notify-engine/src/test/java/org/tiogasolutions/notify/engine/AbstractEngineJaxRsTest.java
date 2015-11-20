@@ -5,8 +5,10 @@ import org.glassfish.jersey.server.spring.SpringLifecycleListener;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.glassfish.jersey.test.JerseyTestNg;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.testng.annotations.BeforeMethod;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
@@ -18,19 +20,24 @@ import javax.ws.rs.core.Application;
 
 public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest {
 
-  private BeanFactory beanFactory;
-  private NotifyApplication application;
   private TestFactory testFactory;
+  private AutowireCapableBeanFactory beanFactory;
   private AbstractXmlApplicationContext applicationContext;
+
+  @BeforeMethod
+  public void autowireTest() throws Exception {
+    beanFactory.autowireBean(this);
+  }
 
   @Override
   protected Application configure() {
 
-    beanFactory = applicationContext = new ClassPathXmlApplicationContext();
+    applicationContext = new ClassPathXmlApplicationContext();
     applicationContext.setConfigLocation("classpath:/config/spring-test-notify-engine.xml");
     applicationContext.getEnvironment().setActiveProfiles("test");
     applicationContext.refresh();
 
+    beanFactory = (AutowireCapableBeanFactory)applicationContext;
     testFactory = new TestFactory(getCouchServers(), getDomainKernel(), getNotificationKernel());
 
     NotifyApplication application = beanFactory.getBean(NotifyApplication.class);
@@ -51,10 +58,6 @@ public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest 
 
   public TestFactory getTestFactory() {
     return testFactory;
-  }
-
-  public NotifyApplication getApplication() {
-    return application;
   }
 
   public BeanFactory getBeanFactory() {
