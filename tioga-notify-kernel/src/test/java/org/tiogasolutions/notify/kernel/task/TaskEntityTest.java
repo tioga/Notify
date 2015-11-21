@@ -5,7 +5,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
@@ -14,12 +13,13 @@ import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.TaskStatus;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 @Test
-public class TaskEntityTest extends KernelAbstractTest {
+public class TaskEntityTest extends AbstractSpringTest {
   @Autowired
   private TestFactory testFactory;
   @Autowired

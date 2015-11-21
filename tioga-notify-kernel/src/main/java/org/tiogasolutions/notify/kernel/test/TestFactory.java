@@ -116,7 +116,7 @@ public class TestFactory {
     return new ExceptionInfo(ApiException.forbidden("I'm sorry, I cannot let you do that.", new RuntimeException("I tripped when I was running with scissors")));
   }
 
-  public String toHttpAuth(String username, String password) {
+  public static String toHttpAuth(String username, String password) {
     byte[] value = (username + ":" + password).getBytes();
     return "Basic " + DatatypeConverter.printBase64Binary(value);
   }

@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.engine.v1.admin;
+package org.tiogasolutions.notify.engine;
 
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;

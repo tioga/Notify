@@ -1,19 +1,19 @@
 package org.tiogasolutions.notify.processor.slack;
 
-import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
-import org.tiogasolutions.notify.kernel.task.TaskProcessor;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.task.Task;
-import org.tiogasolutions.notify.pub.task.TaskResponse;
-import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.stereotype.Component;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.kernel.task.TaskProcessor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.route.ArgValueMap;
+import org.tiogasolutions.notify.pub.task.Task;
+import org.tiogasolutions.notify.pub.task.TaskResponse;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -22,6 +22,7 @@ import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Component
 public class SlackTaskProcessor implements TaskProcessor {
 
   public static final String DEFAULT_TEMPLATE_PATH = "classpath:/notify-processor-slack/default-slack-template.html";
@@ -48,10 +49,6 @@ public class SlackTaskProcessor implements TaskProcessor {
   @Override
   public boolean isReady() {
     return true;
-  }
-
-  @Override
-  public void init(BeanFactory beanFactory) {
   }
 
   @Override

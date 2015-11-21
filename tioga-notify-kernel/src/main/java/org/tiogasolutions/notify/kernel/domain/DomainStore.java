@@ -233,7 +233,7 @@ public class DomainStore extends AbstractStore {
    */
   public DomainProfile recreateDomain(String domainName, String apiKey, String apiPassword) {
 
-    if (!couchServers.isTestEnvironment()) {
+    if (couchServers.getEnvironment().isNotTest()) {
       throw ApiException.badRequest("Can only create domain in test environment");
     }
 

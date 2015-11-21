@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.BeanUtils;
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
@@ -16,6 +15,7 @@ import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.common.TopicInfo;
 import org.tiogasolutions.notify.pub.common.TraitInfo;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -25,7 +25,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 @Test
-public class DomainSummaryTest extends KernelAbstractTest {
+public class DomainSummaryTest extends AbstractSpringTest {
   private static String SUMMARY_TEST_TOPIC_1 = "SUMMARY_TEST_TOPIC_1";
   private static String SUMMARY_TEST_TOPIC_2 = "SUMMARY_TEST_TOPIC_2";
   private static String SUMMARY_TEST_TRAIT_1 = "SUMMARY_TEST_TRAIT_1";

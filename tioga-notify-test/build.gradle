@@ -1,0 +1,17 @@
+/*
+ * Copyright (c) 2014 Jacob D. Parr
+ *
+ * This software may not be used without permission.
+ */
+project(":tioga-notify-test") {
+  version = "1.0.0"
+
+  dependencies {
+    compile(project(":tioga-notify-kernel"))
+
+    compile("org.testng:testng:6.8.21")
+  }
+
+  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+}
+

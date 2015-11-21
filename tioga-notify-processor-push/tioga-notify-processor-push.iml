@@ -25,7 +25,6 @@
     <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-pub:2.0.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-jackson:4.0.6" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.tiogasolutions.push:tioga-push-client:3.0.4" level="project" />
     <orderEntry type="module" module-name="tioga-notify-pub" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-validator:5.1.3.Final" level="project" />
     <orderEntry type="library" name="Gradle: javax.el:javax.el-api:3.0.0" level="project" />
@@ -73,6 +72,18 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-aop:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="module" module-name="tioga-notify-test" scope="TEST" />
+    <orderEntry type="module-library">
+      <library name="Gradle: org.tiogasolutions.push:tioga-push-client:3.0.5">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-client/3.0.5/tioga-push-client-3.0.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-client/3.0.5/tioga-push-client-3.0.5-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module-library">
       <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.0.3">
         <CLASSES>
@@ -180,17 +191,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.1.8/tioga-lib-jaxrs-4.1.8-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: org.springframework:spring-test:4.1.6.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/4.1.6.RELEASE/89612cafdac51bc92d9bd512e1863a9111a08b4e/spring-test-4.1.6.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/4.1.6.RELEASE/860ca1ce2454e37fa27437abca550d33e8a2beb9/spring-test-4.1.6.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

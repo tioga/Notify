@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/tioga-notify-sender-couch" />
             <option value="$PROJECT_DIR$/tioga-notify-sender-http" />
             <option value="$PROJECT_DIR$/tioga-notify-server-grizzly" />
+            <option value="$PROJECT_DIR$/tioga-notify-test" />
           </set>
         </option>
         <option name="myModules">
@@ -41,6 +42,7 @@
             <option value="$PROJECT_DIR$/tioga-notify-sender-couch" />
             <option value="$PROJECT_DIR$/tioga-notify-sender-http" />
             <option value="$PROJECT_DIR$/tioga-notify-server-grizzly" />
+            <option value="$PROJECT_DIR$/tioga-notify-test" />
           </set>
         </option>
       </GradleProjectSettings>

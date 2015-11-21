@@ -19,9 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
-/**
- * Created by jacobp on 3/6/2015.
- */
 public class TestMainSupport {
 
   protected Client client;

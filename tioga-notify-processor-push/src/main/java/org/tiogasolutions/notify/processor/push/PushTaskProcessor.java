@@ -1,53 +1,52 @@
 package org.tiogasolutions.notify.processor.push;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.exceptions.ApiUnauthorizedException;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.push.client.LivePushServerClient;
-import org.tiogasolutions.push.client.PushServerClient;
-import org.tiogasolutions.push.pub.common.Push;
-import org.tiogasolutions.push.pub.EmailPush;
-import org.tiogasolutions.push.pub.TwilioSmsPush;
-import org.tiogasolutions.push.pub.XmppPush;
-import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.UnsupportedMethodException;
 import org.tiogasolutions.notify.kernel.message.HtmlMessage;
 import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
 import org.tiogasolutions.notify.kernel.task.TaskProcessor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.ArgValue;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.Destination;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactory;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
+import org.tiogasolutions.push.client.LivePushServerClient;
+import org.tiogasolutions.push.client.PushServerClient;
+import org.tiogasolutions.push.pub.EmailPush;
+import org.tiogasolutions.push.pub.TwilioSmsPush;
+import org.tiogasolutions.push.pub.XmppPush;
+import org.tiogasolutions.push.pub.common.Push;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
+@Component
 public class PushTaskProcessor implements TaskProcessor {
 
   private static final Logger log = LoggerFactory.getLogger(PushTaskProcessor.class);
   private static final TaskProcessorType PROCESSOR_TYPE = new TaskProcessorType("push");
 
   private final ThymeleafMessageBuilder messageBuilder;
-  /*package*/ PushServerClient client;
-  /*package*/ private PushConfig pushConfig;
+  private final PushServerClient client;
+  private final PushConfig pushConfig;
 
-  public PushTaskProcessor() {
+  @Autowired
+  public PushTaskProcessor(PushConfig pushConfig, PushServerClient client) {
+    this.client = client;
+    this.pushConfig = pushConfig;
     this.messageBuilder = new ThymeleafMessageBuilder();
-  }
-
-  @Override
-  public void init(BeanFactory beanFactory) {
-    this.pushConfig = beanFactory.getBean(PushConfig.class);
-    this.client = beanFactory.getBean(PushServerClient.class);
   }
 
   @Override

@@ -6,6 +6,8 @@ project(":tioga-notify-engine") {
     compile(project(":tioga-notify-kernel"))
     compile("org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:+")
 
+    testCompile(project(":tioga-notify-test"))
+
     testCompile("org.glassfish.jersey.ext:jersey-spring3:2.17")
     testCompile("org.springframework:spring-aop:4.1.6.RELEASE") {force = true}
     testCompile("org.springframework:spring-core:4.1.6.RELEASE") {force = true}

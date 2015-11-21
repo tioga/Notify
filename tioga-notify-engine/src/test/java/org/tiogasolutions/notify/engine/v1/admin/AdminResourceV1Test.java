@@ -1,64 +1,70 @@
 package org.tiogasolutions.notify.engine.v1.admin;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.ReflectUtils;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
 import org.tiogasolutions.notify.engine.AbstractEngineJaxRsTest;
+import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.CreateNotification;
+import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
+import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
-import org.tiogasolutions.notify.pub.request.NotificationRequest;
-import org.tiogasolutions.notify.pub.task.TaskQuery;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
-import org.tiogasolutions.notify.kernel.notification.CreateNotification;
-import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.tiogasolutions.notify.pub.request.NotificationRequest;
+import org.tiogasolutions.notify.pub.task.TaskQuery;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 @Test
 public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
 
-  private final TiogaJacksonObjectMapper objectMapper;
+  @Autowired
+  private ExecutionManager executionManager;
 
-  public AdminResourceV1Test() {
-    objectMapper = new TiogaJacksonObjectMapper();
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-  }
+  @Autowired
+  private TiogaJacksonObjectMapper objectMapper;
+
+  @Autowired
+  private NotificationKernel notificationKernel;
 
   @BeforeMethod
   public void beforeClass() throws Exception {
-    getExecutionManager().newApiContext(TestFactory.API_KEY);
+    executionManager.newApiContext(TestFactory.API_KEY);
 
     // I need to delete all the notifications and tasks
 
-    for (Notification notification : getNotificationKernel().query(new NotificationQuery())) {
-      getNotificationKernel().deleteNotification(notification.getNotificationId());
+    for (Notification notification : notificationKernel.query(new NotificationQuery())) {
+      notificationKernel.deleteNotification(notification.getNotificationId());
     }
 
-    for (TaskEntity task : getNotificationKernel().query(new TaskQuery())) {
-      getNotificationKernel().deleteTask(task.getTaskId());
+    for (TaskEntity task : notificationKernel.query(new TaskQuery())) {
+      notificationKernel.deleteTask(task.getTaskId());
     }
   }
 
   @AfterMethod
   public void afterClass() throws Exception {
-    getExecutionManager().clearContext();
+    executionManager.clearContext();
   }
 
   private Invocation.Builder request(WebTarget webTarget) {
     return webTarget.request()
-        .header("Authorization", toHttpAuth("jacobp", "Testing123"));
+        .header("Authorization", toHttpAuth("admin", "Testing123"));
   }
   
   public void test_api_v1_admin_$NoAuthorization() {
@@ -102,6 +108,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
     assertEquals(response.getStatus(), 404);
   }
 
+  @SuppressWarnings("unchecked")
   public void test_api_v1_admin_domains_KernelTest_notifications() throws Exception {
 
     for (int i = 0; i < 8; i++) {
@@ -112,7 +119,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
       CreateNotification create = new CreateNotification(
           "test-"+i, "This is task #"+i, "tracking #"+i,
           ZonedDateTime.now(), null, Collections.emptyList(), traits);
-      getNotificationKernel().createNotification(create);
+      notificationKernel.createNotification(create);
     }
 
 
@@ -205,7 +212,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
 
   public void test_api_v1_admin_domains_KernelTest_notifications_GoodId() {
 
-    NotificationRef ref = getNotificationKernel().createNotification(new CreateNotification(
+    NotificationRef ref = notificationKernel.createNotification(new CreateNotification(
         "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
         null, ZonedDateTime.now(), null, Collections.emptyList(), Collections.emptyMap()));
 
@@ -222,6 +229,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
     assertEquals(response.getStatus(), 200);
   }
 
+  @SuppressWarnings("unchecked")
   public void test_api_v1_admin_domains_KernelTest_requests() throws Exception {
     String path = String.format("/api/v1/admin/domains/%s/requests", TestFactory.DOMAIN_NAME);
     Response response = request(target(path)).get();

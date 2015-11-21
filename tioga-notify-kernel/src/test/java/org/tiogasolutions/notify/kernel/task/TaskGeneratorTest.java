@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
@@ -14,6 +13,7 @@ import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.TaskStatus;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -23,7 +23,7 @@ import static org.testng.Assert.assertNotNull;
 
 // HACK - disabled because we no longer have the hack in routing, need another way to test.
 @Test(enabled = false)
-public class TaskGeneratorTest extends KernelAbstractTest {
+public class TaskGeneratorTest extends AbstractSpringTest {
 
   @Autowired
   private TaskGenerator taskGenerator;

@@ -7,13 +7,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 @Test
-public class NotificationStoreTest extends KernelAbstractTest {
+public class NotificationStoreTest extends AbstractSpringTest {
   @Autowired
   private ExecutionManager executionManager;
   @Autowired

@@ -2,11 +2,6 @@ package org.tiogasolutions.notify.kernel.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.common.exceptions.ApiConflictException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.domain.query.QueryResult;
@@ -28,8 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.String.format;
 
-@Component
-public class TaskProcessorExecutor implements BeanFactoryAware, TaskEventListener {
+public class TaskProcessorExecutor implements TaskEventListener {
 
   private static final String NAME = TaskProcessorExecutor.class.getSimpleName();
   private static final Logger log = LoggerFactory.getLogger(TaskProcessorExecutor.class);
@@ -46,17 +40,13 @@ public class TaskProcessorExecutor implements BeanFactoryAware, TaskEventListene
 
   private final ExecutorService threadPoolExecutor;
 
-  @Autowired
-  public TaskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
+  public TaskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, List<TaskProcessor> taskProcessors) {
     this.executorStatus = TaskProcessorExecutorStatus.STOPPED;
 
     this.domainKernel = domainKernel;
     this.threadPoolExecutor = Executors.newCachedThreadPool();
 
-    ServiceLoader<TaskProcessor> loader = ServiceLoader.load(TaskProcessor.class);
-    loader.reload();
-
-    for (TaskProcessor processor : loader) {
+    for (TaskProcessor processor : taskProcessors) {
       TaskProcessorType type = processor.getType();
 
       if (processorMap.containsKey(type)) {
@@ -72,15 +62,6 @@ public class TaskProcessorExecutor implements BeanFactoryAware, TaskEventListene
 
   public TaskProcessorExecutorStatus getExecutorStatus() {
     return executorStatus;
-  }
-
-  @Override
-  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-    // The processors cannot be instantiated from spring but they still
-    // need those resources so we inject the bean factory into it.
-    for (TaskProcessor processor : processorMap.values()) {
-      processor.init(beanFactory);
-    }
   }
 
   public synchronized void start() {

@@ -31,12 +31,11 @@ project(":tioga-notify-kernel") {
     // Spring
     compile("org.springframework:spring-context:4.1.6.RELEASE")
     compile("org.aspectj:aspectjweaver:1.8.5")
-    // Spring-Test
-    testCompile("org.springframework:spring-test:4.1.6.RELEASE")
 
     // Grizzly
     compile("org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.17")
 
+    testCompile(project(":tioga-notify-test"))
   }
 
   apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))

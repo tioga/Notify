@@ -6,7 +6,7 @@ project(":tioga-notify-processor-push") {
     compile(project(":tioga-notify-kernel"))
     compile("org.tiogasolutions.push:tioga-push-client:+")
 
-    testCompile("org.springframework:spring-test:4.1.6.RELEASE")
+    testCompile(project(":tioga-notify-test"))
   }
 
   apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))

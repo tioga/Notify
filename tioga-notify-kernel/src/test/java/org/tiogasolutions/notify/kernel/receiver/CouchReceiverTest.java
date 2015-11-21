@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 /**
  * User: Harlan
@@ -18,7 +18,7 @@ import org.tiogasolutions.notify.pub.domain.DomainProfile;
  * Time: 1:44 AM
  */
 @Test
-public class CouchReceiverTest extends KernelAbstractTest {
+public class CouchReceiverTest extends AbstractSpringTest {
 
   private static int lastTrackingId = 999900;
 

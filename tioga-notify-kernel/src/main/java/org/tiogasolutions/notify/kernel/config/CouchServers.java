@@ -2,7 +2,6 @@ package org.tiogasolutions.notify.kernel.config;
 
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.CouchServer;
@@ -22,7 +21,7 @@ import java.io.InputStream;
 
 @Component
 public class CouchServers {
-  private final Environment environment;
+  private final CouchEnvironment couchEnvironment;
   private final CouchServersConfig serversConfig;
 
   private final CouchServer masterServer;
@@ -37,8 +36,8 @@ public class CouchServers {
   private final String requestDatabaseSuffix;
 
   @Autowired
-  public CouchServers(Environment environment, CouchServersConfig serversConfig) {
-    this.environment = environment;
+  public CouchServers(CouchEnvironment couchEnvironment, CouchServersConfig serversConfig) {
+    this.couchEnvironment = couchEnvironment;
     this.serversConfig = serversConfig;
 
     this.notificationDatabasePrefix = serversConfig.getNotificationDatabasePrefix();
@@ -79,7 +78,7 @@ public class CouchServers {
 
   private CouchDatabase initMasterDatabase(CouchServersConfig serversConfig, CouchServer masterServer) {
 
-    if (isTestEnvironment()) {
+    if (couchEnvironment.isTest()) {
       // Test, delete the database so we will recreate.
       CouchFeatureSet featureSet = CouchFeatureSet.builder().add(CouchFeature.ALLOW_DB_DELETE, true).build();
       CouchDatabase masterDatabaseForDelete = masterServer.database(serversConfig.getMasterDatabaseName(), featureSet);
@@ -121,7 +120,7 @@ public class CouchServers {
   }
 
   public void deleteDomainDatabases(String domainName) {
-    if (!isTestEnvironment()) {
+    if (couchEnvironment.isNotTest()) {
       throw ApiException.badRequest("Can only create databases in test environment");
     }
 
@@ -189,10 +188,6 @@ public class CouchServers {
     }
   }
 
-  public boolean isTestEnvironment() {
-    return environment.acceptsProfiles("test") && !environment.acceptsProfiles("hosted");
-  }
-
   public CouchServersConfig getServersConfig() {
     return serversConfig;
   }
@@ -227,5 +222,9 @@ public class CouchServers {
 
   public String getRequestDatabaseSuffix() {
     return requestDatabaseSuffix;
+  }
+
+  public CouchEnvironment getEnvironment() {
+    return couchEnvironment;
   }
 }

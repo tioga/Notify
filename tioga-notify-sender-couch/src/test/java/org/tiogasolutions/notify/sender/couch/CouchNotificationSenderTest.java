@@ -14,6 +14,7 @@ import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -28,7 +29,7 @@ import static org.testng.Assert.*;
  * Time: 10:30 PM
  */
 @Test
-public class CouchNotificationSenderTest extends org.tiogasolutions.notify.kernel.KernelAbstractTest {
+public class CouchNotificationSenderTest extends AbstractSpringTest {
 
   @Autowired
   private org.tiogasolutions.notify.kernel.domain.DomainKernel domainKernel;

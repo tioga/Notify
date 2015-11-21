@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.engine.v1.AdminResourceV1;
 import org.tiogasolutions.notify.engine.v1.ClientResourceV1;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
@@ -27,7 +26,6 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 @Path("/")
-@Component
 @Scope(value="prototype")
 public class RootResource {
 

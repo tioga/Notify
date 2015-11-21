@@ -1,20 +1,22 @@
 package org.tiogasolutions.notify.processor.swing;
 
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.task.TaskProcessor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
-import org.springframework.beans.factory.BeanFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+@Component
 public class SwingTaskProcessor implements TaskProcessor {
 
   private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("swing");
@@ -35,10 +37,6 @@ public class SwingTaskProcessor implements TaskProcessor {
   @Override
   public TaskProcessorType getType() {
     return PROVIDER_TYPE;
-  }
-
-  @Override
-  public void init(BeanFactory beanFactory) {
   }
 
   @Override

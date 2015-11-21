@@ -1,22 +1,20 @@
 package org.tiogasolutions.notify.processor.smtp;
 
+import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.domain.comm.AuthenticationMethod;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.kernel.message.HtmlMessage;
 import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
 import org.tiogasolutions.notify.kernel.task.TaskProcessor;
+import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
-import org.springframework.beans.factory.BeanFactory;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
 
-import java.util.Arrays;
+import static java.util.Collections.singletonList;
 
-/**
- * Created by jacobp on 3/18/2015.
- */
+@Component
 public class SmtpTaskProcessor implements TaskProcessor {
 
   private static final TaskProcessorType PROCESSOR_TYPE = new TaskProcessorType("smtp");
@@ -57,7 +55,7 @@ public class SmtpTaskProcessor implements TaskProcessor {
     String from = argMap.asString("smtpFrom");
     String recipient = argMap.asString("smtpRecipients");
 
-    EmailMessage message = new EmailMessage(host, port, Arrays.asList(recipient));
+    EmailMessage message = new EmailMessage(host, port, singletonList(recipient));
     message.setFrom(from);
 
     if (authType.isTls()) {
@@ -74,10 +72,5 @@ public class SmtpTaskProcessor implements TaskProcessor {
   @Override
   public TaskProcessorType getType() {
     return PROCESSOR_TYPE;
-  }
-
-  @Override
-  public void init(BeanFactory beanFactory) {
-
   }
 }

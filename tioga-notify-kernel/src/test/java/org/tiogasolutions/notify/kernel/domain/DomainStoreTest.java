@@ -1,28 +1,32 @@
 package org.tiogasolutions.notify.kernel.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.env.MockEnvironment;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.tiogasolutions.notify.kernel.KernelAbstractTest;
+import org.tiogasolutions.notify.kernel.config.CouchEnvironment;
 import org.tiogasolutions.notify.kernel.config.CouchServers;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
+import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class DomainStoreTest extends KernelAbstractTest {
+public class DomainStoreTest extends AbstractSpringTest {
   private final String DOMAIN_NAME = "dn1";
   private final String API_KEY = "api-key";
   private final String API_PASSWORD = "api-password";
 
   @Autowired
+  private CouchEnvironment couchEnvironment;
+
+  @Autowired
   private CouchServersConfig couchServersConfig;
+
   @Autowired
   private CouchServers couchServers;
 
   @BeforeClass
-  public void setup() {
+  public void beforeClass() {
     // Delete the test notification databases.
     couchServers.deleteDomainDatabases(DOMAIN_NAME);
   }
@@ -70,9 +74,7 @@ public class DomainStoreTest extends KernelAbstractTest {
     localConfig.setNotificationDatabaseSuffix("-not");
     localConfig.setRequestDatabasePrefix(null);
     localConfig.setRequestDatabaseSuffix("-not-req");
-    MockEnvironment environment = new MockEnvironment();
-    environment.setActiveProfiles("test");
-    CouchServers couchServers = new CouchServers(environment, localConfig);
+    CouchServers couchServers = new CouchServers(couchEnvironment, localConfig);
     DomainStore domainStore = new DomainStore(couchServers);
 
     // Delete databases just in case they still exist.
