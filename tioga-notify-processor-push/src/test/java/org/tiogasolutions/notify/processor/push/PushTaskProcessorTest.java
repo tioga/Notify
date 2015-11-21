@@ -15,7 +15,6 @@ import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.DestinationDef;
 import org.tiogasolutions.notify.test.AbstractSpringTest;
-import org.tiogasolutions.push.client.MockPushServerClient;
 import org.tiogasolutions.push.pub.EmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
 import org.tiogasolutions.push.pub.XmppPush;
@@ -35,7 +34,7 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
   private PushTaskProcessor processor;
 
   @Autowired
-  private MockPushServerClient pushServerClient;
+  private MockPushClientFactory pushClientFactory;
 
   @BeforeMethod
   public void beforeMethod() {
@@ -47,11 +46,13 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
     executionManager.clearContext();
   }
 
-  private Destination createDestination(String type, String recipient) {
+  private Destination createDestination(String url, String from, String type, String recipient) {
     return new DestinationDef("local", "push")
-        .addArg("type", type)
-        .addArg("recipient", recipient)
-        .toDestination();
+      .addArg("url", url)
+      .addArg("from", from)
+      .addArg("type", type)
+      .addArg("recipients", recipient)
+      .toDestination();
   }
 
   @Test(expectedExceptions = UnsupportedMethodException.class)
@@ -60,7 +61,7 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
     DomainProfile domainProfile = testFactory.newDomainProfile();
     Notification notification = testFactory.newNotification(createNotification);
 
-    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("phoneCall",  "1234567890"));
+    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "5591234567", "phoneCall",  "1234567890"));
     TaskEntity task = TaskEntity.newEntity(createTask);
     processor.processTask(domainProfile, notification, task.toTask());
     fail("Expected exception - not yet implemented.");
@@ -74,12 +75,12 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
     DomainProfile domainProfile = testFactory.newDomainProfile();
     Notification notification = testFactory.newNotification(createNotification);
 
-    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("jabberMsg",  "test@jacobparr.com"));
+    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "mickey.mouse@disney.com", "jabberMsg",  "test@jacobparr.com"));
     TaskEntity task = TaskEntity.newEntity(createTask);
     processor.processTask(domainProfile, notification, task.toTask());
-    assertNotNull(pushServerClient.getLastPush());
-    assertEquals(pushServerClient.getLastPush().getClass(), XmppPush.class);
-    assertEquals(((XmppPush)pushServerClient.getLastPush()).getRecipient(), "test@jacobparr.com");
+    assertNotNull(pushClientFactory.getLastClient().getLastPush());
+    assertEquals(pushClientFactory.getLastClient().getLastPush().getClass(), XmppPush.class);
+    assertEquals(((XmppPush)pushClientFactory.getLastClient().getLastPush()).getRecipient(), "test@jacobparr.com");
   }
 
   public void testProcessTask_SMS() throws Exception {
@@ -87,12 +88,12 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
     DomainProfile domainProfile = testFactory.newDomainProfile();
     Notification notification = testFactory.newNotification(createNotification);
 
-    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("smsMsg",  "1234567890"));
+    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "5591234567", "smsMsg",  "1234567890"));
     TaskEntity task = TaskEntity.newEntity(createTask);
     processor.processTask(domainProfile, notification, task.toTask());
-    assertNotNull(pushServerClient.getLastPush());
-    assertEquals(pushServerClient.getLastPush().getClass(), TwilioSmsPush.class);
-    assertEquals(((TwilioSmsPush)pushServerClient.getLastPush()).getRecipient(), "1234567890");
+    assertNotNull(pushClientFactory.getLastClient().getLastPush());
+    assertEquals(pushClientFactory.getLastClient().getLastPush().getClass(), TwilioSmsPush.class);
+    assertEquals(((TwilioSmsPush)pushClientFactory.getLastClient().getLastPush()).getRecipient(), "1234567890");
   }
 
   public void testProcessTask_EMAIL() throws Exception {
@@ -100,11 +101,11 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
     DomainProfile domainProfile = testFactory.newDomainProfile();
     Notification notification = testFactory.newNotification(createNotification);
 
-    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("emailMsg",  "mickey.mouse@disney.com"));
+    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "mickey.mouse@disney.com", "emailMsg",  "mickey.mouse@disney.com"));
     TaskEntity task = TaskEntity.newEntity(createTask);
     processor.processTask(domainProfile, notification, task.toTask());
-    assertNotNull(pushServerClient.getLastPush());
-    assertEquals(pushServerClient.getLastPush().getClass(), EmailPush.class);
-    assertEquals(((EmailPush)pushServerClient.getLastPush()).getToAddress(), "mickey.mouse@disney.com");
+    assertNotNull(pushClientFactory.getLastClient().getLastPush());
+    assertEquals(pushClientFactory.getLastClient().getLastPush().getClass(), EmailPush.class);
+    assertEquals(((EmailPush)pushClientFactory.getLastClient().getLastPush()).getToAddress(), "mickey.mouse@disney.com");
   }
 }

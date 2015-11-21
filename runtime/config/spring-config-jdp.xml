@@ -66,16 +66,6 @@
     </constructor-arg>
   </bean>
 
-  <bean class="org.tiogasolutions.push.client.LivePushServerClient">
-    <constructor-arg value="${push.server.url}"/>
-    <constructor-arg value="${push.server.username}"/>
-    <constructor-arg value="${push.server.password}"/>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.processor.push.PushConfig"
-    p:emailFromAddress="${push.email.from}"
-    p:smsFromNumber="${push.sms.from}"/>
-
   <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
     <constructor-arg value="/org/tiogasolutions/notify/admin/app"/>
   </bean>

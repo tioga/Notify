@@ -4,9 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.tiogasolutions.dev.common.StringUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
-import org.tiogasolutions.dev.common.exceptions.ApiUnauthorizedException;
 import org.tiogasolutions.dev.common.exceptions.UnsupportedMethodException;
 import org.tiogasolutions.notify.kernel.message.HtmlMessage;
 import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
@@ -19,7 +18,6 @@ import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
-import org.tiogasolutions.push.client.LivePushServerClient;
 import org.tiogasolutions.push.client.PushServerClient;
 import org.tiogasolutions.push.pub.EmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
@@ -38,14 +36,12 @@ public class PushTaskProcessor implements TaskProcessor {
   private static final Logger log = LoggerFactory.getLogger(PushTaskProcessor.class);
   private static final TaskProcessorType PROCESSOR_TYPE = new TaskProcessorType("push");
 
+  private final PushClientFactory factory;
   private final ThymeleafMessageBuilder messageBuilder;
-  private final PushServerClient client;
-  private final PushConfig pushConfig;
 
   @Autowired
-  public PushTaskProcessor(PushConfig pushConfig, PushServerClient client) {
-    this.client = client;
-    this.pushConfig = pushConfig;
+  public PushTaskProcessor(PushClientFactory factory) {
+    this.factory = factory;
     this.messageBuilder = new ThymeleafMessageBuilder();
   }
 
@@ -56,62 +52,73 @@ public class PushTaskProcessor implements TaskProcessor {
 
   @Override
   public boolean isReady() {
-    try {
-      client.ping();
-      return true;
+    return true;
 
-    } catch (ApiUnauthorizedException e) {
-
-      String msg = "Credentials for the push-server are invalid (domain = \"";
-      if (client instanceof LivePushServerClient) {
-        msg += ((LivePushServerClient)client).getClient().getUsername();
-        msg += "\")";
-      }
-
-      log.error(msg);
-
-    } catch (ApiNotFoundException e) {
-      String msg = "The push-server client is improperly configured";
-      if (client instanceof LivePushServerClient) {
-        msg += ": " + ((LivePushServerClient)client).getClient().getApiUrl();
-      }
-      log.error(msg);
-
-    } catch (Exception e) {
-      log.warn("The push-server is not responding to a ping.", e);
-    }
-    return false;
+//    try {
+//      client.ping();
+//      return true;
+//
+//    } catch (ApiUnauthorizedException e) {
+//
+//      String msg = "Credentials for the push-server are invalid (domain = \"";
+//      if (client instanceof LivePushServerClient) {
+//        msg += ((LivePushServerClient)client).getClient().getUsername();
+//        msg += "\")";
+//      }
+//
+//      log.error(msg);
+//
+//    } catch (ApiNotFoundException e) {
+//      String msg = "The push-server client is improperly configured";
+//      if (client instanceof LivePushServerClient) {
+//        msg += ": " + ((LivePushServerClient)client).getClient().getApiUrl();
+//      }
+//      log.error(msg);
+//
+//    } catch (Exception e) {
+//      log.warn("The push-server is not responding to a ping.", e);
+//    }
+//    return false;
   }
 
   @Override
   public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
-    if (client == null) {
-      return TaskResponse.retry("Push gateway was not yet set.");
-    }
-
     log.debug("Processing task: " + task);
 
     Destination destination = task.getDestination();
     ArgValueMap argMap = destination.getArgValueMap();
-    if (!argMap.hasArg("type")) {
-      throw ApiException.badRequest("Task given to push processor which does not have a type.");
+
+    String url = argMap.asString("url");
+    if (StringUtils.isBlank(url)) {
+      throw ApiException.badRequest("Task given to push processor which does specify the \"url\" of the push server.");
+    }
+    PushServerClient client = factory.createPushServerClient(url);
+
+    String type = argMap.asString("type");
+    if (StringUtils.isBlank(type)) {
+      throw ApiException.badRequest("Task given to push processor which does specify the \"type\" of push.");
     }
 
     List<String> recipients = readRecipients(argMap);
     if (recipients.isEmpty()) {
-      throw ApiException.badRequest("Task given to push processor which does not have any recipients.");
+      throw ApiException.badRequest("Task given to push processor which does not have any \"recipients\".");
+    }
+
+    String from = argMap.asString("from");
+    if (StringUtils.isBlank(from)) {
+      throw ApiException.badRequest("Task given to push processor which does not have a \"from\" indicator.");
     }
 
     List<Push> pushList;
-    PushDestinationType destinationType = PushDestinationType.valueOf(argMap.asString("type"));
+    PushDestinationType destinationType = PushDestinationType.valueOf(type);
     if (destinationType.isSmsMsg()) {
-      pushList = toSmsPush(notification, recipients);
+      pushList = toSmsPush(notification, from, recipients);
 
     } else if (destinationType.isJabberMsg()) {
       pushList = toJabber(notification, recipients);
 
     } else if (destinationType.isEmailMsg()) {
-      pushList = toEmailPush(domainProfile, notification, task, argMap, recipients);
+      pushList = toEmailPush(domainProfile, notification, task, argMap, from, recipients);
 
     } else if (destinationType.isPhoneCall()) {
       pushList = toPhoneCallPush();
@@ -134,15 +141,6 @@ public class PushTaskProcessor implements TaskProcessor {
    */
   private List<String> readRecipients(ArgValueMap argMap) {
     List<String> recipients = new ArrayList<>();
-    if (argMap.hasArg("recipient")) {
-      ArgValue argValue = argMap.asValue("recipient");
-      if (argValue.getArgType() == ArgValue.ArgType.STRING) {
-        recipients.add(argValue.asString());
-      }
-      if (argValue.getArgType() == ArgValue.ArgType.LIST) {
-        recipients.addAll(argValue.asList().stream().map(ArgValue::asString).collect(Collectors.toList()));
-      }
-    }
     if (argMap.hasArg("recipients")) {
       ArgValue argValue = argMap.asValue("recipients");
       if (argValue.getArgType() == ArgValue.ArgType.STRING) {
@@ -161,9 +159,9 @@ public class PushTaskProcessor implements TaskProcessor {
         .collect(Collectors.toList());
   }
 
-  private List<Push> toSmsPush(Notification notification, List<String> recipients) {
+  private List<Push> toSmsPush(Notification notification, String from, List<String> recipients) {
     return recipients.stream()
-        .map(recipient -> TwilioSmsPush.newPush(pushConfig.getSmsFromNumber(), recipient, notification.getSummary(), null))
+        .map(recipient -> TwilioSmsPush.newPush(from, recipient, notification.getSummary(), null))
         .collect(Collectors.toList());
   }
 
@@ -172,11 +170,11 @@ public class PushTaskProcessor implements TaskProcessor {
     // return TwilioSmsPush.newPush(pushConfig.getPhoneFromNumber(), task.getRecipient(), notification.getSummary(), null);
   }
 
-  private List<Push> toEmailPush(DomainProfile domainProfile, Notification notification, Task task, ArgValueMap argMap, List<String> recipients) {
+  private List<Push> toEmailPush(DomainProfile domainProfile, Notification notification, Task task, ArgValueMap argMap, String from, List<String> recipients) {
     String templatePath = messageBuilder.getEmailTemplatePath(argMap, "templatePath");
     HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
     return recipients.stream()
-        .map(recipient -> EmailPush.newPush(recipient, pushConfig.getEmailFromAddress(), message.getSubject(), message.getBody(), null))
+        .map(recipient -> EmailPush.newPush(recipient, from, message.getSubject(), message.getBody(), null))
         .collect(Collectors.toList());
   }
 }
