@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.ReflectUtils;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
+import org.tiogasolutions.notify.NotifyObjectMapper;
 import org.tiogasolutions.notify.engine.AbstractEngineJaxRsTest;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.CreateNotification;
@@ -37,7 +37,7 @@ public class AdminResourceV1Test extends AbstractEngineJaxRsTest {
   private ExecutionManager executionManager;
 
   @Autowired
-  private TiogaJacksonObjectMapper objectMapper;
+  private NotifyObjectMapper objectMapper;
 
   @Autowired
   private NotificationKernel notificationKernel;

@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.kernel.jackson;
+package org.tiogasolutions.notify;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  * Date: 1/31/2015
  * Time: 11:45 PM
  */
-public class NotifyKernelJacksonModule extends SimpleModule {
+public class NotifyJacksonModule extends SimpleModule {
 
-  public NotifyKernelJacksonModule() {
+  public NotifyJacksonModule() {
   }
 
   @Override

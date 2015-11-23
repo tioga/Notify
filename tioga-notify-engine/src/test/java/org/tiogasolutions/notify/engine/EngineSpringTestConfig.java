@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.engine;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.tiogasolutions.notify.NotifyObjectMapper;
 import org.tiogasolutions.notify.engine.web.readers.MockContentReader;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
@@ -13,6 +14,11 @@ import static java.util.Collections.emptyList;
 @Profile("test")
 @Configuration
 public class EngineSpringTestConfig {
+
+  @Bean
+  public NotifyObjectMapper notifyObjectMapper() {
+    return new NotifyObjectMapper();
+  }
 
   @Bean
   public MockContentReader mockContentReader() {

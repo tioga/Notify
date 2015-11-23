@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.tiogasolutions.dev.common.BeanUtils;
-import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
+import org.tiogasolutions.notify.NotifyObjectMapper;
 import org.tiogasolutions.notify.kernel.config.CouchEnvironment;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
 import org.tiogasolutions.notify.kernel.config.SystemConfiguration;
@@ -16,12 +16,12 @@ import org.tiogasolutions.notify.kernel.config.TrustedUserStore;
 public class SpringTestConfig {
 
   @Bean
-  public TiogaJacksonObjectMapper tiogaJacksonObjectMapper() {
-    return new TiogaJacksonObjectMapper();
+  public NotifyObjectMapper notifyObjectMapper() {
+    return new NotifyObjectMapper();
   }
 
   @Bean
-  public TiogaJacksonTranslator tiogaJacksonTranslator(TiogaJacksonObjectMapper objectMapper) {
+  public TiogaJacksonTranslator tiogaJacksonTranslator(NotifyObjectMapper objectMapper) {
     return new TiogaJacksonTranslator(objectMapper);
   }
 

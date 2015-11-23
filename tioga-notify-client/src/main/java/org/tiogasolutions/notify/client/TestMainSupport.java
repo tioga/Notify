@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.QueryResult;
-import org.tiogasolutions.dev.jackson.TiogaJacksonObjectMapper;
+import org.tiogasolutions.notify.NotifyObjectMapper;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.request.NotificationRequest;
@@ -44,7 +44,7 @@ public class TestMainSupport {
     }
 
     String json = response.readEntity(String.class);
-    TiogaJacksonObjectMapper objectMapper = new TiogaJacksonObjectMapper();
+    NotifyObjectMapper objectMapper = new NotifyObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper.readValue(json, DomainProfile.class);
   }
@@ -62,7 +62,7 @@ public class TestMainSupport {
     }
 
     String json = response.readEntity(String.class);
-    TiogaJacksonObjectMapper objectMapper = new TiogaJacksonObjectMapper();
+    NotifyObjectMapper objectMapper = new NotifyObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper.readValue(json, QueryResult.class);
   }
@@ -79,7 +79,7 @@ public class TestMainSupport {
     }
 
     String json = response.readEntity(String.class);
-    TiogaJacksonObjectMapper objectMapper = new TiogaJacksonObjectMapper();
+    NotifyObjectMapper objectMapper = new NotifyObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper.readValue(json, QueryResult.class);
   }
@@ -108,7 +108,7 @@ public class TestMainSupport {
     }
 
     String json = response.readEntity(String.class);
-    TiogaJacksonObjectMapper objectMapper = new TiogaJacksonObjectMapper();
+    NotifyObjectMapper objectMapper = new NotifyObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper.readValue(json, QueryResult.class);
   }

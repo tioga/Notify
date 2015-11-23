@@ -14,7 +14,7 @@ import org.tiogasolutions.couchace.jackson.JacksonCouchJsonStrategy;
 import org.tiogasolutions.couchace.jersey.JerseyCouchHttpClient;
 import org.tiogasolutions.dev.common.IoUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.notify.kernel.jackson.NotifyKernelJacksonModule;
+import org.tiogasolutions.notify.NotifyJacksonModule;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +48,7 @@ public class CouchServers {
 
     // CouchJsonStrategy used by all.
     JacksonCouchJsonStrategy jsonStrategy = new JacksonCouchJsonStrategy(
-        new JSR310Module(), new NotifyKernelJacksonModule());
+        new JSR310Module(), new NotifyJacksonModule());
 
     // Master
     CouchSetup masterConfig = new CouchSetup(serversConfig.getMasterUrl())

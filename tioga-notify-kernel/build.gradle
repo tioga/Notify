@@ -3,7 +3,7 @@ project(":tioga-notify-kernel") {
   version = tiogaAppVersion
 
   dependencies {
-    compile(project(":tioga-notify-pub"))
+    compile(project(":tioga-notify-jackson"))
 
     compile("org.tiogasolutions.lib:tioga-lib-thymeleaf:+")
 

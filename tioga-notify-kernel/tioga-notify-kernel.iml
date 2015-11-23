@@ -79,6 +79,7 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="module" module-name="tioga-notify-test" scope="TEST" />
+    <orderEntry type="module" module-name="tioga-notify-jackson" />
     <orderEntry type="module-library">
       <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.0.3">
         <CLASSES>

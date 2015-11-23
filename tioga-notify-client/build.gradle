@@ -3,7 +3,7 @@ project(":tioga-notify-client") {
   version = "1.1.0"
 
   dependencies {
-    compile(project(":tioga-notify-pub"))
+    compile(project(":tioga-notify-jackson"))
     compile(project(":tioga-notify-notifier"))
     compile(project(":tioga-notify-sender-couch"))
     compile(project(":tioga-notify-sender-http"))

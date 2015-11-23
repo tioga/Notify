@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Notify.iml" filepath="$PROJECT_DIR$/Notify.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-notifier/lq-notifier-lq-notifier.iml" filepath="$PROJECT_DIR$/tioga-notify-notifier/lq-notifier-lq-notifier.iml" />
-      <module fileurl="file://$PROJECT_DIR$/notify.iml" filepath="$PROJECT_DIR$/notify.iml" />
       <module fileurl="file://$PROJECT_DIR$/runtime/runtime.iml" filepath="$PROJECT_DIR$/runtime/runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-admin-app/tioga-notify-admin-app.iml" filepath="$PROJECT_DIR$/tioga-notify-admin-app/tioga-notify-admin-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-client/tioga-notify-client.iml" filepath="$PROJECT_DIR$/tioga-notify-client/tioga-notify-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-engine/tioga-notify-engine.iml" filepath="$PROJECT_DIR$/tioga-notify-engine/tioga-notify-engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tioga-notify-jackson/tioga-notify-jackson.iml" filepath="$PROJECT_DIR$/tioga-notify-jackson/tioga-notify-jackson.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-kernel/tioga-notify-kernel.iml" filepath="$PROJECT_DIR$/tioga-notify-kernel/tioga-notify-kernel.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-notifier/tioga-notify-notifier.iml" filepath="$PROJECT_DIR$/tioga-notify-notifier/tioga-notify-notifier.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-processor-logger/tioga-notify-processor-logger.iml" filepath="$PROJECT_DIR$/tioga-notify-processor-logger/tioga-notify-processor-logger.iml" />
