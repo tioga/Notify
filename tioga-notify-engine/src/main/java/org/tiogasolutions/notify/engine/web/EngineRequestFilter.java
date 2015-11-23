@@ -71,8 +71,7 @@ public class EngineRequestFilter implements ContainerRequestFilter {
 
     String path = requestUri.substring(baseUri.length()-1);
 
-    // CRITICAL - why are these values coming from the properties, and this will be done on every request - HN
-    // TODO - not sure on default values either.
+    // TODO - Move to Systemconfiguration class.
     Map<String,Object> properties = application.getProperties();
     String clientContext = assertNotZeroLength((String) properties.get("app.client.context"), "app.client.context");
     String adminContext = assertNotZeroLength((String) properties.get("app.admin.context"), "app.admin.context");
