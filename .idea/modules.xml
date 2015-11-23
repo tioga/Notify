@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-notifier/lq-notifier-lq-notifier.iml" filepath="$PROJECT_DIR$/tioga-notify-notifier/lq-notifier-lq-notifier.iml" />
       <module fileurl="file://$PROJECT_DIR$/notify.iml" filepath="$PROJECT_DIR$/notify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/runtime/runtime.iml" filepath="$PROJECT_DIR$/runtime/runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-admin-app/tioga-notify-admin-app.iml" filepath="$PROJECT_DIR$/tioga-notify-admin-app/tioga-notify-admin-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-client/tioga-notify-client.iml" filepath="$PROJECT_DIR$/tioga-notify-client/tioga-notify-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/tioga-notify-engine/tioga-notify-engine.iml" filepath="$PROJECT_DIR$/tioga-notify-engine/tioga-notify-engine.iml" />
