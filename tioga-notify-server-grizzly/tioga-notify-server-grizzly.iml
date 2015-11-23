@@ -113,13 +113,13 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.push:tioga-push-client:3.0.5">
+      <library name="Gradle: org.tiogasolutions.push:tioga-push-client:3.0.4">
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-client/3.0.5/tioga-push-client-3.0.5.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-client/3.0.4/cbbd6282e3dc1bae7791faaa93236d967843a628/tioga-push-client-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-client/3.0.5/tioga-push-client-3.0.5-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-client/3.0.4/637ae86a0dddaae574a42a13f66ee599aa126b60/tioga-push-client-3.0.4-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -164,17 +164,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-thymeleaf/1.0.3/tioga-lib-thymeleaf-1.0.3-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-spring-couchace:1.0.17">
-        <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-spring-couchace/1.0.17/tioga-lib-spring-couchace-1.0.17.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-spring-couchace/1.0.17/tioga-lib-spring-couchace-1.0.17-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -263,17 +252,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/3.2.3.RELEASE/913394ac47d255c3473d48619102255599845695/spring-web-3.2.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-couchace:5.0.13">
-        <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-couchace/5.0.13/tioga-lib-couchace-5.0.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-couchace/5.0.13/tioga-lib-couchace-5.0.13-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
