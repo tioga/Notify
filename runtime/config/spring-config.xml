@@ -7,82 +7,55 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd
-           http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context.xsd
-           http://www.springframework.org/schema/task
-           http://www.springframework.org/schema/task/spring-task.xsd
-           ">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
   <task:annotation-driven/>
+  <context:component-scan base-package="org.tiogasolutions.notify"/>
 
-  <!-- Define properties. -->
-  <context:property-placeholder properties-ref="envProperties"/>
-  <util:properties id="envProperties">
-      <!-- TODO future props -->
-      <prop key="some.prop">value</prop>
-  </util:properties>
+  <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment"
+        p:testing="false"
+  />
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="localhost"
-        p:port="8080"
-        p:shutdownPort="8081"
+        p:port="39011"
+        p:shutdownPort="39012"
         p:context="notify-server"
         p:toOpenBrowser="true"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"
-        p:masterUrl="http://127.0.0.1:5984"
+        p:masterUrl="http://localhost:5984"
         p:masterUserName="app-user"
         p:masterPassword="app-user"
-        p:masterDatabaseName="notify-master"
+        p:masterDatabaseName="notify"
 
-        p:notificationUrl="http://127.0.0.1:5984"
+        p:notificationUrl="http://localhost:5984"
         p:notificationUserName="app-user"
         p:notificationPassword="app-user"
         p:notificationDatabasePrefix="notify-"
         p:notificationDatabaseSuffix="-notification"
 
-        p:requestUrl="http://127.0.0.1:5984"
+        p:requestUrl="http://localhost:5984"
         p:requestUserName="app-user"
         p:requestPassword="app-user"
         p:requestDatabasePrefix="notify-"
-        p:requestDatabaseSuffix="-request"/>
+        p:requestDatabaseSuffix="-request"
+    />
 
   <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
     <constructor-arg>
       <util:map id="someId" map-class="java.util.HashMap">
-        <entry key="admin1">
-          <value>password1</value>
-        </entry>
-        <entry key="admin2">
-          <value>password2</value>
+        <entry key="admin">
+          <value>Testing123</value>
         </entry>
       </util:map>
     </constructor-arg>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
-      <property name="accessControlAllowOrigin" value="http://www.localhost:63343"/>
-  </bean>
-
-  <bean class="org.tiogasolutions.push.client.LivePushServerClient">
-    <constructor-arg value="https://tiogasolutions.org/push-server/api/v2"/>
-    <constructor-arg value="domain-name"/>
-    <constructor-arg value="password"/>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.processor.push.PushConfig"
-    p:emailFromAddress="from@example.com"
-    p:smsFromNumber="555-444-3210"/>
-
-  <context:component-scan base-package="org.tiogasolutions.notify"/>
-
-  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
-    <constructor-arg value="/org/tiogasolutions/notify/admin/app"/>
   </bean>
 
 </beans>
