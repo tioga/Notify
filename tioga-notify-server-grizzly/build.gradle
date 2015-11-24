@@ -18,7 +18,7 @@ project(":tioga-notify-server-grizzly") {
     compile("org.tiogasolutions.runners:tioga-runners-spring-grizzly:+")
 
      // required by Jersey-Spring's stupid attempt to check for a ServletContext
-		 runtime("javax.servlet:javax.servlet-api:3.1.0")
+		 compile("javax.servlet:javax.servlet-api:3.1.0")
   }
 
   File windowsServerStartFile = file("$buildDir/scripts/notify-server-start.bat");
