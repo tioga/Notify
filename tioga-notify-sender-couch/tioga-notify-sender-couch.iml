@@ -611,6 +611,148 @@
     </orderEntry>
     <orderEntry type="module" module-name="tioga-notify-jackson" scope="TEST" />
     <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_Notify_tioga_notify_kernel_build_classes_test:">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/test" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_Notify_tioga_notify_kernel_build_resources_test:">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/resources/test" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_Notify_tioga_notify_kernel_build_classes_main:">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/main" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_Notify_tioga_notify_kernel_build_resources_main:">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/resources/main" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: tioga-notify-pub-2.1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../tioga-notify-pub/build/libs/tioga-notify-pub-2.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.0/e4362f077b03734652cc8afd41e2829bc7efc1f8/tioga-dev-domain-4.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.0/b7c523b77d6cc543b5a1da435e983c9a184ff5b9/tioga-dev-domain-4.2.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.0/dcfdca0cc1f82fdb6a8c3fc01305cd24bc557ba0/tioga-dev-jackson-4.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.0/29b23cec37dba783b40a14ca1af1e5bed28cbf70/tioga-dev-jackson-4.2.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-core:1.6.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-core/1.6.0/2e1ad9fb492a349419cacf57a7cb76744c9bf070/tioga-couchace-core-1.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-core/1.6.0/5fcd84f31f6ad8ba9d6966a9b8a5eda972c4e144/tioga-couchace-core-1.6.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.6.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-annotations/1.6.0/ed8a81a6216e94f4c2384553e096e469cd929d79/tioga-couchace-annotations-1.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-annotations/1.6.0/28d639ac6982891fffaad8008f30c1b683f19686/tioga-couchace-annotations-1.6.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.6.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.0/1bc98a88bed4e561c4867a57608411ec7c6a00b0/tioga-couchace-jersey-1.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.0/23cab74343407299d8a908a4ae87e6bd6e06ceed/tioga-couchace-jersey-1.6.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.6.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jackson/1.6.0/539f99ec473dd3acf3124e1a6e9430634d95a866/tioga-couchace-jackson-1.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jackson/1.6.0/3d5336a2acf991f58a9b93ac01850eebe2e418fa/tioga-couchace-jackson-1.6.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.0">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.0/76af939fe82b53ce94946337c1cc2bcf68b48051/tioga-dev-common-5.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.0/f3da0e53308572b4885e4a59693b95d34e30a516/tioga-dev-common-5.1.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.1">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.1.1/tioga-app-common-2.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.1.1/tioga-app-common-2.1.1-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: tioga-notify-test-1.2.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../tioga-notify-test/build/libs/tioga-notify-test-1.2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.0">
         <CLASSES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.0/60ba3103595df1b7264ae0bd050263a7a98b83a/tioga-lib-thymeleaf-1.1.0.jar!/" />
@@ -622,13 +764,24 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.0">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/ef4be7c1316709056f9e1ede521efa0cf6d51b3/tioga-app-common-2.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.0/60ba3103595df1b7264ae0bd050263a7a98b83a/tioga-lib-thymeleaf-1.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/1c1bab48ed4e42897c6ac9e2737516549cac5840/tioga-app-common-2.1.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.0/9e37f6c94954f9aefe935ce2dfd73fdad71a202e/tioga-lib-thymeleaf-1.1.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.1">
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.1.1/tioga-app-common-2.1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.1.1/tioga-app-common-2.1.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -721,43 +874,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_kernel_build_classes_test:">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/test" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_kernel_build_resources_test:">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/resources/test" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_kernel_build_classes_main:">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/classes/main" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_kernel_build_resources_main:">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../tioga-notify-kernel/build/resources/main" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_jackson_build_libs_tioga_notify_jackson_4_1_0_jar">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_Notify_tioga_notify_jackson_build_libs_tioga_notify_jackson_4_1_0_jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../tioga-notify-jackson/build/libs/tioga-notify-jackson-4.1.0.jar!/" />
         </CLASSES>
@@ -766,108 +883,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-lib-thymeleaf-1.1.0">
+      <library name="Gradle: C__dvlp_3rd_party_tioga_Notify_tioga_notify_kernel_build_libs_tioga_notify_kernel_1_2_2_jar">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.0/60ba3103595df1b7264ae0bd050263a7a98b83a/tioga-lib-thymeleaf-1.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-app-common-2.1.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/ef4be7c1316709056f9e1ede521efa0cf6d51b3/tioga-app-common-2.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-dev-domain-4.2.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.0/e4362f077b03734652cc8afd41e2829bc7efc1f8/tioga-dev-domain-4.2.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-dev-jackson-4.2.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.0/dcfdca0cc1f82fdb6a8c3fc01305cd24bc557ba0/tioga-dev-jackson-4.2.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-core-1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-core/1.6.0/2e1ad9fb492a349419cacf57a7cb76744c9bf070/tioga-couchace-core-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-annotations-1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-annotations/1.6.0/ed8a81a6216e94f4c2384553e096e469cd929d79/tioga-couchace-annotations-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-jersey-1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.0/1bc98a88bed4e561c4867a57608411ec7c6a00b0/tioga-couchace-jersey-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-couchace-jackson-1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jackson/1.6.0/539f99ec473dd3acf3124e1a6e9430634d95a866/tioga-couchace-jackson-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_test_build_libs_tioga_notify_test_1_0_0_jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../tioga-notify-test/build/libs/tioga-notify-test-1.0.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_pub_build_libs_tioga_notify_pub_2_1_0_jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../tioga-notify-pub/build/libs/tioga-notify-pub-2.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: tioga-dev-common-5.1.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.0/76af939fe82b53ce94946337c1cc2bcf68b48051/tioga-dev-common-5.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: C__dvlp_tioga_solutions_Notify_tioga_notify_kernel_build_libs_tioga_notify_kernel_1_2_0_jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../tioga-notify-kernel/build/libs/tioga-notify-kernel-1.2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../tioga-notify-kernel/build/libs/tioga-notify-kernel-1.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

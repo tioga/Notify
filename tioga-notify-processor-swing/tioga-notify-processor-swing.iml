@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":tioga-notify-processor-swing" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="org.tiogasolutions.notify" external.system.module.version="1.2.0" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":tioga-notify-processor-swing" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="org.tiogasolutions.notify" external.system.module.version="1.2.2" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -79,13 +79,13 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.0">
+      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/ef4be7c1316709056f9e1ede521efa0cf6d51b3/tioga-app-common-2.1.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.1.1/tioga-app-common-2.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/1c1bab48ed4e42897c6ac9e2737516549cac5840/tioga-app-common-2.1.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/2.1.1/tioga-app-common-2.1.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
