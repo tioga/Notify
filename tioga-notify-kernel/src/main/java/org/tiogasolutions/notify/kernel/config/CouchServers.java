@@ -78,8 +78,7 @@ public class CouchServers {
 
   private CouchDatabase initMasterDatabase(CouchServersConfig serversConfig, CouchServer masterServer) {
 
-    if (couchEnvironment.isTest()) {
-      // Test, delete the database so we will recreate.
+    if (couchEnvironment.isTesting()) {
       CouchFeatureSet featureSet = CouchFeatureSet.builder().add(CouchFeature.ALLOW_DB_DELETE, true).build();
       CouchDatabase masterDatabaseForDelete = masterServer.database(serversConfig.getMasterDatabaseName(), featureSet);
       masterDatabaseForDelete.deleteDatabase();
@@ -120,7 +119,7 @@ public class CouchServers {
   }
 
   public void deleteDomainDatabases(String domainName) {
-    if (couchEnvironment.isNotTest()) {
+    if (couchEnvironment.isTesting() == false) {
       throw ApiException.badRequest("Can only create databases in test environment");
     }
 

@@ -16,19 +16,11 @@
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
   <task:annotation-driven/>
-
-  <context:property-placeholder properties-ref="envProperties"/>
-  <util:properties id="envProperties">
-    <prop key="notify.runtime.dir">../runtime</prop>
-    <prop key="push.server.url">http://www.tiogasolutions.com/push-server</prop>
-    <prop key="push.server.username">notify-server</prop>
-    <prop key="push.server.password">notify-server-password</prop>
-    <prop key="push.email.from">notify-server@tiogasolutions.org</prop>
-    <prop key="push.sms.from">559-640-7277</prop>
-    <prop key="system.config.accessControlAllowOrigin">*</prop>
-  </util:properties>
-
   <context:component-scan base-package="org.tiogasolutions.notify"/>
+
+  <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment"
+        p:testing="false"
+  />
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="localhost"
@@ -64,32 +56,6 @@
         </entry>
       </util:map>
     </constructor-arg>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader">
-    <constructor-arg value="/org/tiogasolutions/notify/admin/app"/>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
-    <property name="accessControlAllowOrigin" value="${system.config.accessControlAllowOrigin}"/>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor">
-    <constructor-arg index="0" ref="domainKernel"/>
-    <constructor-arg index="1" ref="eventBus"/>
-    <constructor-arg index="2">
-      <list>
-        <ref bean="swingTaskProcessor"/>
-        <ref bean="loggerTaskProcessor"/>
-        <ref bean="pushTaskProcessor"/>
-        <ref bean="slackTaskProcessor"/>
-        <ref bean="smtpTaskProcessor"/>
-      </list>
-    </constructor-arg>
-  </bean>
-
-  <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment">
-    <constructor-arg value="true"/>
   </bean>
 
 </beans>

@@ -2,25 +2,17 @@ package org.tiogasolutions.notify.kernel.config;
 
 public class CouchEnvironment {
 
-  private final boolean testEnvironment;
+  private boolean testing = false;
 
-  public CouchEnvironment(boolean testEnvironment) {
-    this.testEnvironment = testEnvironment;
+  public CouchEnvironment() {
   }
 
-  public boolean isTest() {
-    return testEnvironment;
+  public boolean isTesting() {
+    return testing;
   }
 
-  public boolean isNotTest() {
-    return !testEnvironment;
-  }
-
-  public static CouchEnvironment test() {
-    return new CouchEnvironment(true);
-  }
-
-  public static CouchEnvironment notTest() {
-    return new CouchEnvironment(false);
+  public CouchEnvironment setTesting(boolean testing) {
+    this.testing = testing;
+    return this;
   }
 }

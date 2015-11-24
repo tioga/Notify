@@ -5,7 +5,7 @@
  */
 project(":tioga-notify-test") {
 
-  version = "1.0.0"
+  version = tiogaAppVersion
 
   dependencies {
     compile(project(":tioga-notify-kernel"))
