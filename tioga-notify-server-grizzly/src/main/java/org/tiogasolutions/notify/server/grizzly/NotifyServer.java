@@ -9,6 +9,7 @@ import org.tiogasolutions.lib.jaxrs.jackson.TiogaReaderWriterProvider;
 import org.tiogasolutions.notify.engine.web.NotifyApplication;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
+import org.tiogasolutions.runners.grizzly.ShutdownUtils;
 import org.tiogasolutions.runners.grizzly.spring.ApplicationResolver;
 import org.tiogasolutions.runners.grizzly.spring.GrizzlySpringServer;
 import org.tiogasolutions.runners.grizzly.spring.ServerConfigResolver;
@@ -63,7 +64,7 @@ public class NotifyServer {
     grizzlyServer.packages("org.tiogasolutions.notify");
 
     if (Arrays.asList(args).contains("-shutdown")) {
-      GrizzlyServer.shutdownRemote(grizzlyServer.getConfig());
+      ShutdownUtils.shutdownRemote(grizzlyServer.getConfig());
       log.warn("Shutting down server at {}:{}", grizzlyServer.getConfig().getHostName(), grizzlyServer.getConfig().getShutdownPort());
       System.exit(0);
       return;
