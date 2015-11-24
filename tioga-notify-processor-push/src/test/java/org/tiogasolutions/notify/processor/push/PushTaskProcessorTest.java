@@ -15,7 +15,8 @@ import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.DestinationDef;
 import org.tiogasolutions.notify.test.AbstractSpringTest;
-import org.tiogasolutions.push.pub.EmailPush;
+import org.tiogasolutions.push.pub.SesEmailPush;
+import org.tiogasolutions.push.pub.SmtpEmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
 import org.tiogasolutions.push.pub.XmppPush;
 
@@ -96,16 +97,29 @@ public class PushTaskProcessorTest extends AbstractSpringTest {
     assertEquals(((TwilioSmsPush)pushClientFactory.getLastClient().getLastPush()).getRecipient(), "1234567890");
   }
 
-  public void testProcessTask_EMAIL() throws Exception {
+  public void testProcessTask_SMTP_EMAIL() throws Exception {
     CreateNotification createNotification = testFactory.newCreateNotificationWithException();
     DomainProfile domainProfile = testFactory.newDomainProfile();
     Notification notification = testFactory.newNotification(createNotification);
 
-    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "mickey.mouse@disney.com", "emailMsg",  "mickey.mouse@disney.com"));
+    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "mickey.mouse@disney.com", "smtpEmailMsg",  "mickey.mouse@disney.com"));
     TaskEntity task = TaskEntity.newEntity(createTask);
     processor.processTask(domainProfile, notification, task.toTask());
     assertNotNull(pushClientFactory.getLastClient().getLastPush());
-    assertEquals(pushClientFactory.getLastClient().getLastPush().getClass(), EmailPush.class);
-    assertEquals(((EmailPush)pushClientFactory.getLastClient().getLastPush()).getToAddress(), "mickey.mouse@disney.com");
+    assertEquals(pushClientFactory.getLastClient().getLastPush().getClass(), SmtpEmailPush.class);
+    assertEquals(((SmtpEmailPush)pushClientFactory.getLastClient().getLastPush()).getToAddress(), "mickey.mouse@disney.com");
+  }
+
+  public void testProcessTask_SES_EMAIL() throws Exception {
+    CreateNotification createNotification = testFactory.newCreateNotificationWithException();
+    DomainProfile domainProfile = testFactory.newDomainProfile();
+    Notification notification = testFactory.newNotification(createNotification);
+
+    CreateTask createTask = CreateTask.create(notification.toNotificationRef(), createDestination("http://example.com", "mickey.mouse@disney.com", "sesEmailMsg",  "mickey.mouse@disney.com"));
+    TaskEntity task = TaskEntity.newEntity(createTask);
+    processor.processTask(domainProfile, notification, task.toTask());
+    assertNotNull(pushClientFactory.getLastClient().getLastPush());
+    assertEquals(pushClientFactory.getLastClient().getLastPush().getClass(), SesEmailPush.class);
+    assertEquals(((SesEmailPush)pushClientFactory.getLastClient().getLastPush()).getToAddress(), "mickey.mouse@disney.com");
   }
 }

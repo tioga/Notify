@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.sender.couch;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +15,6 @@ import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
-import org.tiogasolutions.notify.test.AbstractSpringTest;
 
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -29,7 +29,7 @@ import static org.testng.Assert.*;
  * Time: 10:30 PM
  */
 @Test
-public class CouchNotificationSenderTest extends AbstractSpringTest {
+public class CouchNotificationSenderTest {
 
   @Autowired
   private org.tiogasolutions.notify.kernel.domain.DomainKernel domainKernel;
@@ -44,7 +44,17 @@ public class CouchNotificationSenderTest extends AbstractSpringTest {
   private NotificationRequestStore requestStore;
 
   @BeforeClass
-  public void setup() {
+  public void beforeClass() throws Exception {
+    AnnotationConfigApplicationContext applicationContext;
+
+    applicationContext = new AnnotationConfigApplicationContext();
+    applicationContext.getEnvironment().setActiveProfiles("test");
+    applicationContext.scan("org.tiogasolutions.notify");
+    applicationContext.refresh();
+
+    // Inject our unit test with any beans.
+    applicationContext.getBeanFactory().autowireBean(this);
+
     DomainProfile domainProfile = domainKernel.findByApiKey(TestFactory.API_KEY);
     CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
     requestStore = new NotificationRequestStore(requestDb);

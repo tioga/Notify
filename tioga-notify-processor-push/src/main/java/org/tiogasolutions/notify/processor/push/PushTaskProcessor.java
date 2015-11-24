@@ -19,7 +19,8 @@ import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.push.client.PushServerClient;
-import org.tiogasolutions.push.pub.EmailPush;
+import org.tiogasolutions.push.pub.SesEmailPush;
+import org.tiogasolutions.push.pub.SmtpEmailPush;
 import org.tiogasolutions.push.pub.TwilioSmsPush;
 import org.tiogasolutions.push.pub.XmppPush;
 import org.tiogasolutions.push.pub.common.Push;
@@ -117,8 +118,11 @@ public class PushTaskProcessor implements TaskProcessor {
     } else if (destinationType.isJabberMsg()) {
       pushList = toJabber(notification, recipients);
 
-    } else if (destinationType.isEmailMsg()) {
-      pushList = toEmailPush(domainProfile, notification, task, argMap, from, recipients);
+    } else if (destinationType.isSesEmailMsg()) {
+      pushList = toSesEmailPush(domainProfile, notification, task, argMap, from, recipients);
+
+    } else if (destinationType.isSmtpEmailMsg()) {
+      pushList = toSmtpEmailPush(domainProfile, notification, task, argMap, from, recipients);
 
     } else if (destinationType.isPhoneCall()) {
       pushList = toPhoneCallPush();
@@ -170,11 +174,19 @@ public class PushTaskProcessor implements TaskProcessor {
     // return TwilioSmsPush.newPush(pushConfig.getPhoneFromNumber(), task.getRecipient(), notification.getSummary(), null);
   }
 
-  private List<Push> toEmailPush(DomainProfile domainProfile, Notification notification, Task task, ArgValueMap argMap, String from, List<String> recipients) {
+  private List<Push> toSesEmailPush(DomainProfile domainProfile, Notification notification, Task task, ArgValueMap argMap, String from, List<String> recipients) {
     String templatePath = messageBuilder.getEmailTemplatePath(argMap, "templatePath");
     HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
     return recipients.stream()
-        .map(recipient -> EmailPush.newPush(recipient, from, message.getSubject(), message.getBody(), null))
-        .collect(Collectors.toList());
+      .map(recipient -> SesEmailPush.newPush(recipient, from, message.getSubject(), message.getBody(), null))
+      .collect(Collectors.toList());
+  }
+
+  private List<Push> toSmtpEmailPush(DomainProfile domainProfile, Notification notification, Task task, ArgValueMap argMap, String from, List<String> recipients) {
+    String templatePath = messageBuilder.getEmailTemplatePath(argMap, "templatePath");
+    HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
+    return recipients.stream()
+      .map(recipient -> SmtpEmailPush.newPush(recipient, from, message.getSubject(), message.getBody(), null))
+      .collect(Collectors.toList());
   }
 }

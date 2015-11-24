@@ -2,13 +2,17 @@ package org.tiogasolutions.notify.processor.push;
 
 public enum PushDestinationType {
 
-  emailMsg, smsMsg, phoneCall, jabberMsg;
+  sesEmailMsg, smtpEmailMsg, smsMsg, phoneCall, jabberMsg;
 
   PushDestinationType() {
   }
 
-  public boolean isEmailMsg() {
-    return this == emailMsg;
+  public boolean isSesEmailMsg() {
+    return this == sesEmailMsg;
+  }
+
+  public boolean isSmtpEmailMsg() {
+    return this == smtpEmailMsg;
   }
 
   public boolean isSmsMsg() {
