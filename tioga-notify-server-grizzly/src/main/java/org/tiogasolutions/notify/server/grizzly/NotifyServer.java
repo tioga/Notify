@@ -61,8 +61,6 @@ public class NotifyServer {
     );
 
     grizzlyServer.packages("org.tiogasolutions.notify");
-//    grizzlyServer.register(TiogaReaderWriterProvider.class);
-//    grizzlyServer.register(TiogaJaxRsExceptionMapper.class);
 
     if (Arrays.asList(args).contains("-shutdown")) {
       GrizzlyServer.shutdownRemote(grizzlyServer.getConfig());
