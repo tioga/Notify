@@ -4,6 +4,7 @@
  * This software may not be used without permission.
  */
 project(":tioga-notify-test") {
+
   version = "1.0.0"
 
   dependencies {
