@@ -1,7 +1,6 @@
 package org.tiogasolutions.notify.engine.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.tiogasolutions.lib.jaxrs.jackson.TiogaReaderWriterProvider;
 import org.tiogasolutions.notify.NotifyObjectMapper;
 
@@ -11,13 +10,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-@Component
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NotifyReaderWriterProvider extends TiogaReaderWriterProvider {
 
   @Autowired
-  public NotifyReaderWriterProvider(NotifyObjectMapper notifyObjectMapper) {
-    super(notifyObjectMapper);
+  public NotifyReaderWriterProvider(NotifyObjectMapper objectMapper) {
+    super(objectMapper);
   }
 }
