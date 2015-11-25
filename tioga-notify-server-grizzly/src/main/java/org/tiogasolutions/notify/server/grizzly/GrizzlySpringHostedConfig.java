@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 @Profile("hosted")
 @Configuration
-public class GrizzlySpringTestConfig {
+public class GrizzlySpringHostedConfig {
 
   @Bean
   public LivePushClientFactory livePushClientFactory() {
@@ -64,9 +64,7 @@ public class GrizzlySpringTestConfig {
 
   @Bean
   public SystemConfiguration systemConfiguration() {
-    SystemConfiguration configuration = new SystemConfiguration();
-    configuration.setAccessControlAllowOrigin("*");
-    return configuration;
+    return new SystemConfiguration("*", "/api/v1/client", "/api/v1/admin");
   }
 
   @Bean

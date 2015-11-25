@@ -15,16 +15,15 @@ import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.Priorities;
-import javax.ws.rs.container.*;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.util.Map;
-
-import static org.tiogasolutions.dev.common.exceptions.ExceptionUtils.assertNotZeroLength;
 
 /**
  * This is the "global" filter for the Engine. It's primary responsibility is
@@ -71,10 +70,8 @@ public class EngineRequestFilter implements ContainerRequestFilter {
 
     String path = requestUri.substring(baseUri.length()-1);
 
-    // TODO - Move to Systemconfiguration class.
-    Map<String,Object> properties = application.getProperties();
-    String clientContext = assertNotZeroLength((String) properties.get("app.client.context"), "app.client.context");
-    String adminContext = assertNotZeroLength((String) properties.get("app.admin.context"), "app.admin.context");
+    String clientContext = systemConfiguration.getClientContext();
+    String adminContext = systemConfiguration.getAdminContext();
 
     try {
       if (path.equals(clientContext) || path.startsWith(clientContext+"/")) {

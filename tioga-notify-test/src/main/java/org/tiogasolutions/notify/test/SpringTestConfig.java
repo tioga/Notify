@@ -59,9 +59,7 @@ public class SpringTestConfig {
 
   @Bean
   public SystemConfiguration systemConfiguration() {
-    SystemConfiguration configuration = new SystemConfiguration();
-    configuration.setAccessControlAllowOrigin("http://www.localhost:63342");
-    return configuration;
+    return new SystemConfiguration("*", "/api/v1/client", "/api/v1/admin");
   }
 
   @Bean

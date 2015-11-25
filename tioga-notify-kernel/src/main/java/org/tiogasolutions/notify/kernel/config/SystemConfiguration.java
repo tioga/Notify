@@ -2,16 +2,25 @@ package org.tiogasolutions.notify.kernel.config;
 
 public class SystemConfiguration {
 
-    private String accessControlAllowOrigin;
+    private final String accessControlAllowOrigin;
+    private final String clientContext;
+    private final String adminContext;
 
-    public SystemConfiguration() {
+    public SystemConfiguration(String accessControlAllowOrigin, String clientContext, String adminContext) {
+        this.accessControlAllowOrigin = accessControlAllowOrigin;
+        this.clientContext = clientContext;
+        this.adminContext = adminContext;
     }
 
     public String getAccessControlAllowOrigin() {
         return accessControlAllowOrigin;
     }
 
-    public void setAccessControlAllowOrigin(String accessControlAllowOrigin) {
-        this.accessControlAllowOrigin = accessControlAllowOrigin;
+    public String getClientContext() {
+        return clientContext;
+    }
+
+    public String getAdminContext() {
+        return adminContext;
     }
 }
