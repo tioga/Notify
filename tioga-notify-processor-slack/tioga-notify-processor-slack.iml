@@ -68,13 +68,13 @@
     <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="module" module-name="tioga-notify-jackson" />
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.0">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.0/76af939fe82b53ce94946337c1cc2bcf68b48051/tioga-dev-common-5.1.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-common/5.1.1/tioga-dev-common-5.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.0/f3da0e53308572b4885e4a59693b95d34e30a516/tioga-dev-common-5.1.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-common/5.1.1/tioga-dev-common-5.1.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -90,35 +90,35 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.0">
+      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/ef4be7c1316709056f9e1ede521efa0cf6d51b3/tioga-app-common-2.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.1/f069e4d917bb62cbc9ea770e4147426164aaa001/tioga-app-common-2.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.0/1c1bab48ed4e42897c6ac9e2737516549cac5840/tioga-app-common-2.1.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.1/5163fcda1f02f0ba45e10e9981cc869bea7142c0/tioga-app-common-2.1.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.0">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.0/e4362f077b03734652cc8afd41e2829bc7efc1f8/tioga-dev-domain-4.2.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-domain/4.2.1/tioga-dev-domain-4.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.0/b7c523b77d6cc543b5a1da435e983c9a184ff5b9/tioga-dev-domain-4.2.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-domain/4.2.1/tioga-dev-domain-4.2.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.0">
+      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.1">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.0/dcfdca0cc1f82fdb6a8c3fc01305cd24bc557ba0/tioga-dev-jackson-4.2.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-jackson/4.2.1/tioga-dev-jackson-4.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.0/29b23cec37dba783b40a14ca1af1e5bed28cbf70/tioga-dev-jackson-4.2.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-jackson/4.2.1/tioga-dev-jackson-4.2.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
