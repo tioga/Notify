@@ -5,7 +5,7 @@ project(":tioga-notify-engine") {
   dependencies {
     compile(project(":tioga-notify-kernel"))
 
-    compile("org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:+")
+    compile("org.tiogasolutions.lib:tioga-lib-jaxrs:+")
 
     testCompile(project(":tioga-notify-test"))
 

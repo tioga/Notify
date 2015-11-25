@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":tioga-notify-engine" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="org.tiogasolutions.notify" external.system.module.version="1.2.4" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":tioga-notify-engine" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="org.tiogasolutions.notify" external.system.module.version="1.2.6" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
@@ -75,13 +75,13 @@
     <orderEntry type="module" module-name="tioga-notify-test" scope="TEST" />
     <orderEntry type="module" module-name="tioga-notify-jackson" />
     <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs-jackson:5.2.1">
+      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.3.0">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-jaxrs-jackson/5.2.1/3ceb0f8969069042cc1a59f9be2f359542fcae7e/tioga-lib-jaxrs-jackson-5.2.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.3.0/tioga-lib-jaxrs-4.3.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-jaxrs-jackson/5.2.1/c87fe4cfa45e3f71dc25a1f84cd897cbf83e6f72/tioga-lib-jaxrs-jackson-5.2.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.3.0/tioga-lib-jaxrs-4.3.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -181,17 +181,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.8.5/f7a7b1dfc6a9f208f271252ca9592c252de36238/aspectjweaver-1.8.5-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:4.3.0">
-        <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.3.0/tioga-lib-jaxrs-4.3.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/4.3.0/tioga-lib-jaxrs-4.3.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
