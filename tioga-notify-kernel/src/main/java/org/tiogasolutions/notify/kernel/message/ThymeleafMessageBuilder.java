@@ -98,12 +98,12 @@ public class ThymeleafMessageBuilder {
     register("\u00A6","brvbar"); // broken bar = broken vertical bar
     register("\u00A7","sect"); // section sign
     register("\u00A8","uml"); // diaeresis = spacing diaeresis
-    register("\u00A9","copy"); // © - copyright sign
+    register("\u00A9","copy"); // copyright sign
     register("\u00AA","ordf"); // feminine ordinal indicator
     register("\u00AB","laquo"); // left-pointing double angle quotation mark = left pointing guillemet
     register("\u00AC","not"); // not sign
     register("\u00AD","shy"); // soft hyphen = discretionary hyphen
-    register("\u00AE","reg"); // ® - registered trademark sign
+    register("\u00AE","reg"); // registered trademark sign
     register("\u00AF","macr"); // macron = spacing macron = overline = APL overbar
     register("\u00B0","deg"); // degree sign
     register("\u00B1","plusmn"); // plus-minus sign = plus-or-minus sign
