@@ -22,16 +22,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: ch.qos.logback:logback-core:1.1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.slf4j:jul-to-slf4j:1.7.7" level="project" />
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.1">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.1/88eecabd9ab86dce78e5893bc96c12747856fa98/tioga-dev-common-5.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.1/257aa243bd8112ebc683566c883ceeb7fcff2d33/tioga-dev-common-5.1.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="library" scope="TEST" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.1" level="project" />
   </component>
 </module>

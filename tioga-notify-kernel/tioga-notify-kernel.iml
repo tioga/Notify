@@ -76,115 +76,15 @@
     <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="module" module-name="tioga-notify-test" scope="TEST" />
     <orderEntry type="module" module-name="tioga-notify-jackson" />
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.0/60ba3103595df1b7264ae0bd050263a7a98b83a/tioga-lib-thymeleaf-1.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.0/9e37f6c94954f9aefe935ce2dfd73fdad71a202e/tioga-lib-thymeleaf-1.1.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.1">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.1/f069e4d917bb62cbc9ea770e4147426164aaa001/tioga-app-common-2.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/2.1.1/5163fcda1f02f0ba45e10e9981cc869bea7142c0/tioga-app-common-2.1.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.1">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.1/7b4ef26f00cfae50fae8f9a69108c22e39bfd215/tioga-dev-domain-4.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-domain/4.2.1/7a2292b61ff3229e96d5f687d3f47a410c40b2e/tioga-dev-domain-4.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.1">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.1/2f283ea93f32a496d1da73dad31adc3a5672f701/tioga-dev-jackson-4.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.1/9d89f448853d379bc24141d2ee799bbaed25132c/tioga-dev-jackson-4.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-core:1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-core/1.6.0/2e1ad9fb492a349419cacf57a7cb76744c9bf070/tioga-couchace-core-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-core/1.6.0/5fcd84f31f6ad8ba9d6966a9b8a5eda972c4e144/tioga-couchace-core-1.6.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-annotations/1.6.0/ed8a81a6216e94f4c2384553e096e469cd929d79/tioga-couchace-annotations-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-annotations/1.6.0/28d639ac6982891fffaad8008f30c1b683f19686/tioga-couchace-annotations-1.6.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.0/1bc98a88bed4e561c4867a57608411ec7c6a00b0/tioga-couchace-jersey-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.0/23cab74343407299d8a908a4ae87e6bd6e06ceed/tioga-couchace-jersey-1.6.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.6.0">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jackson/1.6.0/539f99ec473dd3acf3124e1a6e9430634d95a866/tioga-couchace-jackson-1.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jackson/1.6.0/3d5336a2acf991f58a9b93ac01850eebe2e418fa/tioga-couchace-jackson-1.6.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.aspectj:aspectjweaver:1.8.5">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.8.5/6004670a8cbcbe794d73ad00106779561ad1b180/aspectjweaver-1.8.5.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.8.5/f7a7b1dfc6a9f208f271252ca9592c252de36238/aspectjweaver-1.8.5-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.1">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.1/88eecabd9ab86dce78e5893bc96c12747856fa98/tioga-dev-common-5.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-common/5.1.1/257aa243bd8112ebc683566c883ceeb7fcff2d33/tioga-dev-common-5.1.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.app:tioga-app-common:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-core:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-annotations:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.aspectj:aspectjweaver:1.8.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.1.1" level="project" />
   </component>
 </module>
