@@ -73,7 +73,7 @@ project(":tioga-notify-server-grizzly") {
     manifest {
       attributes(
         "Implementation-Version" : project.version,
-        "Main-Class"             : "org.tiogasolutions.notify.server.grizzly.NotifyServer",
+        "Main-Class"             : "org.tiogasolutions.notify.server.grizzly.NotifyServerLauncher",
         "Class-Path"             : configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
       )
     }

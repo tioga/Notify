@@ -20,8 +20,7 @@ public class NotifyServer {
 
   private static final Logger log = getLogger(NotifyServer.class);
 
-  public static void main(String...args) throws Exception {
-
+  public static void start(String...args) throws Exception {
     // Priority #1, configure default logging levels. This will be
     // overridden later when/if the logback.xml is found and loaded.
     AppUtils.initLogback(Level.WARN);
@@ -48,10 +47,11 @@ public class NotifyServer {
     String action = (shuttingDown ? "Shutting down" : "Starting");
 
     log.info("{} server:\n" +
-      "  *  Runtime Dir:  {}\n" +
-      "  *  Config Dir:   {}\n" +
-      "  *  Logback File: {}\n" +
-      "  *  Spring Path ({}):  {}", action, runtimeDir, configDir, logbackFile, activeProfiles, springConfigPath);
+      "  *  Runtime Dir     (notify.runtime.dir)     {}\n" +
+      "  *  Config Dir      (notify.config.dir)      {}\n" +
+      "  *  Logback File    (notify.log.config)      {}\n" +
+      "  *  Spring Path     (notify.spring.config)   {}\n" +
+      "  *  Active Profiles (notify.active.profiles) {}", action, runtimeDir, configDir, logbackFile, springConfigPath, activeProfiles);
 
     // Create an instance of the grizzly server.
     GrizzlySpringServer grizzlyServer = new GrizzlySpringServer(

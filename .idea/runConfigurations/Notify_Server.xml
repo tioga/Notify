@@ -6,7 +6,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="MAIN_CLASS_NAME" value="org.tiogasolutions.notify.server.grizzly.NotifyServer" />
+    <option name="MAIN_CLASS_NAME" value="org.tiogasolutions.notify.server.grizzly.NotifyServerLauncher" />
     <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -17,19 +17,19 @@
     <option name="PASS_PARENT_ENVS" value="true" />
     <module name="tioga-notify-server-grizzly" />
     <envs>
-      <env name="hostName" value="localhost" />
-      <env name="port" value="39011" />
-      <env name="shutdownPort" value="39012" />
-      <env name="context" value="notify-server" />
-      <env name="toOpenBrowser" value="true" />
-      <env name="masterUrl" value="http://localhost:5984" />
-      <env name="masterUsername" value="app-user" />
-      <env name="masterPassword" value="app-user" />
-      <env name="masterDatabaseName" value="tioga-notify" />
-      <env name="domainUrl" value="http://localhost:5984" />
-      <env name="domainUsername" value="app-user" />
-      <env name="domainPassword" value="app-user" />
-      <env name="domainDatabasePrefix" value="tioga-notify-" />
+      <env name="notify.hostName" value="localhost" />
+      <env name="notify.port" value="39011" />
+      <env name="notify.shutdownPort" value="39012" />
+      <env name="notify.context" value="notify-server" />
+      <env name="notify.toOpenBrowser" value="true" />
+      <env name="notify.masterUrl" value="http://localhost:5984" />
+      <env name="notify.masterUsername" value="app-user" />
+      <env name="notify.masterPassword" value="app-user" />
+      <env name="notify.masterDatabaseName" value="tioga-notify" />
+      <env name="notify.domainUrl" value="http://localhost:5984" />
+      <env name="notify.domainUsername" value="app-user" />
+      <env name="notify.domainPassword" value="app-user" />
+      <env name="notify.domainDatabasePrefix" value="tioga-notify-" />
       <env name="" value="" />
     </envs>
     <RunnerSettings RunnerId="Debug">
