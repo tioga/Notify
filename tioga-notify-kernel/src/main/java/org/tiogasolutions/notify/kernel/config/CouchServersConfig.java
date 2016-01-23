@@ -1,11 +1,9 @@
 package org.tiogasolutions.notify.kernel.config;
 
-/**
- * Created by harlan on 2/14/15.
- */
 public class CouchServersConfig {
+
   private String masterUrl;
-  private String masterUserName;
+  private String masterUsername;
   private String masterPassword;
   private String masterDatabaseName;
 
@@ -26,7 +24,7 @@ public class CouchServersConfig {
 
   public CouchServersConfig(CouchServersConfig couch) {
     setMasterUrl(couch.getMasterUrl());
-    setMasterUserName(couch.getMasterUserName());
+    setMasterUsername(couch.getMasterUsername());
     setMasterPassword(couch.getMasterPassword());
     setMasterDatabaseName(couch.getMasterDatabaseName());
 
@@ -52,12 +50,12 @@ public class CouchServersConfig {
     this.masterUrl = masterUrl;
   }
 
-  public String getMasterUserName() {
-    return masterUserName;
+  public String getMasterUsername() {
+    return masterUsername;
   }
 
-  public void setMasterUserName(String masterUserName) {
-    this.masterUserName = masterUserName;
+  public void setMasterUsername(String masterUsername) {
+    this.masterUsername = masterUsername;
   }
 
   public String getMasterPassword() {
@@ -168,7 +166,7 @@ public class CouchServersConfig {
     if (masterPassword != null ? !masterPassword.equals(that.masterPassword) : that.masterPassword != null)
       return false;
     if (masterUrl != null ? !masterUrl.equals(that.masterUrl) : that.masterUrl != null) return false;
-    if (masterUserName != null ? !masterUserName.equals(that.masterUserName) : that.masterUserName != null)
+    if (masterUsername != null ? !masterUsername.equals(that.masterUsername) : that.masterUsername != null)
       return false;
     if (notificationDatabasePrefix != null ? !notificationDatabasePrefix.equals(that.notificationDatabasePrefix) : that.notificationDatabasePrefix != null)
       return false;
@@ -196,7 +194,7 @@ public class CouchServersConfig {
   @Override
   public int hashCode() {
     int result = masterUrl != null ? masterUrl.hashCode() : 0;
-    result = 31 * result + (masterUserName != null ? masterUserName.hashCode() : 0);
+    result = 31 * result + (masterUsername != null ? masterUsername.hashCode() : 0);
     result = 31 * result + (masterPassword != null ? masterPassword.hashCode() : 0);
     result = 31 * result + (masterDatabaseName != null ? masterDatabaseName.hashCode() : 0);
     result = 31 * result + (notificationUrl != null ? notificationUrl.hashCode() : 0);
@@ -216,7 +214,7 @@ public class CouchServersConfig {
   public String toString() {
     return "CouchServersConfig{" +
         "masterUrl='" + masterUrl + '\'' +
-        ", masterUserName='" + masterUserName + '\'' +
+        ", masterUserName='" + masterUsername + '\'' +
         ", masterPassword='" + masterPassword + '\'' +
         ", masterDatabaseName='" + masterDatabaseName + '\'' +
         ", notificationUrl='" + notificationUrl + '\'' +

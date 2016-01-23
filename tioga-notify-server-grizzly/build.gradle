@@ -1,4 +1,16 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath group:"org.cloudfoundry", name:"cf-gradle-plugin", version:"1.0.1"
+  }
+}
+
 project(":tioga-notify-server-grizzly") {
+
+  apply plugin: 'cloudfoundry'
+  apply plugin: 'distribution'
 
   version = tiogaAppVersion
 
@@ -21,68 +33,48 @@ project(":tioga-notify-server-grizzly") {
 		 compile("javax.servlet:javax.servlet-api:3.1.0")
   }
 
-  File windowsServerStartFile = file("$buildDir/scripts/notify-server-start.bat");
-  task createWindowsStartScript << {
-    windowsServerStartFile.parentFile.mkdirs()
-    FileWriter writer = new FileWriter(windowsServerStartFile);
-    writer.write("@echo off\ncls\n");
-    writer.write("echo Starting application\n");
-    writer.write("%JAVA_HOME%\\bin\\javaw.exe -jar ./lib/${project.name}-${project.version}.jar\n");
-    writer.close()
-  }
+  configurations.all({
+    resolutionStrategy({
+      force(
+          "commons-codec:commons-codec:1.6",
+//          "org.slf4j:slf4j-api:1.7.12",
+//          "org.javassist:javassist:3.18.1-GA",
+          "commons-logging:commons-logging:1.2",
+//          "org.apache.httpcomponents:httpclient:4.3.4",
+//          "org.apache.httpcomponents:httpcore:4.3.2",
+//          "com.fasterxml.jackson.core:jackson-databind:2.5.1",
 
-  File linuxServerStartFile = file("$buildDir/scripts/notify-server-start.sh");
-  task createLinuxStartScript << {
-    linuxServerStartFile.parentFile.mkdirs()
-    FileWriter writer = new FileWriter(linuxServerStartFile);
-    writer.write("clear\n");
-    writer.write("cd \"\$(dirname \$(readlink -f \$0))\"\n");
-    writer.write("nohup \$JAVA_HOME/bin/java -jar ./lib/tioga-notify-server-grizzly-1.1.12.jar > ./notify-server.log 2>&1 &\n");
-    writer.close()
-  }
-
-  File linuxServerStopFile = file("$buildDir/scripts/notify-server-stop.sh");
-  task createLinuxStopScript << {
-    linuxServerStopFile.parentFile.mkdirs()
-    FileWriter writer = new FileWriter(linuxServerStopFile);
-    writer.write("clear\n");
-    writer.write("cd \"\$(dirname \$(readlink -f \$0))\"\n");
-    writer.write("nohup \$JAVA_HOME/bin/java -jar ./lib/tioga-notify-server-grizzly-1.1.12.jar -shutdown > ./notify-server-shutdown.log 2>&1 &\n");
-    writer.close()
-  }
-
-  apply plugin:'distribution'
-
-  artifacts {
-    archives distZip
-  }
+          "org.springframework:spring-web:4.1.6.RELEASE",
+          "org.springframework:spring-aop:4.1.6.RELEASE",
+          "org.springframework:spring-core:4.1.6.RELEASE",
+          "org.springframework:spring-beans:4.1.6.RELEASE",
+          "org.springframework:spring-context:4.1.6.RELEASE",
+          "org.springframework:spring-webmvc:4.1.6.RELEASE",
+          "org.springframework:spring-expression:4.1.6.RELEASE",
+      )
+    })
+  })
 
   distributions {
     main {
       contents {
-        into("runtime") {
-          from {"../runtime"}
-        }
-        into("tioga-notify-admin-app") {
-          from {"../tioga-notify-admin-app"}
-        }
         into("lib") {
           from(jar)
           from(project.configurations.runtime)
         }
-        from(windowsServerStartFile, createWindowsStartScript)
-        from(linuxServerStartFile, createLinuxStartScript)
-        from(linuxServerStopFile, createLinuxStopScript)
       }
     }
   }
 
   jar {
+    into("libs") {
+      from configurations.runtime
+    }
     manifest {
       attributes(
-        "Implementation-Version" : "0.1",
+        "Implementation-Version" : project.version,
         "Main-Class"             : "org.tiogasolutions.notify.server.grizzly.NotifyServer",
-        "Class-Path"             : configurations.compile.collect { it.getName() }.join(' ')
+        "Class-Path"             : configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
       )
     }
   }
@@ -98,5 +90,44 @@ project(":tioga-notify-server-grizzly") {
       into dest
     }
   }
+
   build.dependsOn(importAdminApp)
+
+  cloudfoundry {
+    username = "jacobp@tiogasolutions.org"
+    password = "go3Pivotal!"
+    application = "notify-server"
+
+    space = "production"
+    file = file("build/libs/${project.name}-${project.version}.jar")
+
+    env = [
+        "hostName": "0.0.0.0",
+        "port": "8080",
+        "shutdownPort": "8081",
+        "context": "",
+
+        "masterUrl": "https://tioga.cloudant.com",
+        "masterUsername": "tioga",
+        "masterPassword": "4God'sBlessing!",
+        "masterDatabaseName": "notify",
+
+        "domainUrl": "https://tioga.cloudant.com",
+        "domainUsername": "tioga",
+        "domainPassword": "4God'sBlessing!",
+        "domainDatabasePrefix": "notify-",
+        "sessionDuration": "3600000"
+    ]
+  }
 }
+
+
+
+
+
+
+
+
+
+
+

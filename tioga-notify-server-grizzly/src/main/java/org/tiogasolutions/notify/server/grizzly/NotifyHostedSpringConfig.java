@@ -1,5 +1,6 @@
 package org.tiogasolutions.notify.server.grizzly;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,13 +21,50 @@ import org.tiogasolutions.notify.processor.push.PushTaskProcessor;
 import org.tiogasolutions.notify.processor.slack.SlackTaskProcessor;
 import org.tiogasolutions.notify.processor.smtp.SmtpTaskProcessor;
 import org.tiogasolutions.notify.processor.swing.SwingTaskProcessor;
+import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 @Profile("hosted")
 @Configuration
-public class GrizzlySpringHostedConfig {
+public class NotifyHostedSpringConfig {
+
+  @Value("#{systemEnvironment.context}")
+  private String context;
+
+  @Value("#{systemEnvironment.port}")
+  private int port = 8080;
+
+  @Value("#{systemEnvironment.shutdownPort}")
+  private int shutdownPort = 8081;
+
+  @Value("#{systemEnvironment.hostName}")
+  private String hostName = "0.0.0.0";
+
+  @Value("#{systemEnvironment.masterUrl}")
+  private String masterUrl;
+
+  @Value("#{systemEnvironment.masterUsername}")
+  private String masterUsername;
+
+  @Value("#{systemEnvironment.masterPassword}")
+  private String masterPassword;
+
+  @Value("#{systemEnvironment.masterDatabaseName}")
+  private String masterDatabaseName;
+
+  @Value("#{systemEnvironment.domainUrl}")
+  private String domainUrl;
+
+  @Value("#{systemEnvironment.domainUsername}")
+  private String domainUsername;
+
+  @Value("#{systemEnvironment.domainPassword}")
+  private String domainPassword;
+
+  @Value("#{systemEnvironment.domainDatabasePrefix}")
+  private String domainDatabasePrefix;
 
   @Bean
   public LivePushClientFactory livePushClientFactory() {
@@ -70,5 +108,33 @@ public class GrizzlySpringHostedConfig {
   @Bean
   BundledStaticContentReader bundledStaticContentReader() {
     return new BundledStaticContentReader("/org/tiogasolutions/notify/admin/app");
+  }
+
+  @Bean
+  public GrizzlyServerConfig grizzlyServerConfig() {
+    GrizzlyServerConfig config = new GrizzlyServerConfig();
+    config.setHostName(hostName);
+    config.setPort(port);
+    config.setShutdownPort(shutdownPort);
+    config.setContext(context);
+    config.setToOpenBrowser(false);
+    return config;
+  }
+
+  @Bean
+  public CouchServersConfig couchServersConfig() {
+    CouchServersConfig config = new CouchServersConfig();
+
+    config.setMasterUrl(masterUrl);
+    config.setMasterUsername(masterUsername);
+    config.setMasterPassword(masterPassword);
+    config.setMasterDatabaseName(masterDatabaseName);
+
+    config.setNotificationUrl(domainUrl);
+    config.setNotificationUserName(domainUsername);
+    config.setNotificationPassword(domainPassword);
+    config.setNotificationDatabasePrefix(domainDatabasePrefix);
+
+    return config;
   }
 }

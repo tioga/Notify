@@ -41,7 +41,7 @@ public class NotifyServer {
     Path logbackFile = AppUtils.initLogback(configDir, "notify.log.config", "logback.xml");
 
     // Locate the spring file for this app.
-    String springConfigPath = resolver.resolveSpringPath(configDir, null);
+    String springConfigPath = resolver.resolveSpringPath(configDir, "classpath:/tioga-notify-server-grizzly/spring-config.xml");
     String activeProfiles = resolver.resolveSpringProfiles(); // defaults to "hosted"
 
     boolean shuttingDown = Arrays.asList(args).contains("-shutdown");

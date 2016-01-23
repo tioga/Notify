@@ -54,7 +54,7 @@ public class CouchServers {
     CouchSetup masterConfig = new CouchSetup(serversConfig.getMasterUrl())
         .setHttpClient(JerseyCouchHttpClient.class)
         .setJsonStrategy(jsonStrategy)
-        .setUserName(serversConfig.getMasterUserName())
+        .setUserName(serversConfig.getMasterUsername())
         .setPassword(serversConfig.getMasterPassword());
     masterServer = new CouchServer(masterConfig);
     masterDatabase = initMasterDatabase(serversConfig, masterServer);

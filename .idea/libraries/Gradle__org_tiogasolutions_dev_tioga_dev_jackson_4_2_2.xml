@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.2/37c6f920c04d95017c9670482eeab00077c1793b/tioga-dev-jackson-4.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.2/c70c04c41e56c2e86951504058de5f352681c39/tioga-dev-jackson-4.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

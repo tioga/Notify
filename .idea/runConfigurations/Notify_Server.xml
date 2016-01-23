@@ -16,7 +16,22 @@
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
     <module name="tioga-notify-server-grizzly" />
-    <envs />
+    <envs>
+      <env name="hostName" value="localhost" />
+      <env name="port" value="39011" />
+      <env name="shutdownPort" value="39012" />
+      <env name="context" value="notify-server" />
+      <env name="toOpenBrowser" value="true" />
+      <env name="masterUrl" value="http://localhost:5984" />
+      <env name="masterUsername" value="app-user" />
+      <env name="masterPassword" value="app-user" />
+      <env name="masterDatabaseName" value="tioga-notify" />
+      <env name="domainUrl" value="http://localhost:5984" />
+      <env name="domainUsername" value="app-user" />
+      <env name="domainPassword" value="app-user" />
+      <env name="domainDatabasePrefix" value="tioga-notify-" />
+      <env name="" value="" />
+    </envs>
     <RunnerSettings RunnerId="Debug">
       <option name="DEBUG_PORT" value="" />
       <option name="TRANSPORT" value="0" />
