@@ -96,6 +96,8 @@ project(":tioga-notify-server-grizzly") {
   cloudfoundry {
     username = "jacobp@tiogasolutions.org"
     password = "go3Pivotal!"
+
+    memory = 256
     application = "notify-server"
 
     space = "production"
