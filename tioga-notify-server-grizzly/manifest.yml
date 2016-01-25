@@ -1,0 +1,25 @@
+---
+applications:
+- name: tioga-notify-server
+  memory: 256M
+  timeout: 60
+  buildpack: java_buildpack
+  domain: notify.tioga.solutions
+  path: build/lib/tioga-notify-server-grizzly-1.2.9.jar
+
+  env:
+    hostName: 0.0.0.0
+    port: 8080
+    shutdownPort: 8081
+    context:
+
+    masterUrl: https://tioga.cloudant.com
+    masterUsername: tioga
+    masterPassword: 4God'sBlessing!
+    masterDatabaseName: notify
+
+    domainUrl: https://tioga.cloudant.com
+    domainUsername: tioga
+    domainPassword: 4God'sBlessing!
+    domainDatabasePrefix: notify-
+    sessionDuration: 3600000
