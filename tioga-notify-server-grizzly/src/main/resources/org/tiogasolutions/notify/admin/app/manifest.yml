@@ -1,0 +1,26 @@
+---
+applications:
+- name: tioga-notify-app
+
+  timeout: 60
+  buildpack: staticfile_buildpack
+  path: ./
+
+  memory: 32M
+  host: ""
+  domain: notify.tioga.solutions
+
+  env:
+    notify.hostName: 0.0.0.0
+    notify.port: 8080
+    notify.shutdownPort: 8081
+
+    notify.masterUrl: https://tioga.cloudant.com
+    notify.masterUsername: tioga
+    notify.masterPassword: 4God'sBlessing!
+    notify.masterDatabaseName: notify
+
+    notify.domainUrl: https://tioga.cloudant.com
+    notify.domainUsername: tioga
+    notify.domainPassword: 4God'sBlessing!
+    notify.domainDatabasePrefix: notify-
