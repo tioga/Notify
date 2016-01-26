@@ -60,20 +60,44 @@ public class NotifyHostedSpringConfig {
     return EnvUtils.requireProperty("notify.masterDatabaseName");
   }
 
-  private String getDomainUrl() {
-    return EnvUtils.requireProperty("notify.domainUrl");
+  private String getNotificationUrl() {
+    return EnvUtils.requireProperty("notify.notificationUrl");
   }
 
-  private String getDomainUsername() {
-    return EnvUtils.requireProperty("notify.domainUsername");
+  private String getNotificationUsername() {
+    return EnvUtils.requireProperty("notify.notificationUsername");
   }
 
-  private String getDomainPassword() {
-    return EnvUtils.requireProperty("notify.domainPassword");
+  private String getNotificationPassword() {
+    return EnvUtils.requireProperty("notify.notificationPassword");
   }
 
-  private String getDomainDatabasePrefix() {
-    return EnvUtils.requireProperty("notify.domainDatabasePrefix");
+  private String getNotificationDatabasePrefix() {
+    return EnvUtils.requireProperty("notify.notificationDatabasePrefix");
+  }
+
+  private String getNotificationDatabaseSuffix() {
+    return EnvUtils.requireProperty("notify.notificationDatabaseSuffix");
+  }
+
+  private String getRequestUrl() {
+    return EnvUtils.requireProperty("notify.requestUrl");
+  }
+
+  private String getRequestUsername() {
+    return EnvUtils.requireProperty("notify.requestUsername");
+  }
+
+  private String getRequestPassword() {
+    return EnvUtils.requireProperty("notify.requestPassword");
+  }
+
+  private String getRequestDatabasePrefix() {
+    return EnvUtils.requireProperty("notify.requestDatabasePrefix");
+  }
+
+  private String getRequestDatabaseSuffix() {
+    return EnvUtils.requireProperty("notify.requestDatabaseSuffix");
   }
 
   @Bean
@@ -140,10 +164,17 @@ public class NotifyHostedSpringConfig {
     config.setMasterPassword(getMasterPassword());
     config.setMasterDatabaseName(getMasterDatabaseName());
 
-    config.setNotificationUrl(getDomainUrl());
-    config.setNotificationUserName(getDomainUsername());
-    config.setNotificationPassword(getDomainPassword());
-    config.setNotificationDatabasePrefix(getDomainDatabasePrefix());
+    config.setNotificationUrl(getNotificationUrl());
+    config.setNotificationUserName(getNotificationUsername());
+    config.setNotificationPassword(getNotificationPassword());
+    config.setNotificationDatabasePrefix(getNotificationDatabasePrefix());
+    config.setNotificationDatabaseSuffix(getNotificationDatabaseSuffix());
+
+    config.setRequestUrl(getRequestUrl());
+    config.setRequestUserName(getRequestUsername());
+    config.setRequestPassword(getRequestPassword());
+    config.setRequestDatabasePrefix(getRequestDatabasePrefix());
+    config.setRequestDatabaseSuffix(getRequestDatabaseSuffix());
 
     return config;
   }
