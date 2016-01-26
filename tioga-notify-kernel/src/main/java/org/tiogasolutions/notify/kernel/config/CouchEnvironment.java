@@ -4,15 +4,11 @@ public class CouchEnvironment {
 
   private boolean testing = false;
 
-  public CouchEnvironment() {
+  public CouchEnvironment(boolean testing) {
+    this.testing = testing;
   }
 
   public boolean isTesting() {
     return testing;
-  }
-
-  public CouchEnvironment setTesting(boolean testing) {
-    this.testing = testing;
-    return this;
   }
 }

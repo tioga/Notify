@@ -18,18 +18,4 @@
   <task:annotation-driven/>
   <context:component-scan base-package="org.tiogasolutions.notify"/>
 
-  <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment"
-        p:testing="false"
-  />
-
-  <bean class="org.tiogasolutions.notify.kernel.config.TrustedUserStore">
-    <constructor-arg>
-      <util:map id="someId" map-class="java.util.HashMap">
-        <entry key="admin">
-          <value>Testing123</value>
-        </entry>
-      </util:map>
-    </constructor-arg>
-  </bean>
-
 </beans>

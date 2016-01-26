@@ -7,8 +7,10 @@ import org.tiogasolutions.dev.common.EnvUtils;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
 import org.tiogasolutions.notify.NotifyObjectMapper;
 import org.tiogasolutions.notify.engine.web.readers.BundledStaticContentReader;
+import org.tiogasolutions.notify.kernel.config.CouchEnvironment;
 import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
 import org.tiogasolutions.notify.kernel.config.SystemConfiguration;
+import org.tiogasolutions.notify.kernel.config.TrustedUserStore;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
@@ -41,7 +43,7 @@ public class NotifyHostedSpringConfig {
   }
 
   private String getHostName() {
-    return EnvUtils.findProperty("notify.hostName", "0.0.0.0");
+    return EnvUtils.findProperty("notify.hostName", "localhost");
   }
 
   private String getMasterUrl() {
@@ -144,7 +146,7 @@ public class NotifyHostedSpringConfig {
     return new BundledStaticContentReader("/org/tiogasolutions/notify/admin/app");
   }
 
-  @Bean
+  @Bean(name="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig")
   public GrizzlyServerConfig grizzlyServerConfig() {
     GrizzlyServerConfig config = new GrizzlyServerConfig();
     config.setHostName(getHostName());
@@ -155,7 +157,7 @@ public class NotifyHostedSpringConfig {
     return config;
   }
 
-  @Bean
+  @Bean(name = "org.tiogasolutions.notify.kernel.config.CouchServersConfig")
   public CouchServersConfig couchServersConfig() {
     CouchServersConfig config = new CouchServersConfig();
 
@@ -177,5 +179,16 @@ public class NotifyHostedSpringConfig {
     config.setRequestDatabaseSuffix(getRequestDatabaseSuffix());
 
     return config;
+  }
+
+  @Bean(name="org.tiogasolutions.notify.kernel.config.TrustedUserStore")
+  public TrustedUserStore trustedUserStore() {
+    return new TrustedUserStore("admin:password");
+  }
+
+
+  @Bean(name="org.tiogasolutions.notify.kernel.config.CouchEnvironment")
+  public CouchEnvironment couchEnvironment() {
+    return new CouchEnvironment(false);
   }
 }
