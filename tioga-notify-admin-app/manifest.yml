@@ -1,13 +1,13 @@
 ---
 applications:
-- name: tioga-notify-engine
+- name: tioga-notify-app
 
   timeout: 60
-  buildpack: java_buildpack
-  path: build/pws/tioga-notify-server-grizzly.jar
+  buildpack: staticfile_buildpack
+  path: ./
 
-  memory: 256M
-  host: engine
+  memory: 32M
+  host: ""
   domain: notify.tioga.solutions
 
   env:

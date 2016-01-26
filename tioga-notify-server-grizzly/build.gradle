@@ -80,6 +80,11 @@ project(":tioga-notify-server-grizzly") {
       into dest
     }
   }
+  task pws(type: Copy, dependsOn: assemble) {
+    from "./build/libs/tioga-notify-server-grizzly-${project.version}.jar"
+    into "./build/pws/"
+    rename "tioga-notify-server-grizzly-${project.version}.jar", "tioga-notify-server-grizzly.jar"
+  }
 
   build.dependsOn(importAdminApp)
 }
