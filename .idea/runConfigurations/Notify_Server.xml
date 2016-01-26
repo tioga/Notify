@@ -26,11 +26,16 @@
       <env name="notify.masterUsername" value="app-user" />
       <env name="notify.masterPassword" value="app-user" />
       <env name="notify.masterDatabaseName" value="tioga-notify" />
-      <env name="notify.domainUrl" value="http://localhost:5984" />
-      <env name="notify.domainUsername" value="app-user" />
-      <env name="notify.domainPassword" value="app-user" />
-      <env name="notify.domainDatabasePrefix" value="tioga-notify-" />
-      <env name="" value="" />
+      <env name="notify.notificationUrl" value="http://localhost:5984" />
+      <env name="notify.notificationUsername" value="app-user" />
+      <env name="notify.notificationPassword" value="app-user" />
+      <env name="notify.notificationDatabasePrefix" value="tioga-notify-" />
+      <env name="notify.notificationDatabaseSuffix" value="-notification" />
+      <env name="notify.requestUrl" value="http://localhost:5984" />
+      <env name="notify.requestUsername" value="app-user" />
+      <env name="notify.requestPassword" value="app-user" />
+      <env name="notify.requestDatabasePrefix" value="tioga-notify-" />
+      <env name="notify.requestDatabaseSuffix" value="-request" />
     </envs>
     <RunnerSettings RunnerId="Debug">
       <option name="DEBUG_PORT" value="" />
