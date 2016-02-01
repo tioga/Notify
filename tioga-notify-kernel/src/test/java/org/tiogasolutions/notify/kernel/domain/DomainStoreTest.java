@@ -31,17 +31,6 @@ public class DomainStoreTest extends AbstractSpringTest {
     couchServers.deleteDomainDatabases(DOMAIN_NAME);
   }
 
-  public void buildDBName() {
-
-    assertEquals(couchServers.buildDbName(DOMAIN_NAME, "default", "pre", null), "pre" + DOMAIN_NAME);
-    assertEquals(couchServers.buildDbName(DOMAIN_NAME, "default", null, "suffix"), DOMAIN_NAME + "suffix");
-    assertEquals(couchServers.buildDbName(DOMAIN_NAME, "default", "pre", "suffix"), "pre" + DOMAIN_NAME + "suffix");
-
-    assertEquals(couchServers.buildDbName(DOMAIN_NAME, "default", null, null), "default" + DOMAIN_NAME);
-    assertEquals(couchServers.buildDbName(DOMAIN_NAME, "default", "", ""), "default" + DOMAIN_NAME);
-
-  }
-
   public void createAndDeleteDomain() {
 
     DomainStore domainStore = new DomainStore(couchServers);

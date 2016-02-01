@@ -143,7 +143,23 @@ public class CouchServers {
     }
   }
 
-  public String buildDbName(String domainName, String defaultPrefix, String prefix, String suffix) {
+  public String buildRequestDbName(String domainName) {
+
+    String prefix = this.requestDatabasePrefix;
+    String suffix = this.requestDatabaseSuffix;
+
+    return buildDbName(domainName, "notify-request-", prefix, suffix);
+  }
+
+  public String buildNotificationDbName(String domainName) {
+
+    String prefix = this.notificationDatabasePrefix;
+    String suffix = this.notificationDatabaseSuffix;
+
+    return buildDbName(domainName, "notify-notification-", prefix, suffix);
+  }
+
+  protected String buildDbName(String domainName, String defaultPrefix, String prefix, String suffix) {
     if (StringUtil.isNotBlank(prefix) && StringUtil.isNotBlank(suffix)) {
       return prefix + domainName + suffix;
     } else if (StringUtil.isNotBlank(prefix)) {
@@ -152,38 +168,6 @@ public class CouchServers {
       return domainName + suffix;
     } else {
       return defaultPrefix + domainName;
-    }
-  }
-
-  public String buildRequestDbName(String domainName) {
-
-    String prefix = this.requestDatabasePrefix;
-    String suffix = this.requestDatabaseSuffix;
-
-    if (StringUtil.isNotBlank(prefix) && StringUtil.isNotBlank(suffix)) {
-      return prefix + domainName + suffix;
-    } else if (StringUtil.isNotBlank(prefix)) {
-      return prefix + domainName;
-    } else if (StringUtil.isNotBlank(suffix)) {
-      return domainName + suffix;
-    } else {
-      return domainName + "-notify-request";
-    }
-  }
-
-  public String buildNotificationDbName(String domainName) {
-
-    String prefix = this.notificationDatabasePrefix;
-    String suffix = this.notificationDatabaseSuffix;
-
-    if (StringUtil.isNotBlank(prefix) && StringUtil.isNotBlank(suffix)) {
-      return prefix + domainName + suffix;
-    } else if (StringUtil.isNotBlank(prefix)) {
-      return prefix + domainName;
-    } else if (StringUtil.isNotBlank(suffix)) {
-      return domainName + suffix;
-    } else {
-      return domainName + "-notify";
     }
   }
 

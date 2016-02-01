@@ -189,6 +189,6 @@ public class NotifyHostedSpringConfig {
 
   @Bean(name="org.tiogasolutions.notify.kernel.config.CouchEnvironment")
   public CouchEnvironment couchEnvironment() {
-    return new CouchEnvironment(false);
+    return new CouchEnvironment().setTesting(true);
   }
 }

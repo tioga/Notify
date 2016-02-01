@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jersey:1.6.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.2/3b7eaf25b41f4c3be99e282a26ab496920f8b01f/tioga-couchace-jersey-1.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.couchace/tioga-couchace-jersey/1.6.2/309fb817d4d70eb8199e48e8f18fd0fbc965b760/tioga-couchace-jersey-1.6.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

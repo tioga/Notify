@@ -64,6 +64,6 @@ public class SpringTestConfig {
 
   @Bean
   public CouchEnvironment couchEnvironment() {
-    return new CouchEnvironment(true);
+    return new CouchEnvironment().setTesting(true);
   }
 }

@@ -19,7 +19,6 @@
   <context:component-scan base-package="org.tiogasolutions.notify"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment">
-    <constructor-arg value="false"/>
   </bean>
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"

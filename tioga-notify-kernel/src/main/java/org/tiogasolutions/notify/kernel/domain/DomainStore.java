@@ -183,15 +183,9 @@ public class DomainStore extends AbstractStore {
 
   public DomainProfileEntity createDomain(String domainName, String apiKey, String apiPassword) {
 
-    String notificationDbName = couchServers.buildDbName(
-        domainName, "notifier-notification-",
-        couchServers.getNotificationDatabasePrefix(),
-        couchServers.getNotificationDatabaseSuffix());
+    String notificationDbName = couchServers.buildNotificationDbName(domainName);
 
-    String requestDbName = couchServers.buildDbName(
-      domainName, "notifier-request-",
-      couchServers.getRequestDatabasePrefix(),
-      couchServers.getRequestDatabaseSuffix());
+    String requestDbName = couchServers.buildRequestDbName(domainName);
 
     // Create the profile entity
     DomainProfileEntity profileEntity = DomainProfileEntity.newEntity(
