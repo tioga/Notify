@@ -141,7 +141,7 @@ public class NotifyHostedSpringConfig {
     return new SystemConfiguration("*", "/api/v1/client", "/api/v1/admin");
   }
 
-  @Bean
+  @Bean(name="org.tiogasolutions.notify.engine.web.readers.ExternalizedStaticContentReader")
   BundledStaticContentReader bundledStaticContentReader() {
     return new BundledStaticContentReader("/org/tiogasolutions/notify/admin/app");
   }

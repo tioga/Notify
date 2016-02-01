@@ -15,8 +15,18 @@
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
+  <context:property-placeholder properties-ref="envProperties"/>
+  <util:properties id="envProperties">
+    <!-- TODO future props -->
+    <prop key="some.prop">value</prop>
+  </util:properties>
+
   <task:annotation-driven/>
   <context:component-scan base-package="org.tiogasolutions.notify"/>
+
+  <bean class="org.tiogasolutions.notify.engine.web.readers.ExternalizedStaticContentReader">
+    <constructor-arg value="${notify.runtime.dir}/../tioga-notify-admin-app"/>
+  </bean>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment">
   </bean>

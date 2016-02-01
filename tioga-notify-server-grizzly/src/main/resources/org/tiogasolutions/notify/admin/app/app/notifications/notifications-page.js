@@ -69,6 +69,7 @@ function NotificationsPage() {
         if (self.domain() != null) {
             var query = {
                 offset: offset,
+                limit: self.searchResults.dataPager.pageSize(),
                 notificationId: self.notificationId(),
                 topic: self.topic(),
                 traitKey: self.traitKey(),
