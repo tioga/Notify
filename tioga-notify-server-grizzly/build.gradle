@@ -71,15 +71,6 @@ project(":tioga-notify-server-grizzly") {
 
   apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 
-  task importAdminApp << {
-    File dest = file("${projectDir}/src/main/resources/org/tiogasolutions/notify/admin/app")
-    if (dest.deleteDir() == false) throw new IOException("Unable to delete files: " + dest)
-
-    copy {
-      from "${projectDir}/../tioga-notify-admin-app"
-      into dest
-    }
-  }
   task pws(type: Copy, dependsOn: assemble) {
     from "./build/libs/tioga-notify-server-grizzly-${project.version}.jar"
     into "./build/pws/"
