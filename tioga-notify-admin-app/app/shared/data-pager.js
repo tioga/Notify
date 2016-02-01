@@ -167,7 +167,6 @@ var RemoteDataPager = function() {
     self.hasNextPage = ko.observable();
     self.hasPreviousPage = ko.observable();
     self.offset = ko.observable(0);
-    self.pageNumber = ko.observable();
 
     self.data = ko.computed(function () {
         return self.dataSet();
@@ -185,7 +184,6 @@ var RemoteDataPager = function() {
         self.hasNextPage(queryResult.hasNextPage);
         self.hasPreviousPage(queryResult.hasPreviousPage);
         self.offset(queryResult.offset);
-        self.pageNumber(queryResult.pageNumber);
         self.updateSet(queryResult.results);
     };
 

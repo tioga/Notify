@@ -116,7 +116,6 @@ function NotificationSearchResult(notificationPage) {
             hasNextPage: false,
             hasPreviousPage: false,
             offset: 0,
-            pageNumber: 0,
             results: []
         });
     };
@@ -132,8 +131,6 @@ function NotificationSearchResult(notificationPage) {
                 hasNextPage: data.hasNext,
                 hasPreviousPage: data.hasPrevious,
                 offset: data.offset,
-                //pageNumber: data.offset / data.pageSize(),
-                pageNumber: 99,
                 results: self.notifications()
             });
 
