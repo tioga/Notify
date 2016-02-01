@@ -53,7 +53,7 @@ public class SwingAdminApp extends TestMainSupport {
     client = clientBuilder.build();
 
     // Credentials for the Admin API
-    client.register(HttpAuthenticationFeature.basic("admin", "North2South!"));
+    client.register(HttpAuthenticationFeature.basic("admin", "Testing123"));
   }
 
   private void run() throws Exception {
@@ -314,9 +314,10 @@ public class SwingAdminApp extends TestMainSupport {
 
     } else {
 
+      apiPath = "http://localhost:39011/notify-server/api";
       DomainProfile domainProfile = getOrCreateDomainProfile(client, domainName);
 
-      apiPath = "http://localhost:8080/notify-server/api";
+
       couchSenderSetup = new CouchNotificationSenderSetup(
         "http://localhost:5984",
         domainProfile.getRequestDbName(),
