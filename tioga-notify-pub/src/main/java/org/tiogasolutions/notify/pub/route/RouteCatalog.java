@@ -3,6 +3,8 @@ package org.tiogasolutions.notify.pub.route;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RouteCatalog {
+  private static final Logger logger = LoggerFactory.getLogger(RouteCatalog.class);
   private final List<RouteDef> routes;
   private final List<DestinationDef> destinations;
 
@@ -46,7 +49,7 @@ public class RouteCatalog {
         for(String destinationName : routeDef.getDestinations()) {
           Destination destination = destinationMap.get(destinationName.toLowerCase());
           if (destination == null) {
-            throw ApiNotFoundException.notFound("Destination not found: " + destinationName);
+            logger.error("Destination not found: " + destinationName);
           } else if (destination.getDestinationStatus() == DestinationStatus.ENABLED) {
             routeDestinations.add(destination);
           }
