@@ -46,7 +46,7 @@ public class NotificationEntity {
         create.getTopic(),
         create.getSummary(),
         create.getTrackingId(),
-        create.getCreatedAt(),
+        ZonedDateTime.now(), // HACK - for now ignore createdAt in the create and just use local now.
         create.getTraitMap(),
         create.getLinks(),
         create.getExceptionInfo());
