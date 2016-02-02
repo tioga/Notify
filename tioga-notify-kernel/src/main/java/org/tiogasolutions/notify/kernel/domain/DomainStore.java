@@ -326,7 +326,7 @@ public class DomainStore extends AbstractStore {
     Configuration httpClientConfig = new ClientConfig();
     ClientBuilder clientBuilder = ClientBuilder.newBuilder().withConfig(httpClientConfig);
     Client client = clientBuilder.build();
-    client.register(HttpAuthenticationFeature.basic(serversConfig.getRequestUserName(), serversConfig.getRequestPassword()));
+    client.register(HttpAuthenticationFeature.basic(serversConfig.getRequestUsername(), serversConfig.getRequestPassword()));
 
     // TODO - this functionality should be moved into CouchAce
     // Put the domain, which will perform a get or create

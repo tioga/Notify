@@ -167,13 +167,13 @@ public class NotifyHostedSpringConfig {
     config.setMasterDatabaseName(getMasterDatabaseName());
 
     config.setNotificationUrl(getNotificationUrl());
-    config.setNotificationUserName(getNotificationUsername());
+    config.setNotificationUsername(getNotificationUsername());
     config.setNotificationPassword(getNotificationPassword());
     config.setNotificationDatabasePrefix(getNotificationDatabasePrefix());
     config.setNotificationDatabaseSuffix(getNotificationDatabaseSuffix());
 
     config.setRequestUrl(getRequestUrl());
-    config.setRequestUserName(getRequestUsername());
+    config.setRequestUsername(getRequestUsername());
     config.setRequestPassword(getRequestPassword());
     config.setRequestDatabasePrefix(getRequestDatabasePrefix());
     config.setRequestDatabaseSuffix(getRequestDatabaseSuffix());

@@ -52,13 +52,13 @@
         p:masterDatabaseName="notify"
 
         p:notificationUrl="http://localhost:5984"
-        p:notificationUserName="app-user"
+        p:notificationUsername="app-user"
         p:notificationPassword="app-user"
         p:notificationDatabasePrefix="notify-"
         p:notificationDatabaseSuffix="-notification"
 
         p:requestUrl="http://localhost:5984"
-        p:requestUserName="app-user"
+        p:requestUsername="app-user"
         p:requestPassword="app-user"
         p:requestDatabasePrefix="notify-"
         p:requestDatabaseSuffix="-request"

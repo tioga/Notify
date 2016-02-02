@@ -8,13 +8,13 @@ public class CouchServersConfig {
   private String masterDatabaseName;
 
   private String notificationUrl;
-  private String notificationUserName;
+  private String notificationUsername;
   private String notificationPassword;
   private String notificationDatabasePrefix;
   private String notificationDatabaseSuffix;
 
   private String requestUrl;
-  private String requestUserName;
+  private String requestUsername;
   private String requestPassword;
   private String requestDatabasePrefix;
   private String requestDatabaseSuffix;
@@ -29,13 +29,13 @@ public class CouchServersConfig {
     setMasterDatabaseName(couch.getMasterDatabaseName());
 
     setNotificationUrl(couch.getNotificationUrl());
-    setNotificationUserName(couch.getNotificationUserName());
+    setNotificationUsername(couch.getNotificationUsername());
     setNotificationPassword(couch.getNotificationPassword());
     setNotificationDatabasePrefix(couch.getNotificationDatabasePrefix());
     setNotificationDatabaseSuffix(couch.getNotificationDatabaseSuffix());
 
     setRequestUrl(couch.getRequestUrl());
-    setRequestUserName(couch.getRequestUserName());
+    setRequestUsername(couch.getRequestUsername());
     setRequestPassword(couch.getRequestPassword());
     setRequestDatabasePrefix(couch.getRequestDatabasePrefix());
     setRequestDatabaseSuffix(couch.getRequestDatabaseSuffix());
@@ -82,12 +82,12 @@ public class CouchServersConfig {
     this.notificationUrl = notificationUrl;
   }
 
-  public String getNotificationUserName() {
-    return notificationUserName;
+  public String getNotificationUsername() {
+    return notificationUsername;
   }
 
-  public void setNotificationUserName(String notificationUserName) {
-    this.notificationUserName = notificationUserName;
+  public void setNotificationUsername(String notificationUsername) {
+    this.notificationUsername = notificationUsername;
   }
 
   public String getNotificationPassword() {
@@ -122,12 +122,12 @@ public class CouchServersConfig {
     this.requestUrl = requestUrl;
   }
 
-  public String getRequestUserName() {
-    return requestUserName;
+  public String getRequestUsername() {
+    return requestUsername;
   }
 
-  public void setRequestUserName(String requestUserName) {
-    this.requestUserName = requestUserName;
+  public void setRequestUsername(String requestUsername) {
+    this.requestUsername = requestUsername;
   }
 
   public String getRequestPassword() {
@@ -176,7 +176,7 @@ public class CouchServersConfig {
       return false;
     if (notificationUrl != null ? !notificationUrl.equals(that.notificationUrl) : that.notificationUrl != null)
       return false;
-    if (notificationUserName != null ? !notificationUserName.equals(that.notificationUserName) : that.notificationUserName != null)
+    if (notificationUsername != null ? !notificationUsername.equals(that.notificationUsername) : that.notificationUsername != null)
       return false;
     if (requestDatabasePrefix != null ? !requestDatabasePrefix.equals(that.requestDatabasePrefix) : that.requestDatabasePrefix != null)
       return false;
@@ -185,7 +185,7 @@ public class CouchServersConfig {
     if (requestPassword != null ? !requestPassword.equals(that.requestPassword) : that.requestPassword != null)
       return false;
     if (requestUrl != null ? !requestUrl.equals(that.requestUrl) : that.requestUrl != null) return false;
-    if (requestUserName != null ? !requestUserName.equals(that.requestUserName) : that.requestUserName != null)
+    if (requestUsername != null ? !requestUsername.equals(that.requestUsername) : that.requestUsername != null)
       return false;
 
     return true;
@@ -198,12 +198,12 @@ public class CouchServersConfig {
     result = 31 * result + (masterPassword != null ? masterPassword.hashCode() : 0);
     result = 31 * result + (masterDatabaseName != null ? masterDatabaseName.hashCode() : 0);
     result = 31 * result + (notificationUrl != null ? notificationUrl.hashCode() : 0);
-    result = 31 * result + (notificationUserName != null ? notificationUserName.hashCode() : 0);
+    result = 31 * result + (notificationUsername != null ? notificationUsername.hashCode() : 0);
     result = 31 * result + (notificationPassword != null ? notificationPassword.hashCode() : 0);
     result = 31 * result + (notificationDatabasePrefix != null ? notificationDatabasePrefix.hashCode() : 0);
     result = 31 * result + (notificationDatabaseSuffix != null ? notificationDatabaseSuffix.hashCode() : 0);
     result = 31 * result + (requestUrl != null ? requestUrl.hashCode() : 0);
-    result = 31 * result + (requestUserName != null ? requestUserName.hashCode() : 0);
+    result = 31 * result + (requestUsername != null ? requestUsername.hashCode() : 0);
     result = 31 * result + (requestPassword != null ? requestPassword.hashCode() : 0);
     result = 31 * result + (requestDatabasePrefix != null ? requestDatabasePrefix.hashCode() : 0);
     result = 31 * result + (requestDatabaseSuffix != null ? requestDatabaseSuffix.hashCode() : 0);
@@ -218,12 +218,12 @@ public class CouchServersConfig {
         ", masterPassword='" + masterPassword + '\'' +
         ", masterDatabaseName='" + masterDatabaseName + '\'' +
         ", notificationUrl='" + notificationUrl + '\'' +
-        ", notificationUserName='" + notificationUserName + '\'' +
+        ", notificationUsername='" + notificationUsername + '\'' +
         ", notificationPassword='" + notificationPassword + '\'' +
         ", notificationDatabasePrefix='" + notificationDatabasePrefix + '\'' +
         ", notificationDatabaseSuffix='" + notificationDatabaseSuffix + '\'' +
         ", requestUrl='" + requestUrl + '\'' +
-        ", requestUserName='" + requestUserName + '\'' +
+        ", requestUsername='" + requestUsername + '\'' +
         ", requestPassword='" + requestPassword + '\'' +
         ", requestDatabasePrefix='" + requestDatabasePrefix + '\'' +
         ", requestDatabaseSuffix='" + requestDatabaseSuffix + '\'' +

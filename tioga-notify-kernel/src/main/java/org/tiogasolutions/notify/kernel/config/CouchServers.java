@@ -63,7 +63,7 @@ public class CouchServers {
     CouchSetup notificationConfig = new CouchSetup(serversConfig.getNotificationUrl())
         .setHttpClient(JerseyCouchHttpClient.class)
         .setJsonStrategy(jsonStrategy)
-        .setUserName(serversConfig.getNotificationUserName())
+        .setUserName(serversConfig.getNotificationUsername())
         .setPassword(serversConfig.getNotificationPassword());
     notificationServer = new CouchServer(notificationConfig);
 
@@ -71,7 +71,7 @@ public class CouchServers {
     CouchSetup requestConfig = new CouchSetup(serversConfig.getRequestUrl())
         .setHttpClient(JerseyCouchHttpClient.class)
         .setJsonStrategy(jsonStrategy)
-        .setUserName(serversConfig.getRequestUserName())
+        .setUserName(serversConfig.getRequestUsername())
         .setPassword(serversConfig.getRequestPassword());
     requestServer = new CouchServer(requestConfig);
   }

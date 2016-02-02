@@ -36,13 +36,13 @@ public class SpringTestConfig {
     config.setMasterDatabaseName("test-notify-master");
 
     config.setNotificationUrl("http://127.0.0.1:5984");
-    config.setNotificationUserName("test-user");
+    config.setNotificationUsername("test-user");
     config.setNotificationPassword("test-user");
     config.setNotificationDatabasePrefix("test-notify-");
     config.setNotificationDatabaseSuffix("-notification");
 
     config.setRequestUrl("http://127.0.0.1:5984");
-    config.setRequestUserName("test-user");
+    config.setRequestUsername("test-user");
     config.setRequestPassword("test-user");
     config.setRequestDatabasePrefix("test-notify-");
     config.setRequestDatabaseSuffix("-request");
