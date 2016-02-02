@@ -9,6 +9,7 @@ function Notification(domainName, data) {
     self.traitMap = app.mvc.observable(JSON.stringify(data.traitMap, null, ' '));
     self.exceptionInfo = new ExceptionInfo(data.exceptionInfo);
     self.attachments = app.mvc.observableArray();
+    self.json = JSON.stringify(data, null, '\t');
     $.each(data.attachmentInfoList, function(i, o) {
         self.attachments.push(new AttachmentInfo(domainName, data.notificationId, o));
     });
@@ -22,6 +23,12 @@ function Notification(domainName, data) {
     self.showException = function() {
         app.dialogs.exceptinInfo.show(self.exceptionInfo);
     };
+
+    self.showDetails = function() {
+        app.dialogs.notificationDetail.show(self);
+    };
+
+
 }
 
 function ExceptionInfo(data) {

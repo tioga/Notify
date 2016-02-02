@@ -77,7 +77,9 @@
             <tbody data-bind="foreach: notifications">
                 <tr>
                     <td data-bind="text: topic"></td>
-                    <td data-bind="datetime: createdAt"></td>
+                    <td>
+                        <a href="#" data-bind="click: showDetails, clickBubble: false, datetime: createdAt"></a>
+                    </td>
                     <td data-bind="text: summary"></td>
                     <td data-bind="text: traitMap"></td>
                     <td>

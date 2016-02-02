@@ -83,10 +83,6 @@ function NotificationsPage() {
         }
     };
 
-    self.notificationSelected = function(notification) {
-        alert("Selected: " + notification.summary());
-    };
-
     self.showCreateNotification = function() {
         var createNotification = new CreateNotification(self.domainOptions);
         app.dialogs.createNotification.show(createNotification);

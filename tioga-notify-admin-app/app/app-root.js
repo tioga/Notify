@@ -75,6 +75,7 @@ function Dialogs() {
     // Notifications dialogs
     factory = new DialogFactory(app.mvc, app.url("app/notifications"), "#body-container");
     factory.dialogOptions = {backdrop : "static"};
+    self.notificationDetail = factory.createDialog("notification-detail");
     self.exceptinInfo = factory.createDialog("exception-info");
     self.createNotification = factory.createDialog("create-notification");
 
