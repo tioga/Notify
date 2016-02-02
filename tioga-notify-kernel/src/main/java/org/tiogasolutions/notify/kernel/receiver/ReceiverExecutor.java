@@ -55,7 +55,7 @@ public class ReceiverExecutor {
 
     // TODO - this delay values should come from the config.
     // Schedule the executor
-    executorFuture = scheduledExecutorService.scheduleWithFixedDelay(this::execute, 30, 30, TimeUnit.SECONDS);
+    executorFuture = scheduledExecutorService.scheduleWithFixedDelay(this::execute, 5, 5, TimeUnit.SECONDS);
 
     // Change our status.
     this.executorStatus = ReceiverExecutorStatus.IDLE;
