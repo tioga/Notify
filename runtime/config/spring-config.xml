@@ -35,6 +35,7 @@
     <constructor-arg value="*"/>
     <constructor-arg value="/api/v1/client"/>
     <constructor-arg value="/api/v1/admin"/>
+    <constructor-arg value="true"/>
   </bean>
 
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
