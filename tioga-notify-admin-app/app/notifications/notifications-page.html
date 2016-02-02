@@ -67,23 +67,23 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-sm-1">Topic</th>
+                    <th class="col-sm-2">Topic</th>
                     <th class="col-sm-1">At</th>
-                    <th class="col-sm-6">Summary</th>
+                    <th class="col-sm-5">Summary</th>
                     <th class="col-sm-3">Traits</th>
                     <th class="col-sm-1"></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: notifications">
                 <tr>
-                    <td data-bind="text: topic"></td>
-                    <td>
+                    <td class="col-sm-2" data-bind="text: topic"></td>
+                    <td class="col-sm-1">
                         <a href="#" data-bind="click: showDetails, clickBubble: false, datetime: createdAt"></a>
                     </td>
-                    <td data-bind="text: summary"></td>
-                    <td data-bind="text: traitMap"></td>
-                    <td>
-                        <div class="pull-right">
+                    <td class="col-sm-5" data-bind="text: summary"></td>
+                    <td class="col-sm-3" data-bind="text: traitMap"></td>
+                    <td class="col-sm-1" >
+                        <div>
                             <div data-bind="if: hasException">
                                 <i class="fa fa-ellipsis-v"></i>
                                 <a href="#" data-bind="click: showException, clickBubble: false"> Exception</a>
@@ -99,6 +99,18 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="dropdown" data-bind="if: hasLinks">
+                                <i class="fa fa-link"></i>
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#">
+                                    Links<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" data-bind="foreach: links">
+                                    <li role="presentation">
+                                        <a target="_blank" data-bind="text: name, attr: { href: href}" role="menuitem" tabindex="-1" href="#"></a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
                     </td>
                 </tr>
