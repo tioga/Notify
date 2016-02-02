@@ -136,7 +136,7 @@ public class NotifyHostedSpringConfig {
     ));
   }
 
-  @Bean
+  @Bean(name="org.tiogasolutions.notify.kernel.config.SystemConfiguration")
   public SystemConfiguration systemConfiguration() {
     return new SystemConfiguration("*", "/api/v1/client", "/api/v1/admin");
   }

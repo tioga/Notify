@@ -31,6 +31,12 @@
   <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment">
   </bean>
 
+  <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
+    <constructor-arg value="*"/>
+    <constructor-arg value="/api/v1/client"/>
+    <constructor-arg value="/api/v1/admin"/>
+  </bean>
+
   <bean class="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig"
         p:hostName="localhost"
         p:port="39011"

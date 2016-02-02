@@ -159,38 +159,45 @@ public class EngineRequestFilter implements ContainerRequestFilter {
   }
 
   private void authenticateAdminRequest(ContainerRequestContext requestContext) {
-    String authHeader = requestContext.getHeaderString("Authorization");
-
-    if (authHeader == null) {
-      throw new NotAuthorizedException("API");
-    } else if (authHeader.startsWith("Basic ") == false) {
-      throw new NotAuthorizedException("API");
+    String authenticatedusername = null;
+    if (systemConfiguration.isAutoAuthAdmin()) {
+      authenticatedusername = "auto-admin";
     } else {
-      authHeader = authHeader.substring(6);
+      String authHeader = requestContext.getHeaderString("Authorization");
+
+      if (authHeader == null) {
+        throw new NotAuthorizedException("API");
+      } else if (authHeader.startsWith("Basic ") == false) {
+        throw new NotAuthorizedException("API");
+      } else {
+        authHeader = authHeader.substring(6);
+      }
+
+      byte[] bytes = DatatypeConverter.parseBase64Binary(authHeader);
+      String basicAuth = new String(bytes, StandardCharsets.UTF_8);
+
+      int pos = basicAuth.indexOf(":");
+
+      String username;
+      String password;
+
+      if (pos < 0) {
+        username = basicAuth;
+        password = null;
+
+      } else {
+        username = basicAuth.substring(0, pos);
+        password = basicAuth.substring(pos+1);
+      }
+
+      // throws NotAuthorizedException if not a valid username and password
+      adminKernel.authorize(username, password);
+      authenticatedusername = username;
     }
 
-    byte[] bytes = DatatypeConverter.parseBase64Binary(authHeader);
-    String basicAuth = new String(bytes, StandardCharsets.UTF_8);
-
-    int pos = basicAuth.indexOf(":");
-
-    String username;
-    String password;
-
-    if (pos < 0) {
-      username = basicAuth;
-      password = null;
-
-    } else {
-      username = basicAuth.substring(0, pos);
-      password = basicAuth.substring(pos+1);
-    }
-
-    // throws NotAuthorizedException if not a valid username and password
-    adminKernel.authorize(username, password);
 
     final SecurityContext securityContext = requestContext.getSecurityContext();
-    requestContext.setSecurityContext(new AdminSecurityContext(securityContext, username));
+    requestContext.setSecurityContext(new AdminSecurityContext(securityContext, authenticatedusername));
   }
 
   private class AdminSecurityContext implements SecurityContext {
