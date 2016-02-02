@@ -140,7 +140,7 @@ public class TaskProcessorExecutor implements TaskEventListener {
 
   private void processDomain(NotificationDomain notificationDomain) {
     String domainName = notificationDomain.getDomainName();
-    log.debug("Processing all tasks for domain {}.", domainName);
+    log.trace("Processing all tasks for domain {}.", domainName);
 
     // Find all pending tasks for this domain.
     QueryResult<TaskEntity> pendingTasks = notificationDomain.query(new TaskQuery().setTaskStatus(TaskStatus.PENDING));

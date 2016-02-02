@@ -56,7 +56,6 @@ public class RootResource {
   private StaticContentReader staticContentReader;
 
   public RootResource() {
-    log.info("Created.");
   }
 
   @GET

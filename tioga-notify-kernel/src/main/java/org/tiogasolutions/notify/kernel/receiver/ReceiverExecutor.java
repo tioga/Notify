@@ -83,7 +83,7 @@ public class ReceiverExecutor {
   /** Allows for direct execution of the receiver */
   public void execute() {
     if (running.compareAndSet(false, true)) {
-      log.debug(NAME+" is executing.");
+      log.trace("ReceiverExecutor is executing.");
       executorStatus = ReceiverExecutorStatus.EXECUTING;
 
       try {
@@ -95,7 +95,7 @@ public class ReceiverExecutor {
 
       } finally {
         executorStatus = ReceiverExecutorStatus.IDLE;
-        log.debug(NAME+" finished, now idle.");
+        log.trace("ReceiverExecutor finished, now idle.");
         running.set(false);
       }
 
@@ -116,7 +116,7 @@ public class ReceiverExecutor {
       String domainName = domainProfile.getDomainName();
 
       try {
-        log.debug("Executing receiver {} for domain {}", receiverName, domainName);
+        log.trace("Executing receiver {} for domain {}", receiverName, domainName);
         receiver.receiveRequests(domainProfile);
 
       } catch (Throwable t) {
