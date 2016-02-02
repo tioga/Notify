@@ -1,11 +1,11 @@
 package org.tiogasolutions.notify.sender.http;
 
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequest;
 import org.tiogasolutions.notify.notifier.NotifierException;
-import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
-import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
-import org.tiogasolutions.notify.notifier.sender.AbstractNotificationSender;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequestJsonBuilder;
+import org.tiogasolutions.notify.notifier.send.NotificationAttachment;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
+import org.tiogasolutions.notify.notifier.send.AbstractNotificationSender;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -58,18 +58,18 @@ public class HttpNotificationSender extends AbstractNotificationSender {
   }
 
   @Override
-  public Future<NotificationResponse> send(NotificationRequest request) {
+  public Future<SendNotificationResponse> send(SendNotificationRequest request) {
     // Never throw an exception from here.
     // TODO - make this async
 
-    Callable<NotificationResponse> callable = () -> {
+    Callable<SendNotificationResponse> callable = () -> {
       Response sendResponse;
       try {
         // Send the request
-        sendResponse = sendRequest(request, NotificationRequest.Status.SENDING);
+        sendResponse = sendRequest(request, SendNotificationRequest.Status.SENDING);
 
       } catch (Exception t) {
-        NotificationResponse notificationResponse = NotificationResponse.newFailure(request, t);
+        SendNotificationResponse notificationResponse = SendNotificationResponse.newFailure(request, t);
         callbacks.callFailure(notificationResponse);
         log.error("Failure sending notification request: ", t);
         return notificationResponse;
@@ -84,19 +84,19 @@ public class HttpNotificationSender extends AbstractNotificationSender {
           } catch (Throwable t) {
             callbacks.callFailure(request, attachment, t);
             log.error("Failure sending notification attachments: ", t);
-            return NotificationResponse.newFailure(request, t);
+            return SendNotificationResponse.newFailure(request, t);
           }
         }
 
         // Request success
-        NotificationResponse notificationResponse = NotificationResponse.newSuccess(request);
+        SendNotificationResponse notificationResponse = SendNotificationResponse.newSuccess(request);
         callbacks.callSuccess(notificationResponse);
         return notificationResponse;
 
       } else {
         // Request failure
         NotifierException ex = new NotifierException("Non successful response from send: " + sendResponse.getStatus());
-        NotificationResponse notificationResponse = NotificationResponse.newFailure(request, ex);
+        SendNotificationResponse notificationResponse = SendNotificationResponse.newFailure(request, ex);
         this.callbacks.callFailure(notificationResponse);
         return notificationResponse;
       }
@@ -110,9 +110,9 @@ public class HttpNotificationSender extends AbstractNotificationSender {
     executorService.shutdown();
   }
 
-  protected Response sendRequest(NotificationRequest request, NotificationRequest.Status status) {
+  protected Response sendRequest(SendNotificationRequest request, SendNotificationRequest.Status status) {
 
-    String json = new NotificationRequestJsonBuilder().toJson(request, status);
+    String json = new SendNotificationRequestJsonBuilder().toJson(request, status);
 
     // Jersey does not allow entity value to be null.
     Entity entity = Entity.entity(json, MediaType.APPLICATION_JSON_TYPE);
@@ -123,7 +123,7 @@ public class HttpNotificationSender extends AbstractNotificationSender {
         .put(entity);
   }
 
-  protected void sendAttachment(NotificationRequest request, NotificationAttachment attachment, Link attachmentLink) {
+  protected void sendAttachment(SendNotificationRequest request, NotificationAttachment attachment, Link attachmentLink) {
     StreamDataBodyPart streamPart = new StreamDataBodyPart(
         attachment.getName(),
         attachment.getInputStream(),

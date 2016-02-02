@@ -1,8 +1,4 @@
-package org.tiogasolutions.notify.notifier.json;
-
-import org.tiogasolutions.notify.notifier.request.NotificationExceptionInfo;
-import org.tiogasolutions.notify.notifier.request.NotificationLink;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
+package org.tiogasolutions.notify.notifier.send;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,13 +11,13 @@ import java.util.Map;
  * Date: 1/27/2015
  * Time: 10:40 PM
  */
-public class NotificationRequestJsonBuilder {
+public class SendNotificationRequestJsonBuilder {
 
   private final StringBuilder sb = new StringBuilder();
   private String indent = "";
   private boolean firstElement;
 
-  public String toJson(NotificationRequest request, NotificationRequest.Status status) {
+  public String toJson(SendNotificationRequest request, SendNotificationRequest.Status status) {
     beginObject();
 
     // Basic fields

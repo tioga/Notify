@@ -1,8 +1,8 @@
 package org.tiogasolutions.notify.sender.http;
 
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponseType;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class HttpSenderTestMain {
 
     log.info("Building notification");
     byte[] attachBytes = "this is some attachment text".getBytes();
-    Future<NotificationResponse> responseFuture = notifier.begin()
+    Future<SendNotificationResponse> responseFuture = notifier.begin()
       .topic("test topic")
       .trackingId("trace this")
       .summary("Test message")
@@ -43,8 +43,8 @@ public class HttpSenderTestMain {
 
     log.info("Sending notification");
     try {
-      NotificationResponse response = responseFuture.get();
-      if (response.getResponseType() == NotificationResponseType.SUCCESS) {
+      SendNotificationResponse response = responseFuture.get();
+      if (response.getResponseType() == SendNotificationResponseType.SUCCESS) {
         log.info("Notification successful");
       } else {
         log.error("Notification failure.", response.getThrowable());

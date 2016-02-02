@@ -14,8 +14,8 @@ import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.sender.couch.CouchNotificationSender;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilder;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
-import org.tiogasolutions.notify.notifier.sender.LoggingNotificationSender;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
+import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
 import org.tiogasolutions.notify.pub.request.NotificationRequest;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.sender.couch.CouchNotificationSenderSetup;
@@ -235,7 +235,7 @@ public class SwingAdminApp extends TestMainSupport {
 
     notifier.onBegin(b -> b.topic("hn-test").trackingId(TimeUuid.randomUUID().toString()));
 
-    List<Future<NotificationResponse>> futures = new ArrayList<>();
+    List<Future<SendNotificationResponse>> futures = new ArrayList<>();
 
     // Send notifications
     for(int i=0; i<notificationsToSend; i++) {
@@ -252,7 +252,7 @@ public class SwingAdminApp extends TestMainSupport {
         .attach("attachOne", MediaType.TEXT_PLAIN, "Test main attachment one")
         .attach("attachTwo", MediaType.TEXT_PLAIN, "Test main attachment two");
 
-      Future<NotificationResponse> future = builder.send();
+      Future<SendNotificationResponse> future = builder.send();
 
       futures.add(future);
       log.debug("Notification " + i);

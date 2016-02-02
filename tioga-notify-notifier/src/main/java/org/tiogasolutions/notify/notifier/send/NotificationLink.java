@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.notifier.request;
+package org.tiogasolutions.notify.notifier.send;
 
 /**
  * Created by harlan on 5/27/15.

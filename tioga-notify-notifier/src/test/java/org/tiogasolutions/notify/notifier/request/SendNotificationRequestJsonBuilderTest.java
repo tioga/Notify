@@ -2,14 +2,17 @@ package org.tiogasolutions.notify.notifier.request;
 
 import org.tiogasolutions.notify.notifier.NotifierException;
 import org.tiogasolutions.notify.notifier.builder.NotificationTrait;
-import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequestJsonBuilder;
 import org.testng.annotations.Test;
+import org.tiogasolutions.notify.notifier.send.NotificationAttachment;
+import org.tiogasolutions.notify.notifier.send.NotificationExceptionInfo;
+import org.tiogasolutions.notify.notifier.send.NotificationLink;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequest;
 
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.testng.Assert.assertNotNull;
@@ -19,7 +22,7 @@ import static org.testng.Assert.assertNotNull;
  * Date: 1/26/2015
  * Time: 11:14 PM
  */
-public class NotificationRequestJsonBuilderTest {
+public class SendNotificationRequestJsonBuilderTest {
 
   @Test
   public void requestToJson() {
@@ -35,7 +38,7 @@ public class NotificationRequestJsonBuilderTest {
     NotificationLink link1 = new NotificationLink("example", "http://example.com");
     NotificationLink link2 = new NotificationLink("google", "http://google.com");
 
-    NotificationRequest request = new NotificationRequest(
+    SendNotificationRequest request = new SendNotificationRequest(
       "topic1",
       "summary1",
       "traceId1",
@@ -45,7 +48,7 @@ public class NotificationRequestJsonBuilderTest {
       exceptionInfo,
       attachments);
 
-    String json = new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.READY);
+    String json = new SendNotificationRequestJsonBuilder().toJson(request, SendNotificationRequest.Status.READY);
 
     System.out.println("Json: " + json);
 

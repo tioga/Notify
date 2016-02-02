@@ -10,9 +10,9 @@ import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.kernel.test.TestFactory;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
-import org.tiogasolutions.notify.notifier.request.NotificationResponseType;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequest;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponseType;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
@@ -77,7 +77,7 @@ public class CouchNotificationSenderTest {
   public void requestEntityLifeCycle() throws Exception {
 
     // Send a notification
-    Future<NotificationResponse> responseFuture = notifier.begin()
+    Future<SendNotificationResponse> responseFuture = notifier.begin()
       .summary("Test message")
       .trait("key1", "value1")
       .link("example", "http://example.com")
@@ -87,21 +87,21 @@ public class CouchNotificationSenderTest {
       .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
       .send();
 
-    NotificationResponse response = responseFuture.get();
-    assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);
+    SendNotificationResponse response = responseFuture.get();
+    assertEquals(response.getResponseType(), SendNotificationResponseType.SUCCESS);
     assertNotificationCreated(response.getRequest());
 
   }
 
-  private void assertNotificationCreated(NotificationRequest notificationRequest) {
+  private void assertNotificationCreated(SendNotificationRequest sendNotificationRequest) {
 
     // Retrieve the NotificationRequestEntity and verify.
-    assertNotNull(notificationRequest.getTrackingId());
-    NotificationRequestEntity notificationRequestEntity = requestStore.findByTrackingId(notificationRequest.getTrackingId());
-    Assert.assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
-    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
-    Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
-    Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
+    assertNotNull(sendNotificationRequest.getTrackingId());
+    NotificationRequestEntity notificationRequestEntity = requestStore.findByTrackingId(sendNotificationRequest.getTrackingId());
+    Assert.assertEquals(notificationRequestEntity.getTopic(), sendNotificationRequest.getTopic());
+    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(sendNotificationRequest.getCreatedAt()));
+    Assert.assertEquals(notificationRequestEntity.getSummary(), sendNotificationRequest.getSummary());
+    Assert.assertEquals(notificationRequestEntity.getTrackingId(), sendNotificationRequest.getTrackingId());
     Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
 
     Assert.assertEquals(notificationRequestEntity.getLinks().size(), 2);
@@ -114,18 +114,18 @@ public class CouchNotificationSenderTest {
 
     // Retrieve by requestId
     notificationRequestEntity = requestStore.findByRequestId(notificationRequestEntity.getRequestId());
-    Assert.assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
-    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
-    Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
-    Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
+    Assert.assertEquals(notificationRequestEntity.getTopic(), sendNotificationRequest.getTopic());
+    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(sendNotificationRequest.getCreatedAt()));
+    Assert.assertEquals(notificationRequestEntity.getSummary(), sendNotificationRequest.getSummary());
+    Assert.assertEquals(notificationRequestEntity.getTrackingId(), sendNotificationRequest.getTrackingId());
     Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
 
     // Check attachments
     notificationRequestEntity = requestStore.findByRequestId(notificationRequestEntity.getRequestId());
-    Assert.assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
-    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
-    Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
-    Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
+    Assert.assertEquals(notificationRequestEntity.getTopic(), sendNotificationRequest.getTopic());
+    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(sendNotificationRequest.getCreatedAt()));
+    Assert.assertEquals(notificationRequestEntity.getSummary(), sendNotificationRequest.getSummary());
+    Assert.assertEquals(notificationRequestEntity.getTrackingId(), sendNotificationRequest.getTrackingId());
     Assert.assertEquals(notificationRequestEntity.getRequestStatus(), NotificationRequestStatus.READY);
 
     // Check links
@@ -144,10 +144,10 @@ public class CouchNotificationSenderTest {
 
     // Check attachments
     notificationRequestEntity = requestStore.findByRequestId(notificationRequestEntity.getRequestId());
-    Assert.assertEquals(notificationRequestEntity.getTopic(), notificationRequest.getTopic());
-    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(notificationRequest.getCreatedAt()));
-    Assert.assertEquals(notificationRequestEntity.getSummary(), notificationRequest.getSummary());
-    Assert.assertEquals(notificationRequestEntity.getTrackingId(), notificationRequest.getTrackingId());
+    Assert.assertEquals(notificationRequestEntity.getTopic(), sendNotificationRequest.getTopic());
+    assertTrue(notificationRequestEntity.getCreatedAt().isEqual(sendNotificationRequest.getCreatedAt()));
+    Assert.assertEquals(notificationRequestEntity.getSummary(), sendNotificationRequest.getSummary());
+    Assert.assertEquals(notificationRequestEntity.getTrackingId(), sendNotificationRequest.getTrackingId());
 
   }
 
@@ -155,7 +155,7 @@ public class CouchNotificationSenderTest {
   @Test(dependsOnMethods = "requestEntityLifeCycle")
   public void processingQueries() throws ExecutionException, InterruptedException {
     // Send two notifications
-    Future<NotificationResponse> responseFuture = notifier.begin()
+    Future<SendNotificationResponse> responseFuture = notifier.begin()
         .summary("Test message")
         .trait("key1", "value1")
         .link("example", "http://example.com")
@@ -164,9 +164,9 @@ public class CouchNotificationSenderTest {
         .attach("attachOne", MediaType.TEXT_PLAIN, "this is attachment one")
         .attach("attachTwo", MediaType.TEXT_PLAIN, "this is attachment two")
         .send();
-    NotificationResponse response = responseFuture.get();
-    NotificationRequest request1 = response.getRequest();
-    assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);
+    SendNotificationResponse response = responseFuture.get();
+    SendNotificationRequest request1 = response.getRequest();
+    assertEquals(response.getResponseType(), SendNotificationResponseType.SUCCESS);
     responseFuture = notifier.begin()
         .summary("Another Test message")
         .trait("key1", "value1")
@@ -177,9 +177,9 @@ public class CouchNotificationSenderTest {
         .attach("attachTwo", MediaType.TEXT_PLAIN, "this is another attachment two")
         .send();
     response = responseFuture.get();
-    assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);
-    NotificationRequest request2 = response.getRequest();
-    assertEquals(response.getResponseType(), NotificationResponseType.SUCCESS);
+    assertEquals(response.getResponseType(), SendNotificationResponseType.SUCCESS);
+    SendNotificationRequest request2 = response.getRequest();
+    assertEquals(response.getResponseType(), SendNotificationResponseType.SUCCESS);
 
     // Query for ready, should only find two.
     List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestStatus.READY);

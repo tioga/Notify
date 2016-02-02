@@ -1,10 +1,7 @@
-package org.tiogasolutions.notify.notifier.sender;
+package org.tiogasolutions.notify.notifier.send;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -17,23 +14,23 @@ import java.util.concurrent.Future;
 public class LoggingNotificationSender extends AbstractNotificationSender {
   private static final Logger log = LoggerFactory.getLogger(LoggingNotificationSender.class);
 
-  private NotificationRequest lastRequest;
+  private SendNotificationRequest lastRequest;
 
   @Override
-  public Future<NotificationResponse> send(NotificationRequest request) {
+  public Future<SendNotificationResponse> send(SendNotificationRequest request) {
 
     this.lastRequest = request;
     if (log.isTraceEnabled()) {
-      log.trace(new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.READY));
+      log.trace(new SendNotificationRequestJsonBuilder().toJson(request, SendNotificationRequest.Status.READY));
     } else {
       log.debug("Notification {}:{}", lastRequest.getTopic(), lastRequest.getSummary());
     }
-    NotificationResponse response = NotificationResponse.newSuccess(request);
+    SendNotificationResponse response = SendNotificationResponse.newSuccess(request);
     callbacks.callSuccess(response);
     return CompletableFuture.completedFuture(response);
   }
 
-  public NotificationRequest getLastRequest() {
+  public SendNotificationRequest getLastRequest() {
     return lastRequest;
   }
 

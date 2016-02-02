@@ -1,6 +1,4 @@
-package org.tiogasolutions.notify.notifier.sender;
-
-import org.tiogasolutions.notify.notifier.request.*;
+package org.tiogasolutions.notify.notifier.send;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +31,20 @@ public class NotificationSenderCallbacks {
     attachmentFailureCallbacks.add(callback);
   }
 
-  public void callResponse(NotificationResponse response) {
+  public void callResponse(SendNotificationResponse response) {
     responseCallbacks.stream().forEachOrdered(c -> c.call(response));
   }
 
-  public void callSuccess(NotificationResponse response) {
+  public void callSuccess(SendNotificationResponse response) {
     successCallbacks.stream().forEachOrdered(c -> c.call(response));
     callResponse(response);
   }
 
-  public void callFailure(NotificationResponse response) {
+  public void callFailure(SendNotificationResponse response) {
     failureCallbacks.stream().forEachOrdered(c -> c.call(response));
   }
 
-  public void callFailure(NotificationRequest request, NotificationAttachment attachment, Throwable t) {
+  public void callFailure(SendNotificationRequest request, NotificationAttachment attachment, Throwable t) {
     attachmentFailureCallbacks.stream().forEachOrdered(c -> c.call(request, attachment, t));
   }
 

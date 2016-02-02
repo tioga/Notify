@@ -3,7 +3,7 @@ package org.tiogasolutions.notify.notifier;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilder;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilderCallback;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilderCallbacks;
-import org.tiogasolutions.notify.notifier.sender.NotificationSender;
+import org.tiogasolutions.notify.notifier.send.NotificationSender;
 
 /**
  * User: Harlan

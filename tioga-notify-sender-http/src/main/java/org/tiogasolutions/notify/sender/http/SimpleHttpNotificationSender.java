@@ -1,9 +1,9 @@
 package org.tiogasolutions.notify.sender.http;
 
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequest;
 import org.tiogasolutions.notify.notifier.NotifierException;
-import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequestJsonBuilder;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,17 +28,17 @@ public class SimpleHttpNotificationSender extends HttpNotificationSender {
   }
 
   @Override
-  public Future<NotificationResponse> send(NotificationRequest request) {
+  public Future<SendNotificationResponse> send(SendNotificationRequest request) {
     // Never throw an exception from here.
 
-    Callable<NotificationResponse> callable = () -> {
+    Callable<SendNotificationResponse> callable = () -> {
       Response sendResponse;
       try {
         // Send the request
-        sendResponse = sendRequest(request, NotificationRequest.Status.READY);
+        sendResponse = sendRequest(request, SendNotificationRequest.Status.READY);
 
       } catch (Exception t) {
-        NotificationResponse notificationResponse = NotificationResponse.newFailure(request, t);
+        SendNotificationResponse notificationResponse = SendNotificationResponse.newFailure(request, t);
         callbacks.callFailure(notificationResponse);
         log.error("Failure sending notification request: ", t);
         return notificationResponse;
@@ -48,14 +48,14 @@ public class SimpleHttpNotificationSender extends HttpNotificationSender {
       if (status == 200 || status == 201) {
 
         // Request success
-        NotificationResponse notificationResponse = NotificationResponse.newSuccess(request);
+        SendNotificationResponse notificationResponse = SendNotificationResponse.newSuccess(request);
         callbacks.callSuccess(notificationResponse);
         return notificationResponse;
 
       } else {
         // Request failure
         NotifierException ex = new NotifierException("Non successful response from send: " + sendResponse.getStatus());
-        NotificationResponse notificationResponse = NotificationResponse.newFailure(request, ex);
+        SendNotificationResponse notificationResponse = SendNotificationResponse.newFailure(request, ex);
         this.callbacks.callFailure(notificationResponse);
         return notificationResponse;
       }
@@ -66,9 +66,9 @@ public class SimpleHttpNotificationSender extends HttpNotificationSender {
   }
 
   @Override
-  protected Response sendRequest(NotificationRequest request, NotificationRequest.Status status) {
+  protected Response sendRequest(SendNotificationRequest request, SendNotificationRequest.Status status) {
 
-    String json = new NotificationRequestJsonBuilder().toJson(request, status);
+    String json = new SendNotificationRequestJsonBuilder().toJson(request, status);
 
     // Jersey does not allow entity value to be null.
     Entity entity = Entity.entity(json, MediaType.APPLICATION_JSON_TYPE);

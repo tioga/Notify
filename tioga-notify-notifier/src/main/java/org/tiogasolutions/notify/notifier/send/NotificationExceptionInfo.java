@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.notifier.request;
+package org.tiogasolutions.notify.notifier.send;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,7 +1,4 @@
-package org.tiogasolutions.notify.notifier.sender;
-
-import org.tiogasolutions.notify.notifier.request.NotificationResponseCallback;
-import org.tiogasolutions.notify.notifier.request.NotificationAttachmentFailureCallback;
+package org.tiogasolutions.notify.notifier.send;
 
 /**
  * User: Harlan

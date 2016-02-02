@@ -1,11 +1,11 @@
 package org.tiogasolutions.notify.sender.couch;
 
-import org.tiogasolutions.notify.notifier.request.NotificationRequest;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequest;
 import org.tiogasolutions.notify.notifier.NotifierException;
-import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
-import org.tiogasolutions.notify.notifier.request.NotificationAttachment;
-import org.tiogasolutions.notify.notifier.request.NotificationResponse;
-import org.tiogasolutions.notify.notifier.sender.AbstractNotificationSender;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequestJsonBuilder;
+import org.tiogasolutions.notify.notifier.send.NotificationAttachment;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
+import org.tiogasolutions.notify.notifier.send.AbstractNotificationSender;
 import org.tiogasolutions.notify.notifier.uuid.TimeUuid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,28 +61,28 @@ public class CouchNotificationSender extends AbstractNotificationSender {
   }
 
   @Override
-  public Future<NotificationResponse> send(NotificationRequest request) {
+  public Future<SendNotificationResponse> send(SendNotificationRequest request) {
     return sendJaxRs(request);
   }
 
-  private Future<NotificationResponse> sendJaxRs(NotificationRequest request) {
+  private Future<SendNotificationResponse> sendJaxRs(SendNotificationRequest request) {
 
-    Callable<NotificationResponse> callable = () -> {
+    Callable<SendNotificationResponse> callable = () -> {
       try {
         InputStream is;
         String requestId = TimeUuid.randomUUID().toString();
         Client client = ClientBuilder.newBuilder().build();
-        NotificationRequest.Status status;
+        SendNotificationRequest.Status status;
 
         if (request.getAttachments().isEmpty()) {
           // There are no attachments, we will assume the status to ready for processing.
-          status = NotificationRequest.Status.READY;
+          status = SendNotificationRequest.Status.READY;
           is = toInputStream(request, requestId, null, status, "}");
           putDocument(request, client, requestId, null, is, MediaType.APPLICATION_JSON);
 
         } else {
           // Just in case someone gave us a request that is in the wrong state, force it here.
-          status = NotificationRequest.Status.SENDING;
+          status = SendNotificationRequest.Status.SENDING;
           is = toInputStream(request, requestId, null, status, "}");
           String revision = putDocument(request, client, requestId, null, is, MediaType.APPLICATION_JSON);
 
@@ -92,13 +92,13 @@ public class CouchNotificationSender extends AbstractNotificationSender {
           }
 
           // Now change status to READY.
-          status = NotificationRequest.Status.READY;
+          status = SendNotificationRequest.Status.READY;
           String suffix = generateAttachmentJson(request, client, requestId);
           is = toInputStream(request, requestId, revision, status, suffix);
           putDocument(request, client, requestId, revision, is, MediaType.APPLICATION_JSON);
         }
 
-        return NotificationResponse.newSuccess(request);
+        return SendNotificationResponse.newSuccess(request);
 
       } catch (ProcessingException e) {
         callbacks.callFailure(e.getNotificationResponse());
@@ -118,7 +118,7 @@ public class CouchNotificationSender extends AbstractNotificationSender {
    * @return -
    * @throws ProcessingException -
    */
-  protected String generateAttachmentJson(NotificationRequest request,
+  protected String generateAttachmentJson(SendNotificationRequest request,
                                           Client client,
                                           String requestId) throws ProcessingException {
 
@@ -132,7 +132,7 @@ public class CouchNotificationSender extends AbstractNotificationSender {
 
     if (response.getStatus() != 200) {
       String msg = String.format("%s: Unable to put request", response.getStatus());
-      NotificationResponse notificationResponse = NotificationResponse.newFailure(request, new NotifierException(msg));
+      SendNotificationResponse notificationResponse = SendNotificationResponse.newFailure(request, new NotifierException(msg));
       throw new ProcessingException(notificationResponse);
     }
 
@@ -143,7 +143,7 @@ public class CouchNotificationSender extends AbstractNotificationSender {
     return ", \"_attachments\" : " + attachments + "}";
   }
 
-  private String putDocument(NotificationRequest request,
+  private String putDocument(SendNotificationRequest request,
                              Client client,
                              String requestId,
                              String revision,
@@ -169,20 +169,20 @@ public class CouchNotificationSender extends AbstractNotificationSender {
 
     if (response.getStatus() != 201) {
       String msg = String.format("%s: Unable to put request%n%s", response.getStatus(), couchResponse);
-      NotificationResponse notificationResponse = NotificationResponse.newFailure(request, new NotifierException(msg));
+      SendNotificationResponse notificationResponse = SendNotificationResponse.newFailure(request, new NotifierException(msg));
       throw new ProcessingException(notificationResponse);
     }
 
     return parseRevision(couchResponse);
   }
 
-  private InputStream toInputStream(NotificationRequest request,
+  private InputStream toInputStream(SendNotificationRequest request,
                                     String requestId,
                                     String revision,
-                                    NotificationRequest.Status status,
+                                    SendNotificationRequest.Status status,
                                     String attachmentJson) {
 
-    String json = new NotificationRequestJsonBuilder().toJson(request, status);
+    String json = new SendNotificationRequestJsonBuilder().toJson(request, status);
     String prefix;
 
     if (revision == null) {
@@ -237,9 +237,9 @@ public class CouchNotificationSender extends AbstractNotificationSender {
   }
 
   public static class ProcessingException extends Exception {
-    private final NotificationResponse notificationResponse;
-    public ProcessingException(NotificationResponse notificationResponse) { this.notificationResponse = notificationResponse; }
-    public NotificationResponse getNotificationResponse() { return notificationResponse; }
+    private final SendNotificationResponse notificationResponse;
+    public ProcessingException(SendNotificationResponse notificationResponse) { this.notificationResponse = notificationResponse; }
+    public SendNotificationResponse getNotificationResponse() { return notificationResponse; }
   }
 
 }

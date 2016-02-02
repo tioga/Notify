@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.notifier.request;
+package org.tiogasolutions.notify.notifier.send;
 
 /**
  * User: Harlan
@@ -6,5 +6,5 @@ package org.tiogasolutions.notify.notifier.request;
  * Time: 12:46 AM
  */
 public interface NotificationResponseCallback {
-  void call(NotificationResponse response);
+  void call(SendNotificationResponse response);
 }

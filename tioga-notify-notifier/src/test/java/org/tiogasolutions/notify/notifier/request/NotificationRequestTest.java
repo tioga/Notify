@@ -1,7 +1,11 @@
 package org.tiogasolutions.notify.notifier.request;
 
+import org.tiogasolutions.notify.notifier.send.NotificationAttachment;
+import org.tiogasolutions.notify.notifier.send.NotificationExceptionInfo;
+import org.tiogasolutions.notify.notifier.send.NotificationLink;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequest;
 import org.tiogasolutions.notify.notifier.uuid.TimeUuid;
-import org.tiogasolutions.notify.notifier.json.NotificationRequestJsonBuilder;
+import org.tiogasolutions.notify.notifier.send.SendNotificationRequestJsonBuilder;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -31,7 +35,7 @@ public class NotificationRequestTest {
     traitMap.put("color", "blue");
     traitMap.put("length", null);
 
-    NotificationRequest request = new NotificationRequest(
+    SendNotificationRequest request = new SendNotificationRequest(
         "topic",
         "summary",
         "trackingId",
@@ -43,7 +47,7 @@ public class NotificationRequestTest {
           new NotificationAttachment("bla", "text/plain", "bla, bla, bla"),
           new NotificationAttachment("moo", "text/plain", "moo, moo, moo")));
 
-    String requestJson = new NotificationRequestJsonBuilder().toJson(request, NotificationRequest.Status.SENDING);
+    String requestJson = new SendNotificationRequestJsonBuilder().toJson(request, SendNotificationRequest.Status.SENDING);
 
     String expected = String.format(EXPECTED_JSON, request.getCreatedAt());
     assertEquals(requestJson, expected);

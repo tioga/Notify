@@ -1,11 +1,8 @@
 package org.tiogasolutions.notify.notifier.builder;
 
-import org.tiogasolutions.notify.notifier.request.*;
-import org.tiogasolutions.notify.notifier.sender.NotificationSender;
+import org.tiogasolutions.notify.notifier.send.*;
 
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.Future;
@@ -43,9 +40,9 @@ public class NotificationBuilder {
     return this;
   }
 
-  public Future<NotificationResponse> send() {
+  public Future<SendNotificationResponse> send() {
     callbacks.callBeforeSend(this);
-    NotificationRequest request = new NotificationRequest(
+    SendNotificationRequest request = new SendNotificationRequest(
       topic,
       summary,
       trackingId,

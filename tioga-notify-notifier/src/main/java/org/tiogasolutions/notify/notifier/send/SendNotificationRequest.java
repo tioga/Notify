@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.notifier.request;
+package org.tiogasolutions.notify.notifier.send;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -8,7 +8,7 @@ import java.util.*;
  * Date: 1/24/2015
  * Time: 10:44 PM
  */
-public final class NotificationRequest {
+public final class SendNotificationRequest {
 
   public enum Status {
     SENDING, READY, PROCESSING, FAILED, COMPLETED
@@ -23,14 +23,14 @@ public final class NotificationRequest {
   private final NotificationExceptionInfo exceptionInfo;
   private final List<NotificationAttachment> attachments;
 
-  public NotificationRequest(String topic,
-                             String summary,
-                             String trackingId,
-                             ZonedDateTime createdAt,
-                             Map<String, String> traitsArg,
-                             List<NotificationLink> linksArg,
-                             NotificationExceptionInfo exceptionInfo,
-                             Collection<NotificationAttachment> attachmentsArg) {
+  public SendNotificationRequest(String topic,
+                                 String summary,
+                                 String trackingId,
+                                 ZonedDateTime createdAt,
+                                 Map<String, String> traitsArg,
+                                 List<NotificationLink> linksArg,
+                                 NotificationExceptionInfo exceptionInfo,
+                                 Collection<NotificationAttachment> attachmentsArg) {
 
     this.topic = (topic != null) ? topic : "none";
     this.summary = (summary != null) ? summary : "none";
@@ -94,7 +94,7 @@ public final class NotificationRequest {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    NotificationRequest that = (NotificationRequest) o;
+    SendNotificationRequest that = (SendNotificationRequest) o;
 
     if (attachments != null ? !attachments.equals(that.attachments) : that.attachments != null) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;

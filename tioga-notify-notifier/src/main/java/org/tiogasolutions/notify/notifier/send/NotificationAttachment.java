@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.notifier.request;
+package org.tiogasolutions.notify.notifier.send;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
