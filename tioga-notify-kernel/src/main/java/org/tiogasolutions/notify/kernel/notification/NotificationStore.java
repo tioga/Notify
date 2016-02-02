@@ -149,7 +149,7 @@ public class NotificationStore extends AbstractStore {
     return ListQueryResult.newResult(Notification.class,
         limit,
         query.getOffset(),
-        getResponse.getSize(),
+        query.getOffset() + getResponse.getSize(),
         false,
         notifications);
   }
