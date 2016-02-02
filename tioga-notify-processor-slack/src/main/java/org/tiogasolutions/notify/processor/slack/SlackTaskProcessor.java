@@ -4,8 +4,10 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
+import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.kernel.task.TaskProcessor;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
@@ -27,15 +29,18 @@ public class SlackTaskProcessor implements TaskProcessor {
 
   public static final String DEFAULT_TEMPLATE_PATH = "classpath:/notify-processor-slack/default-slack-template.html";
 
+  private final JsonTranslator jsonTranslator;
   private final ThymeleafMessageBuilder messageBuilder;
+
 
   private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("slack");
   private static final Logger log = LoggerFactory.getLogger(SlackTaskProcessor.class);
 
   private final Client client;
 
-  public SlackTaskProcessor() {
-
+  @Autowired
+  public SlackTaskProcessor(JsonTranslator jsonTranslator) {
+    this.jsonTranslator = jsonTranslator;
     messageBuilder = new ThymeleafMessageBuilder();
 
     // Build the client
@@ -79,14 +84,14 @@ public class SlackTaskProcessor implements TaskProcessor {
         message.setChannel(valueMap.asString("channel"));
       }
       if (valueMap.hasArg("userName")) {
-        message.setUserName(valueMap.asString("userName"));
+        message.setUsername(valueMap.asString("userName"));
       }
       if (valueMap.hasArg("iconEmoji")) {
         message.setIconEmoji(valueMap.asString("iconEmoji"));
       }
 
       // Create entity
-      String json = message.toJson();
+      String json = jsonTranslator.toJson(message);
       Entity entity = Entity.entity(json, MediaType.APPLICATION_JSON_TYPE);
 
       // Post the message

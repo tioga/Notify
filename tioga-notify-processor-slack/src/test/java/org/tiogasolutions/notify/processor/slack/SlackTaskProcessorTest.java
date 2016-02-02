@@ -1,5 +1,8 @@
 package org.tiogasolutions.notify.processor.slack;
 
+import org.tiogasolutions.dev.common.exceptions.ApiException;
+import org.tiogasolutions.dev.common.json.JsonTranslator;
+import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
@@ -15,7 +18,14 @@ import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.notify.pub.task.TaskResponseAction;
 import org.tiogasolutions.notify.pub.task.TaskStatus;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,9 +43,10 @@ public class SlackTaskProcessorTest {
   private final SlackTaskProcessor processor;
   private final URI someUri = URI.create("http://localhost/some-task");
   private final String tiogaSlackTestUrl = "https://hooks.slack.com/services/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";
+  private final JsonTranslator translator = new TiogaJacksonTranslator();
 
   public SlackTaskProcessorTest() {
-    processor = new SlackTaskProcessor();
+    processor = new SlackTaskProcessor(translator);
 
   }
 
@@ -108,16 +119,40 @@ public class SlackTaskProcessorTest {
 
   }
 
-  public void messageJsonTest() {
+  public void simpleMessageJsonTest() {
     SlackMessage message = new SlackMessage()
         .setChannel("#notify-test")
         .setIconEmoji(":smile:")
-        .setUserName("Notifier")
-        .setIconUrl("")
+        .setUsername("Notifier")
+        .setIconUrl("http://example.com/some-icon.ico")
         .setText("This is a message");
 
-    // TODO - improve this test.
-    assertNotNull(message.toJson());
+    String expected = "{\n" +
+            "  \"username\" : \"Notifier\",\n" +
+            "  \"channel\" : \"#notify-test\",\n" +
+            "  \"text\" : \"This is a message\",\n" +
+            "  \"icon_url\" : \"http://example.com/some-icon.ico\",\n" +
+            "  \"icon_emoji\" : \":smile:\"\n" +
+            "}";
+    assertEquals(translator.toJson(message), expected);
+  }
+
+  public void funkyMessageJsonTest() {
+    SlackMessage message = new SlackMessage()
+            .setChannel("#notify-test")
+            .setIconEmoji(":smile:")
+            .setUsername("Notifier")
+            .setIconUrl("http://example.com/some-icon.ico")
+            .setText("\nstuff<><\\>");
+
+    String expected = "{\n" +
+            "  \"username\" : \"Notifier\",\n" +
+            "  \"channel\" : \"#notify-test\",\n" +
+            "  \"text\" : \"\\nstuff<><\\\\>\",\n" +
+            "  \"icon_url\" : \"http://example.com/some-icon.ico\",\n" +
+            "  \"icon_emoji\" : \":smile:\"\n" +
+            "}";
+    assertEquals(translator.toJson(message), expected);
   }
 
   private DomainProfile newDomainProfile() {
@@ -170,4 +205,20 @@ public class SlackTaskProcessorTest {
     Assert.assertEquals(messageText, expected);
 */
   }
+
+  public String readResource(String resourcePath) {
+    URL url = getClass().getClassLoader().getResource(resourcePath);
+    if (url == null) {
+      String msg = String.format("Unable to find file at: %s", resourcePath);
+      throw ApiException.badRequest(msg);
+    }
+    try {
+      Path path = Paths.get(url.toURI());
+      return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+    } catch (URISyntaxException | IOException e) {
+      throw ApiException.internalServerError(e);
+    }
+
+  }
+
 }

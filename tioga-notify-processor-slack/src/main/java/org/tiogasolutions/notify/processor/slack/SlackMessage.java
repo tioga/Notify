@@ -1,5 +1,6 @@
 package org.tiogasolutions.notify.processor.slack;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,59 +10,18 @@ import org.slf4j.LoggerFactory;
  */
 public class SlackMessage {
   private static Logger log = LoggerFactory.getLogger(SlackMessage.class);
-  private String userName;
+  private String username;
   private String channel;
   private String text;
   private String iconUrl;
   private String iconEmoji;
 
-  private static String field(String fieldName, String value) {
-    return String.format("\"%s\":\"%s\",", fieldName, value);
+  public String getUsername() {
+    return username;
   }
 
-  public String toJson() {
-    StringBuilder sb = new StringBuilder("{");
-
-    if (StringUtils.isNotBlank(userName)) {
-      sb.append(field("username", userName));
-    }
-    if (StringUtils.isNotBlank(channel)) {
-      sb.append(field("channel", channel));
-    }
-    if (StringUtils.isNotBlank(text)) {
-      // HACK - when using template from file system was ending up with a trailing newline in the text.
-      if (text.endsWith("\n")) {
-        text = text.substring(0, text.length()-1);
-      }
-      sb.append(field("text", text));
-    }
-    if (StringUtils.isNotBlank(iconUrl)) {
-      sb.append(field("icon_url", iconUrl));
-    }
-    if (StringUtils.isNotBlank(iconEmoji)) {
-      sb.append(field("icon_emoji", iconEmoji));
-    }
-    int lastIndex = sb.length() - 1;
-    if (sb.charAt(lastIndex) == ',') {
-      sb.deleteCharAt(lastIndex);
-    }
-
-    sb.append("}");
-
-    String json = sb.toString();
-
-    if (log.isTraceEnabled()) {
-      log.trace("Message json [" + json + "]");
-    }
-    return json;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public SlackMessage setUserName(String userName) {
-    this.userName = userName;
+  public SlackMessage setUsername(String username) {
+    this.username = username;
     return this;
   }
 
@@ -83,6 +43,7 @@ public class SlackMessage {
     return this;
   }
 
+  @JsonProperty("icon_url")
   public String getIconUrl() {
     return iconUrl;
   }
@@ -92,6 +53,7 @@ public class SlackMessage {
     return this;
   }
 
+  @JsonProperty("icon_emoji")
   public String getIconEmoji() {
     return iconEmoji;
   }
@@ -112,14 +74,14 @@ public class SlackMessage {
     if (iconEmoji != null ? !iconEmoji.equals(message.iconEmoji) : message.iconEmoji != null) return false;
     if (iconUrl != null ? !iconUrl.equals(message.iconUrl) : message.iconUrl != null) return false;
     if (text != null ? !text.equals(message.text) : message.text != null) return false;
-    if (userName != null ? !userName.equals(message.userName) : message.userName != null) return false;
+    if (username != null ? !username.equals(message.username) : message.username != null) return false;
 
     return true;
   }
 
   @Override
   public int hashCode() {
-    int result = userName != null ? userName.hashCode() : 0;
+    int result = username != null ? username.hashCode() : 0;
     result = 31 * result + (channel != null ? channel.hashCode() : 0);
     result = 31 * result + (text != null ? text.hashCode() : 0);
     result = 31 * result + (iconUrl != null ? iconUrl.hashCode() : 0);
@@ -130,7 +92,7 @@ public class SlackMessage {
   @Override
   public String toString() {
     return "SlackMessage{" +
-        "userName='" + userName + '\'' +
+        "userName='" + username + '\'' +
         ", channel='" + channel + '\'' +
         ", text='" + text + '\'' +
         ", iconUrl='" + iconUrl + '\'' +
