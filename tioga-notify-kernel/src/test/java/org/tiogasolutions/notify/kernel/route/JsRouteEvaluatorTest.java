@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.kernel.route;
 
 import org.tiogasolutions.dev.common.json.JsonTranslator;
+import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.common.TraitUtil;
 import org.tiogasolutions.notify.pub.notification.Notification;
@@ -38,8 +39,6 @@ public class JsRouteEvaluatorTest {
   public void setup() {
     jsonTranslator = fixture.getJsonTranslator();
     String json = fixture.readResource("catalog/test-catalog.json");
-
-    log.info("Catalog JSON: {}", json);
 
     routeCatalog = jsonTranslator.fromJson(RouteCatalog.class, json);
     evaluator = new JsRouteEvaluator(routeCatalog);
@@ -85,12 +84,60 @@ public class JsRouteEvaluatorTest {
     assertTrue(found);
   }
 
+  public void hasException() throws URISyntaxException {
+    Notification notification = newNotificationWithException("ZZZZ", "YYYY");
+    Set<Destination> destinations = evaluator.findDestinations(notification);
+    assertNotNull(destinations);
+    assertEquals(destinations.size(), 1);
+    boolean found = destinations.stream().filter(d -> d.getName().equals("has_exception")).findAny().isPresent();
+    assertTrue(found);
+  }
+
   public void matchCat() throws URISyntaxException {
     Notification notification = newNotification("anything", "pet:cat");
     Set<Destination> destinations = evaluator.findDestinations(notification);
     assertNotNull(destinations);
     assertEquals(destinations.size(), 1);
     boolean found = destinations.stream().filter(d -> d.getName().equals("cat")).findAny().isPresent();
+    assertTrue(found);
+
+    notification = newNotification("anything", "PeT:cAT");
+    destinations = evaluator.findDestinations(notification);
+    assertNotNull(destinations);
+    assertEquals(destinations.size(), 1);
+    found = destinations.stream().filter(d -> d.getName().equals("cat")).findAny().isPresent();
+    assertTrue(found);
+  }
+
+  public void matchFish() throws URISyntaxException {
+    Notification notification = newNotification("anything", "pet:fish");
+    Set<Destination> destinations = evaluator.findDestinations(notification);
+    assertNotNull(destinations);
+    assertEquals(destinations.size(), 1);
+    boolean found = destinations.stream().filter(d -> d.getName().equals("fish")).findAny().isPresent();
+    assertTrue(found);
+
+    notification = newNotification("anything", "PeT:FIsh");
+    destinations = evaluator.findDestinations(notification);
+    assertNotNull(destinations);
+    assertEquals(destinations.size(), 1);
+    found = destinations.stream().filter(d -> d.getName().equals("fish")).findAny().isPresent();
+    assertTrue(found);
+  }
+
+  public void matchNoValue() throws URISyntaxException {
+    Notification notification = newNotification("anything", "no_value");
+    Set<Destination> destinations = evaluator.findDestinations(notification);
+    assertNotNull(destinations);
+    assertEquals(destinations.size(), 1);
+    boolean found = destinations.stream().filter(d -> d.getName().equals("no_value")).findAny().isPresent();
+    assertTrue(found);
+
+    notification = newNotification("anything", "no_VALUE");
+    destinations = evaluator.findDestinations(notification);
+    assertNotNull(destinations);
+    assertEquals(destinations.size(), 1);
+    found = destinations.stream().filter(d -> d.getName().equals("no_value")).findAny().isPresent();
     assertTrue(found);
   }
 
@@ -120,6 +167,23 @@ public class JsRouteEvaluatorTest {
         Collections.singletonList(new Link("example", "http://example.com")),
         null,
         null);
+  }
+
+  private Notification newNotificationWithException(String topic, String traits) throws URISyntaxException {
+    Throwable t = new Exception("Some test error");
+    ExceptionInfo exceptionInfo = new ExceptionInfo(t);
+    return new Notification(new URI(""),
+            "test",
+            "999909",
+            "3k3k3",
+            topic,
+            "some summary",
+            null,
+            ZonedDateTime.now(),
+            TraitUtil.toTraitMap(traits),
+            Collections.singletonList(new Link("example", "http://example.com")),
+            exceptionInfo,
+            null);
   }
 
 }

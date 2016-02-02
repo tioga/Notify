@@ -23,6 +23,21 @@
     "recipient" : "dog@pet.com",
     "type" : "email"
   }, {
+    "name" : "fish",
+    "provider" : "push",
+    "recipient" : "fish@pet.com",
+    "type" : "email"
+  }, {
+    "name" : "no_value",
+    "provider" : "push",
+    "recipient" : "no_value@pet.com",
+    "type" : "email"
+  }, {
+    "name" : "has_exception",
+    "provider" : "push",
+    "recipient" : "no_value@pet.com",
+    "type" : "email"
+  }, {
     "name" : "cat",
     "provider" : "push",
     "recipient" : "cat@pet.com",
@@ -30,20 +45,36 @@
   } ],
   "routes" : [ {
     "name" : "any_muppet",
-    "eval" : "function(topic, traits) {return topic === 'muppet'};",
+    "eval" : "function(notification) {return notification.topic === 'muppet'};",
     "destinations" : [ "fozzie", "kermit" ]
   },  {
     "name" : "fozzie_muppet",
-    "eval" : "function(topic, traits) {return topic === 'muppet' && traits.who == 'fozzie'}",
+    "eval" : "function(notification) {return notification.topic === 'muppet' && notification.traitMap.who == 'fozzie'}",
     "destinations" : [ "fozzie"]
+  },  {
+    "name" : "trait_no_value",
+    "eval" : "function(notification) {return notification.hasTrait('no_value')}",
+    "destinations" : [ "no_value"]
+  },  {
+    "name" : "fish",
+    "eval" : "function(notification) {return notification.hasTrait('pet','fish')}",
+    "destinations" : [ "fish"]
+  },  {
+    "name" : "has_exception",
+    "eval" : "function(notification) {return notification.hasException()}",
+    "destinations" : [ "has_exception"]
   },  {
     "name" : "fozzie_muppet",
     "routeStatus" : "DISABLED",
-    "eval" : "function(topic, traits) {return topic === 'junk'}",
+    "eval" : "function(notification) {return notification.topic === 'junk'}",
     "destinations" : [ "fozzie"]
+  },  {
+    "name" : "has_exception",
+    "eval" : "function(notification) {return notification.hasException()}",
+    "destinations" : [ "has_exception"]
   }, {
     "name" : "cat",
-    "eval" : "function(topic, traits) {return traits.pet == 'cat'}",
+    "eval" : "function(notification) {return notification.traitMap.pet == 'cat'}",
     "destinations" : [ "cat", "junk" ]
   } ]
 }

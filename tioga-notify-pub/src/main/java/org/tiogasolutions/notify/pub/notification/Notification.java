@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.pub.notification;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.dev.common.StringUtils;
 import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
@@ -98,12 +99,32 @@ public class Notification implements Comparable<Notification> {
     return createdAt.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
   }
 
+  public boolean hasTrait(String name, String expected) {
+    if (name != null && traitMap.containsKey(name.toLowerCase())) {
+      String value = traitMap.get(name);
+      if (value == null) {
+        return expected == null;
+      } else {
+        return value.toLowerCase().equals(expected.toLowerCase());
+      }
+    }
+    return false;
+  }
+
+  public boolean hasTrait(String name) {
+    return (name != null && traitMap.containsKey(name.toLowerCase()));
+  }
+
   public Map<String, String> getTraitMap() {
     return traitMap;
   }
 
   public List<Link> getLinks() {
     return links;
+  }
+
+  public boolean hasException() {
+    return exceptionInfo != null;
   }
 
   public ExceptionInfo getExceptionInfo() {
