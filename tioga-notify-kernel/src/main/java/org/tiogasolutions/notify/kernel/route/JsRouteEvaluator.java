@@ -59,10 +59,6 @@ public class JsRouteEvaluator implements RouteEvaluator {
       try {
         engine.eval(jsFunc);
         return (boolean) invocable.invokeFunction("eval", notification);
-
-//        return (boolean) invocable.invokeFunction("eval", notification.getTopic(), notification.getTraitMap());
-
-
       } catch (ScriptException | NoSuchMethodException e) {
         throw ApiException.internalServerError(e);
       }
