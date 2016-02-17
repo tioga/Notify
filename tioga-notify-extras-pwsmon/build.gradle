@@ -1,0 +1,89 @@
+project(":tioga-notify-extras-pwsmon") {
+
+  apply plugin: 'distribution'
+
+  version = tiogaAppVersion
+
+  dependencies {
+    compile(project(":tioga-notify-client"))
+
+
+    compile("org.springframework:spring-aop:4.1.6.RELEASE") {force = true}
+    compile("org.springframework:spring-core:4.1.6.RELEASE") {force = true}
+    compile("org.springframework:spring-beans:4.1.6.RELEASE") {force = true}
+    compile("org.springframework:spring-context:4.1.6.RELEASE") {force = true}
+
+    compile("org.tiogasolutions.app:tioga-app-common:+")
+    compile("org.tiogasolutions.lib:tioga-lib-jaxrs:+")
+    compile("org.tiogasolutions.runners:tioga-runners-spring-grizzly:+")
+
+    // required by Jersey-Spring's stupid attempt to check for a ServletContext
+    compile("javax.servlet:javax.servlet-api:3.1.0")
+  }
+
+  configurations.all({
+    resolutionStrategy({
+      force(
+          "commons-codec:commons-codec:1.6",
+//          "org.slf4j:slf4j-api:1.7.12",
+//          "org.javassist:javassist:3.18.1-GA",
+          "commons-logging:commons-logging:1.2",
+//          "org.apache.httpcomponents:httpclient:4.3.4",
+//          "org.apache.httpcomponents:httpcore:4.3.2",
+//          "com.fasterxml.jackson.core:jackson-databind:2.5.1",
+
+          "org.springframework:spring-web:4.1.6.RELEASE",
+          "org.springframework:spring-aop:4.1.6.RELEASE",
+          "org.springframework:spring-core:4.1.6.RELEASE",
+          "org.springframework:spring-beans:4.1.6.RELEASE",
+          "org.springframework:spring-context:4.1.6.RELEASE",
+          "org.springframework:spring-webmvc:4.1.6.RELEASE",
+          "org.springframework:spring-expression:4.1.6.RELEASE",
+      )
+    })
+  })
+
+  distributions {
+    main {
+      contents {
+        into("lib") {
+          from(jar)
+          from(project.configurations.runtime)
+        }
+      }
+    }
+  }
+
+  jar {
+    into("libs") {
+      from configurations.runtime
+    }
+    manifest {
+      attributes(
+        "Implementation-Version" : project.version,
+        "Main-Class"             : "org.tiogasolutions.notify.server.grizzly.NotifyServerLauncher",
+        "Class-Path"             : configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
+      )
+    }
+  }
+
+  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+
+  task pws(type: Copy, dependsOn: assemble) {
+    from "./build/libs/tioga-notify-server-grizzly-${project.version}.jar"
+    into "./build/pws/"
+    rename "tioga-notify-server-grizzly-${project.version}.jar", "tioga-notify-server-grizzly.jar"
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
