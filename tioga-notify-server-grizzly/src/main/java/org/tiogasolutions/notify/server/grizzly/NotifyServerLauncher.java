@@ -8,12 +8,12 @@ public class NotifyServerLauncher {
     URL location = NotifyServer.class.getProtectionDomain().getCodeSource().getLocation();
     System.out.println("Starting application from " + location);
 
-    if (location.getPath().endsWith(".jar") == false) {
-      NotifyServer.start(args);
-
-    } else {
+    if (location.getPath().endsWith(".jar")) {
       JarClassLoader jcl = new JarClassLoader();
       jcl.invokeStart(NotifyServer.class.getName(), args);
+
+    } else {
+      NotifyServer.main(args);
     }
   }
 }

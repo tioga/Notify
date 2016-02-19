@@ -609,25 +609,25 @@ public class JarClassLoader extends ClassLoader {
 
   public void invokeStart(String sClass, String[] args) throws Throwable {
     Class<?> clazz = loadClass(sClass);
-    logInfo(LogArea.CONFIG, "Launch: %s.start(); Loader: %s", sClass, clazz.getClassLoader());
-    Method method = clazz.getMethod("start", new Class<?>[] { String[].class });
+    logInfo(LogArea.CONFIG, "Launch: %s.main(); Loader: %s", sClass, clazz.getClassLoader());
+    Method method = clazz.getMethod("main", new Class<?>[] { String[].class });
 
     boolean bValidModifiers = false;
     boolean bValidVoid = false;
 
     if (method != null) {
-      logInfo(LogArea.CONFIG, "Found start method");
+      logInfo(LogArea.CONFIG, "Found main method");
       method.setAccessible(true); // Disable IllegalAccessException
-      int nModifiers = method.getModifiers(); // start() must be "public static"
+      int nModifiers = method.getModifiers(); // main() must be "public static"
       bValidModifiers = Modifier.isPublic(nModifiers) &&
           Modifier.isStatic(nModifiers);
-      Class<?> clazzRet = method.getReturnType(); // start() must be "void"
+      Class<?> clazzRet = method.getReturnType(); // main() must be "void"
       bValidVoid = (clazzRet == void.class);
     }
 
     if (method == null  ||  !bValidModifiers  ||  !bValidVoid) {
       throw new NoSuchMethodException(
-          "The start() method in class \"" + sClass + "\" not found.");
+          "The main() method in class \"" + sClass + "\" not found.");
     }
 
     // Invoke method.
@@ -637,7 +637,7 @@ public class JarClassLoader extends ClassLoader {
     } catch (InvocationTargetException e) {
       throw e.getTargetException();
     }
-  } // invokestart()
+  } // invokemain()
 
   /**
    * Call this method to initialize an applet from your launcher class
