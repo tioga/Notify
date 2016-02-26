@@ -1,0 +1,15 @@
+---
+applications:
+- name: cloud-foundry-monitor
+
+  timeout: 180
+  buildpack: java_buildpack
+  path: build/pws/tioga-notify-extras-cfmon.jar
+
+  memory: 128M
+  no-route: true
+
+  env:
+    # _JAVA_OPTIONS: -Xmx64M -XX:MaxMetaspaceSize=20M
+    JBP_CONFIG_ORACLE_JRE: '[jre: {repository_root: "http://tioga.s3-website-us-west-1.amazonaws.com"}]'
+    JBP_CONFIG_COMPONENTS: '[jres: ["JavaBuildpack::Jre::OracleJRE"]]'
