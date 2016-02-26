@@ -1,0 +1,68 @@
+project(":tioga-notify-extras-cfmon") {
+
+  apply plugin: 'distribution'
+
+  version = "1.0.0"
+
+  dependencies {
+    compile(project(":tioga-notify-client"))
+    compile(project(":tioga-notify-sender-couch"))
+
+    compile("org.tiogasolutions.app:tioga-app-common:+")
+    compile("org.glassfish.jersey.core:jersey-client:2.22.2")
+    compile("org.tiogasolutions.apis:tioga-apis-cloudfoundry:+")
+  }
+
+  configurations.all({
+    resolutionStrategy({
+      force(
+          "org.glassfish.jersey.core:jersey-common:2.22.2",
+          "org.glassfish.jersey.core:jersey-client:2.22.2",
+      )
+    })
+  })
+
+  distributions {
+    main {
+      contents {
+        into("lib") {
+          from(jar)
+          from(project.configurations.runtime)
+        }
+      }
+    }
+  }
+
+  jar {
+    into("libs") {
+      from configurations.runtime
+    }
+    manifest {
+      attributes(
+        "Implementation-Version" : project.version,
+        "Main-Class"             : "org.tiogasolutions.notify.extras.cfmon.CfMonitor",
+        "Class-Path"             : configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
+      )
+    }
+  }
+
+  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+
+  task pws(type: Copy, dependsOn: assemble) {
+    from "./build/libs/tioga-notify-extras-cfmon-${project.version}.jar"
+    into "./build/pws/"
+    rename "tioga-notify-extras-cfmon-${project.version}.jar", "tioga-notify-extras-cfmon.jar"
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+

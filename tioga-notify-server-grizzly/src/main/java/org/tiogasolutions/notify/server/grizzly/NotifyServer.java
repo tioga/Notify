@@ -20,7 +20,7 @@ public class NotifyServer {
 
   private static final Logger log = getLogger(NotifyServer.class);
 
-  public static void start(String...args) throws Exception {
+  public static void main(String...args) throws Exception {
     // Priority #1, configure default logging levels. This will be
     // overridden later when/if the logback.xml is found and loaded.
     AppUtils.initLogback(Level.WARN);
