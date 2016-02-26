@@ -17,17 +17,14 @@ applications:
 
     notify.masterUrl: https://tioga.cloudant.com
     notify.masterUsername: tioga
-    notify.masterPassword: 4God'sBlessing!
     notify.masterDatabaseName: notify
 
     notify.notificationUrl: https://tioga.cloudant.com
     notify.notificationUsername: tioga
-    notify.notificationPassword: 4God'sBlessing!
     notify.notificationDatabasePrefix: notify-
     notify.notificationDatabaseSuffix: -notification
 
     notify.requestUrl: https://tioga.cloudant.com
     notify.requestUsername: tioga
-    notify.requestPassword: 4God'sBlessing!
     notify.requestDatabasePrefix: notify-
     notify.requestDatabaseSuffix: -request
