@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Tioga">
+    <!--<link rel="shortcut icon" href="app/shared/Tioga-Pass-Sign.png">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Notify Admin</title>
+
+    <!-- 3rd Party CSS -->
+    <link type="text/css" rel="stylesheet" href="app/3rdparty/jquery-ui/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="app/3rdparty/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="app/3rdparty/font-awesome/css/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="app/3rdparty/pikaday/pikaday.css">
+
+    <!-- App css -->
+    <link type="text/css" rel="stylesheet" href="app/shared/common.css">
+
+    <script type="text/javascript">
+        // HACK - need web app base path!
+        var paths = window.location.pathname.split('/');
+        var webAppPath = "/";
+        if (paths.length > 2) {
+            webAppPath += paths[1];
+        }
+    </script>
+</head>
+
+<!-- Hidden below ensure knockout is loaded before anything is rendered (reducing flickering). -->
+<body class="hidden" data-bind="css: {hidden: false}">
+
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#pf-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand">
+                    <div class="logo pull-left">
+                        <!--<img class="img-responsive" src="app/shared/Tioga-Pass-Bridge.png" />-->
+                    </div>
+                    <div class="title-name pull-left">Notify Administration</div>
+                </div>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li data-bind="css: {active: pagePath() ===  'notifications'}">
+                        <a href="app#notifications"><i class="fa fa-paper-plane"></i> Notifications</a>
+                    </li>
+                    <li data-bind="css: {active: pagePath() ===  'domains'}"><a href="app#domains"><i class="fa fa-umbrella"></i> Domains</a></li>
+                    <li data-bind="css: {active: pagePath() ===  'system'}"><a href="app#system"><i class="fa fa-server"></i> System</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- "body-container" id is used for dialog creation so if the id changes DialogFactory creation needs to change.-->
+    <div id="body-container">
+
+        <!-- Notifications -->
+        <div data-bind="page: {id: 'notifications',
+            role: 'start',
+            with: notificationsPage,
+            params: ['domain', 'topic', 'notificationId', 'traitKey', 'traitValue'],
+            beforeShow: notificationsPage.beforeShow,
+            sourceOnShow: 'app/notifications/notifications-page.html'}"></div>
+
+        <!-- Domains -->
+        <div data-bind="page: {id: 'domains',
+            beforeShow: domainsPage.beforeShow,
+            beforeHide: domainsPage.beforeHide,
+            sourceOnShow: 'app/domains/domains-page.html'}"></div>
+
+        <!-- System -->
+        <div data-bind="page: {id: 'system', sourceOnShow: 'app/system/system-page.html'}"></div>
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footer" class="hidden-print">
+        <div id="footer-content" class="container">
+            <div class="row">
+                <div class="text-muted">Tioga Solutions</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Working overlay -->
+    <div class="overlay"></div>
+
+    <!-- 3rd Party -->
+    <script type="text/javascript" src="app/3rdparty/moment/moment-2.7.0.min.js"></script>
+    <script type="text/javascript" src="app/3rdparty/jquery/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="app/3rdparty/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="app/3rdparty/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="app/3rdparty/jquery-maskedinput/jquery.maskedinput.min-1.4.0.js"></script>
+    <script type="text/javascript" src="app/3rdparty/knockout/knockout-3.3.0.js"></script>
+    <script type="text/javascript" src="app/3rdparty/pager/pager-1.0.1.min.js"></script>
+    <script type="text/javascript" src="app/3rdparty/bluebird/bluebird-2.2.2.js"></script>
+
+    <!-- Propel -->
+    <script type="text/javascript" src="app/3rdparty/propel/propel-ajax.js"></script>
+    <script type="text/javascript" src="app/3rdparty/propel/propel-dialog.js"></script>
+    <script type="text/javascript" src="app/3rdparty/propel/propel-fragment.js"></script>
+    <script type="text/javascript" src="app/3rdparty/propel/propel-event-bus.js"></script>
+    <script type="text/javascript" src="app/3rdparty/propel/propel-mvc.js"></script>
+    <script type="text/javascript" src="app/3rdparty/propel/propel-util.js"></script>
+
+    <!-- Shared -->
+    <script type="text/javascript" src="app/shared/app-support.js"></script>
+    <script type="text/javascript" src="app/shared/error-observer.js"></script>
+    <script type="text/javascript" src="app/shared/notify-client.js"></script>
+    <script type="text/javascript" src="app/shared/data-pager.js"></script>
+    <script type="text/javascript" src="app/shared/app-boot.js"></script>
+
+    <!-- App -->
+    <script type="text/javascript" src="app/app-root.js"></script>
+    <script type="text/javascript" src="app/home/home.js"></script>
+    <script type="text/javascript" src="app/notifications/notification.js"></script>
+    <script type="text/javascript" src="app/notifications/notifications-page.js"></script>
+    <script type="text/javascript" src="app/domains/domain.js"></script>
+    <script type="text/javascript" src="app/domains/domains-page.js"></script>
+
+</body>
+</html>

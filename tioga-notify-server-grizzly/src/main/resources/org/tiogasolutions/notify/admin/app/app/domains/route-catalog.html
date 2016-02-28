@@ -1,0 +1,16 @@
+<div class="container" data-bind="with: selectedDomain.routeCatalog">
+
+    <form role="form">
+        <div class="row" style="margin: 1em 1em 0 0">
+            <!--<div class="col-sm-4 alert alert-success" role="alert" data-bind="text: editMessage"></div>-->
+            <div role="alert" class="col-sm-4 alert" data-bind="text: editMessage, css: editMessageCss"></div>
+            <button class="btn btn-primary pull-right" data-bind="click: saveRouteCatalog">Save</button>
+        </div>
+        <div class="row" style="margin: 0 1em 0 0">
+            <textarea rows="23" class="col-sm-12" id="route-edit" data-bind="value: rawJson" >
+            </textarea>
+        </div>
+    </form>
+
+</div>
+

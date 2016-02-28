@@ -1,0 +1,26 @@
+<div id="create-domain-dialog" class="modal-dialog">
+    <form class="form-horizontal" role="form" method="post" data-bind="submit: createDomain">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Create Domain</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="domain-name" class="col-sm-4 control-label">Domain Name</label>
+                    <div class="col-sm-6" style="margin-bottom: 1em">
+                        <input data-bind="textInput: domainName" id="domain-name" type="text" class="form-control" placeholder="Domain Name"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button data-dismiss="modal" class="btn btn-default pull-left">Close</button>
+                <button type="submit" data-dismiss="modal" data-bind="click: createDomain" class="btn btn-success pull-right">Create</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+

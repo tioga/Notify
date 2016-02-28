@@ -1,0 +1,11 @@
+---
+applications:
+- name: tioga-notify-app
+
+  timeout: 60
+  buildpack: staticfile_buildpack
+  path: ./
+
+  memory: 32M
+  host: ""
+  domain: notify.tioga.solutions
