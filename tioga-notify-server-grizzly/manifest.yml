@@ -2,7 +2,7 @@
 applications:
 - name: tioga-notify-engine
 
-  timeout: 60
+  timeout: 180
   buildpack: java_buildpack
   path: build/pws/tioga-notify-server-grizzly.jar
 
@@ -11,23 +11,24 @@ applications:
   domain: notify.tioga.solutions
 
   env:
+    # _JAVA_OPTIONS: -Xmx64M -XX:MaxMetaspaceSize=20M
+    JBP_CONFIG_ORACLE_JRE: '[jre: {repository_root: "http://tioga.s3-website-us-west-1.amazonaws.com"}]'
+    JBP_CONFIG_COMPONENTS: '[jres: ["JavaBuildpack::Jre::OracleJRE"]]'
+
     notify.hostName: 0.0.0.0
     notify.port: 8080
     notify.shutdownPort: 8081
 
     notify.masterUrl: https://tioga.cloudant.com
     notify.masterUsername: tioga
-    notify.masterPassword: 4God'sBlessing!
     notify.masterDatabaseName: notify
 
     notify.notificationUrl: https://tioga.cloudant.com
     notify.notificationUsername: tioga
-    notify.notificationPassword: 4God'sBlessing!
     notify.notificationDatabasePrefix: notify-
     notify.notificationDatabaseSuffix: -notification
 
     notify.requestUrl: https://tioga.cloudant.com
     notify.requestUsername: tioga
-    notify.requestPassword: 4God'sBlessing!
     notify.requestDatabasePrefix: notify-
     notify.requestDatabaseSuffix: -request
