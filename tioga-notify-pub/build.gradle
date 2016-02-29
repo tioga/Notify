@@ -1,6 +1,6 @@
 project(":tioga-notify-pub") {
 
-  version = "4.2.0"
+  version = tiogaPubVersion
 
   dependencies {
     compile("org.slf4j:slf4j-api:1.7.7")

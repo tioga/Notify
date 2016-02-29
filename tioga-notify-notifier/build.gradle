@@ -1,6 +1,6 @@
 project(":tioga-notify-notifier") {
 
-    version = "4.2.0"
+    version = tiogaPubVersion
 
     dependencies {
         // Logging

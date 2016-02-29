@@ -1,6 +1,6 @@
 project(":tioga-notify-client") {
 
-  version = "4.2.0"
+  version = tiogaPubVersion
 
   dependencies {
     compile(project(":tioga-notify-jackson"))
