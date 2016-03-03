@@ -12,7 +12,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/tioga-notify-client" />
             <option value="$PROJECT_DIR$/tioga-notify-engine" />
-            <option value="$PROJECT_DIR$/tioga-notify-extras-cfmon" />
+            <option value="$PROJECT_DIR$/tioga-notify-extras-monitor" />
             <option value="$PROJECT_DIR$/tioga-notify-jackson" />
             <option value="$PROJECT_DIR$/tioga-notify-kernel" />
             <option value="$PROJECT_DIR$/tioga-notify-notifier" />
@@ -33,7 +33,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/tioga-notify-client" />
             <option value="$PROJECT_DIR$/tioga-notify-engine" />
-            <option value="$PROJECT_DIR$/tioga-notify-extras-cfmon" />
+            <option value="$PROJECT_DIR$/tioga-notify-extras-monitor" />
             <option value="$PROJECT_DIR$/tioga-notify-jackson" />
             <option value="$PROJECT_DIR$/tioga-notify-kernel" />
             <option value="$PROJECT_DIR$/tioga-notify-notifier" />

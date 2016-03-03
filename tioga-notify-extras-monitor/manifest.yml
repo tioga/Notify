@@ -1,10 +1,10 @@
 ---
 applications:
-- name: cloud-foundry-monitor
+- name: tioga-monitor
 
   timeout: 180
   buildpack: java_buildpack
-  path: build/pws/tioga-notify-extras-cfmon.jar
+  path: build/pws/tioga-notify-extras-monitor.jar
 
   memory: 128M
   no-route: true

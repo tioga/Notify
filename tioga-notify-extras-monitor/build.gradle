@@ -1,4 +1,4 @@
-project(":tioga-notify-extras-cfmon") {
+project(":tioga-notify-extras-monitor") {
 
   apply plugin: 'distribution'
 
@@ -40,7 +40,7 @@ project(":tioga-notify-extras-cfmon") {
     manifest {
       attributes(
         "Implementation-Version" : project.version,
-        "Main-Class"             : "org.tiogasolutions.notify.extras.cfmon.CfMonitor",
+        "Main-Class"             : "org.tiogasolutions.notify.extras.monitor.TiogaMonitor",
         "Class-Path"             : configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
       )
     }
@@ -49,9 +49,9 @@ project(":tioga-notify-extras-cfmon") {
   apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 
   task pws(type: Copy, dependsOn: assemble) {
-    from "./build/libs/tioga-notify-extras-cfmon-${project.version}.jar"
+    from "./build/libs/tioga-notify-extras-monitor-${project.version}.jar"
     into "./build/pws/"
-    rename "tioga-notify-extras-cfmon-${project.version}.jar", "tioga-notify-extras-cfmon.jar"
+    rename "tioga-notify-extras-monitor-${project.version}.jar", "tioga-notify-extras-monitor.jar"
   }
 
 }

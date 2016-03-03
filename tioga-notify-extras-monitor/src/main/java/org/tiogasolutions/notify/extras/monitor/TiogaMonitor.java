@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.extras.cfmon;
+package org.tiogasolutions.notify.extras.monitor;
 
 import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
@@ -19,9 +19,9 @@ import java.util.*;
 import static java.time.ZonedDateTime.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class CfMonitor implements Runnable {
+public class TiogaMonitor implements Runnable {
 
-  private static final Logger log = getLogger(CfMonitor.class);
+  private static final Logger log = getLogger(TiogaMonitor.class);
 
   public static void main(String...args) {
     // Priority #1, configure default logging levels. This will be
@@ -30,31 +30,31 @@ public class CfMonitor implements Runnable {
 
     // Assume we want by default INFO on when & how the grizzly server
     // is started. Possibly overwritten by logback.xml if used.
-    AppUtils.setLogLevel(Level.INFO, CfMonitor.class);
+    AppUtils.setLogLevel(Level.INFO, TiogaMonitor.class);
 
-    CfMonitor app = new CfMonitor();
+    TiogaMonitor app = new TiogaMonitor();
     new Thread(app).start();
   }
 
   private final long retention;
   private final CfClient client;
+  private final CouchNotificationSender sender;
+
   private final Map<String,ZonedDateTime> processed = new HashMap<>();
 
-  private final String couchUrl;
-  private final String username;
-  private final String password;
-
-  public CfMonitor() {
-    String value = EnvUtils.findProperty("cf.monitor.retention", String.valueOf(10));
+  public TiogaMonitor() {
+    String value = EnvUtils.findProperty("tioga.monitor.retention", String.valueOf(10));
     retention = Long.valueOf(value);
 
     client = new CfClient();
-    client.login(EnvUtils.requireProperty("cf.monitor.username"),
-                 EnvUtils.requireProperty("cf.monitor.password"));
+    client.login(EnvUtils.requireProperty("tioga.cloud.foundry.username"),
+                 EnvUtils.requireProperty("tioga.cloud.foundry.password"));
 
-    couchUrl =     EnvUtils.requireProperty("cf.monitor.couch.url");;
-    username =     EnvUtils.requireProperty("cf.monitor.couch.username");;
-    password =     EnvUtils.requireProperty("cf.monitor.couch.password");;
+    String couchUrl =     EnvUtils.requireProperty("tioga.monitor.couch.url");;
+    String couchDb =     EnvUtils.requireProperty("tioga.monitor.couch.db");;
+    String username =     EnvUtils.requireProperty("tioga.monitor.couch.username");;
+    String password =     EnvUtils.requireProperty("tioga.monitor.couch.password");;
+    sender = new CouchNotificationSender(couchUrl, couchDb, username, password);
   }
 
   @Override
@@ -130,9 +130,6 @@ public class CfMonitor implements Runnable {
         null,
         Collections.emptyList()
     );
-
-    String databaseName = "notify-"+resource.getEvent().getActeeName()+"-request";
-    CouchNotificationSender sender = new CouchNotificationSender(couchUrl, databaseName, username, password);
 
     sender.onFailure(response -> {
       String msg = "Failed to send notification for " + resource.getEvent().getActeeName();
