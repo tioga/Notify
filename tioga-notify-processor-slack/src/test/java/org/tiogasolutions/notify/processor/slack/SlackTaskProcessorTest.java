@@ -80,7 +80,7 @@ public class SlackTaskProcessorTest {
     argMap.put("channel", "#notify-test");
     argMap.put("iconEmoji", ":smile:");
     argMap.put("userName", "notifier");
-    argMap.put("templatePath", "file:/dvlp/tioga/notify/runtime/config/templates/slack-template-debug.html");
+    argMap.put("templatePath", "classpath:/tioga-notify-processor-slack/slack-template-debug.html");
     Destination destination = new Destination("test", "slack", argMap);
     Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 
