@@ -6,6 +6,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-jaxrs/5.0.0/3124b3c9322bfd4b31e87470b3339e0bd3b42b69/tioga-lib-jaxrs-5.0.0-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/5.0.0/tioga-lib-jaxrs-5.0.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

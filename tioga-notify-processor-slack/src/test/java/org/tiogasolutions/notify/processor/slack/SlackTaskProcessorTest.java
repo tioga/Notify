@@ -1,18 +1,18 @@
 package org.tiogasolutions.notify.processor.slack;
 
+import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
+import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.Destination;
-import org.testng.annotations.Test;
+import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.notify.pub.task.TaskResponseAction;
@@ -32,12 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
-/**
- * Created by harlan on 3/9/15.
- */
-@Test(enabled = false)
+@Test
 public class SlackTaskProcessorTest {
 
   private final SlackTaskProcessor processor;

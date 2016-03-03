@@ -6,6 +6,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.dev/tioga-dev-jackson/4.2.3/28eaacd1d6108043b3ca181c63e0194dc9ad4858/tioga-dev-jackson-4.2.3-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/dev/tioga-dev-jackson/4.2.3/tioga-dev-jackson-4.2.3-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
