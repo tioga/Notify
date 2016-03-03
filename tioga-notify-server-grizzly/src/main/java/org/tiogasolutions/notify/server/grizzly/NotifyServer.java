@@ -2,18 +2,18 @@ package org.tiogasolutions.notify.server.grizzly;
 
 import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
+import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.tiogasolutions.app.common.AppPathResolver;
 import org.tiogasolutions.app.common.AppUtils;
-import org.tiogasolutions.notify.engine.web.NotifyApplication;
-import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
+import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.ShutdownUtils;
-import org.tiogasolutions.runners.grizzly.spring.ApplicationResolver;
-import org.tiogasolutions.runners.grizzly.spring.GrizzlySpringServer;
-import org.tiogasolutions.runners.grizzly.spring.ServerConfigResolver;
 
 import java.nio.file.Path;
 import java.util.Arrays;
 
+import static java.util.Arrays.asList;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class NotifyServer {
@@ -28,7 +28,7 @@ public class NotifyServer {
     // Assume we want by default INFO on when & how the grizzly server
     // is started. Possibly overwritten by logback.xml if used.
     AppUtils.setLogLevel(Level.INFO, NotifyServer.class);
-    AppUtils.setLogLevel(Level.INFO, GrizzlySpringServer.GRIZZLY_CLASSES);
+    AppUtils.setLogLevel(Level.INFO, GrizzlyServer.GRIZZLY_CLASSES);
 
     // Load the resolver which gives us common tools for identifying
     // the runtime & config directories, logback.xml, etc.
@@ -41,7 +41,7 @@ public class NotifyServer {
 
     // Locate the spring file for this app.
     String springConfigPath = resolver.resolveSpringPath(configDir, "classpath:/tioga-notify-server-grizzly/spring-config.xml");
-    String activeProfiles = resolver.resolveSpringProfiles(); // defaults to "hosted"
+    String[] activeProfiles = resolver.resolveSpringProfiles(); // defaults to "hosted"
 
     boolean shuttingDown = Arrays.asList(args).contains("-shutdown");
     String action = (shuttingDown ? "Shutting down" : "Starting");
@@ -51,17 +51,11 @@ public class NotifyServer {
       "  *  Config Dir      (notify.config.dir)      {}\n" +
       "  *  Logback File    (notify.log.config)      {}\n" +
       "  *  Spring Path     (notify.spring.config)   {}\n" +
-      "  *  Active Profiles (notify.active.profiles) {}", action, runtimeDir, configDir, logbackFile, springConfigPath, activeProfiles);
+      "  *  Active Profiles (notify.active.profiles) {}", action, runtimeDir, configDir, logbackFile, springConfigPath, asList(activeProfiles));
 
-    // Create an instance of the grizzly server.
-    GrizzlySpringServer grizzlyServer = new GrizzlySpringServer(
-      ServerConfigResolver.fromClass(GrizzlyServerConfig.class),
-      ApplicationResolver.fromClass(NotifyApplication.class),
-      activeProfiles,
-      springConfigPath
-    );
+    AbstractXmlApplicationContext applicationContext = createXmlConfigApplicationContext(springConfigPath, activeProfiles);
 
-    grizzlyServer.packages("org.tiogasolutions.notify");
+    GrizzlyServer grizzlyServer = applicationContext.getBean(GrizzlyServer.class);
 
     if (shuttingDown) {
       ShutdownUtils.shutdownRemote(grizzlyServer.getConfig());
@@ -72,5 +66,18 @@ public class NotifyServer {
 
     // Lastly, start the server.
     grizzlyServer.start();
+  }
+
+  public static AbstractXmlApplicationContext createXmlConfigApplicationContext(String xmlConfigPath, String...activeProfiles) {
+
+    boolean classPath = xmlConfigPath.startsWith("classpath:");
+    AbstractXmlApplicationContext applicationContext = classPath ?
+      new ClassPathXmlApplicationContext() :
+      new FileSystemXmlApplicationContext();
+
+    applicationContext.setConfigLocation(xmlConfigPath);
+    applicationContext.getEnvironment().setActiveProfiles(activeProfiles);
+    applicationContext.refresh();
+    return applicationContext;
   }
 }
