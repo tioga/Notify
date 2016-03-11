@@ -7,8 +7,8 @@ applications:
   path: build/pws/tioga-notify-server-grizzly.jar
 
   memory: 256M
-  host: engine
-  domain: notify.tioga.solutions
+  host: notify-engine
+  domain: tioga.solutions
 
   env:
     # _JAVA_OPTIONS: -Xmx64M -XX:MaxMetaspaceSize=20M
