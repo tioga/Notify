@@ -76,6 +76,6 @@
     <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.3" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.app:tioga-app-common:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.app:tioga-app-common:3.1.0" level="project" />
   </component>
 </module>

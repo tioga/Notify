@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.runners:tioga-runners-grizzly:2.0.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/runners/tioga-runners-grizzly/2.0.1/tioga-runners-grizzly-2.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/runners/tioga-runners-grizzly/2.0.1/tioga-runners-grizzly-2.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

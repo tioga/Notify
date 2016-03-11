@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.tiogasolutions.push:tioga-push-client:5.0.1">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-client/5.0.1/tioga-push-client-5.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-client/5.0.1/4261d55a4011267e97af1b9e040504ece1fe4bdb/tioga-push-client-5.0.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/push/tioga-push-client/5.0.1/tioga-push-client-5.0.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.push/tioga-push-client/5.0.1/643f723242b11f75596da214cc3cdd893b08b267/tioga-push-client-5.0.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
