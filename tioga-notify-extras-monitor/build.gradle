@@ -2,7 +2,7 @@ project(":tioga-notify-extras-monitor") {
 
   apply plugin: 'distribution'
 
-  version = "1.0.0"
+  version = "1.0.1"
 
   dependencies {
     compile(project(":tioga-notify-client"))
