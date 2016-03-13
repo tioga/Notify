@@ -11,6 +11,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @PreMatching
 @Priority(1)
+/** See https://java.net/jira/browse/JERSEY-2726 */
 public class JerseySpringWorkaroundFilter extends RequestContextFilter {
 
   @Inject
