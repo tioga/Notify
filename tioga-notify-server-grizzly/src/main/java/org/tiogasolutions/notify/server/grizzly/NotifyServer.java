@@ -3,10 +3,9 @@ package org.tiogasolutions.notify.server.grizzly;
 import ch.qos.logback.classic.Level;
 import org.slf4j.Logger;
 import org.springframework.context.support.AbstractXmlApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.tiogasolutions.app.common.AppPathResolver;
 import org.tiogasolutions.app.common.AppUtils;
+import org.tiogasolutions.lib.spring.SpringUtils;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.ShutdownUtils;
 
@@ -53,7 +52,7 @@ public class NotifyServer {
       "  *  Spring Path     (notify.spring.config)   {}\n" +
       "  *  Active Profiles (notify.active.profiles) {}", action, runtimeDir, configDir, logbackFile, springConfigPath, asList(activeProfiles));
 
-    AbstractXmlApplicationContext applicationContext = createXmlConfigApplicationContext(springConfigPath, activeProfiles);
+    AbstractXmlApplicationContext applicationContext = SpringUtils.createXmlConfigApplicationContext(springConfigPath, activeProfiles);
 
     GrizzlyServer grizzlyServer = applicationContext.getBean(GrizzlyServer.class);
 
@@ -66,18 +65,5 @@ public class NotifyServer {
 
     // Lastly, start the server.
     grizzlyServer.start();
-  }
-
-  public static AbstractXmlApplicationContext createXmlConfigApplicationContext(String xmlConfigPath, String...activeProfiles) {
-
-    boolean classPath = xmlConfigPath.startsWith("classpath:");
-    AbstractXmlApplicationContext applicationContext = classPath ?
-      new ClassPathXmlApplicationContext() :
-      new FileSystemXmlApplicationContext();
-
-    applicationContext.setConfigLocation(xmlConfigPath);
-    applicationContext.getEnvironment().setActiveProfiles(activeProfiles);
-    applicationContext.refresh();
-    return applicationContext;
   }
 }

@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: org.tiogasolutions.apis:tioga-apis-cloudfoundry:1.0.2">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/apis/tioga-apis-cloudfoundry/1.0.2/tioga-apis-cloudfoundry-1.0.2.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.apis/tioga-apis-cloudfoundry/1.0.2/e793fd9b73268d29a4a63a4af33ce07e6ef5f704/tioga-apis-cloudfoundry-1.0.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
