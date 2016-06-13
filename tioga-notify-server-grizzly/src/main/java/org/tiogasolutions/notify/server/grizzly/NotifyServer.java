@@ -23,6 +23,7 @@ public class NotifyServer {
     // Priority #1, configure default logging levels. This will be
     // overridden later when/if the logback.xml is found and loaded.
     AppUtils.initLogback(Level.WARN);
+    log.info("Starting application.");
 
     // Assume we want by default INFO on when & how the grizzly server
     // is started. Possibly overwritten by logback.xml if used.
@@ -53,6 +54,7 @@ public class NotifyServer {
       "  *  Active Profiles (notify.active.profiles) {}", action, runtimeDir, configDir, logbackFile, springConfigPath, asList(activeProfiles));
 
     AbstractXmlApplicationContext applicationContext = SpringUtils.createXmlConfigApplicationContext(springConfigPath, activeProfiles);
+    log.info("Initialized Spring.");
 
     GrizzlyServer grizzlyServer = applicationContext.getBean(GrizzlyServer.class);
 
@@ -64,6 +66,7 @@ public class NotifyServer {
     }
 
     // Lastly, start the server.
+    log.info("Starting grizzly server.");
     grizzlyServer.start();
   }
 }
