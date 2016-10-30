@@ -6,29 +6,9 @@
         <option name="createEmptyContentRootDirectories" value="true" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/tools/gradle-2.8" />
+        <option name="gradleHome" value="/tools/gradle-2.4" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/tioga-notify-client" />
-            <option value="$PROJECT_DIR$/tioga-notify-engine" />
-            <option value="$PROJECT_DIR$/tioga-notify-extras-monitor" />
-            <option value="$PROJECT_DIR$/tioga-notify-jackson" />
-            <option value="$PROJECT_DIR$/tioga-notify-kernel" />
-            <option value="$PROJECT_DIR$/tioga-notify-notifier" />
-            <option value="$PROJECT_DIR$/tioga-notify-processor-logger" />
-            <option value="$PROJECT_DIR$/tioga-notify-processor-push" />
-            <option value="$PROJECT_DIR$/tioga-notify-processor-slack" />
-            <option value="$PROJECT_DIR$/tioga-notify-processor-smtp" />
-            <option value="$PROJECT_DIR$/tioga-notify-processor-swing" />
-            <option value="$PROJECT_DIR$/tioga-notify-pub" />
-            <option value="$PROJECT_DIR$/tioga-notify-sender-couch" />
-            <option value="$PROJECT_DIR$/tioga-notify-sender-http" />
-            <option value="$PROJECT_DIR$/tioga-notify-server-grizzly" />
-            <option value="$PROJECT_DIR$/tioga-notify-test" />
-          </set>
-        </option>
-        <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/tioga-notify-client" />

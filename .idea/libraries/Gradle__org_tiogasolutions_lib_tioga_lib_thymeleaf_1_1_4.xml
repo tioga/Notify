@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.4/39df781f5a14db7f2cb93e3340f692744c5556f4/tioga-lib-thymeleaf-1.1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-thymeleaf/1.1.4/31cd7bf34444a00ba2dcdade6fc569842b2a59/tioga-lib-thymeleaf-1.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

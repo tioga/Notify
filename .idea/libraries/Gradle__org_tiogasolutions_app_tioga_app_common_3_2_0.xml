@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.tiogasolutions.app:tioga-app-common:3.2.0">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/3.2.0/tioga-app-common-3.2.0.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/3.2.0/6c69d7638c640d6c7d0e101c7f0372fb9a545bfd/tioga-app-common-3.2.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/app/tioga-app-common/3.2.0/tioga-app-common-3.2.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.app/tioga-app-common/3.2.0/eff59b94732f032c69078a80fb2797e376de66fc/tioga-app-common-3.2.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

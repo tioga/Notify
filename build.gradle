@@ -35,8 +35,8 @@ subprojects {
   ext {
     // This is the primary version for the app
     // which does not include pub, client, senders.
-    tiogaAppVersion = "4.3.1"
-    tiogaPubVersion = "5.0.2"
+    tiogaAppVersion = "4.3.2"
+    tiogaPubVersion = "5.0.3"
 
     pomProjectDescription = "Notify Server"
     pomUrl = 'https://www.tiogasolutions.org'
