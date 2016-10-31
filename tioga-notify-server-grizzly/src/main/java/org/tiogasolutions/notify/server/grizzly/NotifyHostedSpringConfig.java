@@ -81,10 +81,10 @@ public class NotifyHostedSpringConfig {
   @Bean(name="org.tiogasolutions.runners.grizzly.GrizzlyServerConfig")
   public GrizzlyServerConfig grizzlyServerConfig() {
     GrizzlyServerConfig config = new GrizzlyServerConfig();
-    config.setHostName(findProperty("notify.hostName", "0.0.0.0"));
-    config.setPort(Integer.valueOf(findProperty("notify.port", "8080")));
-    config.setShutdownPort(Integer.valueOf(findProperty("notify.shutdownPort", "8081")));
-    config.setContext(findProperty("notify.context", ""));
+    config.setHostName(findProperty("notify_hostName", "0.0.0.0"));
+    config.setPort(Integer.valueOf(findProperty("notify_port", "8080")));
+    config.setShutdownPort(Integer.valueOf(findProperty("notify_shutdownPort", "8081")));
+    config.setContext(findProperty("notify_context", ""));
     config.setToOpenBrowser(false);
     return config;
   }
@@ -93,22 +93,22 @@ public class NotifyHostedSpringConfig {
   public CouchServersConfig couchServersConfig() {
     CouchServersConfig config = new CouchServersConfig();
 
-    config.setMasterUrl(requireProperty("notify.masterUrl"));
-    config.setMasterUsername(requireProperty("notify.masterUsername"));
-    config.setMasterPassword(requireProperty("notify.masterPassword"));
-    config.setMasterDatabaseName(requireProperty("notify.masterDatabaseName"));
+    config.setMasterUrl(requireProperty("notify_masterUrl"));
+    config.setMasterUsername(requireProperty("notify_masterUsername"));
+    config.setMasterPassword(requireProperty("notify_masterPassword"));
+    config.setMasterDatabaseName(requireProperty("notify_masterDatabaseName"));
 
-    config.setNotificationUrl(requireProperty("notify.notificationUrl"));
-    config.setNotificationUsername(requireProperty("notify.notificationUsername"));
-    config.setNotificationPassword(requireProperty("notify.notificationPassword"));
-    config.setNotificationDatabasePrefix(requireProperty("notify.notificationDatabasePrefix"));
-    config.setNotificationDatabaseSuffix(requireProperty("notify.notificationDatabaseSuffix"));
+    config.setNotificationUrl(requireProperty("notify_notificationUrl"));
+    config.setNotificationUsername(requireProperty("notify_notificationUsername"));
+    config.setNotificationPassword(requireProperty("notify_notificationPassword"));
+    config.setNotificationDatabasePrefix(requireProperty("notify_notificationDatabasePrefix"));
+    config.setNotificationDatabaseSuffix(requireProperty("notify_notificationDatabaseSuffix"));
 
-    config.setRequestUrl(requireProperty("notify.requestUrl"));
-    config.setRequestUsername(requireProperty("notify.requestUsername"));
-    config.setRequestPassword(requireProperty("notify.requestPassword"));
-    config.setRequestDatabasePrefix(requireProperty("notify.requestDatabasePrefix"));
-    config.setRequestDatabaseSuffix(requireProperty("notify.requestDatabaseSuffix"));
+    config.setRequestUrl(requireProperty("notify_requestUrl"));
+    config.setRequestUsername(requireProperty("notify_requestUsername"));
+    config.setRequestPassword(requireProperty("notify_requestPassword"));
+    config.setRequestDatabasePrefix(requireProperty("notify_requestDatabasePrefix"));
+    config.setRequestDatabaseSuffix(requireProperty("notify_requestDatabaseSuffix"));
 
     return config;
   }

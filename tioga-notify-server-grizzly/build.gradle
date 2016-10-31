@@ -48,6 +48,14 @@ project(":tioga-notify-server-grizzly") {
         })
     })
 
+    File procfile = file("$buildDir/aws/Procfile");
+    task createProcfile << {
+        procfile.parentFile.mkdirs()
+        FileWriter writer = new FileWriter(procfile);
+        writer.write("web: java -jar ./lib/tioga-notify-server-grizzly-${project.version}.jar org.tiogasolutions.notify.server.grizzly.NotifyServer\n");
+        writer.close()
+    }
+
     distributions {
         main {
             contents {
@@ -55,6 +63,7 @@ project(":tioga-notify-server-grizzly") {
                     from(jar)
                     from(project.configurations.runtime)
                 }
+                from(procfile, createProcfile)
             }
         }
     }

@@ -32,12 +32,12 @@ public class NotifyServer {
 
     // Load the resolver which gives us common tools for identifying
     // the runtime & config directories, logback.xml, etc.
-    AppPathResolver resolver = new AppPathResolver("notify.");
+    AppPathResolver resolver = new AppPathResolver("notify_");
     Path runtimeDir = resolver.resolveRuntimePath();
     Path configDir = resolver.resolveConfigDir(runtimeDir);
 
     // Re-init logback if we can find the logback.xml
-    Path logbackFile = AppUtils.initLogback(configDir, "notify.log.config", "logback.xml");
+    Path logbackFile = AppUtils.initLogback(configDir, "notify_log_config", "logback.xml");
 
     // Locate the spring file for this app.
     String springConfigPath = resolver.resolveSpringPath(configDir, "classpath:/tioga-notify-server-grizzly/spring-config.xml");
