@@ -16,39 +16,39 @@ import javax.ws.rs.core.Application;
 
 public class AbstractEngineJaxRsTest extends JerseyTestNg.ContainerPerClassTest {
 
-  private ConfigurableListableBeanFactory beanFactory;
+    private ConfigurableListableBeanFactory beanFactory;
 
-  @BeforeMethod
-  public void autowireTest() throws Exception {
-    beanFactory.autowireBean(this);
-  }
+    @BeforeMethod
+    public void autowireTest() throws Exception {
+        beanFactory.autowireBean(this);
+    }
 
-  @Override
-  protected Application configure() {
-    LogbackUtils.initLogback(Level.WARN);
+    @Override
+    protected Application configure() {
+        LogbackUtils.initLogback(Level.WARN);
 
-    AnnotationConfigApplicationContext applicationContext;
+        AnnotationConfigApplicationContext applicationContext;
 
-    applicationContext = new AnnotationConfigApplicationContext();
-    applicationContext.getEnvironment().setActiveProfiles("test");
-    applicationContext.scan("org.tiogasolutions.notify");
-    applicationContext.refresh();
+        applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.getEnvironment().setActiveProfiles("test");
+        applicationContext.scan("org.tiogasolutions.notify");
+        applicationContext.refresh();
 
-    // Inject our unit test with any beans.
-    beanFactory = applicationContext.getBeanFactory();
+        // Inject our unit test with any beans.
+        beanFactory = applicationContext.getBeanFactory();
 
-    NotifyApplication application = beanFactory.getBean(NotifyApplication.class);
+        NotifyApplication application = beanFactory.getBean(NotifyApplication.class);
 
-    ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
-    resourceConfig.register(SpringLifecycleListener.class);
-    resourceConfig.register(RequestContextFilter.class);
-    resourceConfig.property("contextConfig", applicationContext);
-    resourceConfig.packages("org.tiogasolutions.notify");
+        ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
+        resourceConfig.register(SpringLifecycleListener.class);
+        resourceConfig.register(RequestContextFilter.class, 1);
+        resourceConfig.property("contextConfig", applicationContext);
+        resourceConfig.packages("org.tiogasolutions.notify");
 
-    return resourceConfig;
-  }
+        return resourceConfig;
+    }
 
-  public String toHttpAuth(String username, String password) {
-    return TestFactory.toHttpAuth(username, password);
-  }
+    public String toHttpAuth(String username, String password) {
+        return TestFactory.toHttpAuth(username, password);
+    }
 }

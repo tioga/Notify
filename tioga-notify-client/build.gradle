@@ -4,13 +4,8 @@ project(":tioga-notify-client") {
 
   dependencies {
     compile(project(":tioga-notify-jackson"))
-    compile(project(":tioga-notify-notifier"))
     compile(project(":tioga-notify-sender-couch"))
     compile(project(":tioga-notify-sender-http"))
-
-    compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
-
-    compile("org.glassfish.jersey.core:jersey-client:2.17")
   }
 
   apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))

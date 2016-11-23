@@ -1,46 +1,52 @@
 plugins {
-  id "com.github.ben-manes.versions" version "0.8"
-  id "org.hidetake.ssh" version "1.1.2"
-  id "com.kageiit.url-cache" version "1.0.0"
+    id "com.github.ben-manes.versions" version "0.8"
+    id "org.hidetake.ssh" version "1.1.2"
+    id "com.kageiit.url-cache" version "1.0.0"
 }
 
 apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-java.gradle"))
 
 subprojects {
 
-  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-versions.gradle"))
-  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle"))
+    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-versions.gradle"))
+    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle"))
 
-  group = "org.tiogasolutions.notify"
+    group = "org.tiogasolutions.notify"
 
-  targetCompatibility = "1.8"
-  sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+    sourceCompatibility = "1.8"
 
-  configurations.all({
-    resolutionStrategy {
-      if (System.getProperty("no-fail-version-conflict") != "true") {
-        failOnVersionConflict()
-      }
-      force(
-        "org.slf4j:slf4j-api:1.7.7", // override Thymeleaf
-        "org.javassist:javassist:3.18.1-GA",
-      )
+    configurations.all({
+        // noinspection GroovyAssignabilityCheck
+        resolutionStrategy {
+            if (System.getProperty("no-fail-version-conflict") != "true") {
+                failOnVersionConflict()
+            }
+            force(
+                    "org.slf4j:slf4j-api:1.7.20",
+                    "org.javassist:javassist:3.18.1-GA",
+
+                    "org.springframework:spring-aop:4.3.2.RELEASE",
+                    "org.springframework:spring-core:4.3.2.RELEASE",
+                    "org.springframework:spring-beans:4.3.2.RELEASE",
+                    "org.springframework:spring-context:4.3.2.RELEASE"
+            )
+        }
+    })
+
+    dependencies {
+        testCompile("org.testng:testng:6.8.21")
     }
-  })
 
-  dependencies {
-    testCompile ("org.testng:testng:6.8.21")
-  }
+    ext {
+        // This is the primary version for the app
+        // which does not include pub, client, senders.
+        tiogaAppVersion = "4.4.0"
+        tiogaPubVersion = "5.1.0"
 
-  ext {
-    // This is the primary version for the app
-    // which does not include pub, client, senders.
-    tiogaAppVersion = "4.3.2"
-    tiogaPubVersion = "5.0.3"
-
-    pomProjectDescription = "Notify Server"
-    pomUrl = 'https://www.tiogasolutions.org'
-    pomScmUrl = "https://github.com/tioga"
-    pomScmConnection = "https://github.com/tioga/notify-server.git"
-  }
+        pomProjectDescription = "Notify Server"
+        pomUrl = 'https://www.tiogasolutions.org'
+        pomScmUrl = "https://github.com/tioga"
+        pomScmConnection = "https://github.com/tioga/notify-server.git"
+    }
 }

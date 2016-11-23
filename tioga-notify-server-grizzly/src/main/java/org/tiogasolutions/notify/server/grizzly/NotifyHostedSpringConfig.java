@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.server.grizzly;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -135,6 +136,7 @@ public class NotifyHostedSpringConfig {
     ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
     resourceConfig.property("contextConfig", applicationContext);
     resourceConfig.packages("org.tiogasolutions.notify");
+    resourceConfig.register(RequestContextFilter.class, 1);
 
     return new GrizzlyServer(grizzlyServerConfig, resourceConfig);
   }

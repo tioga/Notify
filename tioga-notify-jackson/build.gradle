@@ -10,8 +10,6 @@ project(":tioga-notify-jackson") {
   dependencies {
     compile(project(":tioga-notify-pub"))
 
-  	compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
-
     testCompile("org.testng:testng:6.8.21")
   }
 

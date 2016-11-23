@@ -9,18 +9,8 @@ project(":tioga-notify-extras-monitor") {
     compile(project(":tioga-notify-sender-couch"))
 
     compile("org.tiogasolutions.app:tioga-app-common:+")
-    compile("org.glassfish.jersey.core:jersey-client:2.22.2")
     compile("org.tiogasolutions.apis:tioga-apis-cloudfoundry:+")
   }
-
-  configurations.all({
-    resolutionStrategy({
-      force(
-          "org.glassfish.jersey.core:jersey-common:2.22.2",
-          "org.glassfish.jersey.core:jersey-client:2.22.2",
-      )
-    })
-  })
 
   distributions {
     main {

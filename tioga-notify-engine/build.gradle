@@ -1,23 +1,21 @@
 project(":tioga-notify-engine") {
 
-  version = tiogaAppVersion
+    version = tiogaAppVersion
 
-  dependencies {
-    compile(project(":tioga-notify-kernel"))
+    dependencies {
 
-    compile("org.tiogasolutions.lib:tioga-lib-jaxrs:+")
+        compile project(":tioga-notify-kernel")
 
-    testCompile(project(":tioga-notify-test"))
+        compile("org.tiogasolutions.lib:tioga-lib-jaxrs:+")
 
-    testCompile("org.glassfish.jersey.ext:jersey-spring3:2.17")
-    testCompile("org.springframework:spring-aop:4.1.6.RELEASE") {force = true}
-    testCompile("org.springframework:spring-core:4.1.6.RELEASE") {force = true}
-    testCompile("org.springframework:spring-beans:4.1.6.RELEASE") {force = true}
-    testCompile("org.springframework:spring-context:4.1.6.RELEASE") {force = true}
+        testCompile(project(":tioga-notify-test"))
 
-    testCompile("org.glassfish.jersey.test-framework:jersey-test-framework-core:2.17")
-    testCompile("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.17")
-  }
+        // The Engine is not to have actual Jersey dependencies
+        // but they are required here for the unit tests.
+        testCompile("org.glassfish.jersey.ext:jersey-spring3:2.22.2")
+        testCompile("org.glassfish.jersey.test-framework:jersey-test-framework-core:2.22.2")
+        testCompile("org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.22.2")
+    }
 
-  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 }

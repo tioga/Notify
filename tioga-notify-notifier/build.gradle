@@ -4,7 +4,7 @@ project(":tioga-notify-notifier") {
 
     dependencies {
         // Logging
-        compile("org.slf4j:slf4j-api:1.7.7")
+        compile("org.slf4j:slf4j-api:1.7.20")
         testCompile("org.tiogasolutions.dev:tioga-dev-common:+")
     }
 
