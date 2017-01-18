@@ -23,11 +23,11 @@ project(":tioga-notify-server-grizzly") {
         compile("javax.servlet:javax.servlet-api:3.1.0")
     }
 
-    File procfile = file("$buildDir/aws/Procfile");
+    File procfile = file("$buildDir/aws/Procfile")
     task createProcfile << {
         procfile.parentFile.mkdirs()
-        FileWriter writer = new FileWriter(procfile);
-        writer.write("web: java -cp ./lib/* org.tiogasolutions.notify.server.grizzly.NotifyServer\n");
+        FileWriter writer = new FileWriter(procfile)
+        writer.write("web: java -cp ./lib/* org.tiogasolutions.notify.server.grizzly.NotifyServer\n")
         writer.close()
     }
 
@@ -49,7 +49,9 @@ project(":tioga-notify-server-grizzly") {
         }
         manifest {
             attributes(
+                    "Module-Name": "Grizzly Notify Server",
                     "Implementation-Version": project.version,
+                    "Build-Timestamp": new Date().format("yyyy-MM.dd HH:mm:ss"),
                     "Main-Class": "org.tiogasolutions.notify.server.grizzly.NotifyServerLauncher",
                     "Class-Path": configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
             )
