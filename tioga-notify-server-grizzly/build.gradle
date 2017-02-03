@@ -23,6 +23,12 @@ project(":tioga-notify-server-grizzly") {
         compile("javax.servlet:javax.servlet-api:3.1.0")
     }
 
+    task awsS3(type: Copy, dependsOn: Assemble) {
+        from("./build/distributions/${project.name}-${project.version}.zip")
+        into("./build/aws/")
+        rename("${project.name}-${project.version}.zip", "${project.name}-${System.getenv('BUILD_VCS_NUMBER')}.zip")
+    }
+
     File procfile = file("$buildDir/aws/Procfile")
     task createProcfile << {
         procfile.parentFile.mkdirs()
