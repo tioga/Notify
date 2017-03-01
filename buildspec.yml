@@ -5,6 +5,69 @@ phases:
     commands:
       - gradle --quiet clean build aws
 
+
+  post_build:
+    commands:
+      - aws s3 sync ./tioga-notify-client/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-client/tests --delete
+      - aws s3 sync ./tioga-notify-client/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-client/javadoc --delete
+      - aws s3 sync ./tioga-notify-client/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-client/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-engine/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-engine/tests --delete
+      - aws s3 sync ./tioga-notify-engine/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-engine/javadoc --delete
+      - aws s3 sync ./tioga-notify-engine/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-engine/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-jackson/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-jackson/tests --delete
+      - aws s3 sync ./tioga-notify-jackson/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-jackson/javadoc --delete
+      - aws s3 sync ./tioga-notify-jackson/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-jackson/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-kernel/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-kernel/tests --delete
+      - aws s3 sync ./tioga-notify-kernel/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-kernel/javadoc --delete
+      - aws s3 sync ./tioga-notify-kernel/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-kernel/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-notifier/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-notifier/tests --delete
+      - aws s3 sync ./tioga-notify-notifier/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-notifier/javadoc --delete
+      - aws s3 sync ./tioga-notify-notifier/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-notifier/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-processor-logger/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-processor-logger/tests --delete
+      - aws s3 sync ./tioga-notify-processor-logger/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-processor-logger/javadoc --delete
+      - aws s3 sync ./tioga-notify-processor-logger/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-processor-logger/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-processor-push/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-processor-push/tests --delete
+      - aws s3 sync ./tioga-notify-processor-push/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-processor-push/javadoc --delete
+      - aws s3 sync ./tioga-notify-processor-push/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-processor-push/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-processor-slack/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-processor-slack/tests --delete
+      - aws s3 sync ./tioga-notify-processor-slack/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-processor-slack/javadoc --delete
+      - aws s3 sync ./tioga-notify-processor-slack/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-processor-slack/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-processor-smtp/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-processor-smtp/tests --delete
+      - aws s3 sync ./tioga-notify-processor-smtp/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-processor-smtp/javadoc --delete
+      - aws s3 sync ./tioga-notify-processor-smtp/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-processor-smtp/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-processor-swing/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-processor-swing/tests --delete
+      - aws s3 sync ./tioga-notify-processor-swing/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-processor-swing/javadoc --delete
+      - aws s3 sync ./tioga-notify-processor-swing/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-processor-swing/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-pub/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-pub/tests --delete
+      - aws s3 sync ./tioga-notify-pub/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-pub/javadoc --delete
+      - aws s3 sync ./tioga-notify-pub/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-pub/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-sender-couch/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-sender-couch/tests --delete
+      - aws s3 sync ./tioga-notify-sender-couch/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-sender-couch/javadoc --delete
+      - aws s3 sync ./tioga-notify-sender-couch/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-sender-couch/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-sender-http/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-sender-http/tests --delete
+      - aws s3 sync ./tioga-notify-sender-http/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-sender-http/javadoc --delete
+      - aws s3 sync ./tioga-notify-sender-http/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-sender-http/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-server-grizzly/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-server-grizzly/tests --delete
+      - aws s3 sync ./tioga-notify-server-grizzly/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-server-grizzly/javadoc --delete
+      - aws s3 sync ./tioga-notify-server-grizzly/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-server-grizzly/dependencies --delete
+      -
+      - aws s3 sync ./tioga-notify-test/build/reports/tests                s3://static.tiogasolutions.org/notify/tioga-notify-test/tests --delete
+      - aws s3 sync ./tioga-notify-test/build/docs/javadoc                 s3://static.tiogasolutions.org/notify/tioga-notify-test/javadoc --delete
+      - aws s3 sync ./tioga-notify-test/build/reports/project/dependencies s3://static.tiogasolutions.org/notify/tioga-notify-test/dependencies --delete
+
 artifacts:
   discard-paths: yes
   files:
