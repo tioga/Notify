@@ -1,0 +1,13 @@
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - gradle --quiet clean build aws
+
+artifacts:
+  discard-paths: yes
+  files:
+    - tioga-notify-server-grizzly/build/aws/Buildfile
+    - tioga-notify-server-grizzly/build/aws/Procfile
+    - tioga-notify-server-grizzly/build/distributions/tioga-notify-server-grizzly-*.zip
