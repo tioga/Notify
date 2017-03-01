@@ -23,71 +23,110 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 @Path("/")
-@Scope(value="prototype")
+@Scope(value = "prototype")
 public class RootResource {
 
-  private static final Logger log = LoggerFactory.getLogger(RootResource.class);
+    private static final Logger log = LoggerFactory.getLogger(RootResource.class);
 
-  @Context
-  UriInfo uriInfo;
+    @Context
+    UriInfo uriInfo;
 
-  @Autowired
-  private DomainKernel domainKernel;
+    @Autowired
+    private DomainKernel domainKernel;
 
-  @Autowired
-  private ExecutionManager executionManager;
+    @Autowired
+    private ExecutionManager executionManager;
 
-  @Autowired
-  private NotificationKernel notificationKernel;
+    @Autowired
+    private NotificationKernel notificationKernel;
 
-  @Autowired
-  private ReceiverExecutor receiverExecutor;
+    @Autowired
+    private ReceiverExecutor receiverExecutor;
 
-  @Autowired
-  private TaskProcessorExecutor processorExecutor;
+    @Autowired
+    private TaskProcessorExecutor processorExecutor;
 
-  @Autowired
-  private EventBus eventBus;
+    @Autowired
+    private EventBus eventBus;
 
-  @Autowired
-  private StaticContentReader staticContentReader;
+    @Autowired
+    private StaticContentReader staticContentReader;
 
-  public RootResource() {
-  }
+    public RootResource() {
+    }
 
-  @GET
-  @Produces(MediaType.TEXT_HTML)
-  public Response getDefaultPage() throws Exception {
-    URI uri = uriInfo.getBaseUriBuilder().path("/app").build();
-    return Response.seeOther(uri).build();
-  }
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public String getIndexHtml() throws IOException {
+        try {
+            Attributes attributes = getManifest().getMainAttributes();
+            String version = attributes.getValue("Implementation-Version");
+            String build = attributes.getValue("Build-Number");
+            String timestamp = attributes.getValue("Build-Timestamp");
 
-  @Path("/app")
-  public AppResource getAppResource() {
-    return new AppResource(staticContentReader, uriInfo);
-  }
+            return String.format("<html><body><h1>Notify Server</h1>" +
+                    "<div>Build-Number: %s</div>" +
+                    "<div>Build-Timestamp: %s</div>" +
+                    "<div>Implementation-Version: %s</div>" +
+                    "</body></html>", build, timestamp, version);
 
-  @Path("/api/v1/client")
-  public ClientResourceV1 getClientResource() {
-    return new ClientResourceV1(executionManager, domainKernel, notificationKernel, eventBus);
-  }
+        } catch (Exception e) {
+            return String.format("<html><body><h1>Notify Server</h1><div>%s</div></body></html>", e.getMessage());
+        }
+    }
 
-  @Path("/api/v1/admin")
-  public AdminResourceV1 getAdminResource() {
-    return new AdminResourceV1(executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
-  }
+    private Manifest getManifest() throws IOException {
+        Enumeration<URL> resources = RootResource.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
+        while (resources.hasMoreElements()) {
+            try {
+                Manifest manifest = new Manifest(resources.nextElement().openStream());
+                String moduleName = manifest.getMainAttributes().getValue("Module-Name");
+                if ("tioga-solutions-engine".equalsIgnoreCase(moduleName)) {
+                    return manifest;
+                }
+            } catch (IOException ignored) {/*ignored*/}
+        }
+        throw new IOException("Manifest not found.");
+    }
 
-  @GET
-  @Path("/api/v1/status")
-  @Consumes(MediaType.WILDCARD)
-  @Produces(MediaType.APPLICATION_JSON)
-  public SystemStatus getStatus() {
-    return new SystemStatus(
-        receiverExecutor.getExecutorStatus(),
-        processorExecutor.getExecutorStatus()
-    );
-  }
+    @GET
+    @Path("/health-check")
+    @Produces(MediaType.TEXT_HTML)
+    public Response healthCheck$GET() {
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @Path("/app")
+    public AppResource getAppResource() {
+        return new AppResource(staticContentReader, uriInfo);
+    }
+
+    @Path("/api/v1/client")
+    public ClientResourceV1 getClientResource() {
+        return new ClientResourceV1(executionManager, domainKernel, notificationKernel, eventBus);
+    }
+
+    @Path("/api/v1/admin")
+    public AdminResourceV1 getAdminResource() {
+        return new AdminResourceV1(executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
+    }
+
+    @GET
+    @Path("/api/v1/status")
+    @Consumes(MediaType.WILDCARD)
+    @Produces(MediaType.APPLICATION_JSON)
+    public SystemStatus getStatus() {
+        return new SystemStatus(
+                receiverExecutor.getExecutorStatus(),
+                processorExecutor.getExecutorStatus()
+        );
+    }
 }

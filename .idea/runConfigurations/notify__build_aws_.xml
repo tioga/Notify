@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="notify [clean build awsS3]" type="GradleRunConfiguration" factoryName="Gradle" singleton="true">
+  <configuration default="false" name="notify [build aws]" type="GradleRunConfiguration" factoryName="Gradle" singleton="true">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,9 +10,8 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="clean" />
           <option value="build" />
-          <option value="awsS3" />
+          <option value="aws" />
         </list>
       </option>
       <option name="vmOptions" value="" />

@@ -25,7 +25,7 @@
   <context:component-scan base-package="org.tiogasolutions.notify"/>
 
   <bean class="org.tiogasolutions.notify.engine.web.readers.ExternalizedStaticContentReader">
-    <constructor-arg value="${notify.runtime.dir}/../tioga-notify-admin-app"/>
+    <constructor-arg value="${notify_runtime_dir}/../tioga-notify-admin-app"/>
   </bean>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchEnvironment">
@@ -42,7 +42,7 @@
         p:hostName="localhost"
         p:port="39011"
         p:shutdownPort="39012"
-        p:context="notify-server"
+        p:context=""
         p:toOpenBrowser="true"/>
 
   <bean class="org.tiogasolutions.notify.kernel.config.CouchServersConfig"

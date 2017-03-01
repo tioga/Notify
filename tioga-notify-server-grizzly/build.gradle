@@ -1,6 +1,9 @@
 project(":tioga-notify-server-grizzly") {
 
-    apply plugin: 'distribution'
+    apply plugin: "distribution"
+
+    apply plugin: "application"
+    mainClassName = "org.tiogasolutions.notify.server.grizzly.NotifyServer"
 
     version = tiogaAppVersion
 
@@ -23,17 +26,17 @@ project(":tioga-notify-server-grizzly") {
         compile("javax.servlet:javax.servlet-api:3.1.0")
     }
 
-    task awsS3(type: Copy, dependsOn: assemble) {
-        from("./build/distributions/${project.name}-${project.version}.zip")
-        into("./build/aws/")
-        rename("${project.name}-${project.version}.zip", "${project.name}-${System.getenv('BUILD_VCS_NUMBER')}.zip")
-    }
+    task aws << {
+        File buildfile = file("$buildDir/aws/Buildfile")
+        buildfile.parentFile.mkdirs()
+        FileWriter writer = new FileWriter(buildfile)
+        writer.write("build: unzip -qo ${project.name}-${project.version}.zip\n")
+        writer.close()
 
-    File procfile = file("$buildDir/aws/Procfile")
-    task createProcfile << {
+        File procfile = file("$buildDir/aws/Procfile")
         procfile.parentFile.mkdirs()
-        FileWriter writer = new FileWriter(procfile)
-        writer.write("web: java -cp ./lib/* org.tiogasolutions.notify.server.grizzly.NotifyServer\n")
+        writer = new FileWriter(procfile)
+        writer.write("web: ${project.name}-${project.version}/bin/${project.name}\n")
         writer.close()
     }
 
@@ -44,21 +47,18 @@ project(":tioga-notify-server-grizzly") {
                     from(jar)
                     from(project.configurations.runtime)
                 }
-                from(procfile, createProcfile)
             }
         }
     }
 
     jar {
-        into("libs") {
-            from configurations.runtime
-        }
         manifest {
             attributes(
-                    "Module-Name": "Grizzly Notify Server",
+                    "Module-Name": project.name,
                     "Implementation-Version": project.version,
+                    "Build-Number": "${System.getenv('CODEBUILD_SOURCE_VERSION')}",
                     "Build-Timestamp": new Date().format("yyyy-MM.dd HH:mm:ss"),
-                    "Main-Class": "org.tiogasolutions.notify.server.grizzly.NotifyServerLauncher",
+                    "Main-Class": "${mainClassName}",
                     "Class-Path": configurations.compile.collect { "./libs/" + it.getName() }.join(" ")
             )
         }
@@ -74,11 +74,6 @@ project(":tioga-notify-server-grizzly") {
             from "${projectDir}/../tioga-notify-admin-app"
             into dest
         }
-    }
-    task pws(type: Copy, dependsOn: assemble) {
-        from "./build/libs/tioga-notify-server-grizzly-${project.version}.jar"
-        into "./build/pws/"
-        rename "tioga-notify-server-grizzly-${project.version}.jar", "tioga-notify-server-grizzly.jar"
     }
 
     build.dependsOn(importAdminApp)
