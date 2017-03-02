@@ -89,7 +89,7 @@ public class RootResource {
             try {
                 Manifest manifest = new Manifest(resources.nextElement().openStream());
                 String moduleName = manifest.getMainAttributes().getValue("Module-Name");
-                if ("tioga-solutions-engine".equalsIgnoreCase(moduleName)) {
+                if ("tioga-notify-server-grizzly".equalsIgnoreCase(moduleName)) {
                     return manifest;
                 }
             } catch (IOException ignored) {/*ignored*/}
