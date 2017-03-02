@@ -15,7 +15,8 @@ subprojects {
     group = "org.tiogasolutions.notify"
 
     apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-versions.gradle"))
-    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle"))
+    apply plugin: "project-report"
+    // apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-reports.gradle"))
 
     targetCompatibility = "1.8"
     sourceCompatibility = "1.8"
