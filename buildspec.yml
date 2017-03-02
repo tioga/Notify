@@ -8,49 +8,49 @@ phases:
   post_build:
     commands:
       - if [-d ./tioga-notify-client/build/reports] then aws s3 sync ./tioga-notify-client/build/reports                      s3://static.tiogasolutions.org/notify/tioga-notify-client/reports --delete
-      - if [-d ./tioga-notify-client/build/docs] then aws s3 sync ./tioga-notify-client/build/docs                            s3://static.tiogasolutions.org/notify/tioga-notify-client/docs --delete
+      - if [-d ./tioga-notify-client/build/docs]    then aws s3 sync ./tioga-notify-client/build/docs                         s3://static.tiogasolutions.org/notify/tioga-notify-client/docs --delete
       -
       - if [-d ./tioga-notify-engine/build/reports] then aws s3 sync ./tioga-notify-engine/build/reports                      s3://static.tiogasolutions.org/notify/tioga-notify-engine/reports --delete
-      - if [-d ./tioga-notify-engine/build/docs] then aws s3 sync ./tioga-notify-engine/build/docs                            s3://static.tiogasolutions.org/notify/tioga-notify-engine/docs --delete
+      - if [-d ./tioga-notify-engine/build/docs]    then aws s3 sync ./tioga-notify-engine/build/docs                         s3://static.tiogasolutions.org/notify/tioga-notify-engine/docs --delete
       -
       - if [-d ./tioga-notify-jackson/build/reports] then aws s3 sync ./tioga-notify-jackson/build/reports                    s3://static.tiogasolutions.org/notify/tioga-notify-jackson/reports --delete
-      - if [-d ./tioga-notify-jackson/build/docs] then aws s3 sync ./tioga-notify-jackson/build/docs                          s3://static.tiogasolutions.org/notify/tioga-notify-jackson/docs --delete
+      - if [-d ./tioga-notify-jackson/build/docs]    then aws s3 sync ./tioga-notify-jackson/build/docs                       s3://static.tiogasolutions.org/notify/tioga-notify-jackson/docs --delete
       -
       - if [-d ./tioga-notify-kernel/build/reports] then aws s3 sync ./tioga-notify-kernel/build/reports                      s3://static.tiogasolutions.org/notify/tioga-notify-kernel/reports --delete
-      - if [-d ./tioga-notify-kernel/build/docs] then aws s3 sync ./tioga-notify-kernel/build/docs                            s3://static.tiogasolutions.org/notify/tioga-notify-kernel/docs --delete
+      - if [-d ./tioga-notify-kernel/build/docs]    then aws s3 sync ./tioga-notify-kernel/build/docs                         s3://static.tiogasolutions.org/notify/tioga-notify-kernel/docs --delete
       -
       - if [-d ./tioga-notify-notifier/build/reports] then aws s3 sync ./tioga-notify-notifier/build/reports                  s3://static.tiogasolutions.org/notify/tioga-notify-notifier/reports --delete
-      - if [-d ./tioga-notify-notifier/build/docs] then aws s3 sync ./tioga-notify-notifier/build/docs                        s3://static.tiogasolutions.org/notify/tioga-notify-notifier/docs --delete
+      - if [-d ./tioga-notify-notifier/build/docs]    then aws s3 sync ./tioga-notify-notifier/build/docs                     s3://static.tiogasolutions.org/notify/tioga-notify-notifier/docs --delete
       -
       - if [-d ./tioga-notify-processor-logger/build/reports] then aws s3 sync ./tioga-notify-processor-logger/build/reports  s3://static.tiogasolutions.org/notify/tioga-notify-processor-logger/reports --delete
-      - if [-d ./tioga-notify-processor-logger/build/docs] then aws s3 sync ./tioga-notify-processor-logger/build/docs        s3://static.tiogasolutions.org/notify/tioga-notify-processor-logger/docs --delete
+      - if [-d ./tioga-notify-processor-logger/build/docs]    then aws s3 sync ./tioga-notify-processor-logger/build/docs     s3://static.tiogasolutions.org/notify/tioga-notify-processor-logger/docs --delete
       -
       - if [-d ./tioga-notify-processor-push/build/reports] then aws s3 sync ./tioga-notify-processor-push/build/reports      s3://static.tiogasolutions.org/notify/tioga-notify-processor-push/reports --delete
-      - if [-d ./tioga-notify-processor-push/build/docs] then aws s3 sync ./tioga-notify-processor-push/build/docs            s3://static.tiogasolutions.org/notify/tioga-notify-processor-push/docs --delete
+      - if [-d ./tioga-notify-processor-push/build/docs]    then aws s3 sync ./tioga-notify-processor-push/build/docs         s3://static.tiogasolutions.org/notify/tioga-notify-processor-push/docs --delete
       -
       - if [-d ./tioga-notify-processor-slack/build/reports] then aws s3 sync ./tioga-notify-processor-slack/build/reports    s3://static.tiogasolutions.org/notify/tioga-notify-processor-slack/reports --delete
-      - if [-d ./tioga-notify-processor-slack/build/docs] then aws s3 sync ./tioga-notify-processor-slack/build/docs          s3://static.tiogasolutions.org/notify/tioga-notify-processor-slack/docs --delete
+      - if [-d ./tioga-notify-processor-slack/build/docs]    then aws s3 sync ./tioga-notify-processor-slack/build/docs       s3://static.tiogasolutions.org/notify/tioga-notify-processor-slack/docs --delete
       -
       - if [-d ./tioga-notify-processor-smtp/build/reports] then aws s3 sync ./tioga-notify-processor-smtp/build/reports      s3://static.tiogasolutions.org/notify/tioga-notify-processor-smtp/reports --delete
-      - if [-d ./tioga-notify-processor-smtp/build/docs] then aws s3 sync ./tioga-notify-processor-smtp/build/docs            s3://static.tiogasolutions.org/notify/tioga-notify-processor-smtp/docs --delete
+      - if [-d ./tioga-notify-processor-smtp/build/docs]    then aws s3 sync ./tioga-notify-processor-smtp/build/docs         s3://static.tiogasolutions.org/notify/tioga-notify-processor-smtp/docs --delete
       -
       - if [-d ./tioga-notify-processor-swing/build/reports] then aws s3 sync ./tioga-notify-processor-swing/build/reports    s3://static.tiogasolutions.org/notify/tioga-notify-processor-swing/reports --delete
-      - if [-d ./tioga-notify-processor-swing/build/docs] then aws s3 sync ./tioga-notify-processor-swing/build/docs          s3://static.tiogasolutions.org/notify/tioga-notify-processor-swing/docs --delete
+      - if [-d ./tioga-notify-processor-swing/build/docs]    then aws s3 sync ./tioga-notify-processor-swing/build/docs       s3://static.tiogasolutions.org/notify/tioga-notify-processor-swing/docs --delete
       -
       - if [-d ./tioga-notify-pub/build/reports] then aws s3 sync ./tioga-notify-pub/build/reports                            s3://static.tiogasolutions.org/notify/tioga-notify-pub/reports --delete
-      - if [-d ./tioga-notify-pub/build/docs] then aws s3 sync ./tioga-notify-pub/build/docs                                  s3://static.tiogasolutions.org/notify/tioga-notify-pub/docs --delete
+      - if [-d ./tioga-notify-pub/build/docs]    then aws s3 sync ./tioga-notify-pub/build/docs                               s3://static.tiogasolutions.org/notify/tioga-notify-pub/docs --delete
       -
       - if [-d ./tioga-notify-sender-couch/build/reports] then aws s3 sync ./tioga-notify-sender-couch/build/reports          s3://static.tiogasolutions.org/notify/tioga-notify-sender-couch/reports --delete
-      - if [-d ./tioga-notify-sender-couch/build/docs] then aws s3 sync ./tioga-notify-sender-couch/build/docs                s3://static.tiogasolutions.org/notify/tioga-notify-sender-couch/docs --delete
+      - if [-d ./tioga-notify-sender-couch/build/docs]    then aws s3 sync ./tioga-notify-sender-couch/build/docs             s3://static.tiogasolutions.org/notify/tioga-notify-sender-couch/docs --delete
       -
       - if [-d ./tioga-notify-sender-http/build/reports] then aws s3 sync ./tioga-notify-sender-http/build/reports            s3://static.tiogasolutions.org/notify/tioga-notify-sender-http/reports --delete
-      - if [-d ./tioga-notify-sender-http/build/docs] then aws s3 sync ./tioga-notify-sender-http/build/docs                  s3://static.tiogasolutions.org/notify/tioga-notify-sender-http/docs --delete
+      - if [-d ./tioga-notify-sender-http/build/docs]    then aws s3 sync ./tioga-notify-sender-http/build/docs               s3://static.tiogasolutions.org/notify/tioga-notify-sender-http/docs --delete
       -
       - if [-d ./tioga-notify-server-grizzly/build/reports] then aws s3 sync ./tioga-notify-server-grizzly/build/reports      s3://static.tiogasolutions.org/notify/tioga-notify-server-grizzly/reports --delete
-      - if [-d ./tioga-notify-server-grizzly/build/docs] then aws s3 sync ./tioga-notify-server-grizzly/build/docs            s3://static.tiogasolutions.org/notify/tioga-notify-server-grizzly/docs --delete
+      - if [-d ./tioga-notify-server-grizzly/build/docs]    then aws s3 sync ./tioga-notify-server-grizzly/build/docs         s3://static.tiogasolutions.org/notify/tioga-notify-server-grizzly/docs --delete
       -
       - if [-d ./tioga-notify-test/build/reports] then aws s3 sync ./tioga-notify-test/build/reports                          s3://static.tiogasolutions.org/notify/tioga-notify-test/reports --delete
-      - if [-d ./tioga-notify-test/build/docs] then aws s3 sync ./tioga-notify-test/build/docs                                s3://static.tiogasolutions.org/notify/tioga-notify-test/docs --delete
+      - if [-d ./tioga-notify-test/build/docs]    then aws s3 sync ./tioga-notify-test/build/docs                             s3://static.tiogasolutions.org/notify/tioga-notify-test/docs --delete
 
 artifacts:
   discard-paths: yes
