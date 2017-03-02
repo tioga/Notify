@@ -3,7 +3,7 @@ version: 0.1
 phases:
   build:
     commands:
-      - gradle --quiet clean build aws
+      - gradle --quiet clean build javadoc htmlDependencyReport aws
 
 
   post_build:
