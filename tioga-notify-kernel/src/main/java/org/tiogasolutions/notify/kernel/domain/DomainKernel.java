@@ -23,152 +23,160 @@ import java.util.stream.Collectors;
 @Component
 public class DomainKernel {
 
-  private final static String DEFAULT_PASSWORD = "GoFish";
-  private final DomainStore domainStore;
-  private final IdGenerator domainKeyGenerator;
-  private final Map<String, DomainProfile> domainProfileMap = new HashMap<>();
-  private final DomainProfile systemDomain;
-  private final TaskGenerator taskGenerator;
-  private final EventBus eventBus;
+    private final static String DEFAULT_PASSWORD = "GoFish";
+    private final DomainStore domainStore;
+    private final IdGenerator domainKeyGenerator;
+    private final Map<String, DomainProfile> domainProfileMap = new HashMap<>();
+    private final DomainProfile systemDomain;
+    private final TaskGenerator taskGenerator;
+    private final EventBus eventBus;
 
-  @Autowired
-  public DomainKernel(DomainStore domainStore,
-                      @Qualifier("DomainKeyGenerator") IdGenerator idGenerator,
-                      TaskGenerator taskGenerator,
-                      EventBus eventBus) {
+    @Autowired
+    public DomainKernel(DomainStore domainStore,
+                        @Qualifier("DomainKeyGenerator") IdGenerator idGenerator,
+                        TaskGenerator taskGenerator,
+                        EventBus eventBus) {
 
-    this.domainStore = domainStore;
-    this.domainKeyGenerator = idGenerator;
-    this.taskGenerator = taskGenerator;
-    this.eventBus = eventBus;
-    RouteCatalog routeCatalog = new RouteCatalog(null, null);
-    systemDomain = new DomainProfile("0000000000", null, "system", DomainStatus.ACTIVE, null, null, null, null, routeCatalog);
+        this.domainStore = domainStore;
+        this.domainKeyGenerator = idGenerator;
+        this.taskGenerator = taskGenerator;
+        this.eventBus = eventBus;
+        RouteCatalog routeCatalog = new RouteCatalog(null, null);
+        systemDomain = new DomainProfile("0000000000", null, "system", DomainStatus.ACTIVE, null, null, null, null, routeCatalog);
 
-    // Initialize the domain profile map
-    for(DomainProfileEntity domainProfileEntity : domainStore.queryAll()) {
-      DomainProfile domainProfile = domainProfileEntity.toModel();
-      domainProfileMap.put(domainProfile.getApiKey(), domainProfile);
+        // Initialize the domain profile map
+        for (DomainProfileEntity domainProfileEntity : domainStore.queryAll()) {
+            DomainProfile domainProfile = domainProfileEntity.toModel();
+            domainProfileMap.put(domainProfile.getApiKey(), domainProfile);
+        }
     }
-  }
 
-  public boolean hasDomain(String domainName) {
-    for(DomainProfile profile : domainProfileMap.values()) {
-      if (profile.getDomainName().equalsIgnoreCase(domainName)) {
-        return true;
-      }
+    public boolean hasDomain(String domainName) {
+        for (DomainProfile profile : domainProfileMap.values()) {
+            if (profile.getDomainName().equalsIgnoreCase(domainName)) {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
-  public DomainProfile getOrCreateDomain(String domainName) {
-    if (hasDomain(domainName)) {
-      return findByDomainName(domainName);
-    } else {
-      return createDomain(domainName);
+    public DomainProfile getOrCreateDomain(String domainName) {
+        if (hasDomain(domainName)) {
+            return findByDomainName(domainName);
+        } else {
+            return createDomain(domainName);
+        }
     }
-  }
 
-  public DomainProfile findByApiKey(String apiKey) {
-    DomainProfile profile = domainProfileMap.get(apiKey);
-    if (profile == null) {
-      throw ApiNotFoundException.notFound("Domain not found with api key: " + apiKey);
-    }
-    return profile;
-  }
-
-  public DomainProfile findByDomainName(String domainName) {
-    for(DomainProfile profile : domainProfileMap.values()) {
-      if (profile.getDomainName().equalsIgnoreCase(domainName)) {
+    public DomainProfile findByApiKey(String apiKey) {
+        DomainProfile profile = domainProfileMap.get(apiKey);
+        if (profile == null) {
+            throw ApiNotFoundException.notFound("Domain not found with api key: " + apiKey);
+        }
         return profile;
-      }
     }
-    throw ApiNotFoundException.notFound("Domain not found with name: " + domainName);
-  }
 
-  public List<DomainProfile> listActiveDomainProfiles() {
-    return domainProfileMap.values()
-        .stream()
-        .filter(d -> d.getDomainStatus() == DomainStatus.ACTIVE)
-        .collect(Collectors.toList());
-  }
+    public DomainProfile findByDomainName(String domainName) {
+        for (DomainProfile profile : domainProfileMap.values()) {
+            if (profile.getDomainName().equalsIgnoreCase(domainName)) {
+                return profile;
+            }
+        }
+        throw ApiNotFoundException.notFound("The specified domain name was not found.");
+    }
 
-  public List<NotificationDomain> listActiveNotificationDomains() {
-    return domainProfileMap.values()
-        .stream()
-        .filter(d -> d.getDomainStatus() == DomainStatus.ACTIVE)
-        .map(this::notificationDomain)
-        .collect(Collectors.toList());
-  }
+    public List<DomainProfile> listActiveDomainProfiles() {
+        return domainProfileMap.values()
+                .stream()
+                .filter(d -> d.getDomainStatus() == DomainStatus.ACTIVE)
+                .collect(Collectors.toList());
+    }
 
-  public DomainProfile getSystemDomain() {
-    return systemDomain;
-  }
+    public List<NotificationDomain> listActiveNotificationDomains() {
+        return domainProfileMap.values()
+                .stream()
+                .filter(d -> d.getDomainStatus() == DomainStatus.ACTIVE)
+                .map(this::notificationDomain)
+                .collect(Collectors.toList());
+    }
 
-  public DomainProfile createDomain(String domainName) {
-    DomainProfile domainProfile = domainStore.createDomain(domainName, domainKeyGenerator.newId(), DEFAULT_PASSWORD).toModel();
-    domainProfileMap.put(domainProfile.getApiKey(), domainProfile);
-    return domainProfile;
-  }
+    public DomainProfile getSystemDomain() {
+        return systemDomain;
+    }
 
-  public void recreateDomain(String domainName, String apiKey, String password) {
-    DomainProfile domainProfile = domainStore.recreateDomain(domainName, apiKey, password);
-    domainProfileMap.put(domainProfile.getApiKey(), domainProfile);
-  }
+    public DomainProfile createDomain(String domainName) {
+        DomainProfile domainProfile = domainStore.createDomain(domainName, domainKeyGenerator.newId(), DEFAULT_PASSWORD).toModel();
+        domainProfileMap.put(domainProfile.getApiKey(), domainProfile);
+        return domainProfile;
+    }
 
-  /**
-   * Update the RouteCatalog for the given domain
-   * @param domainProfile -
-   * @param routeCatalog - the new RouteCatalog
-   * @return DomainProfile the updated domain profile
-   */
-  public DomainProfile updateRouteCatalog(DomainProfile domainProfile, RouteCatalog routeCatalog) {
-    DomainProfileEntity domainProfileEntity = domainStore.findByDomainName(domainProfile.getDomainName());
+    public void recreateDomain(String domainName, String apiKey, String password) {
+        DomainProfile domainProfile = domainStore.recreateDomain(domainName, apiKey, password);
+        domainProfileMap.put(domainProfile.getApiKey(), domainProfile);
+    }
 
-    domainProfileEntity.setRouteCatalog(routeCatalog);
-    domainProfileEntity = domainStore.save(domainProfileEntity);
-    domainProfile = domainProfileEntity.toModel();
-    domainProfileMap.put(domainProfile.getApiKey(), domainProfileEntity.toModel());
-    return domainProfile;
-  }
+    public void deleteDomain(String domainName) {
+        // throws ApiNotFound if not found.
+        DomainProfileEntity domainProfile = domainStore.findByDomainName(domainName);
 
-  public DomainSummary fetchSummary(String domainName) {
-    return domainStore.fetchSummary(domainName);
-  }
+        domainStore.deleteDomain(domainProfile);
+        domainProfileMap.remove(domainProfile.getApiKey());
+    }
 
-  public NotificationDomain notificationDomain(ExecutionContext ec) {
-    DomainProfile domainProfile = findByApiKey(ec.getApiKey());
-    CouchDatabase notificationDatabase = domainStore.notificationDb(domainProfile);
-    return new NotificationDomain(
-        ec.getDomainName(),
-        notificationDatabase,
-        domainProfile.getRouteCatalog(),
-        taskGenerator,
-        eventBus);
-  }
+    /**
+     * Update the RouteCatalog for the given domain
+     *
+     * @param domainProfile -
+     * @param routeCatalog  - the new RouteCatalog
+     * @return DomainProfile the updated domain profile
+     */
+    public DomainProfile updateRouteCatalog(DomainProfile domainProfile, RouteCatalog routeCatalog) {
+        DomainProfileEntity domainProfileEntity = domainStore.findByDomainName(domainProfile.getDomainName());
 
-  public NotificationDomain notificationDomain(String domainName) {
-    DomainProfile domainProfile = findByDomainName(domainName);
-    CouchDatabase notificationDatabase = domainStore.notificationDb(domainProfile);
-    return new NotificationDomain(
-        domainName,
-        notificationDatabase,
-        domainProfile.getRouteCatalog(),
-        taskGenerator,
-        eventBus);
-  }
+        domainProfileEntity.setRouteCatalog(routeCatalog);
+        domainProfileEntity = domainStore.save(domainProfileEntity);
+        domainProfile = domainProfileEntity.toModel();
+        domainProfileMap.put(domainProfile.getApiKey(), domainProfileEntity.toModel());
+        return domainProfile;
+    }
 
-  public NotificationDomain notificationDomain(DomainProfile domainProfile) {
-    CouchDatabase notificationDatabase = domainStore.notificationDb(domainProfile);
-    return new NotificationDomain(
-        domainProfile.getDomainName(),
-        notificationDatabase,
-        domainProfile.getRouteCatalog(),
-        taskGenerator,
-        eventBus);
-  }
+    public DomainSummary fetchSummary(String domainName) {
+        return domainStore.fetchSummary(domainName);
+    }
 
-  public CouchDatabase requestDb(DomainProfile domainProfile) {
-    return domainStore.requestDb(domainProfile);
-  }
+    public NotificationDomain notificationDomain(ExecutionContext ec) {
+        DomainProfile domainProfile = findByApiKey(ec.getApiKey());
+        CouchDatabase notificationDatabase = domainStore.notificationDb(domainProfile);
+        return new NotificationDomain(
+                ec.getDomainName(),
+                notificationDatabase,
+                domainProfile.getRouteCatalog(),
+                taskGenerator,
+                eventBus);
+    }
 
+    public NotificationDomain notificationDomain(String domainName) {
+        DomainProfile domainProfile = findByDomainName(domainName);
+        CouchDatabase notificationDatabase = domainStore.notificationDb(domainProfile);
+        return new NotificationDomain(
+                domainName,
+                notificationDatabase,
+                domainProfile.getRouteCatalog(),
+                taskGenerator,
+                eventBus);
+    }
+
+    public NotificationDomain notificationDomain(DomainProfile domainProfile) {
+        CouchDatabase notificationDatabase = domainStore.notificationDb(domainProfile);
+        return new NotificationDomain(
+                domainProfile.getDomainName(),
+                notificationDatabase,
+                domainProfile.getRouteCatalog(),
+                taskGenerator,
+                eventBus);
+    }
+
+    public CouchDatabase requestDb(DomainProfile domainProfile) {
+        return domainStore.requestDb(domainProfile);
+    }
 }

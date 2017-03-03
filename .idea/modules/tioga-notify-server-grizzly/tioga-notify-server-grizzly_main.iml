@@ -29,7 +29,7 @@
     <orderEntry type="library" name="Gradle: org.tiogasolutions.runners:tioga-runners-grizzly:2.2.1" level="project" />
     <orderEntry type="library" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="module" module-name="tioga-notify-kernel_main" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:5.1.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:5.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.push:tioga-push-client:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: javax.mail:mail:1.5.0-b01" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-server:2.22.2" level="project" />
@@ -55,7 +55,7 @@
     <orderEntry type="library" name="Gradle: org.tiogasolutions.couchace:tioga-couchace-jackson:1.6.3" level="project" />
     <orderEntry type="library" name="Gradle: org.aspectj:aspectjweaver:1.8.5" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.6" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-pub:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-pub:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-common:2.22.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-client:2.22.2" level="project" />
@@ -99,11 +99,11 @@
     <orderEntry type="library" name="Gradle: org.glassfish.hk2.external:asm-all-repackaged:2.4.0-b34" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.grizzly:grizzly-http:2.3.23" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" name="Gradle: ognl:ognl:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.unbescape:unbescape:1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jvnet.mimepull:mimepull:1.9.6" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.grizzly:grizzly-framework:2.3.23" level="project" />
   </component>
 </module>

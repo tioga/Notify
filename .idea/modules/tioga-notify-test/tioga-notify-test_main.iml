@@ -56,8 +56,7 @@
     <orderEntry type="library" name="Gradle: org.glassfish.hk2.external:javax.inject:2.4.0-b34" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.grizzly:grizzly-http-server:2.3.23" level="project" />
     <orderEntry type="library" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.6" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-pub:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: ognl:ognl:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.unbescape:unbescape:1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.20" level="project" />
@@ -74,11 +73,13 @@
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.1" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.grizzly:grizzly-http:2.3.23" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.6" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.hk2:hk2-utils:2.4.0-b34" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.hk2.external:aopalliance-repackaged:2.4.0-b34" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.grizzly:grizzly-framework:2.3.23" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-domain:4.2.6" level="project" />
     <orderEntry type="library" name="Gradle: javax.inject:javax.inject:1" level="project" />
   </component>
 </module>

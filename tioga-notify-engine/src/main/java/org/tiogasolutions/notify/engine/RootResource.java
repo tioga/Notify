@@ -8,6 +8,7 @@ import org.tiogasolutions.notify.engine.v1.AdminResourceV1;
 import org.tiogasolutions.notify.engine.v1.ClientResourceV1;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
 import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
+import org.tiogasolutions.notify.kernel.PubUtils;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
@@ -24,13 +25,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-@Path("/")
+import static org.tiogasolutions.notify.kernel.Paths.*;
+
+@Path($root)
 @Scope(value = "prototype")
 public class RootResource {
 
@@ -98,29 +100,33 @@ public class RootResource {
     }
 
     @GET
-    @Path("/health-check")
+    @Path($health_check)
     @Produces(MediaType.TEXT_HTML)
     public Response healthCheck$GET() {
         return Response.status(Response.Status.OK).build();
     }
 
-    @Path("/app")
+    @Path($app)
     public AppResource getAppResource() {
         return new AppResource(staticContentReader, uriInfo);
     }
 
-    @Path("/api/v1/client")
+    @Path($api_v1)
     public ClientResourceV1 getClientResource() {
         return new ClientResourceV1(executionManager, domainKernel, notificationKernel, eventBus);
     }
 
-    @Path("/api/v1/admin")
+    @Path($api_v1_admin)
     public AdminResourceV1 getAdminResource() {
-        return new AdminResourceV1(executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
+        return new AdminResourceV1(newPubUtils(), executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
+    }
+
+    private PubUtils newPubUtils() {
+        return new PubUtils(uriInfo);
     }
 
     @GET
-    @Path("/api/v1/status")
+    @Path($api_v1_status)
     @Consumes(MediaType.WILDCARD)
     @Produces(MediaType.APPLICATION_JSON)
     public SystemStatus getStatus() {

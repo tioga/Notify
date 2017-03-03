@@ -96,7 +96,7 @@ public class DomainStore extends AbstractStore {
         .execute();
 
     if (response.isEmpty()) {
-      throw ApiNotFoundException.notFound("Domain profile not found with name " + domainName);
+      throw ApiNotFoundException.notFound("The specified domain does not exist.");
     } else if (response.getSize() > 1) {
       throw ApiNotFoundException.notFound("Multiple domain profiles found with name " + domainName);
     }

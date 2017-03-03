@@ -71,7 +71,7 @@ public class NotifyHostedSpringConfig {
 
   @Bean(name="org.tiogasolutions.notify.kernel.config.SystemConfiguration")
   public SystemConfiguration systemConfiguration() {
-    return new SystemConfiguration("*", "/api/v1/client", "/api/v1/admin");
+    return new SystemConfiguration("*", "/api/v1/admin");
   }
 
   @Bean(name="org.tiogasolutions.notify.engine.web.readers.ExternalizedStaticContentReader")

@@ -33,13 +33,6 @@ public class ClientResourceV1 {
   }
 
   @GET
-  @Path("sign-in")
-  @Produces({MediaType.APPLICATION_JSON})
-  public DomainProfile signIn() {
-    return getDomainProfile();
-  }
-
-  @GET
   @Path("summary")
   @Produces({MediaType.APPLICATION_JSON})
   public Response getDomainSummary() {

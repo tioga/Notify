@@ -1,11 +1,10 @@
 project(":tioga-notify-pub") {
 
-  version = tiogaPubVersion
+    version = tiogaPubVersion
 
-  dependencies {
-    compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
-    compile("com.fasterxml.jackson.core:jackson-annotations:2.5.0")
-  }
+    dependencies {
+        compile("org.tiogasolutions.lib:tioga-lib-pub:+")
+    }
 
-  apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 }
