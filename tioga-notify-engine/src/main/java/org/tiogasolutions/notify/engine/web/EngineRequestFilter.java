@@ -69,6 +69,8 @@ public class EngineRequestFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+        log.warn("Processing HTTP {} for {}", requestContext.getMethod(), uriInfo.getRequestUri());
+
         String baseUri = uriInfo.getBaseUri().toString();
         String requestUri = uriInfo.getRequestUri().toString();
 

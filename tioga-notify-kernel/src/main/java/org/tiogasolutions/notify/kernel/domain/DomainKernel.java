@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.id.IdGenerator;
+import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
@@ -116,11 +117,12 @@ public class DomainKernel {
     }
 
     public void deleteDomain(String domainName) {
-        // throws ApiNotFound if not found.
-        DomainProfileEntity domainProfile = domainStore.findByDomainName(domainName);
-
-        domainStore.deleteDomain(domainProfile);
-        domainProfileMap.remove(domainProfile.getApiKey());
+        QueryResult<DomainProfileEntity> result = domainStore.findByDomainNames(domainName);
+        for (DomainProfileEntity entity : result) {
+            DomainProfile domainProfile = entity.toModel();
+            domainStore.deleteDomain(entity);
+            domainProfileMap.remove(domainProfile.getApiKey());
+        }
     }
 
     /**
