@@ -1,8 +1,5 @@
 package org.tiogasolutions.notify.engine.v1;
 
-import org.tiogasolutions.dev.common.net.InetMediaType;
-import org.tiogasolutions.dev.domain.query.ListQueryResult;
-import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.PubUtils;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
@@ -10,15 +7,12 @@ import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
-import org.tiogasolutions.notify.pub.domain.DomainProfile;
-import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 public class AdminResourceV1 {
 
@@ -43,85 +37,12 @@ public class AdminResourceV1 {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getDefaultPage() {
-        return Response.ok("{\"status\":\"200\"}", InetMediaType.APPLICATION_JSON_VALUE).build();
+        return pubUtils.toAdmin().build();
     }
 
-    @GET
     @Path("/domains")
-    @Produces({MediaType.APPLICATION_JSON})
-    public QueryResult<DomainProfile> getDomainProfiles() {
-        List<DomainProfile> domainProfiles = domainKernel.listActiveDomainProfiles();
-        return ListQueryResult.newComplete(DomainProfile.class, domainProfiles);
-    }
-
-    @POST
-    @Path("/domains")
-    @Produces({MediaType.APPLICATION_JSON})
-    public DomainProfile createDomainWithForm(@FormParam("domainName") String domainName) {
-        return domainKernel.getOrCreateDomain(domainName);
-    }
-
-    @GET
-    @Path("/domains/{domainName}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getDomainProfile(@PathParam("domainName") String domainName) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
-        return Response.ok(domainProfile).build();
-    }
-
-    @POST
-    @Path("/domains/{domainName}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public DomainProfile createDomain(@PathParam("domainName") String domainName) {
-        return domainKernel.getOrCreateDomain(domainName);
-    }
-
-    @DELETE
-    @Path("/domains/{domainName}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response deleteDomain(@PathParam("domainName") String domainName) {
-        domainKernel.deleteDomain(domainName);
-        return Response.noContent().build();
-    }
-
-    @GET
-    @Path("/domains/{domainName}/summary")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getDomainSummary(@PathParam("domainName") String domainName) {
-        DomainSummary summary = domainKernel.fetchSummary(domainName);
-        return Response.ok(summary).build();
-    }
-
-    @Path("/domains/{domainName}/notifications")
-    public NotificationsResourceV1 getNotificationsResourceV1(@Context Request request, @PathParam("domainName") String domainName) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
-        // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new NotificationsResourceV1(request, executionManager, notificationKernel);
-    }
-
-    @Path("/domains/{domainName}/route-catalog")
-    public RouteCatalogResourceV1 getRouteCatalogResourceV1(@PathParam("domainName") String domainName) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
-        // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new RouteCatalogResourceV1(executionManager, domainKernel);
-    }
-
-    @Path("/domains/{domainName}/requests")
-    public NotificationRequestResourceV1 getRequestResourceV1(@PathParam("domainName") String domainName) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
-        // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new NotificationRequestResourceV1(executionManager, domainKernel, eventBus);
-    }
-
-    @Path("/domains/{domainName}/tasks")
-    public TasksResourceV1 getTasksResourceV1(@PathParam("domainName") String domainName) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
-        // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new TasksResourceV1(executionManager, domainKernel, notificationKernel);
+    public AdminDomainsResourceV1 getDomainProfiles() {
+        return new AdminDomainsResourceV1(pubUtils, executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
     }
 
     @Path("/system")

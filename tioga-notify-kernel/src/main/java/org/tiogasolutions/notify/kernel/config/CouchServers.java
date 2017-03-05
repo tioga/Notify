@@ -119,9 +119,9 @@ public class CouchServers {
   }
 
   public void deleteDomainDatabases(String domainName) {
-    if (couchEnvironment.isTesting() == false) {
-      throw ApiException.badRequest("Can only create databases in test environment");
-    }
+    // if (couchEnvironment.isTesting() == false) {
+    //   throw ApiException.badRequest("Databases can only be deleted in the test environment");
+    // }
 
     CouchFeatureSet featureSet = CouchFeatureSet
         .builder()

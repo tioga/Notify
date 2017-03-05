@@ -48,18 +48,18 @@
         p:masterUrl="http://localhost:5984"
         p:masterUsername="app-user"
         p:masterPassword="app-user"
-        p:masterDatabaseName="notify"
+        p:masterDatabaseName="local-notify"
 
         p:notificationUrl="http://localhost:5984"
         p:notificationUsername="app-user"
         p:notificationPassword="app-user"
-        p:notificationDatabasePrefix="notify-"
+        p:notificationDatabasePrefix="local-notify-"
         p:notificationDatabaseSuffix="-notification"
 
         p:requestUrl="http://localhost:5984"
         p:requestUsername="app-user"
         p:requestPassword="app-user"
-        p:requestDatabasePrefix="notify-"
+        p:requestDatabasePrefix="local-notify-"
         p:requestDatabaseSuffix="-request"
     />
 

@@ -1,13 +1,20 @@
 package org.tiogasolutions.notify.kernel;
 
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
-import org.tiogasolutions.pub.PubItem;
-import org.tiogasolutions.pub.PubLink;
-import org.tiogasolutions.pub.PubStatus;
+import org.tiogasolutions.dev.domain.query.ListQueryResult;
+import org.tiogasolutions.dev.domain.query.QueryResult;
+import org.tiogasolutions.lib.hal.*;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.tiogasolutions.notify.kernel.Paths.$api_v1_admin;
+import static org.tiogasolutions.notify.kernel.Paths.$domains;
 
 public class PubUtils {
 
@@ -23,14 +30,53 @@ public class PubUtils {
         this.uriInfo = requestContext.getUriInfo();
     }
 
-    public Response.ResponseBuilder toResponse(PubItem pubItem) {
-        Response.ResponseBuilder builder = Response.status(pubItem.getStatus().getCode()).entity(pubItem);
+    public Response.ResponseBuilder toResponse(HalItem item) {
 
-        for (PubLink link : pubItem.get_links().values()) {
-            builder.link(link.getHref(), link.getRel());
+        int statusCode = item.getHttpStatusCode().getCode();
+
+        Response.ResponseBuilder builder = Response
+                .status(statusCode)
+                .entity(item);
+
+        if (statusCode == HttpStatusCode.CREATED.getCode()) {
+            HalLink link = item.get_links().getLink("self");
+            builder.location( link.getHrefUri() );
+        }
+
+        for (Map.Entry<String,HalLink> entry : item.get_links().entrySet()) {
+            String rel = entry.getKey();
+            HalLink link = entry.getValue();
+            builder.link(link.getHref(), rel);
         }
 
         return builder;
+    }
+
+    public HalItem fromDomainProfile(HttpStatusCode statusCode, DomainProfile profile) {
+
+        HalLinks links = HalLinks.builder()
+                .create("self", uriAdminDomain(profile.getDomainName()))
+                .create("domains", uriAdminDomains())
+                .build();
+
+        return new HalItemWrapper<>(profile, statusCode, links);
+    }
+
+    public HalItem fromDomainProfileResults(HttpStatusCode statusCode, List<DomainProfile> profiles) {
+
+        HalLinks links = HalLinks.builder()
+                .create("self", uriAdminDomains())
+                .build();
+
+        List<HalItem> items = new ArrayList<>();
+        for (DomainProfile profile : profiles) {
+            HalItem item = fromDomainProfile(null, profile);
+            items.add(item);
+        }
+
+        QueryResult<HalItem> itemResults = ListQueryResult.newComplete(HalItem.class, items);
+
+        return new HalItemWrapper<>(itemResults, statusCode, links);
     }
 
     public boolean isExcludeLinks() {
@@ -41,8 +87,31 @@ public class PubUtils {
         this.excludeLinks = excludeLinks;
     }
 
-    private PubStatus toStatus(HttpStatusCode statusCode) {
-        return statusCode == null ? null : new PubStatus(statusCode);
+    public String uriAdmin() {
+        return uriInfo.getBaseUriBuilder().path($api_v1_admin).toString();
+    }
+
+    public String uriAdminDomains() {
+        return uriInfo.getBaseUriBuilder().path($api_v1_admin).path($domains).toString();
+    }
+
+    public String uriAdminDomain(String domainName) {
+        return uriInfo.getBaseUriBuilder()
+                .path($api_v1_admin)
+                .path($domains)
+                .path(domainName)
+                .toString();
+    }
+
+    public Response.ResponseBuilder toAdmin() {
+        HalLinks links = HalLinksBuilder.builder()
+            .create("self", uriAdmin())
+            .create("domains", uriAdminDomains())
+            .build();
+
+        HalItem item = new HalItem(HttpStatusCode.OK, links);
+
+        return Response.ok(item);
     }
 
 //    public DomainProfile toDomainProfile(HttpStatusCode code, DomainProfileEntity entity) {
