@@ -79,7 +79,7 @@ public class EngineRequestFilter implements ContainerRequestFilter {
                 $root,
                 $api, $api+"/",
                 // $api_v1, $api_v1+"/",
-                $api_v1_status,
+                $api_v2_status,
                 $health_check
         );
 

@@ -54,7 +54,7 @@ public class MessageBuilderTest {
     );
 
     notification = new Notification(
-      URI.create("http://whatever.com/api/v1/notifications/123"),
+      URI.create("http://whatever.com/api/v2/notifications/123"),
       "some-domain", "123", "r-1", "test-topic",
       "Something really bad just happened.", "tracking id #321",
       ZonedDateTime.now(),
@@ -64,7 +64,7 @@ public class MessageBuilderTest {
       Arrays.asList(new AttachmentInfo("screenshot.png", "image/png")));
 
     task = new Task(
-        URI.create("http://whatever.com/api/v1/tasks/456"),
+        URI.create("http://whatever.com/api/v2/tasks/456"),
         "456",
         "r-9",
         TaskStatus.SENDING,

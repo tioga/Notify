@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.tiogasolutions.notify.kernel.Paths.$api_v1_admin;
+import static org.tiogasolutions.notify.kernel.Paths.$api_v2_admin;
 import static org.tiogasolutions.notify.kernel.Paths.$domains;
 
 public class PubUtils {
@@ -88,16 +88,16 @@ public class PubUtils {
     }
 
     public String uriAdmin() {
-        return uriInfo.getBaseUriBuilder().path($api_v1_admin).toString();
+        return uriInfo.getBaseUriBuilder().path($api_v2_admin).toString();
     }
 
     public String uriAdminDomains() {
-        return uriInfo.getBaseUriBuilder().path($api_v1_admin).path($domains).toString();
+        return uriInfo.getBaseUriBuilder().path($api_v2_admin).path($domains).toString();
     }
 
     public String uriAdminDomain(String domainName) {
         return uriInfo.getBaseUriBuilder()
-                .path($api_v1_admin)
+                .path($api_v2_admin)
                 .path($domains)
                 .path(domainName)
                 .toString();

@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.tiogasolutions.notify.engine.v1.AdminResourceV1;
-import org.tiogasolutions.notify.engine.v1.ClientResourceV1;
+import org.tiogasolutions.notify.engine.v2.AdminResourceV2;
+import org.tiogasolutions.notify.engine.v2.ClientResourceV2;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
 import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 import org.tiogasolutions.notify.kernel.PubUtils;
@@ -111,14 +111,14 @@ public class RootResource {
         return new AppResource(staticContentReader, uriInfo);
     }
 
-    @Path($api_v1)
-    public ClientResourceV1 getClientResource() {
-        return new ClientResourceV1(executionManager, domainKernel, notificationKernel, eventBus);
+    @Path($api_v2)
+    public ClientResourceV2 getClientResource() {
+        return new ClientResourceV2(executionManager, domainKernel, notificationKernel, eventBus);
     }
 
-    @Path($api_v1_admin)
-    public AdminResourceV1 getAdminResource() {
-        return new AdminResourceV1(newPubUtils(), executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
+    @Path($api_v2_admin)
+    public AdminResourceV2 getAdminResource() {
+        return new AdminResourceV2(newPubUtils(), executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
     }
 
     private PubUtils newPubUtils() {
@@ -126,7 +126,7 @@ public class RootResource {
     }
 
     @GET
-    @Path($api_v1_status)
+    @Path($api_v2_status)
     @Consumes(MediaType.WILDCARD)
     @Produces(MediaType.APPLICATION_JSON)
     public SystemStatus getStatus() {

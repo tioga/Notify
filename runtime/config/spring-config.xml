@@ -33,7 +33,7 @@
 
   <bean class="org.tiogasolutions.notify.kernel.config.SystemConfiguration">
     <constructor-arg value="*"/>
-    <constructor-arg value="/api/v1/admin"/>
+    <constructor-arg value="/api/v2/admin"/>
     <constructor-arg value="true"/>
   </bean>
 

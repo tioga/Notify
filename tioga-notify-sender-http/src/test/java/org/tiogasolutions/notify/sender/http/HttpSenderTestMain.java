@@ -21,7 +21,7 @@ public class HttpSenderTestMain {
   public static void main(String[] args) {
 
     HttpNotificationSenderConfig config = new HttpNotificationSenderConfig()
-        .setUrl("http://localhost:8080/notify-server/api/v1/client/simple-request-entry")
+        .setUrl("http://localhost:8080/notify-server/api/v2/client/simple-request-entry")
         .setUserName("KGQZZ-2940190")
         .setPassword("GoFish");
 

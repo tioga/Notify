@@ -171,7 +171,7 @@ public class SwingAdminApp extends TestMainSupport {
     File jsonFile = new File(configDir, fileName);
     String json = IoUtils.toString(jsonFile);
 
-    Response response = client.target(apiPath + "/v1/admin/domains").path(domainName).path("route-catalog")
+    Response response = client.target(apiPath + "/v2/admin/domains").path(domainName).path("route-catalog")
       .request(MediaType.APPLICATION_JSON_TYPE)
       .put(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE));
 
@@ -186,7 +186,7 @@ public class SwingAdminApp extends TestMainSupport {
   public void generateRequestsByHttp() throws Exception {
 
     HttpNotificationSenderConfig config = new HttpNotificationSenderConfig()
-        .setUrl(apiPath + "/v1/client/requests")
+        .setUrl(apiPath + "/v2/client/requests")
         .setUserName(apiKey)
         .setPassword(apiPassword);
 
@@ -200,7 +200,7 @@ public class SwingAdminApp extends TestMainSupport {
   }
 
   public void checkStatus() throws Exception {
-    Response response = client.target(apiPath + "/v1/status")
+    Response response = client.target(apiPath + "/v2/status")
         .request(MediaType.APPLICATION_JSON_TYPE)
         .get();
 
