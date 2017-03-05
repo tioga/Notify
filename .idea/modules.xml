@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/notify.iml" filepath="$PROJECT_DIR$/.idea/modules/notify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Notify.iml" filepath="$PROJECT_DIR$/.idea/modules/Notify.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tioga-notify-client/tioga-notify-client.iml" filepath="$PROJECT_DIR$/.idea/modules/tioga-notify-client/tioga-notify-client.iml" group="tioga-notify-client" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tioga-notify-client/tioga-notify-client_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tioga-notify-client/tioga-notify-client_main.iml" group="tioga-notify-client" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tioga-notify-client/tioga-notify-client_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tioga-notify-client/tioga-notify-client_test.iml" group="tioga-notify-client" />

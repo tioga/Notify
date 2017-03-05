@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.engine.v2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiogasolutions.dev.common.StringUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
@@ -19,6 +21,8 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 public class AdminDomainsResourceV2 {
+
+    private static final Logger log = LoggerFactory.getLogger(AdminDomainsResourceV2.class);
 
     private final PubUtils pubUtils;
     private final DomainKernel domainKernel;
@@ -41,6 +45,8 @@ public class AdminDomainsResourceV2 {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getDomainProfiles() {
+        log.warn("Processing HTTP GET for " + pubUtils.getUriInfo().getAbsolutePath().toASCIIString());
+
         List<DomainProfile> domainProfiles = domainKernel.listActiveDomainProfiles();
 
         HalItem item = pubUtils.fromDomainProfileResults(HttpStatusCode.OK, domainProfiles);
@@ -51,6 +57,8 @@ public class AdminDomainsResourceV2 {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createDomainWithForm(@FormParam("domainName") String domainName) {
+        log.warn("Processing HTTP POST for " + pubUtils.getUriInfo().getAbsolutePath().toASCIIString());
+
         if (StringUtils.isBlank(domainName)) {
             throw ApiException.badRequest("The domain name must be specified.");
         }

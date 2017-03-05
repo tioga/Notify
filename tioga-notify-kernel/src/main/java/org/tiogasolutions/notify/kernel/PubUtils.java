@@ -30,6 +30,10 @@ public class PubUtils {
         this.uriInfo = requestContext.getUriInfo();
     }
 
+    public UriInfo getUriInfo() {
+        return uriInfo;
+    }
+
     public Response.ResponseBuilder toResponse(HalItem item) {
 
         int statusCode = item.getHttpStatusCode().getCode();
