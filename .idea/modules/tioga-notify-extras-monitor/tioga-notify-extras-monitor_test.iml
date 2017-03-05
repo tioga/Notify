@@ -20,7 +20,7 @@
     <orderEntry type="module" module-name="tioga-notify-notifier_main" />
     <orderEntry type="library" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.2.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:5.1.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:5.1.10" level="project" />
     <orderEntry type="library" name="Gradle: org.beanshell:bsh:2.0b4" level="project" />
     <orderEntry type="library" name="Gradle: com.beust:jcommander:1.27" level="project" />
     <orderEntry type="module" module-name="tioga-notify-pub_main" />
@@ -32,7 +32,7 @@
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.20" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.6" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-hal:0.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-hal:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: javax.annotation:javax.annotation-api:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.22.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.hk2:hk2-api:2.4.0-b34" level="project" />

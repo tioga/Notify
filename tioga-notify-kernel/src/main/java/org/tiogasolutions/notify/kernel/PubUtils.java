@@ -44,7 +44,7 @@ public class PubUtils {
 
         if (statusCode == HttpStatusCode.CREATED.getCode()) {
             HalLink link = item.get_links().getLink("self");
-            builder.location( link.getHrefUri() );
+            builder.location( link.getHref() );
         }
 
         for (Map.Entry<String,HalLink> entry : item.get_links().entrySet()) {
