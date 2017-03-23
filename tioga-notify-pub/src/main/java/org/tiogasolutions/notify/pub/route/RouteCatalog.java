@@ -5,13 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 
 import java.util.*;
-
-/**
- * Created by harlan on 2/28/15.
- */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RouteCatalog {

@@ -14,24 +14,22 @@ public class DestinationDef {
     private DestinationStatus destinationStatus;
     private final Map<String, String> arguments = new LinkedHashMap<>();
 
-    public DestinationDef(String name, String provider, Map<String, ?> arguments) {
-        this.name = ExceptionUtils.assertNotZeroLength(name, "name");
-        this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-        destinationStatus = DestinationStatus.ENABLED;
-
-        if (arguments == null) arguments = Collections.emptyMap();
-        for (Map.Entry<String,?> entry : arguments.entrySet()) {
-            String value = (entry.getValue() == null) ? null : entry.getValue().toString();
-            this.arguments.put(entry.getKey(), value);
-        }
+    public DestinationDef(@JsonProperty("name") String name,
+                          @JsonProperty("provider") String provider) {
+        this(name, provider, Collections.emptyMap());
     }
 
     @JsonCreator
     public DestinationDef(@JsonProperty("name") String name,
-                          @JsonProperty("provider") String provider) {
+                          @JsonProperty("provider") String provider,
+                          @JsonProperty("arguments") Map<String, String> arguments) {
+
         this.name = ExceptionUtils.assertNotZeroLength(name, "name");
         this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-        destinationStatus = DestinationStatus.ENABLED;
+        this.destinationStatus = DestinationStatus.ENABLED;
+
+        if (arguments == null) arguments = Collections.emptyMap();
+        this.arguments.putAll(arguments);
     }
 
     public Destination toDestination() {
@@ -48,11 +46,6 @@ public class DestinationDef {
 
     public DestinationStatus getDestinationStatus() {
         return destinationStatus;
-    }
-
-    public DestinationDef setDestinationStatus(DestinationStatus destinationStatus) {
-        this.destinationStatus = destinationStatus;
-        return this;
     }
 
     public Map<String, String> getArguments() {
