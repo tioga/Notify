@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
 import org.tiogasolutions.notify.pub.task.TaskResponse;
-import org.tiogasolutions.notify.pub.route.ArgValue;
 import org.tiogasolutions.notify.pub.task.TaskRef;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.Task;
@@ -124,8 +123,8 @@ public class TaskEntity {
   @JsonIgnore
   public String getLabel() {
     List<String> argValues = new ArrayList<>();
-    for (ArgValue value : destination.getArgValueMap().getArgMap().values()) {
-      argValues.add(value.asString());
+    for (String value : destination.getArguments().values()) {
+      argValues.add(value);
     }
     return String.format("Task %s: %s %s", taskId, destination.getProvider(), argValues);
   }

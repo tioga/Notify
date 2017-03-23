@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DestinationDef {
     private final String name;
     private final String provider;
     private DestinationStatus destinationStatus;
-    private final Map<String, String> arguments = new HashMap<>();
+    private final Map<String, String> arguments = new LinkedHashMap<>();
 
     public DestinationDef(String name, String provider, Map<String, ?> arguments) {
         this.name = ExceptionUtils.assertNotZeroLength(name, "name");

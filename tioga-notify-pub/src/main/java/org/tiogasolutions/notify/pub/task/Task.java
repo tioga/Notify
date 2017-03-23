@@ -1,13 +1,11 @@
 package org.tiogasolutions.notify.pub.task;
 
-import com.fasterxml.jackson.annotation.*;
-import org.tiogasolutions.notify.pub.route.ArgValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.notify.pub.route.Destination;
 
 import java.net.URI;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Task {
 
@@ -76,14 +74,14 @@ public class Task {
     return new TaskRef(taskId, revision, notificationId);
   }
 
-  @JsonIgnore
-  public String getLabel() {
-    List<String> argValues = new ArrayList<>();
-    for (ArgValue value : destination.getArgValueMap().getArgMap().values()) {
-      argValues.add(value.asString());
-    }
-    return String.format("Task %s: %s %s", taskId, destination.getProvider(), argValues);
-  }
+//  @JsonIgnore
+//  public String getLabel() {
+//    List<String> argValues = new ArrayList<>();
+//    for (ArgValue value : destination.getArgValueMap().getArgMap().values()) {
+//      argValues.add(value.asString());
+//    }
+//    return String.format("Task %s: %s %s", taskId, destination.getProvider(), argValues);
+//  }
 
   @Override
   public boolean equals(Object o) {

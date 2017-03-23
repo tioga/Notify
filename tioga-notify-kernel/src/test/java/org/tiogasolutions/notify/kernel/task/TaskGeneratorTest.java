@@ -101,8 +101,8 @@ public class TaskGeneratorTest extends AbstractSpringTest {
     assertNotNull(task);
     assertNotNull(task.getTaskId());
     Destination destination = task.getDestination();
-    assertEquals(destination.getArgValueMap().asString("recipient"), recipient);
-    assertEquals(destination.getArgValueMap().asString("type"), type);
+    assertEquals(destination.getArguments().get("recipient"), recipient);
+    assertEquals(destination.getArguments().get("type"), type);
     assertEquals(task.getNotificationId(), notification.getNotificationId());
     assertEquals(task.getTaskStatus(), TaskStatus.PENDING);
   }

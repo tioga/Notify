@@ -3,7 +3,6 @@ package org.tiogasolutions.notify.kernel.message;
 import org.tiogasolutions.dev.common.StringUtils;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +12,6 @@ import org.tiogasolutions.lib.thymeleaf.ThymeleafFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by jacobp on 3/19/2015.
- */
 public class ThymeleafMessageBuilder {
   private static Logger log = LoggerFactory.getLogger(ThymeleafMessageBuilder.class);
 
@@ -68,12 +64,12 @@ public class ThymeleafMessageBuilder {
     return thymeleafFactory.process(templatePath, context);
   }
 
-  public String getEmailTemplatePath(ArgValueMap argMap, String propertyName) {
+  public String getEmailTemplatePath(Map<String,String> argMap, String propertyName) {
     return getTemplatePath(argMap, propertyName, "classpath:/notify-kernel/default-email-template.html");
   }
 
-  public String getTemplatePath(ArgValueMap argMap, String propertyName, String defaultPath) {
-    String templatePath = argMap.asString(propertyName);
+  public String getTemplatePath(Map<String,String> argMap, String propertyName, String defaultPath) {
+    String templatePath = argMap.get(propertyName);
     if (StringUtils.isBlank(templatePath)) {
       templatePath = defaultPath;
     }

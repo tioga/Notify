@@ -28,16 +28,16 @@ public class PubFixture {
   private static final String SIMPLE_PROVIDER = "SimpleProvider";
   private static final String TRUE_FUNC = "function(topic, traits) {return true;}";
 
-  private final Map<String, Object> simpleProviderArgs;
+  private final Map<String, String> simpleProviderArgs;
 
   private final JsonTranslator jsonTranslator;
 
   private PubFixture() {
 
     // Provider args
-    Map<String, Object> args = new HashMap<>();
+    Map<String, String> args = new HashMap<>();
     args.put("type", "email");
-    args.put("recipients", Arrays.asList("a@test.com", "b@test.com"));
+    args.put("recipients", "a@test.com, b@test.com");
 
     simpleProviderArgs = Collections.unmodifiableMap(args);
 
@@ -49,7 +49,7 @@ public class PubFixture {
     return SIMPLE_PROVIDER;
   }
 
-  public Map<String, Object> getSimpleProviderArgs() {
+  public Map<String, String> getSimpleProviderArgs() {
     return simpleProviderArgs;
   }
 

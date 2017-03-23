@@ -1,102 +1,106 @@
 package org.tiogasolutions.notify.pub.route;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Created by harlan on 2/28/15.
- */
 public class Destination {
 
-  private final String name;
-  private final String provider;
-  private final DestinationStatus destinationStatus;
-  private ArgValueMap argMap;
+    private final String name;
+    private final String provider;
+    private final DestinationStatus destinationStatus;
+    private final Map<String, String> arguments = new LinkedHashMap<>();
 
-  public Destination(String name, String provider, Map<String, ?> argMap) {
-    this(name, provider, DestinationStatus.ENABLED, argMap);
-  }
+    public Destination(String name, String provider, Map<String, String> arguments) {
+        this(name, provider, DestinationStatus.ENABLED, arguments);
+    }
 
-  @JsonCreator
-  public Destination(@JsonProperty("name") String name,
-                     @JsonProperty("provider") String provider,
-                     @JsonProperty("destinationStatus") DestinationStatus destinationStatus,
-                     @JsonProperty("argMap") Map<String, ?> givenArgMap) {
-    this.name = ExceptionUtils.assertNotZeroLength(name, "name");
-    this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-    this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "provider");
-    this.argMap = new ArgValueMap(givenArgMap);
-  }
+    @JsonCreator
+    public Destination(@JsonProperty("name") String name,
+                       @JsonProperty("provider") String provider,
+                       @JsonProperty("destinationStatus") DestinationStatus destinationStatus,
+                       @JsonProperty("arguments") Map<String, String> arguments) {
 
-  public String getName() {
-    return name;
-  }
+        this.name = ExceptionUtils.assertNotZeroLength(name, "name");
+        this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
+        this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "provider");
 
-  public String getProvider() {
-    return provider;
-  }
+        if (arguments != null) {
+            this.arguments.putAll(arguments);
+        }
+    }
 
-  public DestinationStatus getDestinationStatus() {
-    return destinationStatus;
-  }
+    public String getName() {
+        return name;
+    }
 
-  /**
-   * Used for Json serialization
-   * @return Map
-   */
-/*
-  @JsonAnyGetter
-  public Map<String,Object> getArgMap() {
-    return rawArgMap;
-  }
-*/
+    public String getProvider() {
+        return provider;
+    }
 
-/*
-  @JsonAnySetter
-  public void addArg(String name, Object value) {
-    rawArgMap.put(name, value);
-    valueArgMap.put(name, new ArgValue(value));
-  }
-*/
+    public DestinationStatus getDestinationStatus() {
+        return destinationStatus;
+    }
 
-  @JsonUnwrapped
-  public ArgValueMap getArgValueMap() {
-    return argMap;
-  }
+    public Map<String, String> getArguments() {
+        return arguments;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+//    /**
+//     * Used for Json serialization
+//     *
+//     * @return Map
+//     */
+//  @JsonAnyGetter
+//  public Map<String,Object> getArgMap() {
+//    return rawArgMap;
+//  }
 
-    Destination that = (Destination) o;
+//  @JsonAnySetter
+//  public void addArg(String name, Object value) {
+//    rawArgMap.put(name, value);
+//    valueArgMap.put(name, new ArgValue(value));
+//  }
 
-    if (argMap != null ? !argMap.equals(that.argMap) : that.argMap != null) return false;
-    if (destinationStatus != that.destinationStatus) return false;
-    if (name != null ? !name.equals(that.name) : that.name != null) return false;
-    if (provider != null ? !provider.equals(that.provider) : that.provider != null) return false;
+//    @JsonUnwrapped
+//    public ArgValueMap getArgValueMap() {
+//        return arguments;
+//    }
 
-    return true;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-  @Override
-  public int hashCode() {
-    int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (provider != null ? provider.hashCode() : 0);
-    result = 31 * result + (destinationStatus != null ? destinationStatus.hashCode() : 0);
-    result = 31 * result + (argMap != null ? argMap.hashCode() : 0);
-    return result;
-  }
+        Destination that = (Destination) o;
 
-  @Override
-  public String toString() {
-    return "Destination{" +
-        "name='" + name + '\'' +
-        ", provider='" + provider + '\'' +
-        ", destinationStatus=" + destinationStatus +
-        ", argMap=" + argMap +
-        '}';
-  }
+        if (arguments != null ? !arguments.equals(that.arguments) : that.arguments != null) return false;
+        if (destinationStatus != that.destinationStatus) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (provider != null ? !provider.equals(that.provider) : that.provider != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (provider != null ? provider.hashCode() : 0);
+        result = 31 * result + (destinationStatus != null ? destinationStatus.hashCode() : 0);
+        result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Destination{" +
+                "name='" + name + '\'' +
+                ", provider='" + provider + '\'' +
+                ", destinationStatus=" + destinationStatus +
+                ", arguments=" + arguments +
+                '}';
+    }
 }

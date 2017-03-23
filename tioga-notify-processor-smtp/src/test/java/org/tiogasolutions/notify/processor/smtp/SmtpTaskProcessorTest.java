@@ -1,11 +1,11 @@
 package org.tiogasolutions.notify.processor.smtp;
 
 import org.tiogasolutions.dev.common.BeanUtils;
-import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
@@ -13,7 +13,7 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class SmtpTaskProcessorTest {
 
-  private ArgValueMap argValueMap;
+  private Map<String,String> argValueMap;
   private SmtpTaskProcessor processor = new SmtpTaskProcessor();
 
   @BeforeClass
@@ -27,7 +27,7 @@ public class SmtpTaskProcessorTest {
         "smtpFrom:goofy@disney.com",
         "smtpRecipients:mickey.mouse@disney.com, minnie.mouse@disney.com"
     );
-    argValueMap = new ArgValueMap(argHashMap);
+    argValueMap = new LinkedHashMap<>(argHashMap);
   }
 
   public void testCreateEmailMessage() throws Exception {

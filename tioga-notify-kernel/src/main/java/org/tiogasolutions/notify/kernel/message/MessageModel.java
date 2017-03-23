@@ -5,11 +5,9 @@ import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.route.ArgValueMap;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 import org.tiogasolutions.notify.pub.task.Task;
 
-import java.net.URI;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.Map;
 public class MessageModel {
   
   private final String destinationName;
-  private final ArgValueMap destinationMap;
+  private final Map<String,String> destinationMap;
 
   private final String self;
   private final String notificationId;
@@ -47,7 +45,7 @@ public class MessageModel {
   public MessageModel(DomainProfile domainProfile, Notification notification, Task task) {
 
     destinationName = task.getDestination().getName();
-    destinationMap = task.getDestination().getArgValueMap();
+    destinationMap = task.getDestination().getArguments();
 
     self = (notification.getSelf() == null) ? null : notification.getSelf().toASCIIString();
     notificationId = notification.getNotificationId();
@@ -76,7 +74,7 @@ public class MessageModel {
     return destinationName;
   }
 
-  public ArgValueMap getDestinationMap() {
+  public Map<String,String> getDestinationMap() {
     return destinationMap;
   }
 
