@@ -14,8 +14,7 @@ public class DestinationDef {
     private DestinationStatus destinationStatus;
     private final Map<String, String> arguments = new LinkedHashMap<>();
 
-    public DestinationDef(@JsonProperty("name") String name,
-                          @JsonProperty("provider") String provider) {
+    public DestinationDef(String name, String provider) {
         this(name, provider, Collections.emptyMap());
     }
 
