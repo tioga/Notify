@@ -1,12 +1,10 @@
 {
   "name" : "simple",
   "provider" : "SimpleProvider",
-  "string-val" : "hello",
-  "int-val" : 99,
-  "bool-val" : true,
-  "null-val" : null,
-  "array-val" : ["one", "two"],
-  "map-val" : {
-    "field" : "value"
+  "arguments" : {
+    "string-val" : "hello",
+    "int-val" : "99",
+    "bool-val" : "true",
+    "null-val" : null
   }
 }

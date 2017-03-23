@@ -5,32 +5,42 @@
     "name" : "fozzie",
     "provider" : "push",
     "destinationStatus" : "ENABLED",
-    "recipient" : "fozzie@muppet.com",
-    "type" : "email"
+    "arguments" : {
+      "recipient" : "fozzie@muppet.com",
+      "type" : "email"
+    }
   }, {
     "name" : "kermit",
     "provider" : "push",
     "destinationStatus" : "ENABLED",
-    "recipient" : "kermit@muppet.com",
-    "type" : "email"
+    "arguments" : {
+      "recipient": "kermit@muppet.com",
+      "type": "email"
+    }
   }, {
     "name" : "junk",
     "provider" : "push",
     "destinationStatus" : "DISABLED",
-    "recipient" : "kermit@muppet.com",
-    "type" : "email"
+    "arguments" : {
+      "recipient": "kermit@muppet.com",
+      "type": "email"
+    }
   }, {
     "name" : "dog",
     "provider" : "push",
     "destinationStatus" : "ENABLED",
-    "recipient" : "dog@pet.com",
-    "type" : "email"
+    "arguments" : {
+      "recipient": "dog@pet.com",
+      "type": "email"
+    }
   }, {
     "name" : "cat",
     "provider" : "push",
     "destinationStatus" : "ENABLED",
-    "recipient" : "cat@pet.com",
-    "type" : "email"
+    "arguments" : {
+      "recipient": "cat@pet.com",
+      "type": "email"
+    }
   } ],
   "routes" : [ {
     "name" : "two_muppets",

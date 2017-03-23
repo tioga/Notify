@@ -1,117 +1,100 @@
 package org.tiogasolutions.notify.pub.route;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by harlan on 2/28/15.
- */
 public class DestinationDef {
-  private final String name;
-  private final String provider;
-  private DestinationStatus destinationStatus;
-  private final Map<String, Object> argMap = new HashMap<>();
+    private final String name;
+    private final String provider;
+    private DestinationStatus destinationStatus;
+    private final Map<String, String> arguments = new HashMap<>();
 
-  public DestinationDef(String name, String provider, Map<String, Object> argMap) {
-    this.name = ExceptionUtils.assertNotZeroLength(name, "name");
-    this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-    destinationStatus = DestinationStatus.ENABLED;
-    if (argMap != null) {
-      for(Map.Entry<String, Object> entry : argMap.entrySet()) {
-        addArg(entry.getKey(), entry.getValue());
-      }
+    public DestinationDef(String name, String provider, Map<String, ?> arguments) {
+        this.name = ExceptionUtils.assertNotZeroLength(name, "name");
+        this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
+        destinationStatus = DestinationStatus.ENABLED;
+
+        if (arguments == null) arguments = Collections.emptyMap();
+        for (Map.Entry<String,?> entry : arguments.entrySet()) {
+            String value = (entry.getValue() == null) ? null : entry.getValue().toString();
+            this.arguments.put(entry.getKey(), value);
+        }
     }
-  }
 
-  public Destination toDestination() {
-    return new Destination(name, provider, destinationStatus, argMap);
-  }
+    @JsonCreator
+    public DestinationDef(@JsonProperty("name") String name,
+                          @JsonProperty("provider") String provider) {
+        this.name = ExceptionUtils.assertNotZeroLength(name, "name");
+        this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
+        destinationStatus = DestinationStatus.ENABLED;
+    }
 
-  @JsonCreator
-  public DestinationDef(@JsonProperty("name") String name,
-                        @JsonProperty("provider") String provider) {
-    this.name = ExceptionUtils.assertNotZeroLength(name, "name");
-    this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-    destinationStatus = DestinationStatus.ENABLED;
-  }
+    public Destination toDestination() {
+        return new Destination(name, provider, destinationStatus, arguments);
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getProvider() {
-    return provider;
-  }
+    public String getProvider() {
+        return provider;
+    }
 
-  public DestinationStatus getDestinationStatus() {
-    return destinationStatus;
-  }
+    public DestinationStatus getDestinationStatus() {
+        return destinationStatus;
+    }
 
-  public DestinationDef setDestinationStatus(DestinationStatus destinationStatus) {
-    this.destinationStatus = destinationStatus;
-    return this;
-  }
+    public DestinationDef setDestinationStatus(DestinationStatus destinationStatus) {
+        this.destinationStatus = destinationStatus;
+        return this;
+    }
 
-  @JsonIgnore
-  public ArgValueMap getArgValueMap() {
-    return new ArgValueMap(argMap);
-  }
+    public Map<String, String> getArguments() {
+        return arguments;
+    }
 
-  /**
-   * Used for Json serialization
-   * @return Map
-   */
-  @JsonAnyGetter
-  public Map<String,Object> getArgMap() {
-    return argMap;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-  /**
-   * Also used for Json deserialization
-   * @param name -
-   * @param value -
-   * @return DestinationDef
-   */
-  @JsonAnySetter
-  public DestinationDef addArg(String name, Object value) {
-    argMap.put(name, value);
-    return this;
-  }
+        DestinationDef that = (DestinationDef) o;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+        if (arguments != null ? !arguments.equals(that.arguments) : that.arguments != null) return false;
+        if (destinationStatus != that.destinationStatus) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (provider != null ? !provider.equals(that.provider) : that.provider != null) return false;
 
-    DestinationDef that = (DestinationDef) o;
+        return true;
+    }
 
-    if (argMap != null ? !argMap.equals(that.argMap) : that.argMap != null) return false;
-    if (destinationStatus != that.destinationStatus) return false;
-    if (name != null ? !name.equals(that.name) : that.name != null) return false;
-    if (provider != null ? !provider.equals(that.provider) : that.provider != null) return false;
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (provider != null ? provider.hashCode() : 0);
+        result = 31 * result + (destinationStatus != null ? destinationStatus.hashCode() : 0);
+        result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
+        return result;
+    }
 
-    return true;
-  }
+    @Override
+    public String toString() {
+        return "DestinationDef{" +
+                "name='" + name + '\'' +
+                ", provider='" + provider + '\'' +
+                ", destinationStatus=" + destinationStatus +
+                ", arguments=" + arguments +
+                '}';
+    }
 
-  @Override
-  public int hashCode() {
-    int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (provider != null ? provider.hashCode() : 0);
-    result = 31 * result + (destinationStatus != null ? destinationStatus.hashCode() : 0);
-    result = 31 * result + (argMap != null ? argMap.hashCode() : 0);
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return "DestinationDef{" +
-        "name='" + name + '\'' +
-        ", provider='" + provider + '\'' +
-        ", destinationStatus=" + destinationStatus +
-        ", argMap=" + argMap +
-        '}';
-  }
+    public DestinationDef addArg(String key, String value) {
+        arguments.put(key, value);
+        return this;
+    }
 }
