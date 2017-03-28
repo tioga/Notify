@@ -74,7 +74,6 @@ public class EngineRequestFilter implements ContainerRequestFilter {
 
         String path = requestUri.substring(baseUri.length() - 1);
 
-        String adminContext = systemConfiguration.getAdminContext();
         List<String> anonymous = Arrays.asList(
                 $root,
                 $api, $api+"/",
@@ -84,6 +83,7 @@ public class EngineRequestFilter implements ContainerRequestFilter {
         );
 
         try {
+            final String adminContext = "/api/v2/admin";
             if (path.equals(adminContext) || path.startsWith(adminContext + "/")) {
                 authenticateAdminRequest(requestContext);
 

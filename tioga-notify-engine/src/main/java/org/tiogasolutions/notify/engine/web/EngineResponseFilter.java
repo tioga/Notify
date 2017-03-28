@@ -42,8 +42,8 @@ public class EngineResponseFilter implements ContainerResponseFilter {
   public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
     executionManager.clearContext();
     responseContext.getHeaders().add("Access-Control-Allow-Origin", systemConfiguration.getAccessControlAllowOrigin());
-    responseContext.getHeaders().add("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization");
-    responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET");
+    responseContext.getHeaders().add("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization, Access-Control-Allow-Origin");
+    responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, DELETE, PUT, POST");
     responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
   }
 }

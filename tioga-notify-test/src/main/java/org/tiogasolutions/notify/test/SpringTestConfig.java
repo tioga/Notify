@@ -75,7 +75,7 @@ public class SpringTestConfig {
 
     @Bean
     public SystemConfiguration systemConfiguration() {
-        return new SystemConfiguration("*", "/api/v2/admin");
+        return new SystemConfiguration("*", false);
     }
 
     @Bean
