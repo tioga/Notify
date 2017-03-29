@@ -22,7 +22,7 @@ public class NotifyServer {
   public static void main(String...args) throws Exception {
     // Priority #1, configure default logging levels. This will be
     // overridden later when/if the logback.xml is found and loaded.
-    AppUtils.initLogback(Level.WARN);
+    AppUtils.initLogback(Level.INFO);
     log.info("Starting application.");
 
     // Assume we want by default INFO on when & how the grizzly server
