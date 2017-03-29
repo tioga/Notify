@@ -3,7 +3,6 @@ package org.tiogasolutions.notify.engine.v2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
-import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
@@ -14,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 public class RouteCatalogResourceV2 {
 
@@ -38,19 +38,10 @@ public class RouteCatalogResourceV2 {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public RouteCatalog putRouteCatalog(String json) {
+    public RouteCatalog putRouteCatalog(String json) throws IOException {
         ExceptionUtils.assertNotZeroLength(json, "route-catalog", ApiBadRequestException.class, ApiBadRequestException.class);
 
-        RouteCatalog routeCatalog;
-
-        try {
-            routeCatalog = executionManager.getTranslator().fromJson(RouteCatalog.class, json);
-
-        } catch (Exception e) {
-            log.error("Unexpected exception translating to JSON", e);
-            String msg = (e.getMessage() == null) ? e.getClass().getName() : e.getMessage();
-            throw ApiException.badRequest(msg);
-        }
+        RouteCatalog routeCatalog = executionManager.getObjectMapper().readValue(json, RouteCatalog.class);
 
         // TODO - we need to dump the cache and force a reload
         DomainProfile returnProfile = executionManager.getDomainKernel().updateRouteCatalog(getDomainProfile(), routeCatalog);

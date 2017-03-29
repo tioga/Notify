@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.dev.common.json.JsonTranslator;
-import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
@@ -22,7 +20,7 @@ public class ExecutionManager implements ExecutionAccessor {
     private final EventBus eventBus;
     private final DomainKernel domainKernel;
     private final NotificationKernel notificationKernel;
-    private final JsonTranslator translator;
+    private final ObjectMapper objectMapper;
     private final ThreadLocal<ExecutionContext> threadLocal = new ThreadLocal<>();
     private final ReceiverExecutor receiverExecutor;
     private final TaskProcessorExecutor processorExecutor;
@@ -34,7 +32,7 @@ public class ExecutionManager implements ExecutionAccessor {
         this.receiverExecutor = receiverExecutor;
         this.processorExecutor = processorExecutor;
         this.notificationKernel = notificationKernel;
-        this.translator = new TiogaJacksonTranslator(objectMapper);
+        this.objectMapper = objectMapper;
     }
 
     public void clearContext() {
@@ -53,8 +51,8 @@ public class ExecutionManager implements ExecutionAccessor {
         return eventBus;
     }
 
-    public JsonTranslator getTranslator() {
-        return translator;
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 
     public DomainKernel getDomainKernel() {
