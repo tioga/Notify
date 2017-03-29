@@ -62,7 +62,9 @@ public class NotificationRequestResourceV2 {
         NotificationRequestStore store = new NotificationRequestStore(requestDb);
 
         NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
-        notificationRequestEntity.ready();
+        if (notificationRequestEntity.getRequestStatus().isSending()) {
+            notificationRequestEntity.ready();
+        }
         notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
 
         String domainName = em.context().getDomainName();

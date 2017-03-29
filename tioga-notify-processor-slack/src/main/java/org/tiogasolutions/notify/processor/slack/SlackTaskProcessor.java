@@ -89,6 +89,9 @@ public class SlackTaskProcessor implements TaskProcessor {
             if (valueMap.containsKey("iconEmoji")) {
                 message.setIconEmoji(valueMap.get("iconEmoji"));
             }
+            if (valueMap.containsKey("iconUrl")) {
+                message.setIconUrl(valueMap.get("iconUrl"));
+            }
 
             // Create entity
             String json = jsonTranslator.toJson(message);
@@ -103,6 +106,7 @@ public class SlackTaskProcessor implements TaskProcessor {
             if (response.getStatus() == 200 || response.getStatus() == 201) {
                 log.debug("Successfully sent Slack message: {}", notification.getSummary());
                 return TaskResponse.complete("Ok");
+
             } else {
                 String content = response.readEntity(String.class);
                 String msg = String.format("Failure sending Slack message [%s]: %s", response.getStatus(), content);
