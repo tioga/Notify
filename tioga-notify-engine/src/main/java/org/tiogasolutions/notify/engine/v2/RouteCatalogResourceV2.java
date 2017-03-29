@@ -2,10 +2,9 @@ package org.tiogasolutions.notify.engine.v2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
-import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
+import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
@@ -20,20 +19,15 @@ public class RouteCatalogResourceV2 {
 
     private static final Logger log = LoggerFactory.getLogger(RouteCatalogResourceV2.class);
 
-    private final DomainKernel domainKernel;
     private final ExecutionManager executionManager;
 
-    @Autowired
-    TiogaJacksonTranslator translator;
-
-    public RouteCatalogResourceV2(ExecutionManager executionManager, DomainKernel domainKernel) {
-        this.domainKernel = domainKernel;
+    public RouteCatalogResourceV2(ExecutionManager executionManager) {
         this.executionManager = executionManager;
     }
 
     private DomainProfile getDomainProfile() {
         ExecutionContext ec = executionManager.context();
-        return domainKernel.findByApiKey(ec.getApiKey());
+        return executionManager.getDomainKernel().findByApiKey(ec.getApiKey());
     }
 
     @GET
@@ -45,11 +39,12 @@ public class RouteCatalogResourceV2 {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public RouteCatalog putRouteCatalog(String json) {
+        ExceptionUtils.assertNotZeroLength(json, "route-catalog", ApiBadRequestException.class, ApiBadRequestException.class);
 
         RouteCatalog routeCatalog;
 
         try {
-            routeCatalog = translator.fromJson(RouteCatalog.class, json);
+            routeCatalog = executionManager.getTranslator().fromJson(RouteCatalog.class, json);
 
         } catch (Exception e) {
             log.error("Unexpected exception", e);
@@ -58,7 +53,7 @@ public class RouteCatalogResourceV2 {
         }
 
         // TODO - we need to dump the cache and force a reload
-        DomainProfile returnProfile = domainKernel.updateRouteCatalog(getDomainProfile(), routeCatalog);
+        DomainProfile returnProfile = executionManager.getDomainKernel().updateRouteCatalog(getDomainProfile(), routeCatalog);
         return returnProfile.getRouteCatalog();
     }
 }

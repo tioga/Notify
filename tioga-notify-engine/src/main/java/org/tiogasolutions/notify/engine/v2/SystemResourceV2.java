@@ -1,31 +1,25 @@
 package org.tiogasolutions.notify.engine.v2;
 
-import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
-import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
+import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 
 import javax.ws.rs.Path;
 
-/**
- * Created by jacobp on 3/18/2015.
- */
 public class SystemResourceV2 {
 
-  private final ReceiverExecutor receiverExecutor;
-  private final TaskProcessorExecutor processorExecutor;
+    private final ExecutionManager em;
 
-  public SystemResourceV2(ReceiverExecutor receiverExecutor, TaskProcessorExecutor processorExecutor) {
-    this.receiverExecutor = receiverExecutor;
-    this.processorExecutor = processorExecutor;
-  }
+    public SystemResourceV2(ExecutionManager em) {
+        this.em = em;
+    }
 
-  @Path("/request-receiver")
-  public ReceiverExecutorResourceV2 getReceiverExecutorResourceV1() {
-    return new ReceiverExecutorResourceV2(receiverExecutor);
-  }
+    @Path("/request-receiver")
+    public ReceiverExecutorResourceV2 getReceiverExecutorResourceV1() {
+        return new ReceiverExecutorResourceV2(em);
+    }
 
-  @Path("/task-processor")
-  public TaskProcessorExecutorResourceV2 getProcessorExecutorResourceV1() {
-    return new TaskProcessorExecutorResourceV2(processorExecutor);
-  }
+    @Path("/task-processor")
+    public TaskProcessorExecutorResourceV2 getProcessorExecutorResourceV1() {
+        return new TaskProcessorExecutorResourceV2(em);
+    }
 
 }

@@ -5,12 +5,7 @@ import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.lib.hal.HalLinks;
 import org.tiogasolutions.lib.hal.HalLinksBuilder;
 import org.tiogasolutions.notify.kernel.PubUtils;
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
 
@@ -26,29 +21,19 @@ import javax.ws.rs.core.Response;
 public class AdminDomainResourceV2 {
 
     private final PubUtils pubUtils;
-    private final DomainKernel domainKernel;
-    private final ExecutionManager executionManager;
-    private final NotificationKernel notificationKernel;
-    private final ReceiverExecutor receiverExecutor;
-    private final TaskProcessorExecutor processorExecutor;
-    private final EventBus eventBus;
+    private final ExecutionManager em;
     private final String domainName;
 
-    public AdminDomainResourceV2(PubUtils pubUtils, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel, ReceiverExecutor receiverExecutor, TaskProcessorExecutor processorExecutor, EventBus eventBus, String domainName) {
+    public AdminDomainResourceV2(PubUtils pubUtils, ExecutionManager em, String domainName) {
         this.pubUtils = pubUtils;
-        this.eventBus = eventBus;
-        this.domainKernel = domainKernel;
-        this.executionManager = executionManager;
-        this.notificationKernel = notificationKernel;
-        this.receiverExecutor = receiverExecutor;
-        this.processorExecutor = processorExecutor;
+        this.em = em;
         this.domainName = domainName;
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getDomainProfile() {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
+        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
 
         HalItem item = pubUtils.fromDomainProfile(HttpStatusCode.CREATED, domainProfile);
         return pubUtils.toResponse(item).build();
@@ -57,7 +42,7 @@ public class AdminDomainResourceV2 {
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
     public Response deleteDomain() {
-        domainKernel.deleteDomain(domainName);
+        em.getDomainKernel().deleteDomain(domainName);
 
         HalLinks links = HalLinksBuilder.builder()
                 .create("domains", pubUtils.uriAdminDomains())
@@ -71,39 +56,39 @@ public class AdminDomainResourceV2 {
     @Path("/summary")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getDomainSummary() {
-        DomainSummary summary = domainKernel.fetchSummary(domainName);
+        DomainSummary summary = em.getDomainKernel().fetchSummary(domainName);
         return Response.ok(summary).build();
     }
 
     @Path("/notifications")
     public NotificationsResourceV2 getNotificationsResourceV1(@Context Request request) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
+        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new NotificationsResourceV2(request, executionManager, notificationKernel);
+        em.newApiContext(domainProfile);
+        return new NotificationsResourceV2(request, em);
     }
 
     @Path("/route-catalog")
     public RouteCatalogResourceV2 getRouteCatalogResourceV1() {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
+        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new RouteCatalogResourceV2(executionManager, domainKernel);
+        em.newApiContext(domainProfile);
+        return new RouteCatalogResourceV2(em);
     }
 
     @Path("/requests")
     public NotificationRequestResourceV2 getRequestResourceV1() {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
+        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new NotificationRequestResourceV2(executionManager, domainKernel, eventBus);
+        em.newApiContext(domainProfile);
+        return new NotificationRequestResourceV2(em);
     }
 
     @Path("/tasks")
     public TasksResourceV2 getTasksResourceV1() {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
+        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
-        executionManager.newApiContext(domainProfile);
-        return new TasksResourceV2(executionManager, domainKernel, notificationKernel);
+        em.newApiContext(domainProfile);
+        return new TasksResourceV2(em);
     }
 }

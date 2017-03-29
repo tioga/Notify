@@ -9,12 +9,7 @@ import org.tiogasolutions.notify.engine.v2.ClientResourceV2;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
 import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 import org.tiogasolutions.notify.kernel.PubUtils;
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -42,22 +37,7 @@ public class RootResource {
     UriInfo uriInfo;
 
     @Autowired
-    private DomainKernel domainKernel;
-
-    @Autowired
-    private ExecutionManager executionManager;
-
-    @Autowired
-    private NotificationKernel notificationKernel;
-
-    @Autowired
-    private ReceiverExecutor receiverExecutor;
-
-    @Autowired
-    private TaskProcessorExecutor processorExecutor;
-
-    @Autowired
-    private EventBus eventBus;
+    private ExecutionManager em;
 
     @Autowired
     private StaticContentReader staticContentReader;
@@ -113,12 +93,12 @@ public class RootResource {
 
     @Path($api_v2)
     public ClientResourceV2 getClientResource() {
-        return new ClientResourceV2(executionManager, domainKernel, notificationKernel, eventBus);
+        return new ClientResourceV2(em);
     }
 
     @Path($api_v2_admin)
     public AdminResourceV2 getAdminResource() {
-        return new AdminResourceV2(newPubUtils(), executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus);
+        return new AdminResourceV2(newPubUtils(), em);
     }
 
     private PubUtils newPubUtils() {
@@ -131,8 +111,8 @@ public class RootResource {
     @Produces(MediaType.APPLICATION_JSON)
     public SystemStatus getStatus() {
         return new SystemStatus(
-                receiverExecutor.getExecutorStatus(),
-                processorExecutor.getExecutorStatus()
+                em.getReceiverExecutor().getExecutorStatus(),
+                em.getProcessorExecutor().getExecutorStatus()
         );
     }
 }

@@ -7,12 +7,7 @@ import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.notify.kernel.PubUtils;
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
-import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
-import org.tiogasolutions.notify.kernel.receiver.ReceiverExecutor;
-import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 
 import javax.ws.rs.*;
@@ -25,27 +20,18 @@ public class AdminDomainsResourceV2 {
     private static final Logger log = LoggerFactory.getLogger(AdminDomainsResourceV2.class);
 
     private final PubUtils pubUtils;
-    private final DomainKernel domainKernel;
-    private final ExecutionManager executionManager;
-    private final NotificationKernel notificationKernel;
-    private final ReceiverExecutor receiverExecutor;
-    private final TaskProcessorExecutor processorExecutor;
-    private final EventBus eventBus;
+    private final ExecutionManager em;
 
-    public AdminDomainsResourceV2(PubUtils pubUtils, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel, ReceiverExecutor receiverExecutor, TaskProcessorExecutor processorExecutor, EventBus eventBus) {
+    public AdminDomainsResourceV2(PubUtils pubUtils, ExecutionManager em) {
+        log.info("Created");
         this.pubUtils = pubUtils;
-        this.eventBus = eventBus;
-        this.domainKernel = domainKernel;
-        this.executionManager = executionManager;
-        this.notificationKernel = notificationKernel;
-        this.receiverExecutor = receiverExecutor;
-        this.processorExecutor = processorExecutor;
+        this.em = em;
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getDomainProfiles() {
-        List<DomainProfile> domainProfiles = domainKernel.listActiveDomainProfiles();
+        List<DomainProfile> domainProfiles = em.getDomainKernel().listActiveDomainProfiles();
 
         HalItem item = pubUtils.fromDomainProfileResults(HttpStatusCode.OK, domainProfiles);
         return pubUtils.toResponse(item).build();
@@ -59,13 +45,13 @@ public class AdminDomainsResourceV2 {
             throw ApiException.badRequest("The domain name must be specified.");
         }
 
-        DomainProfile domainProfile = domainKernel.createDomain(domainName);
+        DomainProfile domainProfile = em.getDomainKernel().createDomain(domainName);
         HalItem item = pubUtils.fromDomainProfile(HttpStatusCode.CREATED, domainProfile);
         return pubUtils.toResponse(item).build();
     }
 
     @Path("/{domainName}")
     public AdminDomainResourceV2 getAdminDomainResourceV1(@PathParam("domainName") String domainName) {
-        return new AdminDomainResourceV2(pubUtils, executionManager, domainKernel, notificationKernel, receiverExecutor, processorExecutor, eventBus, domainName);
+        return new AdminDomainResourceV2(pubUtils, em, domainName);
     }
 }
