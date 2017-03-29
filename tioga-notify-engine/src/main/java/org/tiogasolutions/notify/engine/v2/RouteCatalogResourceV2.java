@@ -1,10 +1,13 @@
 package org.tiogasolutions.notify.engine.v2;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
+import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
+import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -13,30 +16,43 @@ import javax.ws.rs.core.MediaType;
 
 public class RouteCatalogResourceV2 {
 
-  private final DomainKernel domainKernel;
-  private final ExecutionManager executionManager;
+    private final DomainKernel domainKernel;
+    private final ExecutionManager executionManager;
 
-  public RouteCatalogResourceV2(ExecutionManager executionManager, DomainKernel domainKernel) {
-    this.domainKernel = domainKernel;
-    this.executionManager = executionManager;
-  }
+    @Autowired
+    TiogaJacksonTranslator translator;
 
-  private DomainProfile getDomainProfile() {
-    ExecutionContext ec = executionManager.context();
-    return domainKernel.findByApiKey(ec.getApiKey());
-  }
+    public RouteCatalogResourceV2(ExecutionManager executionManager, DomainKernel domainKernel) {
+        this.domainKernel = domainKernel;
+        this.executionManager = executionManager;
+    }
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public RouteCatalog getRouteCatalog() {
-    return getDomainProfile().getRouteCatalog();
-  }
+    private DomainProfile getDomainProfile() {
+        ExecutionContext ec = executionManager.context();
+        return domainKernel.findByApiKey(ec.getApiKey());
+    }
 
-  @PUT
-  @Produces(MediaType.APPLICATION_JSON)
-  public RouteCatalog putRouteCatalog(RouteCatalog routeCatalog) {
-    // TODO - we need to dump the cache and force a reload
-    DomainProfile returnProfile = domainKernel.updateRouteCatalog(getDomainProfile(), routeCatalog);
-    return returnProfile.getRouteCatalog();
-  }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public RouteCatalog getRouteCatalog() {
+        return getDomainProfile().getRouteCatalog();
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public RouteCatalog putRouteCatalog(String json) {
+
+        RouteCatalog routeCatalog;
+
+        try {
+            routeCatalog = translator.fromJson(RouteCatalog.class, json);
+
+        } catch (Exception e) {
+            throw ApiException.badRequest(e.getMessage());
+        }
+
+        // TODO - we need to dump the cache and force a reload
+        DomainProfile returnProfile = domainKernel.updateRouteCatalog(getDomainProfile(), routeCatalog);
+        return returnProfile.getRouteCatalog();
+    }
 }
