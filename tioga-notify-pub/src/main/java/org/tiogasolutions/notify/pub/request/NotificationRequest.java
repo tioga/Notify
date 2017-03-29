@@ -50,9 +50,18 @@ public class NotificationRequest {
     this.trackingId = trackingId;
     this.createdAt = createdAt;
     this.exceptionInfo = exceptionInfo;
-    this.links = (links != null) ? Collections.unmodifiableList(links) : Collections.emptyList();
-    this.traitMap = (traitMap != null) ? Collections.unmodifiableMap(traitMap) : Collections.emptyMap();
-    this.attachmentInfoList = (attachmentInfoList != null) ? Collections.unmodifiableList(attachmentInfoList) : Collections.emptyList();
+
+    this.links = (links != null) ?
+            Collections.unmodifiableList(links) :
+            Collections.emptyList();
+
+    this.traitMap = (traitMap != null) ?
+            Collections.unmodifiableMap(traitMap) :
+            Collections.emptyMap();
+
+    this.attachmentInfoList = (attachmentInfoList != null) ?
+            Collections.unmodifiableList(attachmentInfoList) :
+            Collections.emptyList();
   }
 
   public String getRequestId() {

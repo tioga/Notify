@@ -25,14 +25,29 @@ public class NotificationRequestEntity {
 
     public static NotificationRequestEntity newEntity(NotificationRequest request) {
 
+        String requestId = request.getRequestId();
+        if (requestId == null) {
+            requestId = TimeUuid.randomUUID().toString();
+        }
+
+        NotificationRequestStatus requestStatus = request.getRequestStatus();
+        if (requestStatus == null || requestStatus.isNotReady()) {
+            requestStatus = NotificationRequestStatus.SENDING;
+        }
+
+        ZonedDateTime createdAt = request.getCreatedAt();
+        if (createdAt == null) {
+            ZonedDateTime.now();
+        }
+
         return new NotificationRequestEntity(
-                (request.getRequestId() != null) ? request.getRequestId() : TimeUuid.randomUUID().toString(),
+                requestId,
                 null,
-                (request.getRequestStatus().isReady()) ? NotificationRequestStatus.READY : NotificationRequestStatus.SENDING,
+                requestStatus,
                 request.getTopic(),
                 request.getSummary(),
                 request.getTrackingId(),
-                (request.getCreatedAt() != null) ? request.getCreatedAt() : ZonedDateTime.now(),
+                createdAt,
                 request.getTraitMap(),
                 request.getLinks(),
                 request.getExceptionInfo());

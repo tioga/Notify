@@ -16,6 +16,10 @@ public enum NotificationRequestStatus {
         return this == READY;
     }
 
+    public boolean isNotReady() {
+        return !isReady();
+    }
+
     public boolean isProcessing() {
         return this == PROCESSING;
     }
