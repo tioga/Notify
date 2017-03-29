@@ -47,7 +47,7 @@ public class RouteCatalogResourceV2 {
             routeCatalog = executionManager.getTranslator().fromJson(RouteCatalog.class, json);
 
         } catch (Exception e) {
-            log.error("Unexpected exception", e);
+            log.error("Unexpected exception translating to JSON", e);
             String msg = (e.getMessage() == null) ? e.getClass().getName() : e.getMessage();
             throw ApiException.badRequest(msg);
         }
