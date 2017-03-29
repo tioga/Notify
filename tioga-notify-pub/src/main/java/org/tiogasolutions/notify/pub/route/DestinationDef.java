@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.pub.route;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.BeanUtils;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
 import java.util.Collections;
@@ -23,14 +24,14 @@ public class DestinationDef {
     }
 
     @JsonCreator
-    public DestinationDef(@JsonProperty(value="name", required=true) String name,
-                          @JsonProperty(value="destinationStatus", required=true) DestinationStatus destinationStatus,
-                          @JsonProperty(value="provider", required=true) String provider,
-                          @JsonProperty(value="arguments") Map<String, String> arguments) {
+    public DestinationDef(@JsonProperty("name") String name,
+                          @JsonProperty("destinationStatus") DestinationStatus destinationStatus,
+                          @JsonProperty("provider") String provider,
+                          @JsonProperty("arguments") Map<String, String> arguments) {
 
-        this.name = ExceptionUtils.assertNotZeroLength(name, "name");
-        this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-        this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "destinationStatus");
+        this.name = ExceptionUtils.assertNotZeroLength(name, "name", ApiBadRequestException.class, ApiBadRequestException.class);
+        this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider", ApiBadRequestException.class, ApiBadRequestException.class);
+        this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "destinationStatus", ApiBadRequestException.class);
 
         this.arguments = (arguments != null) ?
                 Collections.unmodifiableMap(arguments) :

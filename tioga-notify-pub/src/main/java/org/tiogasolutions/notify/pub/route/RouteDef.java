@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.pub.route;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
 import java.util.Arrays;
@@ -27,14 +28,14 @@ public class RouteDef {
     }
 
     @JsonCreator
-    public RouteDef(@JsonProperty(value="name", required=true) String name,
-                    @JsonProperty(value="routeStatus", required=true) RouteStatus routeStatus,
-                    @JsonProperty(value="eval", required=true) String eval,
-                    @JsonProperty(value="destinations") List<String> destinations) {
+    public RouteDef(@JsonProperty("name") String name,
+                    @JsonProperty("routeStatus") RouteStatus routeStatus,
+                    @JsonProperty("eval") String eval,
+                    @JsonProperty("destinations") List<String> destinations) {
 
-        this.name = ExceptionUtils.assertNotZeroLength(name, "name");
-        this.eval = ExceptionUtils.assertNotZeroLength(eval, "eval");
-        this.routeStatus = ExceptionUtils.assertNotNull(routeStatus, "routeStatus");
+        this.name = ExceptionUtils.assertNotZeroLength(name, "name", ApiBadRequestException.class, ApiBadRequestException.class);
+        this.eval = ExceptionUtils.assertNotZeroLength(eval, "eval", ApiBadRequestException.class, ApiBadRequestException.class);
+        this.routeStatus = ExceptionUtils.assertNotNull(routeStatus, "routeStatus", ApiBadRequestException.class);
 
         this.destinations = (destinations != null) ?
                 Collections.unmodifiableList(destinations) :

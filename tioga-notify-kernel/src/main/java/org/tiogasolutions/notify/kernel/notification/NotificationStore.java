@@ -7,6 +7,7 @@ import org.tiogasolutions.couchace.core.api.response.GetAttachmentResponse;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
 import org.tiogasolutions.couchace.core.api.response.WriteResponse;
 import org.tiogasolutions.dev.common.StringUtils;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
@@ -37,7 +38,7 @@ public class NotificationStore extends AbstractStore {
   }
 
   public NotificationEntity saveAndReload(NotificationEntity entity) {
-    ExceptionUtils.assertNotNull(entity, "entity");
+    ExceptionUtils.assertNotNull(entity, "entity", ApiBadRequestException.class);
 
     couchDatabase.put()
       .entity(entity)
@@ -190,7 +191,7 @@ public class NotificationStore extends AbstractStore {
   }
 
   public void deleteNotification(String notificationId) {
-    ExceptionUtils.assertNotNull(notificationId, "notificationId");
+    ExceptionUtils.assertNotNull(notificationId, "notificationId", ApiBadRequestException.class);
 
     NotificationEntity notification;
 

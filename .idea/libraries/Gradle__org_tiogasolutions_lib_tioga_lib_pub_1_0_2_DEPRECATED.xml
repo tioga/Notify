@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.tiogasolutions.lib:tioga-lib-pub:1.0.2.DEPRECATED">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-pub/1.0.2.DEPRECATED/tioga-lib-pub-1.0.2.DEPRECATED.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-pub/1.0.2.DEPRECATED/a3cff0df1f52004394606e40b3b2075aa5795baa/tioga-lib-pub-1.0.2.DEPRECATED.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-pub/1.0.2.DEPRECATED/tioga-lib-pub-1.0.2.DEPRECATED-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-pub/1.0.2.DEPRECATED/a3cff0df1f52004394606e40b3b2075aa5795baa/tioga-lib-pub-1.0.2.DEPRECATED-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

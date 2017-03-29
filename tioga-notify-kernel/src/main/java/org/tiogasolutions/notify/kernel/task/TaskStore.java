@@ -4,6 +4,7 @@ import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.query.CouchViewQuery;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
 import org.tiogasolutions.dev.common.StringUtils;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
@@ -28,7 +29,7 @@ public class TaskStore extends AbstractStore {
   }
 
   public TaskEntity createTask(CreateTask create) {
-    ExceptionUtils.assertNotNull(create, "create");
+    ExceptionUtils.assertNotNull(create, "create", ApiBadRequestException.class);
 
     TaskEntity entity = TaskEntity.newEntity(create);
 
@@ -41,7 +42,7 @@ public class TaskStore extends AbstractStore {
   }
 
   public void save(TaskEntity entity) {
-    ExceptionUtils.assertNotNull(entity, "entity");
+    ExceptionUtils.assertNotNull(entity, "entity", ApiBadRequestException.class);
 
     couchDatabase.put()
       .entity(entity)
@@ -57,7 +58,7 @@ public class TaskStore extends AbstractStore {
   }
 
   public void deleteTask(String taskId) {
-    ExceptionUtils.assertNotNull(taskId, "taskId");
+    ExceptionUtils.assertNotNull(taskId, "taskId", ApiBadRequestException.class);
 
     TaskEntity task;
 
@@ -135,7 +136,7 @@ public class TaskStore extends AbstractStore {
   }
 
   public TaskEntity findTaskById(String entityId) {
-    ExceptionUtils.assertNotNull(entityId, "entityId");
+    ExceptionUtils.assertNotNull(entityId, "entityId", ApiBadRequestException.class);
 
     GetEntityResponse<TaskEntity> getResponse = couchDatabase.get()
         .entity(TaskEntity.class, entityId)

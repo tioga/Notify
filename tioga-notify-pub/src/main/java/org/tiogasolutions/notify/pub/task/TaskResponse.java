@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.pub.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 
@@ -31,9 +32,10 @@ public class TaskResponse {
 
   @JsonCreator
   private TaskResponse(@JsonProperty("responseAction") TaskResponseAction responseAction,
-                      @JsonProperty("message") String message,
-                      @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo) {
-    this.responseAction = ExceptionUtils.assertNotNull(responseAction, "responseAction");
+                       @JsonProperty("message") String message,
+                       @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo) {
+
+    this.responseAction = ExceptionUtils.assertNotNull(responseAction, "responseAction", ApiBadRequestException.class);
     this.message = message;
     this.exceptionInfo = exceptionInfo;
   }

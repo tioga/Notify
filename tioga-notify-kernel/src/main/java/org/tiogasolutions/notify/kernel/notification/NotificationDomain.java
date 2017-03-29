@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.kernel.notification;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
@@ -56,7 +57,7 @@ public class NotificationDomain {
   }
 
   public NotificationRef createNotification(CreateNotification create) {
-    ExceptionUtils.assertNotNull(create, "create");
+    ExceptionUtils.assertNotNull(create, "create", ApiBadRequestException.class);
 
     NotificationEntity entity = NotificationEntity.newEntity(getDomainName(), create);
 
