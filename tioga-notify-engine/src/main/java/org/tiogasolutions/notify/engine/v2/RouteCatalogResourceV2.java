@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.engine.v2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
@@ -15,6 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 public class RouteCatalogResourceV2 {
+
+    private static final Logger log = LoggerFactory.getLogger(RouteCatalogResourceV2.class);
 
     private final DomainKernel domainKernel;
     private final ExecutionManager executionManager;
@@ -48,7 +52,9 @@ public class RouteCatalogResourceV2 {
             routeCatalog = translator.fromJson(RouteCatalog.class, json);
 
         } catch (Exception e) {
-            throw ApiException.badRequest(e.getMessage());
+            log.error("Unexpected exception", e);
+            String msg = (e.getMessage() == null) ? e.getClass().getName() : e.getMessage();
+            throw ApiException.badRequest(msg);
         }
 
         // TODO - we need to dump the cache and force a reload
