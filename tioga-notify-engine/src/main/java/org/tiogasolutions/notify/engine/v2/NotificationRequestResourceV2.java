@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.engine.v2;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
@@ -57,6 +58,10 @@ public class NotificationRequestResourceV2 {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public Response putRequest(@Context UriInfo uriInfo, NotificationRequest request) {
+
+        if (request.getRequestId() != null) {
+            throw ApiException.notImplemented("Updates of existing notifications are currently not supported.");
+        }
 
         CouchDatabase requestDb = em.getDomainKernel().requestDb(getDomainProfile());
         NotificationRequestStore store = new NotificationRequestStore(requestDb);
