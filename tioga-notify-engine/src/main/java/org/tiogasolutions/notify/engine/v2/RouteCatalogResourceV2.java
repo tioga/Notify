@@ -42,8 +42,6 @@ public class RouteCatalogResourceV2 {
         ExceptionUtils.assertNotZeroLength(json, "route-catalog", ApiBadRequestException.class, ApiBadRequestException.class);
 
         RouteCatalog routeCatalog = executionManager.getObjectMapper().readValue(json, RouteCatalog.class);
-
-        // TODO - we need to dump the cache and force a reload
         DomainProfile returnProfile = executionManager.getDomainKernel().updateRouteCatalog(getDomainProfile(), routeCatalog);
         return returnProfile.getRouteCatalog();
     }

@@ -26,9 +26,9 @@ public class NotificationRequestEntity {
   public static NotificationRequestEntity newEntity(NotificationRequest request) {
 
     return new NotificationRequestEntity(
-        TimeUuid.randomUUID().toString(),
+        (request.getRequestId() != null) ? request.getRequestId() : TimeUuid.randomUUID().toString(),
         null,
-        NotificationRequestStatus.SENDING,
+        (request.getRequestStatus().isReady()) ? NotificationRequestStatus.READY : NotificationRequestStatus.SENDING,
         request.getTopic(),
         request.getSummary(),
         request.getTrackingId(),
