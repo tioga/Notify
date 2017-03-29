@@ -58,10 +58,12 @@ public class NotificationRequestResourceV2 {
     @Produces(MediaType.APPLICATION_JSON)
     public Response putRequest(@Context UriInfo uriInfo, NotificationRequest request) {
 
-        NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
         CouchDatabase requestDb = em.getDomainKernel().requestDb(getDomainProfile());
-        notificationRequestEntity = new NotificationRequestStore(requestDb).saveAndReload(notificationRequestEntity);
+        NotificationRequestStore store = new NotificationRequestStore(requestDb);
+
+        NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
         notificationRequestEntity.ready();
+        notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
 
         String domainName = em.context().getDomainName();
         em.getEventBus().requestCreated(domainName, notificationRequestEntity);
