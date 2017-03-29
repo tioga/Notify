@@ -27,7 +27,7 @@ public class DestinationDefTest {
     }
 
     public void simpleRoundTripTranslationTest() {
-        DestinationDef destination = new DestinationDef("simple", fixture.getSimpleProviderName(), fixture.getSimpleProviderArgs());
+        DestinationDef destination = new DestinationDef("simple", DestinationStatus.ENABLED, fixture.getSimpleProviderName(), fixture.getSimpleProviderArgs());
 
         String json = jsonTranslator.toJson(destination);
         log.debug(json);

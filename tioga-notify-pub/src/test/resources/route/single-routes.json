@@ -1,5 +1,6 @@
 {
   "name" : "muppet_dog",
+  "routeStatus" : "ENABLED",
   "eval": "function(topic, traits) {return topic = 'muppet' && traits.pet = 'dog'}",
   "destinations": ["push", "logger", "fogbugz"]
 }

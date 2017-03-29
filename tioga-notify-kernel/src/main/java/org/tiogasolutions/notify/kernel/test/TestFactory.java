@@ -20,6 +20,7 @@ import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.DestinationDef;
+import org.tiogasolutions.notify.pub.route.DestinationStatus;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
 
 import javax.xml.bind.DatatypeConverter;
@@ -57,9 +58,7 @@ public class TestFactory {
     }
 
     public TaskEntity newEmailTaskEntity(Notification notification) {
-        DestinationDef destinationDef = new DestinationDef("local", "push")
-                .addArg("type", "emailMsg")
-                .addArg("recipient", "test@jacobparr.com");
+        DestinationDef destinationDef = new DestinationDef("local", DestinationStatus.ENABLED, "push", "type:emailMsg", "recipient:test@jacobparr.com");
         CreateTask create = CreateTask.create(notification.toNotificationRef(), destinationDef.toDestination());
         return notificationKernel.createTask(create, notification);
     }

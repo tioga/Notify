@@ -1,5 +1,6 @@
 {
   "name" : "simple",
+  "destinationStatus" : "ENABLED",
   "provider" : "SimpleProvider",
   "arguments" : {
     "string-val" : "hello",

@@ -49,7 +49,7 @@ public class RouteCatalog {
             routeDestinations.add(destination);
           }
         }
-        Route route = new Route(routeDef.getName(), routeDef.getEval(), routeDestinations);
+        Route route = new Route(routeDef.getName(), routeDef.getRouteStatus(), routeDef.getEval(), routeDestinations);
         routeList.add(route);
       }
     }

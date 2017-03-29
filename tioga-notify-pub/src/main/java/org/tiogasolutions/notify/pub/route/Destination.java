@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
-import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.Map;
 
 public class Destination {
@@ -12,25 +12,25 @@ public class Destination {
     private final String name;
     private final String provider;
     private final DestinationStatus destinationStatus;
-    private final Map<String, String> arguments = new LinkedHashMap<>();
+    private final Map<String, String> arguments;
 
     public Destination(String name, String provider, Map<String, String> arguments) {
         this(name, provider, DestinationStatus.ENABLED, arguments);
     }
 
     @JsonCreator
-    public Destination(@JsonProperty("name") String name,
-                       @JsonProperty("provider") String provider,
-                       @JsonProperty("destinationStatus") DestinationStatus destinationStatus,
-                       @JsonProperty("arguments") Map<String, String> arguments) {
+    public Destination(@JsonProperty(value="name", required=true) String name,
+                       @JsonProperty(value="provider", required=true) String provider,
+                       @JsonProperty(value="destinationStatus", required=true) DestinationStatus destinationStatus,
+                       @JsonProperty(value="arguments") Map<String, String> arguments) {
 
         this.name = ExceptionUtils.assertNotZeroLength(name, "name");
         this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-        this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "provider");
+        this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "destinationStatus");
 
-        if (arguments != null) {
-            this.arguments.putAll(arguments);
-        }
+        this.arguments = (arguments != null) ?
+                Collections.unmodifiableMap(arguments) :
+                Collections.emptyMap();
     }
 
     public String getName() {

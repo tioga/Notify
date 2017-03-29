@@ -69,27 +69,26 @@ public class KernelFixture {
 
     public Route getSimpleRoute() {
         Destination destination = new Destination("simple", getSimpleProviderName(), getSimpleProviderArgs());
-        return new Route("simpleRoute", TRUE_FUNC, Collections.singletonList(destination));
+        return new Route("simpleRoute", RouteStatus.ENABLED, TRUE_FUNC, Collections.singletonList(destination));
     }
 
     public RouteCatalog getRouteCatalog() {
         List<DestinationDef> destinations = new ArrayList<>();
-        destinations.add(new DestinationDef("fozzie", "push").addArg("type", "email").addArg("recipient", "fozzie@muppet.com"));
-        destinations.add(new DestinationDef("kermit", "push").addArg("type", "email").addArg("recipient", "kermit@muppet.com"));
-        destinations.add(new DestinationDef("dog", "push").addArg("type", "email").addArg("recipient", "dog@pet.com"));
-        destinations.add(new DestinationDef("cat", "push").addArg("type", "email").addArg("recipient", "cat@pet.com"));
+        destinations.add(new DestinationDef("fozzie", DestinationStatus.ENABLED, "push", "type:email", "recipient:fozzie@muppet.com"));
+        destinations.add(new DestinationDef("kermit", DestinationStatus.ENABLED, "push", "type:email", "recipient:kermit@muppet.com"));
+        destinations.add(new DestinationDef("dog",    DestinationStatus.ENABLED, "push", "type:email", "recipient:dog@pet.com"));
+        destinations.add(new DestinationDef("cat",    DestinationStatus.ENABLED, "push", "type:email", "recipient:cat@pet.com"));
+
         List<RouteDef> routes = new ArrayList<>();
-        routes.add(new RouteDef("two_muppets").addDestination("fozzie").addDestination("kermit").setEval(TRUE_FUNC));
-        routes.add(new RouteDef("one_pet").addDestination("cat").setEval(TRUE_FUNC));
+        routes.add(new RouteDef("two_muppets", RouteStatus.ENABLED, TRUE_FUNC, "fozzie", "kermit"));
+        routes.add(new RouteDef("one_pet",     RouteStatus.ENABLED, TRUE_FUNC, "cat"));
+
         return new RouteCatalog(destinations, routes);
 
     }
 
     public RouteDef getSimpleRouteDef() {
-        return new RouteDef("simpleRoute")
-                .setRouteStatus(RouteStatus.ENABLED)
-                .setEval(TRUE_FUNC)
-                .addDestination("push");
+        return new RouteDef("simpleRoute", RouteStatus.ENABLED, TRUE_FUNC, "push");
     }
 
     public String readResource(String resourcePath) {

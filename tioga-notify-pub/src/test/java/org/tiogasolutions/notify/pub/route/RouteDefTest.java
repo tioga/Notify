@@ -1,21 +1,17 @@
 package org.tiogasolutions.notify.pub.route;
 
-import org.tiogasolutions.dev.common.json.JsonTranslator;
-import org.tiogasolutions.notify.pub.PubFixture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import org.tiogasolutions.dev.common.json.JsonTranslator;
+import org.tiogasolutions.notify.pub.PubFixture;
 
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by harlan on 2/28/15.
- */
 @Test
 public class RouteDefTest {
   private final Logger log = LoggerFactory.getLogger(RouteDefTest.class);
@@ -28,10 +24,7 @@ public class RouteDefTest {
   }
 
   public void simpleRoundTripTranslationTest() {
-    RouteDef routeDef =  new RouteDef("simpleRoute")
-        .setRouteStatus(RouteStatus.ENABLED)
-        .setEval(fixture.getTrueFunc())
-        .addDestination("push");
+    RouteDef routeDef =  new RouteDef("simpleRoute", RouteStatus.ENABLED, fixture.getTrueFunc(), "push");
 
     String json = jsonTranslator.toJson(routeDef);
     log.debug("RoundTrip RouteDef JSON: {}", json);

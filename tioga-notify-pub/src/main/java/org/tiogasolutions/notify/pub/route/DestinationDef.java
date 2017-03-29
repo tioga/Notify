@@ -2,33 +2,39 @@ package org.tiogasolutions.notify.pub.route;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DestinationDef {
     private final String name;
     private final String provider;
     private DestinationStatus destinationStatus;
-    private final Map<String, String> arguments = new LinkedHashMap<>();
+    private final Map<String, String> arguments;
 
-    public DestinationDef(String name, String provider) {
-        this(name, provider, Collections.emptyMap());
+    public DestinationDef(String name,
+                          DestinationStatus destinationStatus,
+                          String provider,
+                          String...arguments) {
+
+        this(name, destinationStatus, provider, BeanUtils.toMap(arguments));
     }
 
     @JsonCreator
-    public DestinationDef(@JsonProperty("name") String name,
-                          @JsonProperty("provider") String provider,
-                          @JsonProperty("arguments") Map<String, String> arguments) {
+    public DestinationDef(@JsonProperty(value="name", required=true) String name,
+                          @JsonProperty(value="destinationStatus", required=true) DestinationStatus destinationStatus,
+                          @JsonProperty(value="provider", required=true) String provider,
+                          @JsonProperty(value="arguments") Map<String, String> arguments) {
 
         this.name = ExceptionUtils.assertNotZeroLength(name, "name");
         this.provider = ExceptionUtils.assertNotZeroLength(provider, "provider");
-        this.destinationStatus = DestinationStatus.ENABLED;
+        this.destinationStatus = ExceptionUtils.assertNotNull(destinationStatus, "destinationStatus");
 
-        if (arguments == null) arguments = Collections.emptyMap();
-        this.arguments.putAll(arguments);
+        this.arguments = (arguments != null) ?
+                Collections.unmodifiableMap(arguments) :
+                Collections.emptyMap();
     }
 
     public Destination toDestination() {
@@ -84,9 +90,9 @@ public class DestinationDef {
                 ", arguments=" + arguments +
                 '}';
     }
-
-    public DestinationDef addArg(String key, String value) {
-        arguments.put(key, value);
-        return this;
-    }
+//
+//    public DestinationDef addArg(String key, String value) {
+//        arguments.put(key, value);
+//        return this;
+//    }
 }
