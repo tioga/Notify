@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.pub.route;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.tiogasolutions.dev.common.BeanUtils;
 import org.tiogasolutions.dev.common.exceptions.ApiBadRequestException;
 import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 
@@ -14,6 +15,10 @@ public class Destination {
     private final String provider;
     private final DestinationStatus destinationStatus;
     private final Map<String, String> arguments;
+
+    public Destination(String name, String provider, String...arguments) {
+        this(name, provider, DestinationStatus.ENABLED, BeanUtils.toMap(arguments));
+    }
 
     public Destination(String name, String provider, Map<String, String> arguments) {
         this(name, provider, DestinationStatus.ENABLED, arguments);

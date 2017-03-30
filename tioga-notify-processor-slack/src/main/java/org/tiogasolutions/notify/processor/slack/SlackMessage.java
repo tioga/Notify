@@ -63,6 +63,7 @@ public class SlackMessage {
         return this;
     }
 
+    @JsonProperty("icon_url")
     public String getIconUrl() {
         return iconUrl;
     }
@@ -73,6 +74,7 @@ public class SlackMessage {
         return this;
     }
 
+    @JsonProperty("icon_emoji")
     public String getIconEmoji() {
         return iconEmoji;
     }

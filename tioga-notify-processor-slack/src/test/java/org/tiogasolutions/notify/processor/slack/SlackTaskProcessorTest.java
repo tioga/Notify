@@ -49,6 +49,7 @@ public class SlackTaskProcessorTest {
     public void sendDefaultMessage() {
         Map<String, String> argMap = new HashMap<>();
         argMap.put("slackUrl", tiogaSlackTestUrl);
+        argMap.put("username", "Test-sendDefaultMessage");
         Destination destination = new Destination("test", "slack", argMap);
 
         Task task = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
@@ -64,7 +65,7 @@ public class SlackTaskProcessorTest {
         argMap.put("slackUrl", tiogaSlackTestUrl);
         argMap.put("channel", "#notify-test");
         argMap.put("iconEmoji", ":smile:");
-        argMap.put("userName", "notifier");
+        argMap.put("username", "Test-sendWithDesignationArg");
         Destination destination = new Destination("test", "slack", argMap);
         Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 
@@ -78,14 +79,29 @@ public class SlackTaskProcessorTest {
         Map<String, String> argMap = new HashMap<>();
         argMap.put("slackUrl", tiogaSlackTestUrl);
         argMap.put("channel", "#notify-test");
-        argMap.put("iconEmoji", ":smile:");
-        argMap.put("userName", "notifier");
+        argMap.put("iconEmoji", ":octopus:");
+        argMap.put("username", "Test-sendWithTemplatePath");
         argMap.put("templatePath", "classpath:/tioga-notify-processor-slack/slack-template-debug.html");
         Destination destination = new Destination("test", "slack", argMap);
         Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 
         DomainProfile domainProfile = newDomainProfile();
         Notification notification = newNotification("test-arg", "Designation args test");
+        TaskResponse response = processor.processTask(domainProfile, notification, customTask);
+        assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
+    }
+
+    public void sendWithSpecialChars() {
+        Map<String, String> argMap = new HashMap<>();
+        argMap.put("slackUrl", tiogaSlackTestUrl);
+        argMap.put("channel", "#notify-test");
+        argMap.put("iconEmoji", ":monkey_face:");
+        argMap.put("username", "Test-sendWithSpecialChars");
+        Destination destination = new Destination("test", "slack", argMap);
+        Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
+
+        DomainProfile domainProfile = newDomainProfile();
+        Notification notification = newNotification("test-special", "I didn't know you couldn't include apostrophes.");
         TaskResponse response = processor.processTask(domainProfile, notification, customTask);
         assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
     }
@@ -103,15 +119,15 @@ public class SlackTaskProcessorTest {
     }
 
     public void sendBadChannel() {
-        Map<String, String> argMap = new HashMap<>();
-        argMap.put("channel", "notify");
-        Destination destination = new Destination("test", "slack", argMap);
+        Destination destination = new Destination("test", "slack", "channel:notify", "slackUrl:https://hooks.slack.com/services/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");
         Task badChannelTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 
         DomainProfile domainProfile = newDomainProfile();
         Notification notification = newNotification("test-bad-channel", "Base channel");
+
         TaskResponse response = processor.processTask(domainProfile, notification, badChannelTask);
         assertEquals(response.getResponseAction(), TaskResponseAction.FAIL);
+        assertEquals(response.getMessage(), "Failure sending Slack message [404]: channel_not_found");
 
     }
 
@@ -128,6 +144,23 @@ public class SlackTaskProcessorTest {
                 "  \"channel\" : \"#notify-test\",\n" +
                 "  \"text\" : \"This is a message\",\n" +
                 "  \"icon_url\" : \"http://example.com/some-icon.ico\",\n" +
+                "  \"icon_emoji\" : null\n" +
+                "}";
+
+        assertEquals(translator.toJson(message), expected);
+
+        message = new SlackMessage()
+                .setChannel("#notify-test")
+                .setUsername("Notifier")
+                .setIconUrl("http://example.com/some-icon.ico")
+                .setIconEmoji(":smile:")
+                .setText("This is a message");
+
+        expected = "{\n" +
+                "  \"username\" : \"Notifier\",\n" +
+                "  \"channel\" : \"#notify-test\",\n" +
+                "  \"text\" : \"This is a message\",\n" +
+                "  \"icon_url\" : null,\n" +
                 "  \"icon_emoji\" : \":smile:\"\n" +
                 "}";
         assertEquals(translator.toJson(message), expected);
@@ -146,7 +179,7 @@ public class SlackTaskProcessorTest {
                 "  \"channel\" : \"#notify-test\",\n" +
                 "  \"text\" : \"\\nstuff<><\\\\>\",\n" +
                 "  \"icon_url\" : \"http://example.com/some-icon.ico\",\n" +
-                "  \"icon_emoji\" : \":smile:\"\n" +
+                "  \"icon_emoji\" : null\n" +
                 "}";
         assertEquals(translator.toJson(message), expected);
     }
@@ -181,7 +214,7 @@ public class SlackTaskProcessorTest {
         argMap.put("slackUrl", tiogaSlackTestUrl);
         argMap.put("channel", "#notify-test");
         argMap.put("iconEmoji", ":smile:");
-        argMap.put("userName", "notifier");
+        argMap.put("Test-testMessageBuilder", "notifier");
         Map<String, String> argValueMap = new LinkedHashMap<>(argMap);
 
         Destination destination = new Destination("test", "slack", argMap);

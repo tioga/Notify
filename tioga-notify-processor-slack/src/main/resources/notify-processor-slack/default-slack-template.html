@@ -1,4 +1,4 @@
-<th:block th:inline="text">&lt;https://www.tioga.solutions/#/domains/[[${it.domainName}]]/notify/notifications/[[${it.notificationId}]]|[[${it.summary}]]&gt;
-<th:block th:if="${it.topic != null}" th:text="Topic: [[${it.topic}]]"></th:block>
-<th:block th:if="${it.exceptionInfo != null}" th:text="${'Exception: '+it.exceptionInfo.message}"></th:block>
+<th:block th:inline="text">&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|<th:block th:utext="${it.summary}"/>&gt;
+<th:block th:if="${it.topic != null}">Topic: <th:block th:utext="${it.topic}"/></th:block>
+<th:block th:if="${it.exceptionInfo != null}">Exception: <th:block th:utext="${it.exceptionInfo.message}"/></th:block>
 </th:block>
