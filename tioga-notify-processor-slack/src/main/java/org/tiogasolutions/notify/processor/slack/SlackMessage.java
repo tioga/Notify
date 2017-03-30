@@ -1,16 +1,40 @@
 package org.tiogasolutions.notify.processor.slack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tiogasolutions.dev.common.StringUtils;
 
 public class SlackMessage {
+
     private static Logger log = LoggerFactory.getLogger(SlackMessage.class);
+
     private String username;
     private String channel;
     private String text;
     private String iconUrl;
     private String iconEmoji;
+
+    public SlackMessage() {
+    }
+
+    @JsonCreator
+    public SlackMessage(@JsonProperty("username") String username,
+                        @JsonProperty("channel") String channel,
+                        @JsonProperty("text") String text,
+                        @JsonProperty("icon_url") String iconUrl,
+                        @JsonProperty("icon_emoji") String iconEmoji) {
+
+        this.username = username;
+        this.channel = channel;
+        this.text = text;
+        this.iconUrl = iconUrl;
+
+        if (StringUtils.isBlank(iconUrl)) {
+            this.iconEmoji = iconEmoji;
+        }
+    }
 
     public String getUsername() {
         return username;
@@ -39,23 +63,23 @@ public class SlackMessage {
         return this;
     }
 
-    @JsonProperty("icon_url")
     public String getIconUrl() {
         return iconUrl;
     }
 
     public SlackMessage setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+        this.iconEmoji = null;
         return this;
     }
 
-    @JsonProperty("icon_emoji")
     public String getIconEmoji() {
         return iconEmoji;
     }
 
     public SlackMessage setIconEmoji(String iconEmoji) {
         this.iconEmoji = iconEmoji;
+        this.iconUrl = null;
         return this;
     }
 
@@ -88,7 +112,7 @@ public class SlackMessage {
     @Override
     public String toString() {
         return "SlackMessage{" +
-                "userName='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", channel='" + channel + '\'' +
                 ", text='" + text + '\'' +
                 ", iconUrl='" + iconUrl + '\'' +

@@ -83,8 +83,8 @@ public class SlackTaskProcessor implements TaskProcessor {
             if (valueMap.containsKey("channel")) {
                 message.setChannel(valueMap.get("channel"));
             }
-            if (valueMap.containsKey("userName")) {
-                message.setUsername(valueMap.get("userName"));
+            if (valueMap.containsKey("username")) {
+                message.setUsername(valueMap.get("username"));
             }
             if (valueMap.containsKey("iconEmoji")) {
                 message.setIconEmoji(valueMap.get("iconEmoji"));

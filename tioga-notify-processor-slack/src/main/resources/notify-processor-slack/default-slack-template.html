@@ -1,5 +1,4 @@
-<th:block th:inline="text">&lt;http://localhost:8080/notify-server/app#notifications?domain=[[${it.domainName}]]&amp;notificationId=[[${it.notificationId}]]|[[${it.summary}]]&gt;
-Topic: [[${it.topic}]]
-Created: [[${#temporals.format(it.createdAt, 'MM-dd-yy hh:mm a')}]]
+<th:block th:inline="text">&lt;https://www.tioga.solutions/#/domains/[[${it.domainName}]]/notify/notifications/[[${it.notificationId}]]|[[${it.summary}]]&gt;
+<th:block th:if="${it.topic != null}" th:text="Topic: [[${it.topic}]]"></th:block>
 <th:block th:if="${it.exceptionInfo != null}" th:text="${'Exception: '+it.exceptionInfo.message}"></th:block>
 </th:block>
