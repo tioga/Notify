@@ -18,6 +18,8 @@ import static java.util.Collections.singletonList;
 @Component
 public class SmtpTaskProcessor implements TaskProcessor {
 
+    public static final String DEFAULT_TEMPLATE_PATH = "classpath:/tioga-notify-processor-smtp/default-email-template.html";
+
     private static final TaskProcessorType PROCESSOR_TYPE = new TaskProcessorType("smtp");
 
     private final ThymeleafMessageBuilder messageBuilder;
@@ -36,7 +38,7 @@ public class SmtpTaskProcessor implements TaskProcessor {
     public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
 
         Map<String, String> argMap = task.getDestination().getArguments();
-        String templatePath = messageBuilder.getEmailTemplatePath(argMap, "templatePath");
+        String templatePath = messageBuilder.getTemplatePath(argMap, "templatePath", DEFAULT_TEMPLATE_PATH);
         HtmlMessage htmlMessage = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
 
         EmailMessage emailMessage = createEmailMessage(argMap);

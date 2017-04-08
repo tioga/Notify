@@ -122,7 +122,7 @@ public class MessageModel {
         return attachments;
     }
 
-    public ExceptionInfo getException() {
+    public ExceptionInfo getExceptionInfo() {
         return exception;
     }
 

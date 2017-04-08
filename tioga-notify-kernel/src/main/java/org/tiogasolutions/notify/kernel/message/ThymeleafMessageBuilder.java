@@ -64,9 +64,9 @@ public class ThymeleafMessageBuilder {
     return thymeleafFactory.process(templatePath, context);
   }
 
-  public String getEmailTemplatePath(Map<String,String> argMap, String propertyName) {
-    return getTemplatePath(argMap, propertyName, "classpath:/notify-kernel/default-email-template.html");
-  }
+//  public String getEmailTemplatePath(Map<String,String> argMap, String propertyName) {
+//    return getTemplatePath(argMap, propertyName, "classpath:/notify-kernel/default-email-template.html");
+//  }
 
   public String getTemplatePath(Map<String,String> argMap, String propertyName, String defaultPath) {
     String templatePath = argMap.get(propertyName);

@@ -11,7 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tioga-notify-engine_main" />
     <orderEntry type="module" module-name="tioga-notify-kernel_main" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:5.1.11" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.testng:testng:6.8.21" level="project" />
     <orderEntry type="module" module-name="tioga-notify-test_main" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.ext:jersey-spring3:2.22.2" level="project" />

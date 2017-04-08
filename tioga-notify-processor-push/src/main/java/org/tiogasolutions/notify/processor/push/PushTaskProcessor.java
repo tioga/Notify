@@ -34,6 +34,8 @@ import static org.tiogasolutions.dev.common.StringUtils.tokenize;
 @Component
 public class PushTaskProcessor implements TaskProcessor {
 
+    public static final String DEFAULT_TEMPLATE_PATH = "classpath:/tioga-notify-processor-push/default-email-template.html";
+
     private static final Logger log = LoggerFactory.getLogger(PushTaskProcessor.class);
     private static final TaskProcessorType PROCESSOR_TYPE = new TaskProcessorType("push");
 
@@ -181,7 +183,7 @@ public class PushTaskProcessor implements TaskProcessor {
     }
 
     private List<Push> toSesEmailPush(DomainProfile domainProfile, Notification notification, Task task, Map<String,String> argMap, String from, List<String> recipients) {
-        String templatePath = messageBuilder.getEmailTemplatePath(argMap, "templatePath");
+        String templatePath = messageBuilder.getTemplatePath(argMap, "templatePath", DEFAULT_TEMPLATE_PATH);
         HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
         return recipients.stream()
                 .map(recipient -> SesEmailPush.newPush(recipient, from, message.getSubject(), message.getBody(), null))
@@ -189,7 +191,7 @@ public class PushTaskProcessor implements TaskProcessor {
     }
 
     private List<Push> toSmtpEmailPush(DomainProfile domainProfile, Notification notification, Task task, Map<String,String> argMap, String from, List<String> recipients) {
-        String templatePath = messageBuilder.getEmailTemplatePath(argMap, "templatePath");
+        String templatePath = messageBuilder.getTemplatePath(argMap, "templatePath", DEFAULT_TEMPLATE_PATH);
         HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
         return recipients.stream()
                 .map(recipient -> SmtpEmailPush.newPush(recipient, from, message.getSubject(), message.getBody(), null))

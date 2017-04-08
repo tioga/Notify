@@ -1,5 +1,8 @@
 package org.tiogasolutions.notify.processor.slack;
 
+import org.testng.Assert;
+import org.testng.SkipException;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
@@ -19,6 +22,8 @@ import org.tiogasolutions.notify.pub.task.TaskResponse;
 import org.tiogasolutions.notify.pub.task.TaskResponseAction;
 import org.tiogasolutions.notify.pub.task.TaskStatus;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,8 +43,9 @@ public class SlackTaskProcessorTest {
 
     private final SlackTaskProcessor processor;
     private final URI someUri = URI.create("http://localhost/some-task");
-    private final String tiogaSlackTestUrl = "https://hooks.slack.com/services/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";
     private final JsonTranslator translator = new TiogaJacksonTranslator();
+
+    private String tiogaSlackTestUrl = null;
 
     private List<AttachmentInfo> attachments = new ArrayList<>();
     private Map<String, String> traitMap = new HashMap<>();
@@ -53,6 +59,23 @@ public class SlackTaskProcessorTest {
 
         traitMap.put("test", "true");
         traitMap.put("user", System.getProperty("user.name"));
+    }
+
+    @BeforeClass
+    public void beforeClass() throws Exception {
+        try {
+            File dir = new File(System.getProperty("user.home"));
+            File file = new File(dir, "tioga-secret.properties");
+
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(file));
+
+            tiogaSlackTestUrl = properties.getProperty("test_tiogaSlackTestUrl");
+            Assert.assertNotNull(tiogaSlackTestUrl);
+
+        } catch (IOException e) {
+            throw new SkipException("Skipping tests", e);
+        }
     }
 
     public void sendDefaultMessage() {

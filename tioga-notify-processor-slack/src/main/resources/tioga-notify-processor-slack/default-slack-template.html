@@ -1,8 +1,8 @@
 <th:block th:inline="text">&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|Notification #<th:block th:utext="${#strings.substringBefore(it.notificationId,'-')}"/>&gt; <th:block th:if="${it.topic != null}">(*<th:block th:utext="${it.topic}"/>*)</th:block>
 <th:block th:utext="${ '>*' + #strings.replace(it.summary, '\n', '*\n>') }"/>*
 <br/>
-<th:block th:if="${it.exception != null}">Exception: _*<th:block th:utext="${it.exception.message}"/>* (<th:block th:utext="${it.exception.exceptionType}"/>)_
-<th:block th:each="cause : ${it.exception.causes}">       Cause: _*<th:block th:utext="${cause.message}"/>* (<th:block th:utext="${cause.exceptionType}"/>)_</th:block></th:block>
+<th:block th:if="${it.exceptionInfo != null}">Exception: _*<th:block th:utext="${it.exceptionInfo.message}"/>* (<th:block th:utext="${it.exceptionInfo.exceptionType}"/>)_
+<th:block th:each="cause : ${it.exceptionInfo.causes}">       Cause: _*<th:block th:utext="${cause.message}"/>* (<th:block th:utext="${cause.exceptionType}"/>)_</th:block></th:block>
 <br/>
 <th:block th:if="${not #lists.isEmpty(it.attachments)}">Attachments...
 <th:block th:each="attachment : ${it.attachments}">       <th:block th:utext="${attachment.name}"/> (<th:block th:utext="${attachment.contentType}"/>)</th:block></th:block>

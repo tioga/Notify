@@ -27,7 +27,7 @@ import java.util.Map;
 @Component
 public class SlackTaskProcessor implements TaskProcessor {
 
-    public static final String DEFAULT_TEMPLATE_PATH = "classpath:/notify-processor-slack/default-slack-template.html";
+    public static final String DEFAULT_TEMPLATE_PATH = "classpath:/tioga-notify-processor-slack/default-slack-template.html";
 
     private final JsonTranslator jsonTranslator;
     private final ThymeleafMessageBuilder messageBuilder;
