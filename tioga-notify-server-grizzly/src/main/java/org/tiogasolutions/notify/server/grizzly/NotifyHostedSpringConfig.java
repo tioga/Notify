@@ -81,7 +81,7 @@ public class NotifyHostedSpringConfig {
 
     @Bean(name = "org.tiogasolutions.notify.engine.web.readers.ExternalizedStaticContentReader")
     BundledStaticContentReader bundledStaticContentReader() {
-        return new BundledStaticContentReader("/tioga-notifier-engine/");
+        return new BundledStaticContentReader("/tioga-notifier-engine");
     }
 
     @Bean(name = "org.tiogasolutions.runners.grizzly.GrizzlyServerConfig")
