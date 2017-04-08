@@ -9,6 +9,8 @@ import org.tiogasolutions.notify.engine.web.readers.MockContentReader;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
+import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
 
 import static java.util.Collections.emptyList;
 
@@ -16,29 +18,36 @@ import static java.util.Collections.emptyList;
 @Configuration
 public class EngineSpringTestConfig {
 
-  @Bean
-  public NotifyObjectMapper notifyObjectMapper() {
-    return new NotifyObjectMapper();
-  }
+    @Bean
+    public NotifyObjectMapper notifyObjectMapper() {
+        return new NotifyObjectMapper();
+    }
 
-  @Bean
-  public MockContentReader mockContentReader() {
-    return new MockContentReader();
-  }
+    @Bean
+    public MockContentReader mockContentReader() {
+        return new MockContentReader();
+    }
 
-  @Bean
-  NotifyApplication notifyApplication() {
-    return new NotifyApplication();
-  }
+    @Bean
+    NotifyApplication notifyApplication() {
+        return new NotifyApplication();
+    }
 
-  /** @noinspection SpringJavaAutowiringInspection*/
-  @Bean
-  public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
-    return new TaskProcessorExecutor(domainKernel, eventBus, emptyList());
-      // new SwingTaskProcessor(),
-      // new LoggerTaskProcessor(),
-      // new PushTaskProcessor(pushConfig, pushServerClient)
-      // new SlackTaskProcessor(),
-      // new SmtpTaskProcessor()
-  }
+    /**
+     * @noinspection SpringJavaAutowiringInspection
+     */
+    @Bean
+    public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
+        return new TaskProcessorExecutor(domainKernel, eventBus, emptyList());
+        // new SwingTaskProcessor(),
+        // new LoggerTaskProcessor(),
+        // new PushTaskProcessor(pushConfig, pushServerClient)
+        // new SlackTaskProcessor(),
+        // new SmtpTaskProcessor()
+    }
+
+    @Bean
+    Notifier notifier() {
+        return new Notifier(new LoggingNotificationSender());
+    }
 }
