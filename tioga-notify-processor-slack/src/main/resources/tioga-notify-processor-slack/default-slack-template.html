@@ -1,4 +1,4 @@
-<th:block th:inline="text">&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|Notification #<th:block th:utext="${#strings.substringBefore(it.notificationId,'-')}"/>&gt; <th:block th:if="${it.topic != null}">(*<th:block th:utext="${it.topic}"/>*)</th:block>
+<th:block th:inline="text"><th:block th:if="${it.topic != null}">(*<th:block th:utext="${it.topic}"/>*) </th:block>&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|Notification #<th:block th:utext="${it.notificationId}"/>&gt;
 <th:block th:utext="${ '>*' + #strings.replace(it.summary, '\n', '*\n>') }"/>*
 <br/>
 <th:block th:if="${it.exceptionInfo != null}">Exception: _*<th:block th:utext="${it.exceptionInfo.message}"/>* (<th:block th:utext="${it.exceptionInfo.exceptionType}"/>)_
