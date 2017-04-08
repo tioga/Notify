@@ -220,6 +220,22 @@ public class SlackTaskProcessorTest {
         assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
     }
 
+    public void sendWithDynamicUsername() {
+        Map<String, String> argMap = new HashMap<>();
+        argMap.put("slackUrl", tiogaSlackTestUrl);
+        argMap.put("channel", "#notify-test");
+        argMap.put("iconEmoji", ":spider:");
+        argMap.put("username", "Test-sendWithDynamicUsername {{id}}");
+        Destination destination = new Destination("test", "slack", argMap);
+        Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
+
+        String message = "The username is dynamic, see!";
+        Notification notification = newNotification("test-dynamic", message, Collections.emptyList(), null, Collections.emptyMap());
+
+        TaskResponse response = processor.processTask(newDomainProfile(), notification, customTask);
+        assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
+    }
+
     public void sendWithAttachmentsButNoException() {
         Map<String, String> argMap = new HashMap<>();
         argMap.put("slackUrl", tiogaSlackTestUrl);
