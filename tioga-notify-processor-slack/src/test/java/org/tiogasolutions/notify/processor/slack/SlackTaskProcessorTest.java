@@ -91,6 +91,28 @@ public class SlackTaskProcessorTest {
         assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
     }
 
+    public void testWithBadUrl() {
+        Map<String, String> argMap = new HashMap<>();
+        argMap.put("slackUrl", tiogaSlackTestUrl);
+        argMap.put("channel", "#notify-test");
+        argMap.put("iconEmoji", ":whale:");
+        argMap.put("username", "Test-testWithBadUrl");
+
+        Destination destination = new Destination("test", "slack", argMap);
+        Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
+
+        ExceptionInfo exceptionInfo = new ExceptionInfo(ApiException.notFound("The resource was not found: static/icons/x-notify-error.png"));
+
+        Map<String, String> traitMap = new HashMap<>();
+        traitMap.put("application", "notify-server");
+        traitMap.put("source", "jacob@Monster");
+
+        Notification notification = newNotification("test-arg", "Status 404 http://localhost:39011/static/icons/x-notify-error.png", null, exceptionInfo, traitMap);
+
+        TaskResponse response = processor.processTask(newDomainProfile(), notification, customTask);
+        assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
+    }
+
     public void sendWithDesignationArg() {
         Map<String, String> argMap = new HashMap<>();
         argMap.put("slackUrl", tiogaSlackTestUrl);

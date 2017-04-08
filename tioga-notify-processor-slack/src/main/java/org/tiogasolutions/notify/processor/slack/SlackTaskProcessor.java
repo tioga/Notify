@@ -79,7 +79,22 @@ public class SlackTaskProcessor implements TaskProcessor {
             messageText = messageText.replace("\n<br />\n\n\n", "\n");
             messageText = messageText.replace("\n<br />\n\n", "\n");
             messageText = messageText.replace("\n<br />\n", "\n");
-            log.info(messageText);
+
+            // If the message has a URL in it, SLACK will automatically attempt to fetch it.
+            // In the case of 404, this means that posting that a URL was not found will result
+            // in an endless cycle of posting, fetching, posting, fetching, etc...
+            char vtab = 11;
+            messageText = messageText.replace("HTTP://",  "HTTP" + vtab + "://");
+            messageText = messageText.replace("http://",  "http" + vtab + "://");
+            messageText = messageText.replace("HTTPS://", "HTTPS" + vtab + "://");
+            messageText = messageText.replace("https://", "https" + vtab + "://");
+
+            // But there are good links, namely the link to our notification.
+            // We can identify them by via slack's special mark up for links.
+            messageText = messageText.replace("<HTTP" + vtab + "://",  "<HTTP://");
+            messageText = messageText.replace("<http" + vtab + "://",  "<http://");
+            messageText = messageText.replace("<HTTPS" + vtab + "://", "<HTTPS://");
+            messageText = messageText.replace("<https" + vtab + "://", "<https://");
 
             SlackMessage message = new SlackMessage().setText(messageText);
 
