@@ -79,13 +79,6 @@ public class RootResource {
         throw new IOException("Manifest not found.");
     }
 
-    @GET
-    @Path($health_check)
-    @Produces(MediaType.TEXT_HTML)
-    public Response healthCheck$GET() {
-        return Response.status(Response.Status.OK).build();
-    }
-
     @Path($app)
     public AppResource getAppResource() {
         return new AppResource(staticContentReader, uriInfo);
@@ -120,4 +113,15 @@ public class RootResource {
                 em.getProcessorExecutor().getExecutorStatus()
         );
     }
+
+    @GET @Path("/health-check")
+    @Produces(MediaType.TEXT_HTML)
+    public Response healthCheck$GET() { return Response.status(Response.Status.OK).build(); }
+
+    @GET @Path("/manager/status") public Response managerStatus() throws Exception { return Response.status(404).build(); }
+    @GET @Path("{resource: ([^\\s]+(\\.(?i)(php|PHP))$) }") public Response renderTXTs() throws Exception { return Response.status(404).build(); }
+    @GET @Path("/favicon.ico") public Response favicon_ico() { return Response.status(404).build(); }
+    @GET @Path("/trafficbasedsspsitemap.xml") public Response trafficbasedsspsitemap_xml() { return Response.status(404).build(); }
+    @GET @Path("/apple-touch-icon-precomposed.png") public Response apple_touch_icon_precomposed_png() { return Response.status(404).build(); }
+    @GET @Path("/apple-touch-icon.png") public Response apple_touch_icon_png() { return Response.status(404).build(); }
 }

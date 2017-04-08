@@ -13,6 +13,4 @@ public class Paths {
     public static final String $api_v2_admin = "/api/v2/admin";
 
     public static final String $domains = "/domains";
-
-    public static final String $health_check = "/health-check";
 }
