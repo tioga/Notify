@@ -8,12 +8,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.UriInfo;
 
-public class AppResource {
-  
+public class StaticResources {
+
   private final UriInfo uriInfo;
   private final StaticContentReader staticContentReader;
-  
-  public AppResource(StaticContentReader staticContentReader, UriInfo uriInfo) {
+
+  public StaticResources(StaticContentReader staticContentReader, UriInfo uriInfo) {
     this.staticContentReader = staticContentReader;
     this.uriInfo = uriInfo;
   }
@@ -21,7 +21,7 @@ public class AppResource {
   @GET
   @Produces(InetMediaType.TEXT_HTML_VALUE)
   public byte[] renderAppRoot() {
-    return staticContentReader.readContent("index.html");
+    return staticContentReader.readContent("/static/index.html");
   }
 
   @GET

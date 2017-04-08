@@ -77,24 +77,27 @@ public class EngineRequestFilter implements ContainerRequestFilter {
         List<String> anonymous = Arrays.asList(
                 $root,
                 $api, $api+"/",
+                $static, $static +"/",
                 // $api_v1, $api_v1+"/",
                 $api_v2_status,
-                $health_check
+                $health_check,
+                $favicon
         );
 
         try {
-            final String adminContext = "/api/v2/admin";
-            if (path.equals(adminContext) || path.startsWith(adminContext + "/")) {
+            if (path.startsWith("/static/") || anonymous.contains(path)) {
+                // noinspection UnnecessaryReturnStatement
+                return;
+
+            } else if (path.equals("/api/v2/admin") || path.startsWith("/api/v2/admin/")) {
                 authenticateAdminRequest(requestContext);
 
             } else if (path.startsWith($app)) {
                 authenticateAdminRequest(requestContext);
 
-            } else if (anonymous.contains(path) == false) {
+            } else {
                 authenticateClientRequest(requestContext);
             }
-
-
         } catch (NotAuthorizedException e) {
             requestContext.abortWith(Response
                     .status(Response.Status.UNAUTHORIZED)

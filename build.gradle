@@ -47,7 +47,7 @@ subprojects {
         // This is the primary version for the app
         // which does not include pub, client, senders.
         tiogaAppVersion = "4.4.4"
-        tiogaPubVersion = "5.1.2"
+        tiogaPubVersion = "5.1.3"
 
         pomProjectDescription = "Notify Server"
         pomUrl = 'https://www.tiogasolutions.org'

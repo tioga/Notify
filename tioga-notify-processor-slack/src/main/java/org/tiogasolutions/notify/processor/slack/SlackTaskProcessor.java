@@ -76,6 +76,10 @@ public class SlackTaskProcessor implements TaskProcessor {
             // to run all our domain objects through a template processor.
             String templatePath = messageBuilder.getTemplatePath(valueMap, "templatePath", DEFAULT_TEMPLATE_PATH);
             String messageText = messageBuilder.createMessage(domainProfile, notification, task, templatePath);
+            messageText = messageText.replace("\n<br />\n\n\n", "\n");
+            messageText = messageText.replace("\n<br />\n\n", "\n");
+            messageText = messageText.replace("\n<br />\n", "\n");
+            log.info(messageText);
 
             SlackMessage message = new SlackMessage().setText(messageText);
 

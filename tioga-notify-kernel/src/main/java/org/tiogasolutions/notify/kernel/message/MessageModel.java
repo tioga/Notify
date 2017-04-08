@@ -13,151 +13,170 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+
 /**
-* This class is used by the processors in conjunction with
+ * This class is used by the processors in conjunction with
  * Thymeleaf to generate messages (ie emails) for the end users.
-*/
+ */
 public class MessageModel {
-  
-  private final String destinationName;
-  private final Map<String,String> destinationMap;
 
-  private final String self;
-  private final String notificationId;
-  private final String revision;
-  private final String topic;
-  private final String summary;
-  private final String trackingId;
-  private final ZonedDateTime createdAt;
-  private final Map<String,String> traitMap;
-  private final List<AttachmentInfo> attachmentInfoList;
-  private final ExceptionInfo exceptionInfo;
+    private final String destinationName;
+    private final Map<String, String> destinationMap;
 
-  private final String profileId;
-  private final String domainName;
-  private final DomainStatus domainStatus;
-  private final String apiKey;
-  private final String apiPassword;
-  private final String notificationDbName;
-  private final String requestDbName;
-  private final RouteCatalog routeCatalog;
+    private final String self;
+    private final String notificationId;
+    private final String revision;
+    private final String topic;
+    private final String summary;
+    private final String trackingId;
+    private final ZonedDateTime createdAt;
+    private final Map<String, String> traitMap;
+    private final List<AttachmentInfo> attachments;
 
-  public MessageModel(DomainProfile domainProfile, Notification notification, Task task) {
+    private final ExceptionInfo exception;
+    private final List<ExceptionInfo> causes;
 
-    destinationName = task.getDestination().getName();
-    destinationMap = task.getDestination().getArguments();
+    private final String profileId;
+    private final String domainName;
+    private final DomainStatus domainStatus;
+    private final String apiKey;
+    private final String apiPassword;
+    private final String notificationDbName;
+    private final String requestDbName;
+    private final RouteCatalog routeCatalog;
 
-    self = (notification.getSelf() == null) ? null : notification.getSelf().toASCIIString();
-    notificationId = notification.getNotificationId();
-    revision = notification.getRevision();
-    topic = notification.getTopic();
-    summary = notification.getSummary();
-    trackingId = notification.getTrackingId();
-    attachmentInfoList = notification.getAttachmentInfoList();
-    exceptionInfo = notification.getExceptionInfo();
-    traitMap = notification.getTraitMap();
+    public MessageModel(DomainProfile domainProfile, Notification notification, Task task) {
 
-    ZoneId zoneId = ZoneId.systemDefault();
-    createdAt = notification.getCreatedAt().withZoneSameInstant(zoneId);
+        destinationName = task.getDestination().getName();
+        destinationMap = task.getDestination().getArguments();
 
-    profileId = domainProfile.getProfileId();
-    domainName = domainProfile.getDomainName();
-    domainStatus = domainProfile.getDomainStatus();
-    apiKey = domainProfile.getApiKey();
-    apiPassword = domainProfile.getApiPassword();
-    notificationDbName = domainProfile.getNotificationDbName();
-    requestDbName = domainProfile.getRequestDbName();
-    routeCatalog = domainProfile.getRouteCatalog();
-  }
+        self = (notification.getSelf() == null) ? null : notification.getSelf().toASCIIString();
+        notificationId = notification.getNotificationId();
+        revision = notification.getRevision();
+        topic = notification.getTopic();
+        summary = notification.getSummary();
+        trackingId = notification.getTrackingId();
+        attachments = notification.getAttachmentInfoList();
 
-  public String getDestinationName() {
-    return destinationName;
-  }
+        exception = notification.getExceptionInfo();
+        causes = (exception == null) ? emptyList() : unmodifiableList(exception.getCauses());
 
-  public Map<String,String> getDestinationMap() {
-    return destinationMap;
-  }
+        traitMap = notification.getTraitMap();
 
-  public String getSelf() {
-    return self;
-  }
+        ZoneId zoneId = ZoneId.systemDefault();
+        createdAt = notification.getCreatedAt().withZoneSameInstant(zoneId);
 
-  public String getNotificationId() {
-    return notificationId;
-  }
-
-  public String getRevision() {
-    return revision;
-  }
-
-  public String getTopic() {
-    return topic;
-  }
-
-  public String getSummary() {
-    return summary;
-  }
-
-  public String getTrackingId() {
-    return trackingId;
-  }
-
-  public ZonedDateTime getCreatedAt() {
-    return createdAt;
-  }
-
-  public List<AttachmentInfo> getAttachmentInfoList() {
-    return attachmentInfoList;
-  }
-
-  public ExceptionInfo getExceptionInfo() {
-    return exceptionInfo;
-  }
-
-  public Map<String, String> getTraitMap() {
-    return traitMap;
-  }
-
-  public static class Trait {
-    private final String key;
-    private final String value;
-    public Trait(String key, String value) {
-      this.key = key;
-      this.value = value;
+        profileId = domainProfile.getProfileId();
+        domainName = domainProfile.getDomainName();
+        domainStatus = domainProfile.getDomainStatus();
+        apiKey = domainProfile.getApiKey();
+        apiPassword = domainProfile.getApiPassword();
+        notificationDbName = domainProfile.getNotificationDbName();
+        requestDbName = domainProfile.getRequestDbName();
+        routeCatalog = domainProfile.getRouteCatalog();
     }
-    public String getKey() { return key; }
-    public String getValue() { return value; }
-  }
 
-  public String getProfileId() {
-    return profileId;
-  }
+    public String getDestinationName() {
+        return destinationName;
+    }
 
-  public String getDomainName() {
-    return domainName;
-  }
+    public Map<String, String> getDestinationMap() {
+        return destinationMap;
+    }
 
-  public DomainStatus getDomainStatus() {
-    return domainStatus;
-  }
+    public List<ExceptionInfo> getCauses() {
+        return causes;
+    }
 
-  public String getApiKey() {
-    return apiKey;
-  }
+    public String getSelf() {
+        return self;
+    }
 
-  public String getApiPassword() {
-    return apiPassword;
-  }
+    public String getNotificationId() {
+        return notificationId;
+    }
 
-  public String getNotificationDbName() {
-    return notificationDbName;
-  }
+    public String getRevision() {
+        return revision;
+    }
 
-  public String getRequestDbName() {
-    return requestDbName;
-  }
+    public String getTopic() {
+        return topic;
+    }
 
-  public RouteCatalog getRouteCatalog() {
-    return routeCatalog;
-  }
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<AttachmentInfo> getAttachments() {
+        return attachments;
+    }
+
+    public ExceptionInfo getException() {
+        return exception;
+    }
+
+    public Map<String, String> getTraitMap() {
+        return traitMap;
+    }
+
+    public static class Trait {
+        private final String key;
+        private final String value;
+
+        public Trait(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    public String getProfileId() {
+        return profileId;
+    }
+
+    public String getDomainName() {
+        return domainName;
+    }
+
+    public DomainStatus getDomainStatus() {
+        return domainStatus;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public String getApiPassword() {
+        return apiPassword;
+    }
+
+    public String getNotificationDbName() {
+        return notificationDbName;
+    }
+
+    public String getRequestDbName() {
+        return requestDbName;
+    }
+
+    public RouteCatalog getRouteCatalog() {
+        return routeCatalog;
+    }
 }

@@ -4,6 +4,8 @@ public class Paths {
 
     public static final String $root = "/";
     public static final String $app = "/app";
+    public static final String $favicon = "/favicon.ico";
+    public static final String $static = "/static";
 
     public static final String $api = "/api";
     public static final String $api_v2 = "/api/v2";

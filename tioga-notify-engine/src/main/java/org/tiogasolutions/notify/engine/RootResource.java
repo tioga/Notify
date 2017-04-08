@@ -91,6 +91,11 @@ public class RootResource {
         return new AppResource(staticContentReader, uriInfo);
     }
 
+    @Path($static)
+    public StaticResources getIconsResource() {
+        return new StaticResources(staticContentReader, uriInfo);
+    }
+
     @Path($api_v2)
     public ClientResourceV2 getClientResource() {
         return new ClientResourceV2(em);
