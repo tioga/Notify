@@ -4,7 +4,8 @@ project(":tioga-notify-engine") {
 
     dependencies {
 
-        compile project(":tioga-notify-kernel")
+        compile(project(":tioga-notify-kernel"))
+        compile(project(":tioga-notify-sender-couch"))
 
         compile("org.tiogasolutions.lib:tioga-lib-jaxrs:+")
 

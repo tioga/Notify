@@ -18,15 +18,20 @@ import org.tiogasolutions.notify.kernel.config.TrustedUserStore;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
+import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
+import org.tiogasolutions.notify.notifier.send.NotificationSender;
 import org.tiogasolutions.notify.processor.logger.LoggerTaskProcessor;
 import org.tiogasolutions.notify.processor.push.LivePushClientFactory;
 import org.tiogasolutions.notify.processor.push.PushTaskProcessor;
 import org.tiogasolutions.notify.processor.slack.SlackTaskProcessor;
 import org.tiogasolutions.notify.processor.smtp.SmtpTaskProcessor;
 import org.tiogasolutions.notify.processor.swing.SwingTaskProcessor;
+import org.tiogasolutions.notify.sender.couch.CouchNotificationSender;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
 
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import static org.tiogasolutions.dev.common.EnvUtils.findProperty;
@@ -155,5 +160,29 @@ public class NotifyHostedSpringConfig {
         resourceConfig.register(RequestContextFilter.class, 1);
 
         return new GrizzlyServer(grizzlyServerConfig, resourceConfig);
+    }
+
+    @Bean
+    public Notifier notifier(@Value("${notifier_couch_url}") String couchUrl,
+                             @Value("${notifier_couch_database_name}") String databaseName,
+                             @Value("${notifier_couch_username}") String username,
+                             @Value("${notifier_couch_password}") String password,
+                             @Value("${notifier_force_logger}") boolean forceLogger) {
+
+        NotificationSender sender = forceLogger ?
+                new LoggingNotificationSender() :
+                new CouchNotificationSender(couchUrl, databaseName, username,  password);
+
+        return new Notifier(sender).onBegin(builder -> {
+            builder.trait("application", "notify-server");
+
+            try {
+                String hostname = java.net.InetAddress.getLocalHost().getHostName();
+                builder.trait("source", System.getProperty("user.name") + "@" + hostname);
+
+            } catch (UnknownHostException ignored) {
+                builder.trait("source", System.getProperty("user.name") + "@" + "UNKNOWN");
+            }
+        });
     }
 }

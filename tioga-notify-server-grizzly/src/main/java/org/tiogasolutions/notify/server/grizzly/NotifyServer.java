@@ -6,6 +6,7 @@ import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.tiogasolutions.app.common.AppPathResolver;
 import org.tiogasolutions.app.common.AppUtils;
 import org.tiogasolutions.lib.spring.SpringUtils;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.ShutdownUtils;
 
@@ -49,30 +50,22 @@ public class NotifyServer {
 
         GrizzlyServer grizzlyServer = applicationContext.getBean(GrizzlyServer.class);
 
-//     Notifier notifier = applicationContext.getBean(Notifier.class);
-
-//    String hostname = "UNKNOWN";
-//    try { hostname = java.net.InetAddress.getLocalHost().getHostName();
-//    } catch (Exception ignored) {/*ignored*/}
+        Notifier notifier = applicationContext.getBean(Notifier.class);
 
         if (shuttingDown) {
-            String msg = String.format("Shutting down server at %s:%s",
+            String msg = String.format("Shutting down notify-server at %s:%s",
                     grizzlyServer.getConfig().getHostName(),
                     grizzlyServer.getConfig().getShutdownPort());
 
             log.warn(msg);
-//        notifier.begin()
-//                .summary(msg)
-//                .trait("source", System.getProperty("user.name")+"@"+hostname)
-//                .send()
-//                .get();
+            notifier.begin().summary(msg).trait("action", "shutdown").send().get();
 
             ShutdownUtils.shutdownRemote(grizzlyServer.getConfig());
             System.exit(0);
             return;
         }
 
-        String logMessage = String.format("%s server:\n" +
+        String logMessage = String.format("%s notify-server:\n" +
                 "  *  Runtime Dir     (solutions.runtime.dir)     %s\n" +
                 "  *  Config Dir      (solutions.config.dir)      %s\n" +
                 "  *  Logback File    (solutions.log.config)      %s\n" +
@@ -81,11 +74,7 @@ public class NotifyServer {
                 action, runtimeDir, configDir, logbackFile, springConfigPath, asList(activeProfiles));
 
         log.warn(logMessage);
-//    notifier.begin()
-//            .summary(logMessage)
-//            .trait("source", System.getProperty("user.name")+"@"+hostname)
-//            .send()
-//            .get();
+        notifier.begin().summary(logMessage).trait("action", "startup").send().get();
 
         // Lastly, start the server.
         grizzlyServer.start();
