@@ -114,7 +114,7 @@ public class RootResource {
         );
     }
 
-    @GET @Path("/health-check")
+    @GET @Path($health_check)
     @Produces(MediaType.TEXT_HTML)
     public Response healthCheck$GET() { return Response.status(Response.Status.OK).build(); }
 
