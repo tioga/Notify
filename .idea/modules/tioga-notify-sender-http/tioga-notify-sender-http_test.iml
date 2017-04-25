@@ -17,7 +17,7 @@
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.20" level="project" />
     <orderEntry type="library" name="Gradle: org.testng:testng:6.8.21" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.2.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-common:5.2.6" level="project" />
     <orderEntry type="library" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
     <orderEntry type="library" name="Gradle: javax.annotation:javax.annotation-api:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.22.2" level="project" />

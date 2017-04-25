@@ -174,7 +174,7 @@ public class NotifyHostedSpringConfig {
                 new CouchNotificationSender(couchUrl, databaseName, username,  password);
 
         return new Notifier(sender).onBegin(builder -> {
-            builder.trait("application", "notify-server");
+            builder.topic("Notify Engine");
 
             try {
                 String hostname = java.net.InetAddress.getLocalHost().getHostName();

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.tiogasolutions.runners:tioga-runners-grizzly:2.2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.runners/tioga-runners-grizzly/2.2.2/30871b706083eb16fbd4bc7072a16c236283059a/tioga-runners-grizzly-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.runners/tioga-runners-grizzly/2.2.2/5a097974d244a7b9610c895d5e126a24b1daf88b/tioga-runners-grizzly-2.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
