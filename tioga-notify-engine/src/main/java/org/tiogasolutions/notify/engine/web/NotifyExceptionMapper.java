@@ -24,7 +24,8 @@ public class NotifyExceptionMapper extends TiogaJaxRsExceptionMapper {
                 .summary(msg)
                 .exception(throwable)
                 .trait("action", "Unhandled 4xx")
-                .trait("httpStatusCode", statusCode)
+                .trait("http-status-code", statusCode)
+                .trait("http-uri", getUriInfo().getRequestUri())
                 .send();
     }
 
@@ -36,7 +37,8 @@ public class NotifyExceptionMapper extends TiogaJaxRsExceptionMapper {
                 .summary(msg)
                 .exception(throwable)
                 .trait("action", "Unhandled 5xx")
-                .trait("httpStatusCode", statusCode)
+                .trait("http-status-code", statusCode)
+                .trait("http-uri", getUriInfo().getRequestUri())
                 .send();
     }
 }

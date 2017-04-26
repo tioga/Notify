@@ -158,6 +158,8 @@ public class NotifyServer {
                     .trait("couch-db-request-url", couchServersConfig.getRequestUrl())
                     .trait("couch-db-request-database-prefix", couchServersConfig.getRequestDatabasePrefix())
                     .trait("couch-db-request-database-suffix", couchServersConfig.getRequestDatabaseSuffix())
+                    // logging
+                    .trait("log-level", levelCode)
                     // send it
                     .send().get();
 
