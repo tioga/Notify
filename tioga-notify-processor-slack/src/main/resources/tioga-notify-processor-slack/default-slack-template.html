@@ -8,7 +8,7 @@
 <th:block th:each="attachment : ${it.attachments}">       <th:block th:utext="${attachment.name}"/> (<th:block th:utext="${attachment.contentType}"/>)</th:block></th:block>
 <br/>
 <th:block th:if="${not #maps.isEmpty(it.traitMap)}">Traits...
-<th:block th:each="trait : ${it.traitMap}">       <th:block th:utext="${trait.key}"/>: *<th:block th:if="${trait.value != null}" th:utext="${trait.value}"/><th:block th:if="${trait.value == null}" th:utext="${'null'}"/>*</th:block>
+<th:block th:each="trait : ${it.traitMap}">       <th:block th:utext="${trait.key}"/>: *<th:block th:if="${not #strings.isEmpty(trait.value)}" th:utext="${trait.value}"/><th:block th:if="${#strings.isEmpty(trait.value)}" th:utext="${'null'}"/>*</th:block>
 </th:block>
 <br/>
 </th:block>
