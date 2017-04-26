@@ -112,15 +112,15 @@ public class NotifyServer {
 
             CouchServersConfig couchServersConfig = applicationContext.getBean(CouchServersConfig.class);
             logMessage = format("Database config:\n" +
-                            "  * Master Url: %s" +
-                            "  * Master Database Name: %s" +
+                            "  * Master Url: %s\n" +
+                            "  * Master Database Name: %s\n" +
 
                             "  * Notification Url: %s" +
-                            "  * Notification Database Prefix: %s" +
-                            "  * Notification Database Suffix: %s" +
+                            "  * Notification Database Prefix: %s\n" +
+                            "  * Notification Database Suffix: %s\n" +
 
-                            "  * Request Url: %s" +
-                            "  * Request Database Prefix: %s" +
+                            "  * Request Url: %s\n" +
+                            "  * Request Database Prefix: %s\n" +
                             "  * Request Database Suffix: %s",
                     couchServersConfig.getMasterUrl(),
                     couchServersConfig.getMasterDatabaseName(),
