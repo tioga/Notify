@@ -59,6 +59,7 @@ public class SlackTaskProcessorTest {
 
         traitMap.put("test", "true");
         traitMap.put("user", System.getProperty("user.name"));
+        traitMap.put("null-value", null);
     }
 
     @BeforeClass
