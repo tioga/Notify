@@ -1,0 +1,31 @@
+project(":tioga-notify-sender-lambda") {
+
+    version = "1.0.0"
+
+    dependencies {
+        compile( project(":tioga-notify-sender-http") )
+
+        compile("com.amazonaws:aws-lambda-java-core:1.1.0")
+        compile("com.amazonaws:aws-lambda-java-events:1.3.0")
+    }
+
+    configurations.all({
+        resolutionStrategy({
+            force(
+                "commons-logging:commons-logging:1.2",
+            )
+        })
+    })
+
+    task buildZip(type: Zip) {
+        from compileJava
+        from processResources
+        into('lib') {
+            from configurations.runtime
+        }
+    }
+
+    build.dependsOn buildZip
+
+    apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
+}

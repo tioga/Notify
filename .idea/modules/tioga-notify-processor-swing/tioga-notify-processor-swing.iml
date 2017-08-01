@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../tioga-notify-processor-swing">
       <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-processor-swing/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-processor-swing/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-processor-swing/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

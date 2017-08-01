@@ -9,8 +9,8 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/build/classes/main" />
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/out/production/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/src/main/java" isTestSource="false" />

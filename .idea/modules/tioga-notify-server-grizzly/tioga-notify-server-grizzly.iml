@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly">
       <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-server-grizzly/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../tioga-notify-test">
       <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-test/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-test/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../tioga-notify-test/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
