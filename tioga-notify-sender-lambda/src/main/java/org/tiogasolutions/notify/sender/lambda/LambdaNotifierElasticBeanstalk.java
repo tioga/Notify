@@ -47,6 +47,8 @@ public class LambdaNotifierElasticBeanstalk extends LambdaNotifier {
                 builder.trait("action", "error");
             } else if (summary.contains(" to Info.")) {
                 builder.trait("action", "warning");
+            } else if (summary.contains(" to Ok.")) {
+                builder.trait("action", "ok");
             } else {
                 builder.trait("action", "unknown");
             }
