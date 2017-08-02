@@ -16,14 +16,18 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
 
-    private Notifier notifier;
-
     public LambdaNotifier() {
+    }
 
+    private void log(Context context, String msg) {
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.sql.Timestamp(System.currentTimeMillis()));
+        context.getLogger().log("["+timestamp+"] " + msg.trim() + "\n");
+    }
+
+    public Object handleRequest(SNSEvent request, Context context){
         HttpNotificationSenderConfig config = new HttpNotificationSenderConfig();
 
         String url = System.getProperty("NOTIFIER_URL");
@@ -39,81 +43,19 @@ public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
         config.setPassword(password);
 
         NotificationSender sender = new HttpNotificationSender(config);
-        this.notifier = new Notifier(sender);
-    }
+        Notifier notifier = new Notifier(sender);
 
-    private void log(Context context, String msg) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.sql.Timestamp(System.currentTimeMillis()));
-        context.getLogger().log("["+timestamp+"] " + msg.trim() + "\n");
-    }
-
-//    public Object handleRequest(Map map, Context context){
-//        log(context, "Invocation started.");
-//
-//        log(context, map.toString());
-//
-//        String msg = map.toString();
-//        NotificationBuilder builder = notifier.begin().summary(msg);
-//
-//        try {
-//            SendNotificationResponse response = builder.send().get();
-//
-//            if (response.getResponseType() == SendNotificationResponseType.FAILURE) {
-//                StringWriter writer = new StringWriter();
-//                response.getThrowable().printStackTrace(new PrintWriter(writer));
-//                return writer.toString();
-//
-//            } else {
-//                return map.toString();
-//            }
-//        } catch (Exception e) {
-//            StringWriter writer = new StringWriter();
-//            e.printStackTrace(new PrintWriter(writer));
-//            return writer.toString();
-//
-//        } finally {
-//            log(context, "Invocation completed.");
-//        }
-//    }
-
-    public Object handleRequest(SNSEvent request, Context context){
         log(context, "Invocation started.");
 
         SNSEvent.SNSRecord record = request.getRecords().get(0);
-        return handleRequest(record, context);
+        return handleRequest(notifier, record, context);
     }
 
-    private Object handleRequest(SNSEvent.SNSRecord record, Context context) {
-        // May re-assign later.
-        String subject = record.getSNS().getSubject();
+    protected Object handleRequest(Notifier notifier, SNSEvent.SNSRecord record, Context context) {
 
-
-        String message = record.getSNS().getMessage();
         Map<String,String> traits = new LinkedHashMap<>();
 
-        for (String source : message.split("\n")) {
-            if (source.length() == 0) {
-                continue;
-            }
-            int pos = source.indexOf(": ");
-            if (pos < 0) {
-                traits.put("Unknown-" + new Random(System.currentTimeMillis()).nextInt(10000), source);
-            } else {
-                String key = source.substring(0, pos).replace(" ", "-");
-                String value = source.substring(pos + 2);
-                traits.put(key, value);
-
-                if ("Message".equals(key)) {
-                    subject = value;
-                }
-            }
-        }
-
-        for (Map.Entry<String, SNSEvent.MessageAttribute> attribute : record.getSNS().getMessageAttributes().entrySet()) {
-            String key  = attribute.getKey();
-            String value = attribute.getValue().getValue();
-            traits.put(key, value);
-        }
+        String subject = buildTraits(traits, record);
 
         NotificationBuilder builder = notifier.begin().summary(subject);
         log(context, "Subject: " + subject);
@@ -122,6 +64,8 @@ public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
             builder.trait(entry.getKey(), entry.getValue());
             log(context, String.format("  %s: %s", entry.getKey(), entry.getValue()));
         }
+
+        decorateNotification(builder, record);
 
         try {
             SendNotificationResponse response = builder.send().get();
@@ -141,6 +85,58 @@ public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
 
         } finally {
             log(context, "Invocation completed.");
+        }
+    }
+
+    protected void decorateNotification(NotificationBuilder builder, SNSEvent.SNSRecord record) {
+        String topic = System.getProperty("NOTIFIER_TOPIC");
+        if (topic == null) topic = System.getenv("NOTIFIER_TOPIC");
+        if (topic == null) topic = "AWS Other";
+
+        builder.topic(topic);
+    }
+
+    protected String buildTraits(Map<String, String> traits, SNSEvent.SNSRecord record) {
+        attributesToTraits(traits, record);
+        messageToTraits(traits, record.getSNS());
+        return record.getSNS().getSubject();
+    }
+
+    protected void messageToTraits(Map<String, String> traits, SNSEvent.SNS sns) {
+
+        String message = sns.getMessage();
+        String[] parts = message.split("\n");
+
+        if (parts.length == 0) {
+            traits.put("Message", message);
+            return;
+        }
+
+        int unknown = 0;
+
+        for (String source : parts) {
+            int pos = source.indexOf(": ");
+            if (pos < 0) {
+                if (source.length() > 0) {
+                    String key = "Unknown-" + (++unknown);
+                    traits.put(key, source);
+                }
+            } else {
+                String key = source.substring(0, pos).replace(" ", "-");
+                String value = source.substring(pos + 2);
+                traits.put(key, value);
+            }
+        }
+    }
+
+    protected void attributesToTraits(Map<String, String> traits, SNSEvent.SNSRecord record) {
+        for (Map.Entry<String, SNSEvent.MessageAttribute> entry: record.getSNS().getMessageAttributes().entrySet()) {
+
+            String key = entry.getKey();
+            SNSEvent.MessageAttribute attribute = entry.getValue();
+
+            String value = attribute.getValue();
+            traits.put(key, value);
         }
     }
 }
