@@ -47,7 +47,7 @@ public class RootResource {
 
     private static final String since = ZonedDateTime
             .now(ZoneId.of(ZoneId.SHORT_IDS.get("PST")))
-            .format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' H:mm:ss a zzz"));
+            .format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm:ss a zzz"));
 
     public RootResource() {
     }
