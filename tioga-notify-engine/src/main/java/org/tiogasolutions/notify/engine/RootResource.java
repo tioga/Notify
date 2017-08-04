@@ -45,11 +45,40 @@ public class RootResource {
     @Autowired
     private StaticContentReader staticContentReader;
 
-    private static final String since = ZonedDateTime
-            .now(ZoneId.of(ZoneId.SHORT_IDS.get("PST")))
-            .format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm:ss a zzz"));
+    // Hammered by AWS for status checks, we don't want to have to re-process this code every few milliseconds.
+    private static final String indexHtml;
+    static {
+        String html = null;
+        String since = ZonedDateTime
+                    .now(ZoneId.of(ZoneId.SHORT_IDS.get("PST")))
+                    .format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm:ss a zzz"));
+
+        try {
+            Attributes attributes = getManifest().getMainAttributes();
+            String version = attributes.getValue("Implementation-Version");
+            String build = attributes.getValue("Build-Number");
+            String timestamp = attributes.getValue("Build-Timestamp");
+
+            html = String.format("<html><body><h1>Notify Server</h1>" +
+                    "<div>Build-Number: %s</div>" +
+                    "<div>Build-Timestamp: %s</div>" +
+                    "<div>Implementation-Version: %s</div>" +
+                    "<div>Since: %s</div>" +
+                    "</body></html>", build, timestamp, version, since);
+
+        } catch (Exception e) {
+            html = String.format("<html><body>" +
+                    "<h1>Notify Server</h1>" +
+                    "<div>Since: %s</div>" +
+                    "<div>%s</div>" +
+                    "</body></html>", since, e.getMessage());
+        } finally {
+            indexHtml = html;
+        }
+    }
 
     public RootResource() {
+        log.debug("Created");
     }
 
     @GET
@@ -61,29 +90,10 @@ public class RootResource {
     @GET @Path($health_check)
     @Produces(MediaType.TEXT_HTML)
     public String healthCheck() {
-        try {
-            Attributes attributes = getManifest().getMainAttributes();
-            String version = attributes.getValue("Implementation-Version");
-            String build = attributes.getValue("Build-Number");
-            String timestamp = attributes.getValue("Build-Timestamp");
-
-            return String.format("<html><body><h1>Notify Server</h1>" +
-                    "<div>Build-Number: %s</div>" +
-                    "<div>Build-Timestamp: %s</div>" +
-                    "<div>Implementation-Version: %s</div>" +
-                    "<div>Since: %s</div>" +
-                    "</body></html>", build, timestamp, version, since);
-
-        } catch (Exception e) {
-            return String.format("<html><body>" +
-                    "<h1>Notify Server</h1>" +
-                    "<div>Since: %s</div>" +
-                    "<div>%s</div>" +
-                    "</body></html>", since, e.getMessage());
-        }
+        return indexHtml;
     }
 
-    private Manifest getManifest() throws IOException {
+    private static Manifest getManifest() throws IOException {
         Enumeration<URL> resources = RootResource.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
         while (resources.hasMoreElements()) {
             try {
