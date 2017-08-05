@@ -17,6 +17,10 @@ import static org.tiogasolutions.dev.common.StringUtils.isNotBlank;
 @Configuration
 public class SpringTestConfig {
 
+    public static final String couchUrl = (isNotBlank(System.getenv("awsCouchUrl"))) ? System.getenv("awsCouchUrl") : "http://127.0.0.1:5984";
+    public static final String username = (isNotBlank(System.getenv("awsCouchUsername"))) ? System.getenv("awsCouchUsername") : "test-user";
+    public static final String password = (isNotBlank(System.getenv("awsCouchPassword"))) ? System.getenv("awsCouchPassword") : "test-user";
+
     @Bean
     public NotifyObjectMapper notifyObjectMapper() {
         return new NotifyObjectMapper();
@@ -31,20 +35,6 @@ public class SpringTestConfig {
     public CouchServersConfig couchServersConfig() {
 
         CouchServersConfig config = new CouchServersConfig();
-
-        String couchUrl = "http://127.0.0.1:5984";
-        String username = "test-user";
-        String password = "test-user";
-
-        if (isNotBlank(System.getenv("awsCouchUrl"))) {
-            couchUrl = System.getenv("awsCouchUrl");
-        }
-        if (isNotBlank(System.getenv("awsCouchUsername"))) {
-            username = System.getenv("awsCouchUsername");
-        }
-        if (isNotBlank(System.getenv("awsCouchPassword"))) {
-            password = System.getenv("awsCouchPassword");
-        }
 
         config.setMasterUrl(couchUrl);
         config.setMasterUsername(username);

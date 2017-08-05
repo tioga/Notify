@@ -15,6 +15,7 @@ import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
 import org.tiogasolutions.notify.notifier.send.SendNotificationResponseType;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
+import org.tiogasolutions.notify.test.SpringTestConfig;
 
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -60,10 +61,10 @@ public class CouchNotificationSenderTest {
     requestStore = new NotificationRequestStore(requestDb);
 
     CouchNotificationSenderSetup couchSenderSetup = new CouchNotificationSenderSetup(
-      requestDb.getHttpClient().getBaseUrl(),
+      SpringTestConfig.couchUrl,
       requestDb.getDatabaseName(),
-      domainProfile.getApiKey(),
-      domainProfile.getApiPassword()
+      SpringTestConfig.username,
+      SpringTestConfig.password
     );
 
     CouchNotificationSender sender = new CouchNotificationSender(couchSenderSetup);
