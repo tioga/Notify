@@ -9,14 +9,14 @@ import java.util.concurrent.Future;
  */
 public interface NotificationSender {
 
-  Future<SendNotificationResponse> send(SendNotificationRequest request);
+    Future<SendNotificationResponse> send(SendNotificationRequest request);
 
-  void onResponse(NotificationResponseCallback callback);
+    void onResponse(NotificationResponseCallback callback);
 
-  void onSuccess(NotificationResponseCallback callback);
+    void onSuccess(NotificationResponseCallback callback);
 
-  void onFailure(NotificationResponseCallback callback);
+    void onFailure(NotificationResponseCallback callback);
 
-  void onFailure(NotificationAttachmentFailureCallback callback);
+    void onFailure(NotificationAttachmentFailureCallback callback);
 
 }

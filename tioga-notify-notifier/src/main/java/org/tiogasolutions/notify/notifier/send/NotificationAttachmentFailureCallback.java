@@ -6,5 +6,5 @@ package org.tiogasolutions.notify.notifier.send;
  * Time: 12:46 AM
  */
 public interface NotificationAttachmentFailureCallback {
-  void call(SendNotificationRequest request, NotificationAttachment attachment, Throwable t);
+    void call(SendNotificationRequest request, NotificationAttachment attachment, Throwable t);
 }

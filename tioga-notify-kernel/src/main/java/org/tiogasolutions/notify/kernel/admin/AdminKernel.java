@@ -9,16 +9,16 @@ import javax.ws.rs.NotAuthorizedException;
 @Component
 public class AdminKernel {
 
-  private TrustedUserStore trustedUserStore;
+    private TrustedUserStore trustedUserStore;
 
-  @Autowired
-  public AdminKernel(TrustedUserStore trustedUserStore) {
-    this.trustedUserStore = trustedUserStore;
-  }
-
-  public void authorize(String username, String password) throws NotAuthorizedException {
-    if (trustedUserStore.containsUser(username) == false || !trustedUserStore.isPasswordMatch(username, password)) {
-      throw new NotAuthorizedException("ADMIN");
+    @Autowired
+    public AdminKernel(TrustedUserStore trustedUserStore) {
+        this.trustedUserStore = trustedUserStore;
     }
-  }
+
+    public void authorize(String username, String password) throws NotAuthorizedException {
+        if (trustedUserStore.containsUser(username) == false || !trustedUserStore.isPasswordMatch(username, password)) {
+            throw new NotAuthorizedException("ADMIN");
+        }
+    }
 }

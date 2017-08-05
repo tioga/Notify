@@ -46,11 +46,11 @@ public class SendNotificationRequestJsonBuilderTest {
     public void complexRequestToJson() {
 
         String msg = "Starting server:\n" +
-                     "  *  Runtime Dir     (solutions.runtime.dir)     null\n" +
-                     "  *  Config Dir      (solutions.config.dir)      null\n" +
-                     "  *  Logback File    (solutions.log.config)      null\n" +
-                     "  *  Spring Path     (solutions.spring.config)   classpath:/tioga-solutions-engine/spring-config.xml\n" +
-                     "  *  Active Profiles (solutions.active.profiles) [hosted]";
+                "  *  Runtime Dir     (solutions.runtime.dir)     null\n" +
+                "  *  Config Dir      (solutions.config.dir)      null\n" +
+                "  *  Logback File    (solutions.log.config)      null\n" +
+                "  *  Spring Path     (solutions.spring.config)   classpath:/tioga-solutions-engine/spring-config.xml\n" +
+                "  *  Active Profiles (solutions.active.profiles) [hosted]";
 
         SendNotificationRequest request = new SendNotificationRequest(
                 "topic1",

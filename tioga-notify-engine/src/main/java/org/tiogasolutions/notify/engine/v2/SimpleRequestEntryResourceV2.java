@@ -21,41 +21,41 @@ import java.net.URI;
  */
 public class SimpleRequestEntryResourceV2 {
 
-  private final ExecutionManager em;
+    private final ExecutionManager em;
 
-  public SimpleRequestEntryResourceV2(ExecutionManager em) {
-    this.em = em;
-  }
-
-  private DomainProfile getDomainProfile() {
-    ExecutionContext ec = em.context();
-    return em.getDomainKernel().findByApiKey(ec.getApiKey());
-  }
-
-  // Need to support POST as PUT is not available in some http clients.
-  @POST
-  public Response postRequest(@Context UriInfo uriInfo, NotificationRequest request) {
-
-    // TODO - is this something we should support on NotificationDomain?
-    CouchDatabase requestDb = em.getDomainKernel().requestDb(getDomainProfile());
-
-    // Create and store the request entity
-    NotificationRequestStore store = new NotificationRequestStore(requestDb);
-    NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
-    notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
-
-    // If it's not ready, make it ready.
-    if (notificationRequestEntity.getRequestStatus() != NotificationRequestStatus.READY) {
-      notificationRequestEntity.ready();
-      notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
+    public SimpleRequestEntryResourceV2(ExecutionManager em) {
+        this.em = em;
     }
 
-    // Generate event for request creation.
-    String domainName = em.context().getDomainName();
-    em.getEventBus().requestCreated(domainName, notificationRequestEntity);
+    private DomainProfile getDomainProfile() {
+        ExecutionContext ec = em.context();
+        return em.getDomainKernel().findByApiKey(ec.getApiKey());
+    }
 
-    URI uri = uriInfo.getRequestUriBuilder().path(notificationRequestEntity.getRequestId()).build();
-    return Response.created(uri).build();
-  }
+    // Need to support POST as PUT is not available in some http clients.
+    @POST
+    public Response postRequest(@Context UriInfo uriInfo, NotificationRequest request) {
+
+        // TODO - is this something we should support on NotificationDomain?
+        CouchDatabase requestDb = em.getDomainKernel().requestDb(getDomainProfile());
+
+        // Create and store the request entity
+        NotificationRequestStore store = new NotificationRequestStore(requestDb);
+        NotificationRequestEntity notificationRequestEntity = NotificationRequestEntity.newEntity(request);
+        notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
+
+        // If it's not ready, make it ready.
+        if (notificationRequestEntity.getRequestStatus() != NotificationRequestStatus.READY) {
+            notificationRequestEntity.ready();
+            notificationRequestEntity = store.saveAndReload(notificationRequestEntity);
+        }
+
+        // Generate event for request creation.
+        String domainName = em.context().getDomainName();
+        em.getEventBus().requestCreated(domainName, notificationRequestEntity);
+
+        URI uri = uriInfo.getRequestUriBuilder().path(notificationRequestEntity.getRequestId()).build();
+        return Response.created(uri).build();
+    }
 
 }

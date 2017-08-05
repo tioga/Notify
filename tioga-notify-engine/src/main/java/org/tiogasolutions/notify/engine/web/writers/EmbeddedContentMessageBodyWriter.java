@@ -18,29 +18,30 @@ import java.lang.reflect.Type;
 @Component
 public class EmbeddedContentMessageBodyWriter implements MessageBodyWriter<EmbeddedContent> {
 
-  @Context UriInfo uriInfo;
+    @Context
+    UriInfo uriInfo;
 
-  // HACK - if we want to go this way will need to uncomment this!
-  //@Autowired // Injected by CDI, not Spring
-  //private StaticContentReader contentReader;
+    // HACK - if we want to go this way will need to uncomment this!
+    //@Autowired // Injected by CDI, not Spring
+    //private StaticContentReader contentReader;
 
-  public EmbeddedContentMessageBodyWriter() {
-  }
+    public EmbeddedContentMessageBodyWriter() {
+    }
 
-  @Override
-  public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-    return EmbeddedContent.class.equals(type);
-  }
+    @Override
+    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        return EmbeddedContent.class.equals(type);
+    }
 
-  @Override
-  public long getSize(EmbeddedContent embeddedContent, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-    return -1;
-  }
+    @Override
+    public long getSize(EmbeddedContent embeddedContent, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        return -1;
+    }
 
-  @Override
-  public void writeTo(EmbeddedContent embeddedContent, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+    @Override
+    public void writeTo(EmbeddedContent embeddedContent, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
 
-    //byte[] bytes = contentReader.readContent(embeddedContent.getView());
-    //entityStream.write(bytes);
-  }
+        //byte[] bytes = contentReader.readContent(embeddedContent.getView());
+        //entityStream.write(bytes);
+    }
 }

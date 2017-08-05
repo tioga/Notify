@@ -18,18 +18,18 @@ package org.tiogasolutions.notify.processor.smtp;
 
 public class EmailMessageException extends RuntimeException {
 
-  public EmailMessageException() {
-  }
+    public EmailMessageException() {
+    }
 
-  public EmailMessageException(String message) {
-    super(message);
-  }
+    public EmailMessageException(String message) {
+        super(message);
+    }
 
-  public EmailMessageException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public EmailMessageException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-  public EmailMessageException(Throwable cause) {
-    super(cause);
-  }
+    public EmailMessageException(Throwable cause) {
+        super(cause);
+    }
 }

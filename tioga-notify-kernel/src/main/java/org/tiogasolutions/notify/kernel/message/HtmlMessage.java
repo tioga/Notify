@@ -7,36 +7,36 @@ import org.tiogasolutions.dev.common.StringUtils;
  */
 public class HtmlMessage {
 
-  private final String html;
-  private final String subject;
-  private final String body;
+    private final String html;
+    private final String subject;
+    private final String body;
 
-  public HtmlMessage(String html) {
-    this.html = html;
-    this.body = extractBody(html);
-    this.subject = extractSubject(html);
-  }
+    public HtmlMessage(String html) {
+        this.html = html;
+        this.body = extractBody(html);
+        this.subject = extractSubject(html);
+    }
 
-  public String getHtml() {
-    return html;
-  }
+    public String getHtml() {
+        return html;
+    }
 
-  public String getSubject() {
-    return subject;
-  }
+    public String getSubject() {
+        return subject;
+    }
 
-  public String getBody() {
-    return body;
-  }
+    public String getBody() {
+        return body;
+    }
 
-  public String extractBody(String htmlContent) {
-    String html = StringUtils.getTagContents(htmlContent, "html", 0);
-    return StringUtils.getTagContents(html, "body", 0);
-  }
+    public String extractBody(String htmlContent) {
+        String html = StringUtils.getTagContents(htmlContent, "html", 0);
+        return StringUtils.getTagContents(html, "body", 0);
+    }
 
-  public String extractSubject(String htmlContent) {
-    String html = StringUtils.getTagContents(htmlContent, "html", 0);
-    String head = StringUtils.getTagContents(html, "head", 0);
-    return StringUtils.getTagContents(head, "title", 0);
-  }
+    public String extractSubject(String htmlContent) {
+        String html = StringUtils.getTagContents(htmlContent, "html", 0);
+        String head = StringUtils.getTagContents(html, "head", 0);
+        return StringUtils.getTagContents(head, "title", 0);
+    }
 }

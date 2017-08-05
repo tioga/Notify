@@ -13,16 +13,18 @@ import static java.util.Collections.singletonList;
 @Configuration
 public class PushSpringTestConfig {
 
-  @Bean
-  public PushClientFactory pushClientFactory() {
-    return new MockPushClientFactory();
-  }
+    @Bean
+    public PushClientFactory pushClientFactory() {
+        return new MockPushClientFactory();
+    }
 
-  /** @noinspection SpringJavaAutowiringInspection*/
-  @Bean
-  public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, PushClientFactory pushClientFactory) {
-    return new TaskProcessorExecutor(domainKernel, eventBus, singletonList(
-      new PushTaskProcessor(pushClientFactory)
-    ));
-  }
+    /**
+     * @noinspection SpringJavaAutowiringInspection
+     */
+    @Bean
+    public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, PushClientFactory pushClientFactory) {
+        return new TaskProcessorExecutor(domainKernel, eventBus, singletonList(
+                new PushTaskProcessor(pushClientFactory)
+        ));
+    }
 }

@@ -6,5 +6,5 @@ package org.tiogasolutions.notify.notifier.send;
  * Time: 12:46 AM
  */
 public interface NotificationResponseCallback {
-  void call(SendNotificationResponse response);
+    void call(SendNotificationResponse response);
 }

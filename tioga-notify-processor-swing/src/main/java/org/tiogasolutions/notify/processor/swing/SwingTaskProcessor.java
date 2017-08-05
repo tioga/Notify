@@ -19,76 +19,76 @@ import java.util.List;
 @Component
 public class SwingTaskProcessor implements TaskProcessor {
 
-  private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("swing");
-  private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm");
+    private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("swing");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-YYYY HH:mm");
 
-  private JFrame frame;
-  private JPanel panel;
-  private ArrayList<Notification> notifications = new ArrayList<>();
+    private JFrame frame;
+    private JPanel panel;
+    private ArrayList<Notification> notifications = new ArrayList<>();
 
-  public SwingTaskProcessor() {
-  }
-
-  @Override
-  public boolean isReady() {
-    return GraphicsEnvironment.isHeadless() == false;
-  }
-
-  @Override
-  public TaskProcessorType getType() {
-    return PROVIDER_TYPE;
-  }
-
-  @Override
-  public synchronized TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
-    if (frame == null) {
-      createUI();
+    public SwingTaskProcessor() {
     }
 
-    try {
-      SwingUtilities.invokeAndWait(() -> {
-
-        notifications.add(notification);
-
-        while (notifications.size() > 50) {
-          notifications.remove(0);
-        }
-
-        List<Notification> copy = new ArrayList<>(notifications);
-        Collections.sort(copy, Collections.reverseOrder());
-
-        panel.removeAll();
-        for (Notification next : copy) {
-          panel.add(new JLabel(
-            next.getCreatedAt().format(formatter) + ": " +
-            next.getSummary())
-          );
-        }
-
-        if (frame.isVisible() == false) {
-          frame.setVisible(true);
-        }
-        frame.toFront();
-        frame.validate();
-      });
-
-    } catch (InterruptedException | InvocationTargetException e) {
-      e.printStackTrace();
+    @Override
+    public boolean isReady() {
+        return GraphicsEnvironment.isHeadless() == false;
     }
-    return TaskResponse.complete("Ok");
-  }
 
-  private void createUI() {
-    if (frame != null) return;
+    @Override
+    public TaskProcessorType getType() {
+        return PROVIDER_TYPE;
+    }
 
-    panel = new JPanel();
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    JScrollPane scrollPane = new JScrollPane(panel);
+    @Override
+    public synchronized TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
+        if (frame == null) {
+            createUI();
+        }
 
-    JFrame newFrame = new JFrame("Notifications");
-    newFrame.getContentPane().add(scrollPane);
-    newFrame.setSize(new Dimension(350, 600));
+        try {
+            SwingUtilities.invokeAndWait(() -> {
 
-    frame = newFrame;
-  }
+                notifications.add(notification);
+
+                while (notifications.size() > 50) {
+                    notifications.remove(0);
+                }
+
+                List<Notification> copy = new ArrayList<>(notifications);
+                Collections.sort(copy, Collections.reverseOrder());
+
+                panel.removeAll();
+                for (Notification next : copy) {
+                    panel.add(new JLabel(
+                            next.getCreatedAt().format(formatter) + ": " +
+                                    next.getSummary())
+                    );
+                }
+
+                if (frame.isVisible() == false) {
+                    frame.setVisible(true);
+                }
+                frame.toFront();
+                frame.validate();
+            });
+
+        } catch (InterruptedException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return TaskResponse.complete("Ok");
+    }
+
+    private void createUI() {
+        if (frame != null) return;
+
+        panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(panel);
+
+        JFrame newFrame = new JFrame("Notifications");
+        newFrame.getContentPane().add(scrollPane);
+        newFrame.setSize(new Dimension(350, 600));
+
+        frame = newFrame;
+    }
 }

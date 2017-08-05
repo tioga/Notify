@@ -12,29 +12,29 @@ import java.util.concurrent.Future;
  * Time: 1:52 AM
  */
 public class LoggingNotificationSender extends AbstractNotificationSender {
-  private static final Logger log = LoggerFactory.getLogger(LoggingNotificationSender.class);
+    private static final Logger log = LoggerFactory.getLogger(LoggingNotificationSender.class);
 
-  private SendNotificationRequest lastRequest;
+    private SendNotificationRequest lastRequest;
 
-  @Override
-  public Future<SendNotificationResponse> send(SendNotificationRequest request) {
+    @Override
+    public Future<SendNotificationResponse> send(SendNotificationRequest request) {
 
-    this.lastRequest = request;
-    if (log.isTraceEnabled()) {
-      log.trace(new SendNotificationRequestJsonBuilder().toJson(request, SendNotificationRequest.Status.READY));
-    } else {
-      log.debug("Notification {}:{}", lastRequest.getTopic(), lastRequest.getSummary());
+        this.lastRequest = request;
+        if (log.isTraceEnabled()) {
+            log.trace(new SendNotificationRequestJsonBuilder().toJson(request, SendNotificationRequest.Status.READY));
+        } else {
+            log.debug("Notification {}:{}", lastRequest.getTopic(), lastRequest.getSummary());
+        }
+        SendNotificationResponse response = SendNotificationResponse.newSuccess(request);
+        callbacks.callSuccess(response);
+        return CompletableFuture.completedFuture(response);
     }
-    SendNotificationResponse response = SendNotificationResponse.newSuccess(request);
-    callbacks.callSuccess(response);
-    return CompletableFuture.completedFuture(response);
-  }
 
-  public SendNotificationRequest getLastRequest() {
-    return lastRequest;
-  }
+    public SendNotificationRequest getLastRequest() {
+        return lastRequest;
+    }
 
-  public void clearLast() {
-    lastRequest = null;
-  }
+    public void clearLast() {
+        lastRequest = null;
+    }
 }

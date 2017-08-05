@@ -13,25 +13,25 @@ import static org.testng.Assert.assertNotNull;
  * Time: 11:14 PM
  */
 public class NotifierUsageTest {
-  private static Logger log = LoggerFactory.getLogger(NotifierUsageTest.class);
+    private static Logger log = LoggerFactory.getLogger(NotifierUsageTest.class);
 
-  @Test
-  public void simpleUsageTest() {
-    LoggingNotificationSender sender = new LoggingNotificationSender();
-    Notifier notifier = new Notifier(sender);
+    @Test
+    public void simpleUsageTest() {
+        LoggingNotificationSender sender = new LoggingNotificationSender();
+        Notifier notifier = new Notifier(sender);
 
-    notifier.begin()
-      .topic("simple")
-      .summary("Say something")
-      .trackingId("99999")
-      .trait("key", "value")
-      .link("example", "http://example.com")
-      .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
-      .exception(new Exception("Some Trouble"))
-      .attach("some-text", "text/plain", "text attach content")
-      .send();
+        notifier.begin()
+                .topic("simple")
+                .summary("Say something")
+                .trackingId("99999")
+                .trait("key", "value")
+                .link("example", "http://example.com")
+                .link("Tioga YouTrack", "http://tioga.myjetbrains.com/")
+                .exception(new Exception("Some Trouble"))
+                .attach("some-text", "text/plain", "text attach content")
+                .send();
 
-    assertNotNull(sender.getLastRequest());
-  }
+        assertNotNull(sender.getLastRequest());
+    }
 
 }

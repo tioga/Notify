@@ -28,14 +28,10 @@ import java.util.Map;
 public class SlackTaskProcessor implements TaskProcessor {
 
     public static final String DEFAULT_TEMPLATE_PATH = "classpath:/tioga-notify-processor-slack/default-slack-template.html";
-
-    private final JsonTranslator jsonTranslator;
-    private final ThymeleafMessageBuilder messageBuilder;
-
-
     private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("slack");
     private static final Logger log = LoggerFactory.getLogger(SlackTaskProcessor.class);
-
+    private final JsonTranslator jsonTranslator;
+    private final ThymeleafMessageBuilder messageBuilder;
     private final Client client;
 
     @Autowired
@@ -85,15 +81,15 @@ public class SlackTaskProcessor implements TaskProcessor {
             // in an endless cycle of posting, fetching, posting, fetching, etc...
             // char vtab = 11;
             String vtab = "|"; // not a colon, but looks like one :-)
-            messageText = messageText.replace("HTTP://",  "HTTP" + vtab + "//");
-            messageText = messageText.replace("http://",  "http" + vtab + "//");
+            messageText = messageText.replace("HTTP://", "HTTP" + vtab + "//");
+            messageText = messageText.replace("http://", "http" + vtab + "//");
             messageText = messageText.replace("HTTPS://", "HTTPS" + vtab + "//");
             messageText = messageText.replace("https://", "https" + vtab + "//");
 
             // But there are good links, namely the link to our notification.
             // We can identify them by via slack's special mark up for links.
-            messageText = messageText.replace("<HTTP" + vtab + "//",  "<HTTP://");
-            messageText = messageText.replace("<http" + vtab + "//",  "<http://");
+            messageText = messageText.replace("<HTTP" + vtab + "//", "<HTTP://");
+            messageText = messageText.replace("<http" + vtab + "//", "<http://");
             messageText = messageText.replace("<HTTPS" + vtab + "//", "<HTTPS://");
             messageText = messageText.replace("<https" + vtab + "//", "<https://");
 

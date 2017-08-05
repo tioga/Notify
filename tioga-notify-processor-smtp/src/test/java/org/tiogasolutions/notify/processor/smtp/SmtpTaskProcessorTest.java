@@ -35,9 +35,105 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class SmtpTaskProcessorTest {
 
-    private SmtpTaskProcessor processor = new SmtpTaskProcessor();
+    private static final String EXPECTED_HTML = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" +
+            "\n" +
+            "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+            "<!--@thymesVar id=\"it\" type=\"org.tiogasolutions.notify.kernel.message.MessageModel\"-->\n" +
+            "<head>\n" +
+            "    <title>NOTIFICATION: Something really bad just happened.</title>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<h1 style=\"white-space: pre\">Something really bad just happened.</h1>\n" +
+            "\n" +
+            "<h2 style=\"margin-bottom: 0\">Details</h2>\n" +
+            "<ul style=\"margin-top: 0\">\n" +
+            "    <li>Topic: <span style=\"font-weight: bold;\">test-topic</span></li>\n" +
+            "    <li>Created: <span style=\"font-weight: bold;\">%s</span></li>\n" +
+            "    <li>Link: <a style=\"font-weight: bold;\" shape=\"rect\" href=\"http://localhost/some-task\">http://localhost/some-task</a></li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<h2 style=\"margin-bottom: 0\">Traits</h2>\n" +
+            "<ul style=\"margin-top: 0\">\n" +
+            "    <li>\n" +
+            "        <span>test</span>:\n" +
+            "        <span style=\"font-weight: bold\">true</span></li>\n" +
+            "    <li>\n" +
+            "        <span>user</span>:\n" +
+            "        <span style=\"font-weight: bold\">jacob</span></li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<h2 style=\"margin-bottom: 0\">Exception Details</h2>\n" +
+            "<ul style=\"margin-top: 0\">\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">I need to go to the hospital.</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.IllegalArgumentException</span>)\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">My leg hurts</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.RuntimeException</span>)\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">Opps, I tripped.</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.UnsupportedOperationException</span>)\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">Running with scissors</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.NullPointerException</span>)\n" +
+            "    </li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<div style=\"margin-top: 2em; font-size: smaller\">\n" +
+            "    Bought to you by the people that would rather code than eat, HN &amp; JDP\n" +
+            "</div>\n" +
+            "\n" +
+            "</body>\n" +
+            "</html>";
+    private static final String EXPECTED_BODY = "\n" +
+            "<h1 style=\"white-space: pre\">Something really bad just happened.</h1>\n" +
+            "\n" +
+            "<h2 style=\"margin-bottom: 0\">Details</h2>\n" +
+            "<ul style=\"margin-top: 0\">\n" +
+            "    <li>Topic: <span style=\"font-weight: bold;\">test-topic</span></li>\n" +
+            "    <li>Created: <span style=\"font-weight: bold;\">%s</span></li>\n" +
+            "    <li>Link: <a style=\"font-weight: bold;\" shape=\"rect\" href=\"http://localhost/some-task\">http://localhost/some-task</a></li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<h2 style=\"margin-bottom: 0\">Traits</h2>\n" +
+            "<ul style=\"margin-top: 0\">\n" +
+            "    <li>\n" +
+            "        <span>test</span>:\n" +
+            "        <span style=\"font-weight: bold\">true</span></li>\n" +
+            "    <li>\n" +
+            "        <span>user</span>:\n" +
+            "        <span style=\"font-weight: bold\">jacob</span></li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<h2 style=\"margin-bottom: 0\">Exception Details</h2>\n" +
+            "<ul style=\"margin-top: 0\">\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">I need to go to the hospital.</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.IllegalArgumentException</span>)\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">My leg hurts</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.RuntimeException</span>)\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">Opps, I tripped.</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.UnsupportedOperationException</span>)\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "        <span style=\"font-weight: bold\">Running with scissors</span>\n" +
+            "        (<span style=\"font-style: italic\">java.lang.NullPointerException</span>)\n" +
+            "    </li>\n" +
+            "</ul>\n" +
+            "\n" +
+            "<div style=\"margin-top: 2em; font-size: smaller\">\n" +
+            "    Bought to you by the people that would rather code than eat, HN &amp; JDP\n" +
+            "</div>\n" +
+            "\n";
     private final URI someUri = URI.create("http://localhost/some-task");
-
+    private SmtpTaskProcessor processor = new SmtpTaskProcessor();
     private String smtpHost;
     private String smtpPort;
     private String smtpAuthType;
@@ -45,7 +141,6 @@ public class SmtpTaskProcessorTest {
     private String smtpPassword;
     private String smtpFrom;
     private String smtpRecipients;
-
     private List<AttachmentInfo> attachments = new ArrayList<>();
     private Map<String, String> traitMap = new HashMap<>();
     private ExceptionInfo exceptionInfo = new ExceptionInfo(new IllegalArgumentException("I need to go to the hospital.", new RuntimeException("My leg hurts", new UnsupportedOperationException("Opps, I tripped.", new NullPointerException("Running with scissors")))));
@@ -132,14 +227,14 @@ public class SmtpTaskProcessorTest {
 
     public void sendWithComplexStatus() {
         Map<String, String> argMap = new HashMap<>();
-        argMap.put("smtpHost",       smtpHost);
-        argMap.put("smtpPort",       smtpPort);
-        argMap.put("smtpAuthType",   smtpAuthType);
+        argMap.put("smtpHost", smtpHost);
+        argMap.put("smtpPort", smtpPort);
+        argMap.put("smtpAuthType", smtpAuthType);
 
-        argMap.put("smtpUsername",   smtpUsername);
-        argMap.put("smtpPassword",   smtpPassword);
+        argMap.put("smtpUsername", smtpUsername);
+        argMap.put("smtpPassword", smtpPassword);
 
-        argMap.put("smtpFrom",       smtpFrom);
+        argMap.put("smtpFrom", smtpFrom);
         argMap.put("smtpRecipients", smtpRecipients);
 
         Destination destination = new Destination("test", "smtp", argMap);
@@ -182,104 +277,5 @@ public class SmtpTaskProcessorTest {
                 exceptionInfo,
                 attachments);
     }
-
-    private static final String EXPECTED_HTML = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" +
-            "\n" +
-            "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
-            "<!--@thymesVar id=\"it\" type=\"org.tiogasolutions.notify.kernel.message.MessageModel\"-->\n" +
-            "<head>\n" +
-            "    <title>NOTIFICATION: Something really bad just happened.</title>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<h1 style=\"white-space: pre\">Something really bad just happened.</h1>\n" +
-            "\n" +
-            "<h2 style=\"margin-bottom: 0\">Details</h2>\n" +
-            "<ul style=\"margin-top: 0\">\n" +
-            "    <li>Topic: <span style=\"font-weight: bold;\">test-topic</span></li>\n" +
-            "    <li>Created: <span style=\"font-weight: bold;\">%s</span></li>\n" +
-            "    <li>Link: <a style=\"font-weight: bold;\" shape=\"rect\" href=\"http://localhost/some-task\">http://localhost/some-task</a></li>\n" +
-            "</ul>\n" +
-            "\n" +
-            "<h2 style=\"margin-bottom: 0\">Traits</h2>\n" +
-            "<ul style=\"margin-top: 0\">\n" +
-            "    <li>\n" +
-            "        <span>test</span>:\n" +
-            "        <span style=\"font-weight: bold\">true</span></li>\n" +
-            "    <li>\n" +
-            "        <span>user</span>:\n" +
-            "        <span style=\"font-weight: bold\">jacob</span></li>\n" +
-            "</ul>\n" +
-            "\n" +
-            "<h2 style=\"margin-bottom: 0\">Exception Details</h2>\n" +
-            "<ul style=\"margin-top: 0\">\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">I need to go to the hospital.</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.IllegalArgumentException</span>)\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">My leg hurts</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.RuntimeException</span>)\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">Opps, I tripped.</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.UnsupportedOperationException</span>)\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">Running with scissors</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.NullPointerException</span>)\n" +
-            "    </li>\n" +
-            "</ul>\n" +
-            "\n" +
-            "<div style=\"margin-top: 2em; font-size: smaller\">\n" +
-            "    Bought to you by the people that would rather code than eat, HN &amp; JDP\n" +
-            "</div>\n" +
-            "\n" +
-            "</body>\n" +
-            "</html>";
-
-    private static final String EXPECTED_BODY = "\n" +
-            "<h1 style=\"white-space: pre\">Something really bad just happened.</h1>\n" +
-            "\n" +
-            "<h2 style=\"margin-bottom: 0\">Details</h2>\n" +
-            "<ul style=\"margin-top: 0\">\n" +
-            "    <li>Topic: <span style=\"font-weight: bold;\">test-topic</span></li>\n" +
-            "    <li>Created: <span style=\"font-weight: bold;\">%s</span></li>\n" +
-            "    <li>Link: <a style=\"font-weight: bold;\" shape=\"rect\" href=\"http://localhost/some-task\">http://localhost/some-task</a></li>\n" +
-            "</ul>\n" +
-            "\n" +
-            "<h2 style=\"margin-bottom: 0\">Traits</h2>\n" +
-            "<ul style=\"margin-top: 0\">\n" +
-            "    <li>\n" +
-            "        <span>test</span>:\n" +
-            "        <span style=\"font-weight: bold\">true</span></li>\n" +
-            "    <li>\n" +
-            "        <span>user</span>:\n" +
-            "        <span style=\"font-weight: bold\">jacob</span></li>\n" +
-            "</ul>\n" +
-            "\n" +
-            "<h2 style=\"margin-bottom: 0\">Exception Details</h2>\n" +
-            "<ul style=\"margin-top: 0\">\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">I need to go to the hospital.</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.IllegalArgumentException</span>)\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">My leg hurts</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.RuntimeException</span>)\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">Opps, I tripped.</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.UnsupportedOperationException</span>)\n" +
-            "    </li>\n" +
-            "    <li>\n" +
-            "        <span style=\"font-weight: bold\">Running with scissors</span>\n" +
-            "        (<span style=\"font-style: italic\">java.lang.NullPointerException</span>)\n" +
-            "    </li>\n" +
-            "</ul>\n" +
-            "\n" +
-            "<div style=\"margin-top: 2em; font-size: smaller\">\n" +
-            "    Bought to you by the people that would rather code than eat, HN &amp; JDP\n" +
-            "</div>\n" +
-            "\n";
 
 }

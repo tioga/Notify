@@ -5,60 +5,60 @@ import java.util.Map;
 
 public class TaskProcessorType {
 
-  private static Map<String,TaskProcessorType> map = new HashMap<>();
+    private static Map<String, TaskProcessorType> map = new HashMap<>();
+    private final String code;
 
-  public static boolean isValueOf(String code) {
-    return map.containsKey(code);
-  }
-
-  public static boolean isNotValueOf(String code) {
-    return map.containsKey(code) == false;
-  }
-
-  /**
-   * Returns the processor type for the specified code.
-   * @param code the processor type' code.
-   * @return the value.
-   * @throws IllegalArgumentException if the specified code does a known processor type.
-   */
-  public static TaskProcessorType valueOf(String code) throws IllegalArgumentException {
-    if (map.containsKey(code) == false) {
-      String msg = String.format("The processor type \"%s\" was not found.%n", code);
-      throw new IllegalArgumentException(msg);
+    public TaskProcessorType(String code) {
+        this.code = code;
+        map.put(code, this);
     }
-    return map.get(code);
-  }
 
-  private final String code;
+    public static boolean isValueOf(String code) {
+        return map.containsKey(code);
+    }
 
-  public TaskProcessorType(String code) {
-    this.code = code;
-    map.put(code, this);
-  }
+    public static boolean isNotValueOf(String code) {
+        return map.containsKey(code) == false;
+    }
 
-  public String getCode() {
-    return code;
-  }
+    /**
+     * Returns the processor type for the specified code.
+     *
+     * @param code the processor type' code.
+     * @return the value.
+     * @throws IllegalArgumentException if the specified code does a known processor type.
+     */
+    public static TaskProcessorType valueOf(String code) throws IllegalArgumentException {
+        if (map.containsKey(code) == false) {
+            String msg = String.format("The processor type \"%s\" was not found.%n", code);
+            throw new IllegalArgumentException(msg);
+        }
+        return map.get(code);
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    public String getCode() {
+        return code;
+    }
 
-    TaskProcessorType that = (TaskProcessorType) o;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    if (code != null ? !code.equals(that.code) : that.code != null) return false;
+        TaskProcessorType that = (TaskProcessorType) o;
 
-    return true;
-  }
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
 
-  @Override
-  public int hashCode() {
-    return code != null ? code.hashCode() : 0;
-  }
+        return true;
+    }
 
-  @Override
-  public String toString() {
-    return code;
-  }
+    @Override
+    public int hashCode() {
+        return code != null ? code.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return code;
+    }
 }

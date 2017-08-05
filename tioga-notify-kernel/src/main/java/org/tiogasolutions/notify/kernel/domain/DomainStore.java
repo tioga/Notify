@@ -46,6 +46,8 @@ import static java.lang.String.format;
 public class DomainStore extends AbstractStore {
 
     private static final Logger log = LoggerFactory.getLogger(DomainStore.class);
+    // HACK - using admin role here and should not.
+    private static final String USER_JSON_TEMPLATE = "{\"_id\": \"%s\",\"name\": \"%s\",\"type\": \"user\",\"roles\": [],\"password\": \"%s\"}";
     private final CouchServers couchServers;
     private final CouchServer notificationCouchServer;
     private final CouchServer requestCouchServer;
@@ -171,7 +173,6 @@ public class DomainStore extends AbstractStore {
 
         return new DomainSummary(topics, traits);
     }
-
 
     // TODO - need a DomainProfileQuery.
     public QueryResult<DomainProfileEntity> queryActive() {
@@ -409,8 +410,5 @@ public class DomainStore extends AbstractStore {
     private CouchDatabase notificationDb(DomainProfileEntity domainProfile, CouchFeatureSet featureSet) {
         return notificationCouchServer.database(domainProfile.getNotificationDbName(), featureSet);
     }
-
-    // HACK - using admin role here and should not.
-    private static final String USER_JSON_TEMPLATE = "{\"_id\": \"%s\",\"name\": \"%s\",\"type\": \"user\",\"roles\": [],\"password\": \"%s\"}";
 
 }

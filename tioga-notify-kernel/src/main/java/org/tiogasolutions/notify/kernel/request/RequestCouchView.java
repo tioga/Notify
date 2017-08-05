@@ -6,5 +6,5 @@ package org.tiogasolutions.notify.kernel.request;
  * Time: 3:00 PM
  */
 public enum RequestCouchView {
-  ByTrackingId, ByRequestStatusAndCreatedAt
+    ByTrackingId, ByRequestStatusAndCreatedAt
 }

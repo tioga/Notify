@@ -6,9 +6,9 @@ import org.tiogasolutions.dev.common.LogbackUtils;
 
 public class KernelTestSuite {
 
-  @BeforeSuite
-  public void beforeSuite() {
-    LogbackUtils.initLogback(Level.WARN);
-  }
+    @BeforeSuite
+    public void beforeSuite() {
+        LogbackUtils.initLogback(Level.WARN);
+    }
 
 }

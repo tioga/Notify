@@ -18,9 +18,8 @@ import static org.tiogasolutions.notify.kernel.Paths.$domains;
 
 public class PubUtils {
 
-    private boolean excludeLinks;
-
     private final UriInfo uriInfo;
+    private boolean excludeLinks;
 
     public PubUtils(UriInfo uriInfo) {
         this.uriInfo = uriInfo;
@@ -44,10 +43,10 @@ public class PubUtils {
 
         if (statusCode == HttpStatusCode.CREATED.getCode()) {
             HalLink link = item.get_links().getLink("self");
-            builder.location( link.getHref() );
+            builder.location(link.getHref());
         }
 
-        for (Map.Entry<String,HalLink> entry : item.get_links().entrySet()) {
+        for (Map.Entry<String, HalLink> entry : item.get_links().entrySet()) {
             String rel = entry.getKey();
             HalLink link = entry.getValue();
             builder.link(link.getHref(), rel);
@@ -109,9 +108,9 @@ public class PubUtils {
 
     public Response.ResponseBuilder toAdmin() {
         HalLinks links = HalLinksBuilder.builder()
-            .create("self", uriAdmin())
-            .create("domains", uriAdminDomains())
-            .build();
+                .create("self", uriAdmin())
+                .create("domains", uriAdminDomains())
+                .build();
 
         HalItem item = new HalItem(HttpStatusCode.OK, links);
 

@@ -6,5 +6,5 @@ package org.tiogasolutions.notify.kernel.notification;
  * Time: 3:00 PM
  */
 public enum NotificationCouchView {
-  ByTrackingId, ByCreatedAt, ByTopicAndCreatedAt, ByTraitKeyAndCreatedAt, ByTraitKeyValueAndCreatedAt, BySummary
+    ByTrackingId, ByCreatedAt, ByTopicAndCreatedAt, ByTraitKeyAndCreatedAt, ByTraitKeyValueAndCreatedAt, BySummary
 }

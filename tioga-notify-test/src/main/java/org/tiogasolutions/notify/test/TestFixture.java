@@ -14,8 +14,8 @@ import java.time.ZoneId;
 @Component
 public class TestFixture {
 
-  public static final ZoneId westCoastTimeZone = DateUtils.PDT;
+    public static final ZoneId westCoastTimeZone = DateUtils.PDT;
 
-  public TestFixture() {
-  }
+    public TestFixture() {
+    }
 }

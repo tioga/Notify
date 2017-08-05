@@ -4,7 +4,7 @@ import javax.ws.rs.core.Application;
 
 public class NotifyApplication extends Application {
 
-  public NotifyApplication() {
-  }
+    public NotifyApplication() {
+    }
 
 }

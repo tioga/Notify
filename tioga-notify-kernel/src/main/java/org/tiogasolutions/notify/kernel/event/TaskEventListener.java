@@ -8,6 +8,6 @@ import org.tiogasolutions.notify.pub.notification.Notification;
  */
 public interface TaskEventListener {
 
-  void taskCreated(String domainName, TaskEntity task, Notification notification);
+    void taskCreated(String domainName, TaskEntity task, Notification notification);
 
 }

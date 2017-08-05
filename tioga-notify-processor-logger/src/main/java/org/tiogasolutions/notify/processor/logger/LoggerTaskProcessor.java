@@ -13,26 +13,26 @@ import org.tiogasolutions.notify.pub.task.TaskResponse;
 @Component
 public class LoggerTaskProcessor implements TaskProcessor {
 
-  private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("logger");
-  private static final Logger log = LoggerFactory.getLogger(LoggerTaskProcessor.class);
+    private static final TaskProcessorType PROVIDER_TYPE = new TaskProcessorType("logger");
+    private static final Logger log = LoggerFactory.getLogger(LoggerTaskProcessor.class);
 
-  public LoggerTaskProcessor() {
-  }
+    public LoggerTaskProcessor() {
+    }
 
-  @Override
-  public boolean isReady() {
-    return true;
-  }
+    @Override
+    public boolean isReady() {
+        return true;
+    }
 
-  @Override
-  public TaskProcessorType getType() {
-    return PROVIDER_TYPE;
-  }
+    @Override
+    public TaskProcessorType getType() {
+        return PROVIDER_TYPE;
+    }
 
-  @Override
-  public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
-    String message = notification.getSummary();
-    log.warn("\n  **\n  ** {}\n  **", message.trim());
-    return TaskResponse.complete("Ok");
-  }
+    @Override
+    public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
+        String message = notification.getSummary();
+        log.warn("\n  **\n  ** {}\n  **", message.trim());
+        return TaskResponse.complete("Ok");
+    }
 }

@@ -5,72 +5,72 @@ package org.tiogasolutions.notify.pub.task;
  */
 public class TaskQuery {
 
-  // By ID is expected to throw an exception which is counter
-  // intuitive to how a Query object would work. Disabled for now.
-  // private String taskId;
+    // By ID is expected to throw an exception which is counter
+    // intuitive to how a Query object would work. Disabled for now.
+    // private String taskId;
 
-  private String notificationId;
-  private TaskStatus taskStatus;
-  private String destinationName;
-  private String destinationProvider;
-  private int offset = 0;
-  private int limit = 100;
+    private String notificationId;
+    private TaskStatus taskStatus;
+    private String destinationName;
+    private String destinationProvider;
+    private int offset = 0;
+    private int limit = 100;
 
-  public TaskQuery() {
-  }
+    public TaskQuery() {
+    }
 
-  public int getLimit() {
-    return limit;
-  }
+    public int getLimit() {
+        return limit;
+    }
 
-  public TaskQuery setLimit(int limit) {
-    this.limit = limit;
-    return this;
-  }
+    public TaskQuery setLimit(int limit) {
+        this.limit = limit;
+        return this;
+    }
 
-  public int getOffset() {
-    return offset;
-  }
+    public int getOffset() {
+        return offset;
+    }
 
-  public TaskQuery setOffset(int offset) {
-    this.offset = offset;
-    return this;
-  }
+    public TaskQuery setOffset(int offset) {
+        this.offset = offset;
+        return this;
+    }
 
-  public String getNotificationId() {
-    return notificationId;
-  }
+    public String getNotificationId() {
+        return notificationId;
+    }
 
-  public TaskQuery setNotificationId(String notificationId) {
-    this.notificationId = notificationId;
-    return this;
-  }
+    public TaskQuery setNotificationId(String notificationId) {
+        this.notificationId = notificationId;
+        return this;
+    }
 
-  public TaskStatus getTaskStatus() {
-    return taskStatus;
-  }
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
 
-  public TaskQuery setTaskStatus(TaskStatus taskStatus) {
-    this.taskStatus = taskStatus;
-    return this;
-  }
+    public TaskQuery setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
+        return this;
+    }
 
-  public String getDestinationName() {
-    return destinationName;
-  }
+    public String getDestinationName() {
+        return destinationName;
+    }
 
-  public TaskQuery setDestinationName(String destinationName) {
-    this.destinationName = destinationName;
-    return this;
-  }
+    public TaskQuery setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+        return this;
+    }
 
-  public String getDestinationProvider() {
-    return destinationProvider;
-  }
+    public String getDestinationProvider() {
+        return destinationProvider;
+    }
 
-  public TaskQuery setDestinationProvider(String destinationProvider) {
-    this.destinationProvider = destinationProvider;
-    return this;
-  }
+    public TaskQuery setDestinationProvider(String destinationProvider) {
+        this.destinationProvider = destinationProvider;
+        return this;
+    }
 
 }

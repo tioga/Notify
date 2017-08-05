@@ -10,86 +10,86 @@ import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RouteCatalog {
-  private static final Logger logger = LoggerFactory.getLogger(RouteCatalog.class);
-  private final List<RouteDef> routes;
-  private final List<DestinationDef> destinations;
+    private static final Logger logger = LoggerFactory.getLogger(RouteCatalog.class);
+    private final List<RouteDef> routes;
+    private final List<DestinationDef> destinations;
 
-  public static RouteCatalog newEmptyCatalog() {
-    return new RouteCatalog(Collections.emptyList(), Collections.emptyList());
-  }
-
-  @JsonCreator
-  public RouteCatalog(@JsonProperty("destinations") List<DestinationDef> destinations,
-                      @JsonProperty("routes") List<RouteDef> routes) {
-    this.destinations = (destinations != null) ? Collections.unmodifiableList(destinations) : Collections.emptyList();
-    this.routes = (routes != null) ? Collections.unmodifiableList(routes) : Collections.emptyList();
-  }
-
-  public Map<String, Destination> mapDestinations() {
-    Map<String, Destination> map = new HashMap<>();
-    for(DestinationDef destinationDef : getDestinations()) {
-      Destination destination = destinationDef.toDestination();
-      map.put(destination.getName().toLowerCase(), destination);
+    @JsonCreator
+    public RouteCatalog(@JsonProperty("destinations") List<DestinationDef> destinations,
+                        @JsonProperty("routes") List<RouteDef> routes) {
+        this.destinations = (destinations != null) ? Collections.unmodifiableList(destinations) : Collections.emptyList();
+        this.routes = (routes != null) ? Collections.unmodifiableList(routes) : Collections.emptyList();
     }
-    return map;
-  }
 
-  public List<Route> loadActiveRoutes() {
-    Map<String, Destination> destinationMap = mapDestinations();
-    List<Route> routeList = new ArrayList<>();
+    public static RouteCatalog newEmptyCatalog() {
+        return new RouteCatalog(Collections.emptyList(), Collections.emptyList());
+    }
 
-    for(RouteDef routeDef : getRoutes()) {
-      if (routeDef.getRouteStatus() == RouteStatus.ENABLED) {
-        List<Destination> routeDestinations = new ArrayList<>();
-        for(String destinationName : routeDef.getDestinations()) {
-          Destination destination = destinationMap.get(destinationName.toLowerCase());
-          if (destination == null) {
-            logger.error("Destination not found: " + destinationName);
-          } else if (destination.getDestinationStatus() == DestinationStatus.ENABLED) {
-            routeDestinations.add(destination);
-          }
+    public Map<String, Destination> mapDestinations() {
+        Map<String, Destination> map = new HashMap<>();
+        for (DestinationDef destinationDef : getDestinations()) {
+            Destination destination = destinationDef.toDestination();
+            map.put(destination.getName().toLowerCase(), destination);
         }
-        Route route = new Route(routeDef.getName(), routeDef.getRouteStatus(), routeDef.getEval(), routeDestinations);
-        routeList.add(route);
-      }
+        return map;
     }
 
-    return routeList;
-  }
+    public List<Route> loadActiveRoutes() {
+        Map<String, Destination> destinationMap = mapDestinations();
+        List<Route> routeList = new ArrayList<>();
 
-  public List<DestinationDef> getDestinations() {
-    return destinations;
-  }
+        for (RouteDef routeDef : getRoutes()) {
+            if (routeDef.getRouteStatus() == RouteStatus.ENABLED) {
+                List<Destination> routeDestinations = new ArrayList<>();
+                for (String destinationName : routeDef.getDestinations()) {
+                    Destination destination = destinationMap.get(destinationName.toLowerCase());
+                    if (destination == null) {
+                        logger.error("Destination not found: " + destinationName);
+                    } else if (destination.getDestinationStatus() == DestinationStatus.ENABLED) {
+                        routeDestinations.add(destination);
+                    }
+                }
+                Route route = new Route(routeDef.getName(), routeDef.getRouteStatus(), routeDef.getEval(), routeDestinations);
+                routeList.add(route);
+            }
+        }
 
-  public List<RouteDef> getRoutes() {
-    return routes;
-  }
+        return routeList;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    public List<DestinationDef> getDestinations() {
+        return destinations;
+    }
 
-    RouteCatalog that = (RouteCatalog) o;
+    public List<RouteDef> getRoutes() {
+        return routes;
+    }
 
-    if (destinations != null ? !destinations.equals(that.destinations) : that.destinations != null) return false;
-    if (routes != null ? !routes.equals(that.routes) : that.routes != null) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    return true;
-  }
+        RouteCatalog that = (RouteCatalog) o;
 
-  @Override
-  public int hashCode() {
-    int result = routes != null ? routes.hashCode() : 0;
-    result = 31 * result + (destinations != null ? destinations.hashCode() : 0);
-    return result;
-  }
+        if (destinations != null ? !destinations.equals(that.destinations) : that.destinations != null) return false;
+        if (routes != null ? !routes.equals(that.routes) : that.routes != null) return false;
 
-  @Override
-  public String toString() {
-    return "RouteCatalog{" +
-        "routes=" + routes +
-        ", destinations=" + destinations +
-        '}';
-  }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = routes != null ? routes.hashCode() : 0;
+        result = 31 * result + (destinations != null ? destinations.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RouteCatalog{" +
+                "routes=" + routes +
+                ", destinations=" + destinations +
+                '}';
+    }
 }

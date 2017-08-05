@@ -6,5 +6,5 @@ import org.tiogasolutions.notify.pub.domain.DomainProfile;
  * Created by harlan on 2/14/15.
  */
 public interface RequestReceiver {
-  public void receiveRequests(DomainProfile domainProfile);
+    public void receiveRequests(DomainProfile domainProfile);
 }

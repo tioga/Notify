@@ -37,95 +37,95 @@ import java.security.KeyStore;
  */
 public class SslConfig {
 
-  private static final Logger log = LoggerFactory.getLogger(SslConfig.class);
-  private final SSLContext sslContext;
-  private final SSLSocketFactory sslSocketFactory;
-  private final KeyStore keyStore;
+    private static final Logger log = LoggerFactory.getLogger(SslConfig.class);
+    private final SSLContext sslContext;
+    private final SSLSocketFactory sslSocketFactory;
+    private final KeyStore keyStore;
 
-  public SslConfig(String keyStoreURI, String keyStorePass) throws SslException {
+    public SslConfig(String keyStoreURI, String keyStorePass) throws SslException {
 
-    try {
-      // Replace back slashes with forward slashes, helpful when a root path comes from windows.
-      keyStoreURI = keyStoreURI.replaceAll("(\\\\+)+", "/");
-      this.keyStore = initKeyStore(new URI(keyStoreURI), keyStorePass);
-    } catch (URISyntaxException e) {
-      throw new SslException("Exception creating URI for " + keyStoreURI, e);
-    }
-
-    try {
-      // Initialize trust store manager.
-      TrustManagerFactory tmf = newTrustManagerFactory();
-
-      // Create and initialize SSLContext, use a keyManager if we were given a key pass (for client auth).
-      sslContext = SSLContext.getInstance("TLS");
-      sslContext.init(new KeyManager[0], tmf.getTrustManagers(), null);
-
-      // Keep reference to sslSocketFactory so it can be utilized by our VistaHttpInvokerExecutor.
-      sslSocketFactory = sslContext.getSocketFactory();
-    } catch (Exception ex) {
-      log.error("Error initializing SSl Socket Factory.", ex);
-      throw new SslException("Exception initializing SSLContext.", ex);
-    }
-  }
-
-  public SSLContext getSSLContext() {
-    return sslContext;
-  }
-
-  public SSLSocketFactory getSSLSocketFactory() {
-    return sslSocketFactory;
-  }
-
-  protected KeyStore initKeyStore(URI keyStoreURI, String keyStorePass) throws SslException {
-    InputStream inputStream = null;
-    try {
-
-      // Open our input stream to read the keystore from.
-      KeyStore localKeyStore = KeyStore.getInstance("JKS");
-      if (keyStoreURI.getScheme() == null) {
-        throw new SslException("KeyStoreURI schema is null, please specify schema (file:, classpath:, etc.).");
-      } else if (keyStoreURI.getScheme().equalsIgnoreCase("classpath")) {
-        URL url = getClass().getResource(keyStoreURI.getPath());
-        if (url == null) {
-          throw new SslException("Could not find keystore file at " + keyStoreURI);
-        }
-        inputStream = url.openStream();
-      } else {
-        inputStream = keyStoreURI.toURL().openStream();
-      }
-
-      // Load the keystore.
-      localKeyStore.load(inputStream, keyStorePass.toCharArray());
-
-      return localKeyStore;
-
-    } catch (Exception ex) {
-      log.error("Exception loading keystore.", ex);
-      throw new SslException("Exception loading keystore.", ex);
-    } finally {
-      if (inputStream != null) {
         try {
-          inputStream.close();
-        } catch (IOException e) {
-          log.error("Error closing input stream in SslSetup", e);
+            // Replace back slashes with forward slashes, helpful when a root path comes from windows.
+            keyStoreURI = keyStoreURI.replaceAll("(\\\\+)+", "/");
+            this.keyStore = initKeyStore(new URI(keyStoreURI), keyStorePass);
+        } catch (URISyntaxException e) {
+            throw new SslException("Exception creating URI for " + keyStoreURI, e);
         }
-      }
+
+        try {
+            // Initialize trust store manager.
+            TrustManagerFactory tmf = newTrustManagerFactory();
+
+            // Create and initialize SSLContext, use a keyManager if we were given a key pass (for client auth).
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(new KeyManager[0], tmf.getTrustManagers(), null);
+
+            // Keep reference to sslSocketFactory so it can be utilized by our VistaHttpInvokerExecutor.
+            sslSocketFactory = sslContext.getSocketFactory();
+        } catch (Exception ex) {
+            log.error("Error initializing SSl Socket Factory.", ex);
+            throw new SslException("Exception initializing SSLContext.", ex);
+        }
     }
-  }
 
-  protected TrustManagerFactory newTrustManagerFactory() throws SslException {
-    // Initialize KeyManagerFactory
-    try {
-      // Initialize TrustManagerFactory.
-      TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
-      tmf.init(keyStore);
-
-      return tmf;
-
-    } catch (Exception ex) {
-      throw new SslException("Exception initializing SSLContext in PaymentSubSystem.", ex);
+    public SSLContext getSSLContext() {
+        return sslContext;
     }
-  }
+
+    public SSLSocketFactory getSSLSocketFactory() {
+        return sslSocketFactory;
+    }
+
+    protected KeyStore initKeyStore(URI keyStoreURI, String keyStorePass) throws SslException {
+        InputStream inputStream = null;
+        try {
+
+            // Open our input stream to read the keystore from.
+            KeyStore localKeyStore = KeyStore.getInstance("JKS");
+            if (keyStoreURI.getScheme() == null) {
+                throw new SslException("KeyStoreURI schema is null, please specify schema (file:, classpath:, etc.).");
+            } else if (keyStoreURI.getScheme().equalsIgnoreCase("classpath")) {
+                URL url = getClass().getResource(keyStoreURI.getPath());
+                if (url == null) {
+                    throw new SslException("Could not find keystore file at " + keyStoreURI);
+                }
+                inputStream = url.openStream();
+            } else {
+                inputStream = keyStoreURI.toURL().openStream();
+            }
+
+            // Load the keystore.
+            localKeyStore.load(inputStream, keyStorePass.toCharArray());
+
+            return localKeyStore;
+
+        } catch (Exception ex) {
+            log.error("Exception loading keystore.", ex);
+            throw new SslException("Exception loading keystore.", ex);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    log.error("Error closing input stream in SslSetup", e);
+                }
+            }
+        }
+    }
+
+    protected TrustManagerFactory newTrustManagerFactory() throws SslException {
+        // Initialize KeyManagerFactory
+        try {
+            // Initialize TrustManagerFactory.
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+            tmf.init(keyStore);
+
+            return tmf;
+
+        } catch (Exception ex) {
+            throw new SslException("Exception initializing SSLContext in PaymentSubSystem.", ex);
+        }
+    }
 
 }
 

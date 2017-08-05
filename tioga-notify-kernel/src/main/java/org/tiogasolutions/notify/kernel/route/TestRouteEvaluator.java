@@ -2,7 +2,7 @@ package org.tiogasolutions.notify.kernel.route;
 
 public class TestRouteEvaluator {
 
-  public TestRouteEvaluator() {
+    public TestRouteEvaluator() {
 
 /*
     List<Route> localRoutes = new ArrayList<>();
@@ -22,6 +22,6 @@ public class TestRouteEvaluator {
 */
 
 
-  }
+    }
 
 }

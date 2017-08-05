@@ -14,6 +14,17 @@ import static org.testng.Assert.*;
 @Test
 public class ExceptionInfoTest {
 
+    private static final String EXPECTED_JSON = "{\n" +
+            "  \"exceptionType\" : \"org.tiogasolutions.notify.pub.TestExceptionB\",\n" +
+            "  \"message\" : \"org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\",\n" +
+            "  \"stackTrace\" : \"org.tiogasolutions.notify.pub.TestExceptionB: org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\\n\\tat org.tiogasolutions.notify.pub.TestExceptionB.firstMethod(TestExceptionB.java:133)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionB.secondMethod(TestExceptionB.java:344)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionB.thirdMethod(TestExceptionB.java:352)\\nCaused by: org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.topMethod(TestExceptionA.java:13)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.middleMethod(TestExceptionA.java:34)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.bottomMethod(TestExceptionA.java:32)\\n\",\n" +
+            "  \"cause\" : {\n" +
+            "    \"exceptionType\" : \"org.tiogasolutions.notify.pub.TestExceptionA\",\n" +
+            "    \"message\" : \"You did something really bad\",\n" +
+            "    \"stackTrace\" : \"org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.topMethod(TestExceptionA.java:13)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.middleMethod(TestExceptionA.java:34)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.bottomMethod(TestExceptionA.java:32)\\n\",\n" +
+            "    \"cause\" : null\n" +
+            "  }\n" +
+            "}";
     private JsonTranslator translator;
 
     @BeforeClass
@@ -75,16 +86,4 @@ public class ExceptionInfoTest {
             assertNull(newCause.getCause());
         }
     }
-
-    private static final String EXPECTED_JSON = "{\n" +
-            "  \"exceptionType\" : \"org.tiogasolutions.notify.pub.TestExceptionB\",\n" +
-            "  \"message\" : \"org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\",\n" +
-            "  \"stackTrace\" : \"org.tiogasolutions.notify.pub.TestExceptionB: org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\\n\\tat org.tiogasolutions.notify.pub.TestExceptionB.firstMethod(TestExceptionB.java:133)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionB.secondMethod(TestExceptionB.java:344)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionB.thirdMethod(TestExceptionB.java:352)\\nCaused by: org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.topMethod(TestExceptionA.java:13)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.middleMethod(TestExceptionA.java:34)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.bottomMethod(TestExceptionA.java:32)\\n\",\n" +
-            "  \"cause\" : {\n" +
-            "    \"exceptionType\" : \"org.tiogasolutions.notify.pub.TestExceptionA\",\n" +
-            "    \"message\" : \"You did something really bad\",\n" +
-            "    \"stackTrace\" : \"org.tiogasolutions.notify.pub.TestExceptionA: You did something really bad\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.topMethod(TestExceptionA.java:13)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.middleMethod(TestExceptionA.java:34)\\n\\tat org.tiogasolutions.notify.pub.TestExceptionA.bottomMethod(TestExceptionA.java:32)\\n\",\n" +
-            "    \"cause\" : null\n" +
-            "  }\n" +
-            "}";
 }

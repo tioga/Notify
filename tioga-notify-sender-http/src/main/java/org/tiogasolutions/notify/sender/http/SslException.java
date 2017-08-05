@@ -23,15 +23,15 @@ package org.tiogasolutions.notify.sender.http;
  */
 public class SslException extends Exception {
 
-  public SslException(String s) {
-    super(s);
-  }
+    public SslException(String s) {
+        super(s);
+    }
 
-  public SslException(String s, Throwable throwable) {
-    super(s, throwable);
-  }
+    public SslException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
 
-  public SslException(Throwable throwable) {
-    super(throwable);
-  }
+    public SslException(Throwable throwable) {
+        super(throwable);
+    }
 }

@@ -7,15 +7,15 @@
 package org.tiogasolutions.notify.kernel.config;
 
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.tiogasolutions.dev.common.id.IdGenerator;
 import org.tiogasolutions.dev.common.id.TwoPartIdGenerator;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.domain.validation.BeanValidator;
 import org.tiogasolutions.dev.domain.validation.Jsr349BeanValidator;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import javax.validation.Validation;
 import java.time.ZoneId;
@@ -32,31 +32,31 @@ import static org.slf4j.LoggerFactory.getLogger;
 @EnableAspectJAutoProxy
 public class SpringConfig {
 
-  private static final Logger log = getLogger(SpringConfig.class);
+    private static final Logger log = getLogger(SpringConfig.class);
 
-  public SpringConfig() {
-    log.info("Created.");
-  }
+    public SpringConfig() {
+        log.info("Created.");
+    }
 
-  @Bean
-  public JsonTranslator jsonTranslator() {
-    return new TiogaJacksonTranslator();
-  }
+    @Bean
+    public JsonTranslator jsonTranslator() {
+        return new TiogaJacksonTranslator();
+    }
 
-  @Bean
-  public IdGenerator idGenerator() {
-    return new TwoPartIdGenerator();
-  }
+    @Bean
+    public IdGenerator idGenerator() {
+        return new TwoPartIdGenerator();
+    }
 
-  @Bean
-  public BeanValidator validator() {
-    return new Jsr349BeanValidator(Validation.buildDefaultValidatorFactory());
-  }
+    @Bean
+    public BeanValidator validator() {
+        return new Jsr349BeanValidator(Validation.buildDefaultValidatorFactory());
+    }
 
-  @Bean(name = "DomainKeyGenerator")
-  //@Qualifier("DomainKeyGenerator")
-  public IdGenerator domainKeyGenerator() {
-    return new TwoPartIdGenerator("%s-%s", ZonedDateTime.of(2014, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")), "ABCDFGHJKLMNPQRSTVWXYZ", 20, 5, 7);
-  }
+    @Bean(name = "DomainKeyGenerator")
+    //@Qualifier("DomainKeyGenerator")
+    public IdGenerator domainKeyGenerator() {
+        return new TwoPartIdGenerator("%s-%s", ZonedDateTime.of(2014, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")), "ABCDFGHJKLMNPQRSTVWXYZ", 20, 5, 7);
+    }
 
 }

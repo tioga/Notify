@@ -17,53 +17,53 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JsRouteEvaluator implements RouteEvaluator {
-  private final List<RouteMatcher> routeMatcherList;
-  private final ScriptEngine engine;
-  private final Invocable invocable;
+    private final List<RouteMatcher> routeMatcherList;
+    private final ScriptEngine engine;
+    private final Invocable invocable;
 
-  public JsRouteEvaluator(RouteCatalog routeCatalog) {
-    List<Route> routes = routeCatalog.loadActiveRoutes();
+    public JsRouteEvaluator(RouteCatalog routeCatalog) {
+        List<Route> routes = routeCatalog.loadActiveRoutes();
 
-    routeMatcherList = new ArrayList<>();
-    ScriptEngineManager engineManager = new ScriptEngineManager();
-    engine = engineManager.getEngineByName("nashorn");
-    invocable = (Invocable)engine;
+        routeMatcherList = new ArrayList<>();
+        ScriptEngineManager engineManager = new ScriptEngineManager();
+        engine = engineManager.getEngineByName("nashorn");
+        invocable = (Invocable) engine;
 
-    routeMatcherList.addAll(routes.stream()
-        .map(RouteMatcher::new)
-        .collect(Collectors.toList()));
-  }
-
-  @Override
-  public Set<Destination> findDestinations(Notification notification) {
-    Set<Destination> destinations = new HashSet<>();
-    routeMatcherList.stream()
-        .filter(matcher -> matcher.isMatch(notification))
-        .forEach(matcher -> destinations.addAll(matcher.route.getDestinations()));
-    return destinations;
-  }
-
-  /**
-   * TODO - might be more efficient way to do this. Tried to JS with interface but had issues.
-   */
-  public class RouteMatcher {
-    private final Route route;
-    private final String jsFunc;
-
-    public RouteMatcher(Route route) {
-      this.route = route;
-      this.jsFunc = String.format("var eval = %s", route.getEval());
+        routeMatcherList.addAll(routes.stream()
+                .map(RouteMatcher::new)
+                .collect(Collectors.toList()));
     }
 
-    public boolean isMatch(Notification notification) {
-      try {
-        engine.eval(jsFunc);
-        return (boolean) invocable.invokeFunction("eval", notification);
-
-      } catch (ScriptException | NoSuchMethodException e) {
-        throw ApiException.internalServerError(e);
-      }
+    @Override
+    public Set<Destination> findDestinations(Notification notification) {
+        Set<Destination> destinations = new HashSet<>();
+        routeMatcherList.stream()
+                .filter(matcher -> matcher.isMatch(notification))
+                .forEach(matcher -> destinations.addAll(matcher.route.getDestinations()));
+        return destinations;
     }
-  }
+
+    /**
+     * TODO - might be more efficient way to do this. Tried to JS with interface but had issues.
+     */
+    public class RouteMatcher {
+        private final Route route;
+        private final String jsFunc;
+
+        public RouteMatcher(Route route) {
+            this.route = route;
+            this.jsFunc = String.format("var eval = %s", route.getEval());
+        }
+
+        public boolean isMatch(Notification notification) {
+            try {
+                engine.eval(jsFunc);
+                return (boolean) invocable.invokeFunction("eval", notification);
+
+            } catch (ScriptException | NoSuchMethodException e) {
+                throw ApiException.internalServerError(e);
+            }
+        }
+    }
 
 }

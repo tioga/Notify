@@ -9,27 +9,29 @@ import java.io.InputStream;
  * Time: 5:28 PM
  */
 public class AttachmentHolder {
-  private final String name;
-  private final String contentType;
-  private final byte[] content;
+    private final String name;
+    private final String contentType;
+    private final byte[] content;
 
-  public AttachmentHolder(String name, String contentType, byte[] content) {
-    this.name = name;
-    this.contentType = contentType;
-    this.content = content;
-  }
+    public AttachmentHolder(String name, String contentType, byte[] content) {
+        this.name = name;
+        this.contentType = contentType;
+        this.content = content;
+    }
 
-  public String getName() {
-      return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getContentType() {
-      return contentType;
-  }
+    public String getContentType() {
+        return contentType;
+    }
 
-  public byte[] getContent() { return content;}
+    public byte[] getContent() {
+        return content;
+    }
 
-  public InputStream getInputStream() {
-    return new ByteArrayInputStream(content);
-  }
+    public InputStream getInputStream() {
+        return new ByteArrayInputStream(content);
+    }
 }

@@ -11,15 +11,17 @@ import org.tiogasolutions.notify.kernel.config.CouchServersConfig;
 import org.tiogasolutions.notify.kernel.config.SystemConfiguration;
 import org.tiogasolutions.notify.kernel.config.TrustedUserStore;
 
-import static org.tiogasolutions.dev.common.StringUtils.isNotBlank;
-
 @Profile("test")
 @Configuration
 public class SpringTestConfig {
 
-    public static final String couchUrl = (isNotBlank(System.getenv("awsCouchUrl"))) ? System.getenv("awsCouchUrl") : "http://127.0.0.1:5984";
-    public static final String username = (isNotBlank(System.getenv("awsCouchUsername"))) ? System.getenv("awsCouchUsername") : "test-user";
-    public static final String password = (isNotBlank(System.getenv("awsCouchPassword"))) ? System.getenv("awsCouchPassword") : "test-user";
+//    public static final String couchUrl = (isNotBlank(System.getenv("awsCouchUrl"))) ? System.getenv("awsCouchUrl") : "http://127.0.0.1:5984";
+//    public static final String username = (isNotBlank(System.getenv("awsCouchUsername"))) ? System.getenv("awsCouchUsername") : "test-user";
+//    public static final String password = (isNotBlank(System.getenv("awsCouchPassword"))) ? System.getenv("awsCouchPassword") : "test-user";
+
+    public static final String couchUrl = "https://tioga-test.cloudant.com";
+    public static final String username = "tioga-test";
+    public static final String password = "go3IbmCloudant!@";
 
     @Bean
     public NotifyObjectMapper notifyObjectMapper() {

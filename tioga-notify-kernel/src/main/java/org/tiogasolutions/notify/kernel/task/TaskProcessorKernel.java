@@ -9,11 +9,11 @@ import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 @Component
 public class TaskProcessorKernel {
 
-  private final TaskProcessorExecutor processorExecutor;
+    private final TaskProcessorExecutor processorExecutor;
 
-  @Autowired
-  public TaskProcessorKernel(TaskProcessorExecutor processorExecutor, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel) {
-    this.processorExecutor = processorExecutor;
+    @Autowired
+    public TaskProcessorKernel(TaskProcessorExecutor processorExecutor, ExecutionManager executionManager, DomainKernel domainKernel, NotificationKernel notificationKernel) {
+        this.processorExecutor = processorExecutor;
 
 //    new ProcessorExecutor(executionManager, domainKernel, notificationKernel).start();
 //    new ProcessorExecutor(executionManager, domainKernel, notificationKernel).start();
@@ -21,16 +21,16 @@ public class TaskProcessorKernel {
 //    new ProcessorExecutor(executionManager, domainKernel, notificationKernel).start();
 //    new ProcessorExecutor(executionManager, domainKernel, notificationKernel).start();
 
-    // TODO - will auto start for now
-    startExecutor();
-  }
+        // TODO - will auto start for now
+        startExecutor();
+    }
 
-  // TODO - eventually these should become actions (StartReceiverExecutor, StopReceiverExecutor) which can be called from services/resources/api
-  public void startExecutor() {
-    processorExecutor.start();
-  }
+    // TODO - eventually these should become actions (StartReceiverExecutor, StopReceiverExecutor) which can be called from services/resources/api
+    public void startExecutor() {
+        processorExecutor.start();
+    }
 
-  public void stopExecutor() {
-    processorExecutor.stop();
-  }
+    public void stopExecutor() {
+        processorExecutor.stop();
+    }
 }

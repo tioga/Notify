@@ -7,9 +7,9 @@ import org.tiogasolutions.notify.pub.task.TaskResponse;
 
 public interface TaskProcessor {
 
-  boolean isReady();
+    boolean isReady();
 
-  TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task);
+    TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task);
 
-  TaskProcessorType getType();
+    TaskProcessorType getType();
 }

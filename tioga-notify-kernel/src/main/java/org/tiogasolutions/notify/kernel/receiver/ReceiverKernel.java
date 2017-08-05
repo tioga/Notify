@@ -7,22 +7,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReceiverKernel {
 
-  private final ReceiverExecutor receiverExecutor;
+    private final ReceiverExecutor receiverExecutor;
 
-  @Autowired
-  public ReceiverKernel(ReceiverExecutor receiverExecutor) {
-    this.receiverExecutor = receiverExecutor;
+    @Autowired
+    public ReceiverKernel(ReceiverExecutor receiverExecutor) {
+        this.receiverExecutor = receiverExecutor;
 
-    // TODO - will auto start for now
-    startExecutor();
-  }
+        // TODO - will auto start for now
+        startExecutor();
+    }
 
-  // TODO - eventually these should become actions (StartReceiverExecutor, StopReceiverExecutor) which can be called from services/resources/api
-  public void startExecutor() {
-    receiverExecutor.start();
-  }
+    // TODO - eventually these should become actions (StartReceiverExecutor, StopReceiverExecutor) which can be called from services/resources/api
+    public void startExecutor() {
+        receiverExecutor.start();
+    }
 
-  public void stopExecutor() {
-    receiverExecutor.stop();
-  }
+    public void stopExecutor() {
+        receiverExecutor.stop();
+    }
 }

@@ -5,16 +5,16 @@ import org.testng.annotations.BeforeClass;
 
 public class AbstractSpringTest {
 
-  @BeforeClass
-  public void beforeClassAutowireTest() throws Exception {
-    AnnotationConfigApplicationContext applicationContext;
+    @BeforeClass
+    public void beforeClassAutowireTest() throws Exception {
+        AnnotationConfigApplicationContext applicationContext;
 
-    applicationContext = new AnnotationConfigApplicationContext();
-    applicationContext.getEnvironment().setActiveProfiles("test");
-    applicationContext.scan("org.tiogasolutions.notify");
-    applicationContext.refresh();
+        applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.getEnvironment().setActiveProfiles("test");
+        applicationContext.scan("org.tiogasolutions.notify");
+        applicationContext.refresh();
 
-    // Inject our unit test with any beans.
-    applicationContext.getBeanFactory().autowireBean(this);
-  }
+        // Inject our unit test with any beans.
+        applicationContext.getBeanFactory().autowireBean(this);
+    }
 }

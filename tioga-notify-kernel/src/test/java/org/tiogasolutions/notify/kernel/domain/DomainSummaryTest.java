@@ -26,94 +26,94 @@ import static org.testng.Assert.assertTrue;
 
 @Test
 public class DomainSummaryTest extends AbstractSpringTest {
-  private static String SUMMARY_TEST_TOPIC_1 = "SUMMARY_TEST_TOPIC_1";
-  private static String SUMMARY_TEST_TOPIC_2 = "SUMMARY_TEST_TOPIC_2";
-  private static String SUMMARY_TEST_TRAIT_1 = "SUMMARY_TEST_TRAIT_1";
-  private static String SUMMARY_TEST_TRAIT_2 = "SUMMARY_TEST_TRAIT_2";
+    private static String SUMMARY_TEST_TOPIC_1 = "SUMMARY_TEST_TOPIC_1";
+    private static String SUMMARY_TEST_TOPIC_2 = "SUMMARY_TEST_TOPIC_2";
+    private static String SUMMARY_TEST_TRAIT_1 = "SUMMARY_TEST_TRAIT_1";
+    private static String SUMMARY_TEST_TRAIT_2 = "SUMMARY_TEST_TRAIT_2";
 
-  @Autowired
-  private ExecutionManager executionManager;
+    @Autowired
+    private ExecutionManager executionManager;
 
-  @Autowired
-  private NotificationKernel notificationKernel;
+    @Autowired
+    private NotificationKernel notificationKernel;
 
-  @Autowired
-  private DomainKernel domainKernel;
+    @Autowired
+    private DomainKernel domainKernel;
 
-  private ExecutionContext executionContext;
+    private ExecutionContext executionContext;
 
-  @BeforeClass
-  public void beforeClass() {
-    executionContext = executionManager.newApiContext(TestFactory.API_KEY);
+    @BeforeClass
+    public void beforeClass() {
+        executionContext = executionManager.newApiContext(TestFactory.API_KEY);
 
-    try {
-      ZonedDateTime tenYearsAgo = ZonedDateTime.now().minusYears(10);
-      // Create a few test notifications.
-      CreateNotification create = new CreateNotification(
-          SUMMARY_TEST_TOPIC_1,
-          "some message",
-          "store-test-9000",
-          tenYearsAgo,
-          null,
-          Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap(SUMMARY_TEST_TRAIT_1));
-      notificationKernel.createNotification(create);
-      create = new CreateNotification(
-          SUMMARY_TEST_TOPIC_1,
-          "some message",
-          "store-test-9001",
-          ZonedDateTime.now(),
-          null,
-          Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap(SUMMARY_TEST_TRAIT_1 + ":green"));
-      notificationKernel.createNotification(create);
-      create = new CreateNotification(
-          SUMMARY_TEST_TOPIC_2,
-          "some message",
-          "store-test-9002",
-          ZonedDateTime.now(),
-          null,
-          Collections.singletonList(new Link("example", "http://example.com")),
-          BeanUtils.toMap(SUMMARY_TEST_TRAIT_2));
-      notificationKernel.createNotification(create);
+        try {
+            ZonedDateTime tenYearsAgo = ZonedDateTime.now().minusYears(10);
+            // Create a few test notifications.
+            CreateNotification create = new CreateNotification(
+                    SUMMARY_TEST_TOPIC_1,
+                    "some message",
+                    "store-test-9000",
+                    tenYearsAgo,
+                    null,
+                    Collections.singletonList(new Link("example", "http://example.com")),
+                    BeanUtils.toMap(SUMMARY_TEST_TRAIT_1));
+            notificationKernel.createNotification(create);
+            create = new CreateNotification(
+                    SUMMARY_TEST_TOPIC_1,
+                    "some message",
+                    "store-test-9001",
+                    ZonedDateTime.now(),
+                    null,
+                    Collections.singletonList(new Link("example", "http://example.com")),
+                    BeanUtils.toMap(SUMMARY_TEST_TRAIT_1 + ":green"));
+            notificationKernel.createNotification(create);
+            create = new CreateNotification(
+                    SUMMARY_TEST_TOPIC_2,
+                    "some message",
+                    "store-test-9002",
+                    ZonedDateTime.now(),
+                    null,
+                    Collections.singletonList(new Link("example", "http://example.com")),
+                    BeanUtils.toMap(SUMMARY_TEST_TRAIT_2));
+            notificationKernel.createNotification(create);
 
-    } finally {
-      executionManager.clearContext();
+        } finally {
+            executionManager.clearContext();
+        }
+
     }
 
-  }
+    @BeforeMethod
+    public void beforeMethod() {
+        executionManager.newApiContext(TestFactory.API_KEY);
+    }
 
-  @BeforeMethod
-  public void beforeMethod() {
-    executionManager.newApiContext(TestFactory.API_KEY);
-  }
+    @AfterMethod
+    public void afterMethod() {
+        executionManager.clearContext();
+    }
 
-  @AfterMethod
-  public void afterMethod() {
-    executionManager.clearContext();
-  }
+    public void fetchDomainSummary() {
+        DomainSummary domainSummary = domainKernel.fetchSummary(executionContext.getDomainName());
+        assertTrue(domainSummary.getTopics().size() >= 2);
+        assertTrue(domainSummary.getTraits().size() >= 2);
 
-  public void fetchDomainSummary() {
-    DomainSummary domainSummary = domainKernel.fetchSummary(executionContext.getDomainName());
-    assertTrue(domainSummary.getTopics().size() >= 2);
-    assertTrue(domainSummary.getTraits().size() >= 2);
+        Optional<TopicInfo> topicInfo = domainSummary.findTopicInfo(SUMMARY_TEST_TOPIC_1);
+        assertTrue(topicInfo.isPresent());
+        assertEquals(topicInfo.get().getCount(), 2);
 
-    Optional<TopicInfo> topicInfo = domainSummary.findTopicInfo(SUMMARY_TEST_TOPIC_1);
-    assertTrue(topicInfo.isPresent());
-    assertEquals(topicInfo.get().getCount(), 2);
+        topicInfo = domainSummary.findTopicInfo(SUMMARY_TEST_TOPIC_2);
+        assertTrue(topicInfo.isPresent());
+        assertEquals(topicInfo.get().getCount(), 1);
 
-    topicInfo = domainSummary.findTopicInfo(SUMMARY_TEST_TOPIC_2);
-    assertTrue(topicInfo.isPresent());
-    assertEquals(topicInfo.get().getCount(), 1);
+        Optional<TraitInfo> traitInfo = domainSummary.findTraitInfo(SUMMARY_TEST_TRAIT_1);
+        assertTrue(traitInfo.isPresent());
+        assertEquals(traitInfo.get().getCount(), 2);
 
-    Optional<TraitInfo> traitInfo = domainSummary.findTraitInfo(SUMMARY_TEST_TRAIT_1);
-    assertTrue(traitInfo.isPresent());
-    assertEquals(traitInfo.get().getCount(), 2);
-
-    traitInfo = domainSummary.findTraitInfo(SUMMARY_TEST_TRAIT_2);
-    assertTrue(traitInfo.isPresent());
-    assertEquals(traitInfo.get().getCount(), 1);
-  }
+        traitInfo = domainSummary.findTraitInfo(SUMMARY_TEST_TRAIT_2);
+        assertTrue(traitInfo.isPresent());
+        assertEquals(traitInfo.get().getCount(), 1);
+    }
 
 
 }

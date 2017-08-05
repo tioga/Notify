@@ -2,27 +2,27 @@ package org.tiogasolutions.notify.pub.task;
 
 public enum TaskStatus {
 
-  PENDING,
-  SENDING,
-  COMPLETED,
-  FAILED;
+    PENDING,
+    SENDING,
+    COMPLETED,
+    FAILED;
 
-  private TaskStatus() {
-  }
+    private TaskStatus() {
+    }
 
-  public boolean isPending() {
-    return this == PENDING;
-  }
+    public boolean isPending() {
+        return this == PENDING;
+    }
 
-  public boolean isSending() {
-    return this == SENDING;
-  }
+    public boolean isSending() {
+        return this == SENDING;
+    }
 
-  public boolean isCompleted() {
-    return this == COMPLETED;
-  }
+    public boolean isCompleted() {
+        return this == COMPLETED;
+    }
 
-  public boolean isFailed() {
-    return this == FAILED;
-  }
+    public boolean isFailed() {
+        return this == FAILED;
+    }
 }

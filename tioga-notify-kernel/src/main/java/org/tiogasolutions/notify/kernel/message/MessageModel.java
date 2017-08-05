@@ -130,24 +130,6 @@ public class MessageModel {
         return traitMap;
     }
 
-    public static class Trait {
-        private final String key;
-        private final String value;
-
-        public Trait(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     public String getProfileId() {
         return profileId;
     }
@@ -178,5 +160,23 @@ public class MessageModel {
 
     public RouteCatalog getRouteCatalog() {
         return routeCatalog;
+    }
+
+    public static class Trait {
+        private final String key;
+        private final String value;
+
+        public Trait(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }

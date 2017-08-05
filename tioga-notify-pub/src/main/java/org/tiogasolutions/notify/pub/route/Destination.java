@@ -16,7 +16,7 @@ public class Destination {
     private final DestinationStatus destinationStatus;
     private final Map<String, String> arguments;
 
-    public Destination(String name, String provider, String...arguments) {
+    public Destination(String name, String provider, String... arguments) {
         this(name, provider, DestinationStatus.ENABLED, BeanUtils.toMap(arguments));
     }
 

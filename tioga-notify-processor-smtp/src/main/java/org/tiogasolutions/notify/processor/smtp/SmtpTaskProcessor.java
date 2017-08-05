@@ -48,7 +48,7 @@ public class SmtpTaskProcessor implements TaskProcessor {
     }
 
 
-    protected EmailMessage createEmailMessage(Map<String,String> argMap) {
+    protected EmailMessage createEmailMessage(Map<String, String> argMap) {
 
         SmtpAuthType authType = SmtpAuthType.valueOf(argMap.get("smtpAuthType"));
 

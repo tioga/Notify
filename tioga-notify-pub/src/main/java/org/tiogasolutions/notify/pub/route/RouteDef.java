@@ -22,7 +22,7 @@ public class RouteDef {
     public RouteDef(String name,
                     RouteStatus routeStatus,
                     String eval,
-                    String...destinations) {
+                    String... destinations) {
 
         this(name, routeStatus, eval, Arrays.asList(destinations));
     }

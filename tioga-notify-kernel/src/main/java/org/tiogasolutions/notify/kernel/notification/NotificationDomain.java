@@ -6,15 +6,18 @@ import org.tiogasolutions.dev.common.exceptions.ExceptionUtils;
 import org.tiogasolutions.dev.domain.query.ListQueryResult;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.event.EventBus;
+import org.tiogasolutions.notify.kernel.route.JsRouteEvaluator;
 import org.tiogasolutions.notify.kernel.route.RouteEvaluator;
-import org.tiogasolutions.notify.kernel.task.*;
+import org.tiogasolutions.notify.kernel.task.CreateTask;
+import org.tiogasolutions.notify.kernel.task.TaskEntity;
+import org.tiogasolutions.notify.kernel.task.TaskGenerator;
+import org.tiogasolutions.notify.kernel.task.TaskStore;
+import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
+import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.RouteCatalog;
-import org.tiogasolutions.notify.kernel.route.JsRouteEvaluator;
-import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
-import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.task.TaskQuery;
 
 import java.util.Set;
@@ -25,94 +28,95 @@ import java.util.Set;
  * Time: 10:44 PM
  */
 public class NotificationDomain {
-  private final String domainName;
-  private final TaskGenerator taskGenerator;
-  private final EventBus eventBus;
-  private final NotificationStore notificationStore;
-  private final TaskStore taskStore;
-  private final RouteEvaluator routeEvaluator;
+    private final String domainName;
+    private final TaskGenerator taskGenerator;
+    private final EventBus eventBus;
+    private final NotificationStore notificationStore;
+    private final TaskStore taskStore;
+    private final RouteEvaluator routeEvaluator;
 
-  public NotificationDomain(String domainName,
-                            CouchDatabase couchDatabase,
-                            RouteCatalog routeCatalog,
-                            TaskGenerator taskGenerator,
-                            EventBus eventBus) {
-    this.domainName = domainName;
-    this.taskGenerator = taskGenerator;
-    this.eventBus = eventBus;
-    this.notificationStore = new NotificationStore(couchDatabase);
-    this.taskStore = new TaskStore(couchDatabase);
-    this.routeEvaluator = new JsRouteEvaluator(routeCatalog);
-  }
+    public NotificationDomain(String domainName,
+                              CouchDatabase couchDatabase,
+                              RouteCatalog routeCatalog,
+                              TaskGenerator taskGenerator,
+                              EventBus eventBus) {
+        this.domainName = domainName;
+        this.taskGenerator = taskGenerator;
+        this.eventBus = eventBus;
+        this.notificationStore = new NotificationStore(couchDatabase);
+        this.taskStore = new TaskStore(couchDatabase);
+        this.routeEvaluator = new JsRouteEvaluator(routeCatalog);
+    }
 
-  public String getDomainName() {
-    return domainName;
-  }
-  public RouteEvaluator getRouteEvaluator() {
-    return routeEvaluator;
-  }
+    public String getDomainName() {
+        return domainName;
+    }
 
-  public Set<Destination> findDestinations(Notification notification) {
-    return getRouteEvaluator().findDestinations(notification);
-  }
+    public RouteEvaluator getRouteEvaluator() {
+        return routeEvaluator;
+    }
 
-  public NotificationRef createNotification(CreateNotification create) {
-    ExceptionUtils.assertNotNull(create, "create", ApiBadRequestException.class);
+    public Set<Destination> findDestinations(Notification notification) {
+        return getRouteEvaluator().findDestinations(notification);
+    }
 
-    NotificationEntity entity = NotificationEntity.newEntity(getDomainName(), create);
+    public NotificationRef createNotification(CreateNotification create) {
+        ExceptionUtils.assertNotNull(create, "create", ApiBadRequestException.class);
 
-    Notification notification = notificationStore.saveAndReload(entity).toNotification();
+        NotificationEntity entity = NotificationEntity.newEntity(getDomainName(), create);
 
-    // Immediately pass the notification on to the task generate.
-    taskGenerator.generateTasks(this, notification);
+        Notification notification = notificationStore.saveAndReload(entity).toNotification();
 
-    return notification.toNotificationRef();
-  }
+        // Immediately pass the notification on to the task generate.
+        taskGenerator.generateTasks(this, notification);
 
-  public NotificationEntity findNotificationById(String notificationId) {
-    return notificationStore.findNotificationById(notificationId);
-  }
+        return notification.toNotificationRef();
+    }
 
-  public QueryResult<Notification> query(NotificationQuery query) {
-    return notificationStore.query(query);
-  }
+    public NotificationEntity findNotificationById(String notificationId) {
+        return notificationStore.findNotificationById(notificationId);
+    }
 
-  public NotificationRef createAttachment(CreateAttachment create) {
-    return notificationStore.createAttachment(create);
-  }
+    public QueryResult<Notification> query(NotificationQuery query) {
+        return notificationStore.query(query);
+    }
 
-  public AttachmentHolder findAttachment(String notificationId, String attachmentName) {
-    return notificationStore.findAttachment(notificationId, attachmentName);
-  }
+    public NotificationRef createAttachment(CreateAttachment create) {
+        return notificationStore.createAttachment(create);
+    }
 
-  public void deleteNotification(String notificationId) {
-    notificationStore.deleteNotification(notificationId);
-  }
+    public AttachmentHolder findAttachment(String notificationId, String attachmentName) {
+        return notificationStore.findAttachment(notificationId, attachmentName);
+    }
 
-  public TaskEntity findTaskById(String entityId) {
-    return taskStore.findTaskById(entityId);
-  }
+    public void deleteNotification(String notificationId) {
+        notificationStore.deleteNotification(notificationId);
+    }
 
-  public ListQueryResult<TaskEntity> query(TaskQuery query) {
-    return taskStore.query(query);
-  }
+    public TaskEntity findTaskById(String entityId) {
+        return taskStore.findTaskById(entityId);
+    }
 
-  public TaskEntity createTask(CreateTask create, Notification notification) {
-    TaskEntity taskEntity = taskStore.createTask(create);
-    eventBus.taskCreated(domainName, taskEntity, notification);
-    return taskEntity;
-  }
+    public ListQueryResult<TaskEntity> query(TaskQuery query) {
+        return taskStore.query(query);
+    }
 
-  public void save(TaskEntity entity) {
-    taskStore.save(entity);
-  }
+    public TaskEntity createTask(CreateTask create, Notification notification) {
+        TaskEntity taskEntity = taskStore.createTask(create);
+        eventBus.taskCreated(domainName, taskEntity, notification);
+        return taskEntity;
+    }
 
-  public TaskEntity saveAndReload(TaskEntity entity) {
-    return taskStore.saveAndReload(entity);
-  }
+    public void save(TaskEntity entity) {
+        taskStore.save(entity);
+    }
 
-  public void deleteTask(String taskId) {
-    taskStore.deleteTask(taskId);
-  }
+    public TaskEntity saveAndReload(TaskEntity entity) {
+        return taskStore.saveAndReload(entity);
+    }
+
+    public void deleteTask(String taskId) {
+        taskStore.deleteTask(taskId);
+    }
 
 }

@@ -18,20 +18,10 @@ import java.util.*;
  * Created by harlan on 2/28/15.
  */
 public class PubFixture {
-    private static PubFixture it;
-
-    public static PubFixture it() {
-        if (it == null) {
-            it = new PubFixture();
-        }
-        return it;
-    }
-
     private static final String SIMPLE_PROVIDER = "SimpleProvider";
     private static final String TRUE_FUNC = "function(topic, traits) {return true;}";
-
+    private static PubFixture it;
     private final Map<String, String> simpleProviderArgs;
-
     private final JsonTranslator jsonTranslator;
 
     private PubFixture() {
@@ -45,6 +35,13 @@ public class PubFixture {
 
         jsonTranslator = new TiogaJacksonTranslator();
 
+    }
+
+    public static PubFixture it() {
+        if (it == null) {
+            it = new PubFixture();
+        }
+        return it;
     }
 
     public String getSimpleProviderName() {
@@ -76,12 +73,12 @@ public class PubFixture {
         List<DestinationDef> destinations = new ArrayList<>();
         destinations.add(new DestinationDef("fozzie", DestinationStatus.ENABLED, "push", "type:email", "recipient:fozzie@muppet.com"));
         destinations.add(new DestinationDef("kermit", DestinationStatus.ENABLED, "push", "type:email", "recipient:kermit@muppet.com"));
-        destinations.add(new DestinationDef("dog", DestinationStatus.ENABLED,    "push", "type:email", "recipient:dog@pet.com"));
-        destinations.add(new DestinationDef("cat", DestinationStatus.ENABLED,    "push", "type:email", "recipient:cat@pet.com"));
+        destinations.add(new DestinationDef("dog", DestinationStatus.ENABLED, "push", "type:email", "recipient:dog@pet.com"));
+        destinations.add(new DestinationDef("cat", DestinationStatus.ENABLED, "push", "type:email", "recipient:cat@pet.com"));
 
         List<RouteDef> routes = new ArrayList<>();
         routes.add(new RouteDef("two_muppets", RouteStatus.ENABLED, TRUE_FUNC, "fozzie", "kermit"));
-        routes.add(new RouteDef("one_pet",     RouteStatus.ENABLED, TRUE_FUNC, "cat"));
+        routes.add(new RouteDef("one_pet", RouteStatus.ENABLED, TRUE_FUNC, "cat"));
 
         return new RouteCatalog(destinations, routes);
 

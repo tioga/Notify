@@ -14,8 +14,8 @@ import javax.ws.rs.ext.Provider;
 @Produces(MediaType.APPLICATION_JSON)
 public class NotifyReaderWriterProvider extends TiogaReaderWriterProvider {
 
-  @Autowired
-  public NotifyReaderWriterProvider(NotifyObjectMapper objectMapper) {
-    super(objectMapper);
-  }
+    @Autowired
+    public NotifyReaderWriterProvider(NotifyObjectMapper objectMapper) {
+        super(objectMapper);
+    }
 }

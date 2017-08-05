@@ -22,6 +22,40 @@ import java.util.*;
 @CouchEntity(NotificationRequestEntity.ENTITY_TYPE)
 public class NotificationRequestEntity {
     public static final String ENTITY_TYPE = "NotificationRequest";
+    private final String requestId;
+    private final String topic;
+    private final String summary;
+    private final String trackingId;
+    private final ZonedDateTime createdAt;
+    private final Map<String, String> traitMap;
+    private final List<Link> links;
+    private final ExceptionInfo exceptionInfo;
+    public NotificationRequestStatus requestStatus;
+    private String revision;
+    private CouchAttachmentInfoMap attachmentInfoMap;
+    @JsonCreator
+    public NotificationRequestEntity(@JsonProperty("requestId") String requestId,
+                                     @JsonProperty("revision") String revision,
+                                     @JsonProperty("requestStatus") NotificationRequestStatus requestStatus,
+                                     @JsonProperty("topic") String topic,
+                                     @JsonProperty("summary") String summary,
+                                     @JsonProperty("trackingId") String trackingId,
+                                     @JsonProperty("createdAt") ZonedDateTime createdAt,
+                                     @JsonProperty("traitMap") Map<String, String> traitMap,
+                                     @JsonProperty("links") List<Link> links,
+                                     @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo) {
+
+        this.requestId = requestId;
+        this.revision = revision;
+        this.requestStatus = requestStatus;
+        this.topic = topic;
+        this.summary = summary;
+        this.trackingId = trackingId;
+        this.createdAt = createdAt;
+        this.links = (links != null) ? Collections.unmodifiableList(links) : Collections.emptyList();
+        this.exceptionInfo = exceptionInfo;
+        this.traitMap = (traitMap != null) ? Collections.unmodifiableMap(new LinkedHashMap<>(traitMap)) : Collections.emptyMap();
+    }
 
     public static NotificationRequestEntity newEntity(NotificationRequest request) {
 
@@ -51,42 +85,6 @@ public class NotificationRequestEntity {
                 request.getTraitMap(),
                 request.getLinks(),
                 request.getExceptionInfo());
-    }
-
-    private final String requestId;
-    private String revision;
-    public NotificationRequestStatus requestStatus;
-    private final String topic;
-    private final String summary;
-    private final String trackingId;
-    private final ZonedDateTime createdAt;
-    private final Map<String, String> traitMap;
-    private final List<Link> links;
-    private final ExceptionInfo exceptionInfo;
-    private CouchAttachmentInfoMap attachmentInfoMap;
-
-    @JsonCreator
-    public NotificationRequestEntity(@JsonProperty("requestId") String requestId,
-                                     @JsonProperty("revision") String revision,
-                                     @JsonProperty("requestStatus") NotificationRequestStatus requestStatus,
-                                     @JsonProperty("topic") String topic,
-                                     @JsonProperty("summary") String summary,
-                                     @JsonProperty("trackingId") String trackingId,
-                                     @JsonProperty("createdAt") ZonedDateTime createdAt,
-                                     @JsonProperty("traitMap") Map<String, String> traitMap,
-                                     @JsonProperty("links") List<Link> links,
-                                     @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo) {
-
-        this.requestId = requestId;
-        this.revision = revision;
-        this.requestStatus = requestStatus;
-        this.topic = topic;
-        this.summary = summary;
-        this.trackingId = trackingId;
-        this.createdAt = createdAt;
-        this.links = (links != null) ? Collections.unmodifiableList(links) : Collections.emptyList();
-        this.exceptionInfo = exceptionInfo;
-        this.traitMap = (traitMap != null) ? Collections.unmodifiableMap(new LinkedHashMap<>(traitMap)) : Collections.emptyMap();
     }
 
     public void ready() {

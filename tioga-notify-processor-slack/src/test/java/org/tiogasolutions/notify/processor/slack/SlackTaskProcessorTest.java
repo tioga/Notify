@@ -340,7 +340,7 @@ public class SlackTaskProcessorTest {
         );
     }
 
-    private Notification newNotification(String topic, String summary, List<AttachmentInfo> attachments, ExceptionInfo exceptionInfo, Map<String,String> traitMap) {
+    private Notification newNotification(String topic, String summary, List<AttachmentInfo> attachments, ExceptionInfo exceptionInfo, Map<String, String> traitMap) {
 
         return new Notification(someUri,
                 "999",

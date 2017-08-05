@@ -24,82 +24,79 @@ import static org.testng.Assert.assertEquals;
 @Test
 public class ClientResourceV2Test extends AbstractEngineJaxRsTest {
 
-  private String apiKey;
-  private String apiPass;
+    @Autowired
+    NotificationKernel notificationKernel;
+    private String apiKey;
+    private String apiPass;
+    @Autowired
+    private DomainKernel domainKernel;
+    @Autowired
+    private ExecutionManager executionManager;
 
-  @Autowired
-  private DomainKernel domainKernel;
+    @BeforeMethod
+    public void beforeClass() throws Exception {
+        DomainProfile domainProfile = domainKernel.getOrCreateDomain(TestFactory.DOMAIN_NAME);
+        apiKey = domainProfile.getApiKey();
+        apiPass = domainProfile.getApiPassword();
+        executionManager.newApiContext(apiKey);
+    }
 
-  @Autowired
-  private ExecutionManager executionManager;
+    @AfterMethod
+    public void afterClass() throws Exception {
+        executionManager.clearContext();
+    }
 
-  @Autowired
-  NotificationKernel notificationKernel;
+    public void test_api_v2_client_$NoAuthorization() {
+        String path = "/api/v2/client";
+        Response response = target(path).request().get();
 
-  @BeforeMethod
-  public void beforeClass() throws Exception {
-    DomainProfile domainProfile = domainKernel.getOrCreateDomain(TestFactory.DOMAIN_NAME);
-    apiKey = domainProfile.getApiKey();
-    apiPass = domainProfile.getApiPassword();
-    executionManager.newApiContext(apiKey);
-  }
+        assertEquals(response.getStatus(), 401);
+    }
 
-  @AfterMethod
-  public void afterClass() throws Exception {
-    executionManager.clearContext();
-  }
+    public void test_api_v2_client_$BadAuthorization() {
+        String path = "/api/v2/client";
+        Response response = target(path).request().header("Authorization", toHttpAuth("bad", "guy")).get();
 
-  public void test_api_v2_client_$NoAuthorization() {
-    String path = "/api/v2/client";
-    Response response = target(path).request().get();
+        assertEquals(response.getStatus(), 401);
+    }
 
-    assertEquals(response.getStatus(), 401);
-  }
+    public void test_api_v2_client() {
+        String path = "/api/v2";
+        Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
 
-  public void test_api_v2_client_$BadAuthorization() {
-    String path = "/api/v2/client";
-    Response response = target(path).request().header("Authorization", toHttpAuth("bad","guy")).get();
+        assertEquals(response.getStatus(), 200);
+    }
 
-    assertEquals(response.getStatus(), 401);
-  }
+    public void test_api_v2_client_notifications() {
+        String path = "/api/v2/notifications";
+        Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
 
-  public void test_api_v2_client() {
-    String path = "/api/v2";
-    Response  response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
+        assertEquals(response.getStatus(), 200);
+    }
 
-    assertEquals(response.getStatus(), 200);
-  }
+    public void test_api_v2_client_notifications_BadId() {
+        String path = format("/api/v2/client/notifications/%s", 1);
+        Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
 
-  public void test_api_v2_client_notifications() {
-    String path = "/api/v2/notifications";
-    Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
+        assertEquals(response.getStatus(), 404);
+    }
 
-    assertEquals(response.getStatus(), 200);
-  }
+    public void test_api_v2_client_notifications_GoodId() {
 
-  public void test_api_v2_client_notifications_BadId() {
-    String path = format("/api/v2/client/notifications/%s", 1);
-    Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
+        NotificationRef ref = notificationKernel.createNotification(new CreateNotification(
+                "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
+                null, ZonedDateTime.now(), null, Collections.emptyList(), Collections.emptyMap()));
 
-    assertEquals(response.getStatus(), 404);
-  }
+        String path = format("/api/v2/notifications/%s", ref.getNotificationId());
+        Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
 
-  public void test_api_v2_client_notifications_GoodId() {
+        assertEquals(response.getStatus(), 200);
+    }
 
-    NotificationRef ref = notificationKernel.createNotification(new CreateNotification(
-        "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
-        null, ZonedDateTime.now(), null, Collections.emptyList(), Collections.emptyMap()));
+    public void test_api_v2_client_routecatalog() {
+        String path = "/api/v2/route-catalog";
+        Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
 
-    String path = format("/api/v2/notifications/%s", ref.getNotificationId());
-    Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
-
-    assertEquals(response.getStatus(), 200);
-  }
-
-  public void test_api_v2_client_routecatalog() {
-    String path = "/api/v2/route-catalog";
-    Response response = target(path).request().header("Authorization", toHttpAuth(apiKey, apiPass)).get();
-
-    assertEquals(response.getStatus(), 200);
-  }
+        assertEquals(response.getStatus(), 200);
+    }
 }

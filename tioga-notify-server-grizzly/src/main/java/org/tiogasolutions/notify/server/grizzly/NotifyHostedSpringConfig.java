@@ -171,7 +171,7 @@ public class NotifyHostedSpringConfig {
 
         NotificationSender sender = forceLogger ?
                 new LoggingNotificationSender() :
-                new CouchNotificationSender(couchUrl, databaseName, username,  password);
+                new CouchNotificationSender(couchUrl, databaseName, username, password);
 
         return new Notifier(sender).onBegin(builder -> {
             builder.topic("Notify Engine");

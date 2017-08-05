@@ -13,9 +13,11 @@ import static java.util.Collections.emptyList;
 @Configuration
 public class KernelSpringTestConfig {
 
-  /** @noinspection SpringJavaAutowiringInspection*/
-  @Bean
-  public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
-    return new TaskProcessorExecutor(domainKernel, eventBus, emptyList());
-  }
+    /**
+     * @noinspection SpringJavaAutowiringInspection
+     */
+    @Bean
+    public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
+        return new TaskProcessorExecutor(domainKernel, eventBus, emptyList());
+    }
 }

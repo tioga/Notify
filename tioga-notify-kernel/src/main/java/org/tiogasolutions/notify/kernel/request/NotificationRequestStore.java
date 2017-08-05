@@ -24,141 +24,141 @@ import static java.lang.String.format;
  */
 public class NotificationRequestStore {
 
-  private final CouchDatabase couchDatabase;
+    private final CouchDatabase couchDatabase;
 
-  @Autowired
-  public NotificationRequestStore(CouchDatabase couchDatabase) {
-    this.couchDatabase = couchDatabase;
-  }
-
-  public CouchDatabase getCouchDatabase() {
-    return couchDatabase;
-  }
-
-  public WriteResponse save(NotificationRequestEntity notificationRequestEntity) {
-    return couchDatabase.put()
-        .entity(notificationRequestEntity)
-        .execute();
-  }
-
-  public NotificationRequestEntity saveAndReload(NotificationRequestEntity notificationRequestEntity) {
-    couchDatabase.put()
-        .entity(notificationRequestEntity)
-        .onError(r -> throwError(r, "Error saving NotificationRequest by request id " + notificationRequestEntity.getRequestId()))
-        .execute();
-
-    return findByRequestId(notificationRequestEntity.getRequestId());
-
-  }
-
-  public WriteResponse addAttachment(String documentId, String revision, AttachmentHolder attachment) {
-    CouchMediaType mediaType = CouchMediaType.fromString(attachment.getContentType());
-
-    return couchDatabase.put().attachment(
-        documentId,
-        revision,
-        attachment.getName(),
-        mediaType,
-        attachment.getInputStream())
-        .onError(r -> throwError(r, format("Failure storing notification attachment in couch [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
-        .execute();
-  }
-
-  public AttachmentHolder findAttachment(String requestId, String attachmentName) {
-    GetAttachmentResponse attachmentResponse = couchDatabase.get()
-        .attachment(requestId, attachmentName)
-        .onError(r -> throwError(r, "Error finding NotificationRequest by request id " + requestId))
-        .onResponse(r -> throwIfNotFound(r, "NotificationRequest not found by request id " + requestId))
-        .execute();
-
-    byte[] content;
-    if (attachmentResponse.getContent() instanceof byte[]) {
-      content = (byte[]) attachmentResponse.getContent();
-    } else {
-      content = attachmentResponse.getStringContent().getBytes();
+    @Autowired
+    public NotificationRequestStore(CouchDatabase couchDatabase) {
+        this.couchDatabase = couchDatabase;
     }
 
-    return new AttachmentHolder(attachmentName,
-        attachmentResponse.getContentType().getMediaString(),
-        content);
-  }
-
-  public NotificationRequestEntity findByRequestId(String requestId) {
-    GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
-        .entity(NotificationRequestEntity.class, requestId)
-        .onError(r -> throwError(r, "Error finding NotificationRequest by request id " + requestId))
-        .onResponse(r -> throwIfNotFound(r, "NotificationRequest not found by request id " + requestId))
-        .execute();
-
-    return getResponse.getFirstEntity();
-  }
-
-  public NotificationRequestEntity findByTrackingId(String trackingId) {
-    CouchViewQuery viewQuery = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
-        .key(trackingId)
-        .build();
-    GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
-        .entity(NotificationRequestEntity.class, viewQuery)
-        .onError(r -> throwError(r, "Error finding NotificationRequest by tracking id " + trackingId))
-        .onResponse(r -> throwIfNotFound(r, "NotificationRequest not found by tracking id " + trackingId))
-        .execute();
-
-    return getResponse.getFirstEntity();
-
-  }
-
-  public List<NotificationRequestEntity> findByStatus(NotificationRequestStatus status) {
-
-    CouchViewQuery.CouchViewQueryBuilder builder;
-
-    if (status == null) {
-      builder = CouchViewQuery.builder(CouchConst.ENTITY, "byEntityType");
-      builder.key(NotificationRequestEntity.ENTITY_TYPE);
-
-    } else {
-      builder = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
-
-      builder.start(status, null);
-      builder.end(status, "Z");
+    public CouchDatabase getCouchDatabase() {
+        return couchDatabase;
     }
 
-    CouchViewQuery viewQuery = builder.build();
-
-    GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
-        .entity(NotificationRequestEntity.class, viewQuery)
-        .onError(r -> throwError(r, "Error finding " + status + " requests"))
-      .execute();
-
-    return getResponse.getEntityList();
-  }
-
-  public void deleteRequest(String requestId) {
-    if (requestId == null) {
-      throw new NullPointerException("The value \"requestId\" cannot be null.");
+    public WriteResponse save(NotificationRequestEntity notificationRequestEntity) {
+        return couchDatabase.put()
+                .entity(notificationRequestEntity)
+                .execute();
     }
 
-    NotificationRequestEntity request = findByRequestId(requestId);
+    public NotificationRequestEntity saveAndReload(NotificationRequestEntity notificationRequestEntity) {
+        couchDatabase.put()
+                .entity(notificationRequestEntity)
+                .onError(r -> throwError(r, "Error saving NotificationRequest by request id " + notificationRequestEntity.getRequestId()))
+                .execute();
 
-    couchDatabase.delete()
-      .document(request.getRequestId(), request.getRevision())
-      .onError(r -> throwError(r, format("Error deleting %s with id %s", NotificationRequestEntity.class, request.getRequestId())))
-      .execute();
-  }
+        return findByRequestId(notificationRequestEntity.getRequestId());
 
-  private void throwError(CouchResponse response, String message) {
-    String msg = format("%s: %s", message, response.getErrorReason());
-    throw ApiException.internalServerError(msg);
-  }
-
-  private void throwIfNotFound(GetEntityResponse response, String message) {
-    if (response.isEmpty() || response.isNotFound()) {
-      throw ApiException.notFound(message);
     }
-  }
 
-  private void throwIfNotFound(GetAttachmentResponse response, String message) {
-    if (response.isEmpty() || response.isNotFound()) {
-      throw ApiException.notFound(message);
+    public WriteResponse addAttachment(String documentId, String revision, AttachmentHolder attachment) {
+        CouchMediaType mediaType = CouchMediaType.fromString(attachment.getContentType());
+
+        return couchDatabase.put().attachment(
+                documentId,
+                revision,
+                attachment.getName(),
+                mediaType,
+                attachment.getInputStream())
+                .onError(r -> throwError(r, format("Failure storing notification attachment in couch [%s] - %s", r.getHttpStatus(), r.getErrorReason())))
+                .execute();
     }
-  }
+
+    public AttachmentHolder findAttachment(String requestId, String attachmentName) {
+        GetAttachmentResponse attachmentResponse = couchDatabase.get()
+                .attachment(requestId, attachmentName)
+                .onError(r -> throwError(r, "Error finding NotificationRequest by request id " + requestId))
+                .onResponse(r -> throwIfNotFound(r, "NotificationRequest not found by request id " + requestId))
+                .execute();
+
+        byte[] content;
+        if (attachmentResponse.getContent() instanceof byte[]) {
+            content = (byte[]) attachmentResponse.getContent();
+        } else {
+            content = attachmentResponse.getStringContent().getBytes();
+        }
+
+        return new AttachmentHolder(attachmentName,
+                attachmentResponse.getContentType().getMediaString(),
+                content);
+    }
+
+    public NotificationRequestEntity findByRequestId(String requestId) {
+        GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
+                .entity(NotificationRequestEntity.class, requestId)
+                .onError(r -> throwError(r, "Error finding NotificationRequest by request id " + requestId))
+                .onResponse(r -> throwIfNotFound(r, "NotificationRequest not found by request id " + requestId))
+                .execute();
+
+        return getResponse.getFirstEntity();
+    }
+
+    public NotificationRequestEntity findByTrackingId(String trackingId) {
+        CouchViewQuery viewQuery = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
+                .key(trackingId)
+                .build();
+        GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
+                .entity(NotificationRequestEntity.class, viewQuery)
+                .onError(r -> throwError(r, "Error finding NotificationRequest by tracking id " + trackingId))
+                .onResponse(r -> throwIfNotFound(r, "NotificationRequest not found by tracking id " + trackingId))
+                .execute();
+
+        return getResponse.getFirstEntity();
+
+    }
+
+    public List<NotificationRequestEntity> findByStatus(NotificationRequestStatus status) {
+
+        CouchViewQuery.CouchViewQueryBuilder builder;
+
+        if (status == null) {
+            builder = CouchViewQuery.builder(CouchConst.ENTITY, "byEntityType");
+            builder.key(NotificationRequestEntity.ENTITY_TYPE);
+
+        } else {
+            builder = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByRequestStatusAndCreatedAt.name());
+
+            builder.start(status, null);
+            builder.end(status, "Z");
+        }
+
+        CouchViewQuery viewQuery = builder.build();
+
+        GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
+                .entity(NotificationRequestEntity.class, viewQuery)
+                .onError(r -> throwError(r, "Error finding " + status + " requests"))
+                .execute();
+
+        return getResponse.getEntityList();
+    }
+
+    public void deleteRequest(String requestId) {
+        if (requestId == null) {
+            throw new NullPointerException("The value \"requestId\" cannot be null.");
+        }
+
+        NotificationRequestEntity request = findByRequestId(requestId);
+
+        couchDatabase.delete()
+                .document(request.getRequestId(), request.getRevision())
+                .onError(r -> throwError(r, format("Error deleting %s with id %s", NotificationRequestEntity.class, request.getRequestId())))
+                .execute();
+    }
+
+    private void throwError(CouchResponse response, String message) {
+        String msg = format("%s: %s", message, response.getErrorReason());
+        throw ApiException.internalServerError(msg);
+    }
+
+    private void throwIfNotFound(GetEntityResponse response, String message) {
+        if (response.isEmpty() || response.isNotFound()) {
+            throw ApiException.notFound(message);
+        }
+    }
+
+    private void throwIfNotFound(GetAttachmentResponse response, String message) {
+        if (response.isEmpty() || response.isNotFound()) {
+            throw ApiException.notFound(message);
+        }
+    }
 }

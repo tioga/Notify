@@ -1,24 +1,33 @@
 package org.tiogasolutions.notify.pub;
 
-import java.net.URI;
-import java.util.Collections;
-import org.tiogasolutions.dev.common.DateUtils;
-import org.tiogasolutions.dev.common.fine.TraitMap;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
-import org.testng.annotations.*;
-
-import static org.testng.Assert.assertEquals;
 
 @Test
 public class NotificationTest {
 
-  private JsonTranslator translator;
-
-  @BeforeClass
-  public void beforeClass() throws Exception {
-    translator = new TiogaJacksonTranslator();
-  }
+    private static final String EXPECTED_JSON = "{\n" +
+            "  \"self\" : \"http://www.whatever.com\",\n" +
+            "  \"id\" : \"asdf-123\",\n" +
+            "  \"revision\" : \"revision-1.2\",\n" +
+            "  \"trackingId\" : \"track-4321\",\n" +
+            "  \"topic\" : \"unit-test\",\n" +
+            "  \"summary\" : \"This is just a test notifier.\",\n" +
+            "  \"status\" : \"FAILED\",\n" +
+            "  \"createdAt\" : \"2015-01-25T20:38:38.402-08:00[America/Los_Angeles]\",\n" +
+            "  \"traitMap\" : {\n" +
+            "    \"boy\" : \"girl\",\n" +
+            "    \"color\" : \"blue\",\n" +
+            "    \"one\" : \"1\",\n" +
+            "    \"two\" : \"2\"\n" +
+            "  },\n" +
+            "  \"tasks\" : [ ],\n" +
+            "  \"withException\" : true,\n" +
+            "  \"attachments\" : [ ]\n" +
+            "}";
+    private JsonTranslator translator;
 
 /*
   public void testTranslation() throws Exception {
@@ -46,23 +55,8 @@ public class NotificationTest {
   }
 */
 
-  private static final String EXPECTED_JSON = "{\n" +
-    "  \"self\" : \"http://www.whatever.com\",\n" +
-    "  \"id\" : \"asdf-123\",\n" +
-    "  \"revision\" : \"revision-1.2\",\n" +
-    "  \"trackingId\" : \"track-4321\",\n" +
-    "  \"topic\" : \"unit-test\",\n" +
-    "  \"summary\" : \"This is just a test notifier.\",\n" +
-    "  \"status\" : \"FAILED\",\n" +
-    "  \"createdAt\" : \"2015-01-25T20:38:38.402-08:00[America/Los_Angeles]\",\n" +
-    "  \"traitMap\" : {\n" +
-    "    \"boy\" : \"girl\",\n" +
-    "    \"color\" : \"blue\",\n" +
-    "    \"one\" : \"1\",\n" +
-    "    \"two\" : \"2\"\n" +
-    "  },\n" +
-    "  \"tasks\" : [ ],\n" +
-    "  \"withException\" : true,\n" +
-    "  \"attachments\" : [ ]\n" +
-    "}";
+    @BeforeClass
+    public void beforeClass() throws Exception {
+        translator = new TiogaJacksonTranslator();
+    }
 }

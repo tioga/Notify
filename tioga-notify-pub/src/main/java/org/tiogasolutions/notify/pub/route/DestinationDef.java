@@ -12,13 +12,13 @@ import java.util.Map;
 public class DestinationDef {
     private final String name;
     private final String provider;
-    private DestinationStatus destinationStatus;
     private final Map<String, String> arguments;
+    private DestinationStatus destinationStatus;
 
     public DestinationDef(String name,
                           DestinationStatus destinationStatus,
                           String provider,
-                          String...arguments) {
+                          String... arguments) {
 
         this(name, destinationStatus, provider, BeanUtils.toMap(arguments));
     }

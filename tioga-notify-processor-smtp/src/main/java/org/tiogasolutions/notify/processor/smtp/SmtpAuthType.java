@@ -11,29 +11,31 @@ public enum SmtpAuthType {
     ssl(465, "SSL"),
     tls(587, "TLS");
 
-  private final String defaultPort;
-  private final String label;
+    private final String defaultPort;
+    private final String label;
 
-  private SmtpAuthType(int defaultPort, String label) {
-    this.defaultPort = String.valueOf(defaultPort);
-    this.label = String.format("%s (%s)", label, defaultPort);
-  }
+    private SmtpAuthType(int defaultPort, String label) {
+        this.defaultPort = String.valueOf(defaultPort);
+        this.label = String.format("%s (%s)", label, defaultPort);
+    }
 
-  public String getLabel() {
-    return label;
-  }
+    public String getLabel() {
+        return label;
+    }
 
-  public boolean isStandard() {
-    return this == standard;
-  }
+    public boolean isStandard() {
+        return this == standard;
+    }
 
-  public boolean isSsl() {
-    return this == ssl;
-  }
+    public boolean isSsl() {
+        return this == ssl;
+    }
 
-  public boolean isTls() { return this == tls; }
+    public boolean isTls() {
+        return this == tls;
+    }
 
-  public String getDefaultPort() {
-    return defaultPort;
-  }
+    public String getDefaultPort() {
+        return defaultPort;
+    }
 }

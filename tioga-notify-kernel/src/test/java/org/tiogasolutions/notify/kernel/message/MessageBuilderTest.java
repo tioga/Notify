@@ -24,49 +24,49 @@ import java.util.Map;
 @Test
 public class MessageBuilderTest {
 
-  private Task task;
-  private DomainProfile domainProfile;
-  private Notification notification;
+    private Task task;
+    private DomainProfile domainProfile;
+    private Notification notification;
 
-  private ThymeleafMessageBuilder messageBuilder = new ThymeleafMessageBuilder();
+    private ThymeleafMessageBuilder messageBuilder = new ThymeleafMessageBuilder();
 
-  @BeforeClass
-  public void beforeClass() throws Exception {
-    Map<String,String> argHashMap = BeanUtils.toMap(
-      "smtpHost:mail.example.com",
-      "smtpPort:587",
-      "smtpAuthType:tls",
-      "smtpUsername:mickey.mail",
-      "smtpPassword:my-little-secret",
-      "smtpFrom:goofy@disney.com",
-      "smtpRecipients:mickey.mouse@disney.com, minnie.mouse@disney.com"
-    );
+    @BeforeClass
+    public void beforeClass() throws Exception {
+        Map<String, String> argHashMap = BeanUtils.toMap(
+                "smtpHost:mail.example.com",
+                "smtpPort:587",
+                "smtpAuthType:tls",
+                "smtpUsername:mickey.mail",
+                "smtpPassword:my-little-secret",
+                "smtpFrom:goofy@disney.com",
+                "smtpRecipients:mickey.mouse@disney.com, minnie.mouse@disney.com"
+        );
 
-    domainProfile = new DomainProfile(
-      "777", "r-3", "TestDomain", DomainStatus.ACTIVE,
-      "some-api-key", "some-api-passowrd",
-      "notification-db", "request-db",
-      new RouteCatalog(Collections.emptyList(), Collections.emptyList())
-    );
+        domainProfile = new DomainProfile(
+                "777", "r-3", "TestDomain", DomainStatus.ACTIVE,
+                "some-api-key", "some-api-passowrd",
+                "notification-db", "request-db",
+                new RouteCatalog(Collections.emptyList(), Collections.emptyList())
+        );
 
-    notification = new Notification(
-      URI.create("http://whatever.com/api/v2/notifications/123"),
-      "some-domain", "123", "r-1", "test-topic",
-      "Something really bad just happened.", "tracking id #321",
-      ZonedDateTime.now(),
-      BeanUtils.toMap("color:red", "size:medium"),
-      Collections.singletonList(new Link("example", "http://example.com")),
-      new ExceptionInfo(new RuntimeException("Oops, I tripped.")),
-      Arrays.asList(new AttachmentInfo("screenshot.png", "image/png")));
+        notification = new Notification(
+                URI.create("http://whatever.com/api/v2/notifications/123"),
+                "some-domain", "123", "r-1", "test-topic",
+                "Something really bad just happened.", "tracking id #321",
+                ZonedDateTime.now(),
+                BeanUtils.toMap("color:red", "size:medium"),
+                Collections.singletonList(new Link("example", "http://example.com")),
+                new ExceptionInfo(new RuntimeException("Oops, I tripped.")),
+                Arrays.asList(new AttachmentInfo("screenshot.png", "image/png")));
 
-    task = new Task(
-        URI.create("http://whatever.com/api/v2/tasks/456"),
-        "456",
-        "r-9",
-        TaskStatus.SENDING,
-        "123",
-        ZonedDateTime.now(),
-        new Destination("E-Mails", "smtp", DestinationStatus.ENABLED, argHashMap),
-        null);
-  }
+        task = new Task(
+                URI.create("http://whatever.com/api/v2/tasks/456"),
+                "456",
+                "r-9",
+                TaskStatus.SENDING,
+                "123",
+                ZonedDateTime.now(),
+                new Destination("E-Mails", "smtp", DestinationStatus.ENABLED, argHashMap),
+                null);
+    }
 }

@@ -26,17 +26,14 @@ public class ReceiverExecutor implements BeanFactoryAware {
 
     private static final String NAME = ReceiverExecutor.class.getSimpleName();
     private static final Logger log = LoggerFactory.getLogger(ReceiverExecutor.class);
-
-    private ReceiverExecutorStatus executorStatus;
     private final DomainKernel domainKernel;
     private final List<RequestReceiver> _receivers = new ArrayList<>();
-
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-    private ScheduledFuture executorFuture = null;
-
-    private BeanFactory beanFactory;
     private final NotificationKernel notificationKernel;
+    private ReceiverExecutorStatus executorStatus;
+    private ScheduledFuture executorFuture = null;
+    private BeanFactory beanFactory;
 
     @Autowired
     public ReceiverExecutor(DomainKernel domainKernel,

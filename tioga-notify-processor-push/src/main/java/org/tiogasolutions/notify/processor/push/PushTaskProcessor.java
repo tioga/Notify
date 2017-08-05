@@ -182,7 +182,7 @@ public class PushTaskProcessor implements TaskProcessor {
         // return TwilioSmsPush.newPush(pushConfig.getPhoneFromNumber(), task.getRecipient(), notification.getSummary(), null);
     }
 
-    private List<Push> toSesEmailPush(DomainProfile domainProfile, Notification notification, Task task, Map<String,String> argMap, String from, List<String> recipients) {
+    private List<Push> toSesEmailPush(DomainProfile domainProfile, Notification notification, Task task, Map<String, String> argMap, String from, List<String> recipients) {
         String templatePath = messageBuilder.getTemplatePath(argMap, "templatePath", DEFAULT_TEMPLATE_PATH);
         HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
         return recipients.stream()
@@ -190,7 +190,7 @@ public class PushTaskProcessor implements TaskProcessor {
                 .collect(Collectors.toList());
     }
 
-    private List<Push> toSmtpEmailPush(DomainProfile domainProfile, Notification notification, Task task, Map<String,String> argMap, String from, List<String> recipients) {
+    private List<Push> toSmtpEmailPush(DomainProfile domainProfile, Notification notification, Task task, Map<String, String> argMap, String from, List<String> recipients) {
         String templatePath = messageBuilder.getTemplatePath(argMap, "templatePath", DEFAULT_TEMPLATE_PATH);
         HtmlMessage message = messageBuilder.createHtmlMessage(domainProfile, notification, task, templatePath);
         return recipients.stream()

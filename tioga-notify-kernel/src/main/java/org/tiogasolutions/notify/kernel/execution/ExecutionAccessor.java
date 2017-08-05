@@ -6,9 +6,9 @@ package org.tiogasolutions.notify.kernel.execution;
  * Time: 11:21 PM
  */
 public interface ExecutionAccessor {
-  boolean hasContext();
+    boolean hasContext();
 
-  ExecutionContext context();
+    ExecutionContext context();
 
-  String domainName();
+    String domainName();
 }

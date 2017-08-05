@@ -24,10 +24,10 @@ public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
 
     private void log(Context context, String msg) {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.sql.Timestamp(System.currentTimeMillis()));
-        context.getLogger().log("["+timestamp+"] " + msg.trim() + "\n");
+        context.getLogger().log("[" + timestamp + "] " + msg.trim() + "\n");
     }
 
-    public Object handleRequest(SNSEvent request, Context context){
+    public Object handleRequest(SNSEvent request, Context context) {
         HttpNotificationSenderConfig config = new HttpNotificationSenderConfig();
 
         String url = System.getProperty("NOTIFIER_URL");
@@ -53,7 +53,7 @@ public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
 
     protected Object handleRequest(Notifier notifier, SNSEvent.SNSRecord record, Context context) {
 
-        Map<String,String> traits = new LinkedHashMap<>();
+        Map<String, String> traits = new LinkedHashMap<>();
 
         String subject = buildTraits(traits, record);
 
@@ -130,7 +130,7 @@ public class LambdaNotifier implements RequestHandler<SNSEvent, Object> {
     }
 
     protected void attributesToTraits(Map<String, String> traits, SNSEvent.SNSRecord record) {
-        for (Map.Entry<String, SNSEvent.MessageAttribute> entry: record.getSNS().getMessageAttributes().entrySet()) {
+        for (Map.Entry<String, SNSEvent.MessageAttribute> entry : record.getSNS().getMessageAttributes().entrySet()) {
 
             String key = entry.getKey();
             SNSEvent.MessageAttribute attribute = entry.getValue();

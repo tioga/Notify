@@ -57,6 +57,11 @@ public class TestFactory {
         }
     }
 
+    public static String toHttpAuth(String username, String password) {
+        byte[] value = (username + ":" + password).getBytes();
+        return "Basic " + DatatypeConverter.printBase64Binary(value);
+    }
+
     public TaskEntity newEmailTaskEntity(Notification notification) {
         DestinationDef destinationDef = new DestinationDef("local", DestinationStatus.ENABLED, "push", "type:emailMsg", "recipient:test@jacobparr.com");
         CreateTask create = CreateTask.create(notification.toNotificationRef(), destinationDef.toDestination());
@@ -113,10 +118,5 @@ public class TestFactory {
 
     public ExceptionInfo newExceptionInfo() {
         return new ExceptionInfo(ApiException.forbidden("I'm sorry, I cannot let you do that.", new RuntimeException("I tripped when I was running with scissors")));
-    }
-
-    public static String toHttpAuth(String username, String password) {
-        byte[] value = (username + ":" + password).getBytes();
-        return "Basic " + DatatypeConverter.printBase64Binary(value);
     }
 }

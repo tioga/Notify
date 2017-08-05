@@ -25,85 +25,85 @@ import static org.testng.Assert.assertNotNull;
 @Test(enabled = false)
 public class TaskGeneratorTest extends AbstractSpringTest {
 
-  @Autowired
-  private TaskGenerator taskGenerator;
+    @Autowired
+    private TaskGenerator taskGenerator;
 
-  @Autowired
-  private TestFactory testFactory;
+    @Autowired
+    private TestFactory testFactory;
 
-  @Autowired
-  private DomainKernel domainKernel;
+    @Autowired
+    private DomainKernel domainKernel;
 
-  @Autowired
-  private ExecutionManager executionManager;
+    @Autowired
+    private ExecutionManager executionManager;
 
-  private ExecutionContext executionContext;
+    private ExecutionContext executionContext;
 
-  private NotificationDomain notificationDomain;
+    private NotificationDomain notificationDomain;
 
-  @BeforeMethod
-  public void beforeMethod() {
+    @BeforeMethod
+    public void beforeMethod() {
 /*
     System.getProperties().put("HACK_EMAIL_RECIPIENT", "mickey.mouse@disney.com");
     System.getProperties().put("HACK_GTALK_RECIPIENT", "mickey.mouse@gmail.com");
     System.getProperties().put("HACK_SMS_RECIPIENT",   "1234567890");
 */
 
-    executionManager.newApiContext(TestFactory.API_KEY);
-    executionContext = executionManager.context();
-    notificationDomain = domainKernel.notificationDomain(executionContext);
-  }
-
-  @AfterMethod
-  public void afterMethod() {
-    executionManager.clearContext();
-  }
-
-  public void testGenerateTasks_WithException() throws Exception {
-    // HACK - this is directly tied to the hack in the NotificationDomain.findActiveRoutes()
-    CreateNotification create = testFactory.newCreateNotificationWithException();
-    Notification notification = testFactory.newNotification(executionContext, create).toNotification();
-
-    Future<List<TaskEntity>> future = taskGenerator.generateTasks(notificationDomain, notification);
-
-    // TODO consider using wait - future.wait();
-    while (future.isDone() == false) {
-      Thread.sleep(100);
+        executionManager.newApiContext(TestFactory.API_KEY);
+        executionContext = executionManager.context();
+        notificationDomain = domainKernel.notificationDomain(executionContext);
     }
 
-    List<TaskEntity> tasks = future.get();
-
-    assertEquals(tasks.size(), 4);
-    validateTask(notification, tasks.get(0), "emailMsg", "mickey.mouse@disney.com");
-    validateTask(notification, tasks.get(1), "emailMsg", "test@jacobparr.com");
-    validateTask(notification, tasks.get(2), "jabberMsg", "mickey.mouse@gmail.com");
-    validateTask(notification, tasks.get(3), "smsMsg", "1234567890");
-  }
-
-  public void testGenerateTasks_NoException() throws Exception {
-    // HACK - this is directly tied to the hack in the NotificationDomain.findActiveRoutes()
-    CreateNotification create = testFactory.newCreateNotificationNoException();
-    Notification notification = testFactory.newNotification(executionContext, create).toNotification();
-
-    Future<List<TaskEntity>> future = taskGenerator.generateTasks(notificationDomain, notification);
-
-    while (future.isDone() == false) {
-      Thread.sleep(100);
+    @AfterMethod
+    public void afterMethod() {
+        executionManager.clearContext();
     }
 
-    List<TaskEntity> tasks = future.get();
+    public void testGenerateTasks_WithException() throws Exception {
+        // HACK - this is directly tied to the hack in the NotificationDomain.findActiveRoutes()
+        CreateNotification create = testFactory.newCreateNotificationWithException();
+        Notification notification = testFactory.newNotification(executionContext, create).toNotification();
 
-    assertEquals(tasks.size(), 1);
-    validateTask(notification, tasks.get(0), "jabberMsg", "mickey.mouse@gmail.com");
-  }
+        Future<List<TaskEntity>> future = taskGenerator.generateTasks(notificationDomain, notification);
 
-  private void validateTask(Notification notification, TaskEntity task, String type, String recipient) {
-    assertNotNull(task);
-    assertNotNull(task.getTaskId());
-    Destination destination = task.getDestination();
-    assertEquals(destination.getArguments().get("recipient"), recipient);
-    assertEquals(destination.getArguments().get("type"), type);
-    assertEquals(task.getNotificationId(), notification.getNotificationId());
-    assertEquals(task.getTaskStatus(), TaskStatus.PENDING);
-  }
+        // TODO consider using wait - future.wait();
+        while (future.isDone() == false) {
+            Thread.sleep(100);
+        }
+
+        List<TaskEntity> tasks = future.get();
+
+        assertEquals(tasks.size(), 4);
+        validateTask(notification, tasks.get(0), "emailMsg", "mickey.mouse@disney.com");
+        validateTask(notification, tasks.get(1), "emailMsg", "test@jacobparr.com");
+        validateTask(notification, tasks.get(2), "jabberMsg", "mickey.mouse@gmail.com");
+        validateTask(notification, tasks.get(3), "smsMsg", "1234567890");
+    }
+
+    public void testGenerateTasks_NoException() throws Exception {
+        // HACK - this is directly tied to the hack in the NotificationDomain.findActiveRoutes()
+        CreateNotification create = testFactory.newCreateNotificationNoException();
+        Notification notification = testFactory.newNotification(executionContext, create).toNotification();
+
+        Future<List<TaskEntity>> future = taskGenerator.generateTasks(notificationDomain, notification);
+
+        while (future.isDone() == false) {
+            Thread.sleep(100);
+        }
+
+        List<TaskEntity> tasks = future.get();
+
+        assertEquals(tasks.size(), 1);
+        validateTask(notification, tasks.get(0), "jabberMsg", "mickey.mouse@gmail.com");
+    }
+
+    private void validateTask(Notification notification, TaskEntity task, String type, String recipient) {
+        assertNotNull(task);
+        assertNotNull(task.getTaskId());
+        Destination destination = task.getDestination();
+        assertEquals(destination.getArguments().get("recipient"), recipient);
+        assertEquals(destination.getArguments().get("type"), type);
+        assertEquals(task.getNotificationId(), notification.getNotificationId());
+        assertEquals(task.getTaskStatus(), TaskStatus.PENDING);
+    }
 }

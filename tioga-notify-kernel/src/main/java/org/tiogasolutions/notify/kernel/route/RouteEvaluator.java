@@ -10,6 +10,6 @@ import java.util.Set;
  */
 public interface RouteEvaluator {
 
-  Set<Destination> findDestinations(Notification notification);
+    Set<Destination> findDestinations(Notification notification);
 
 }

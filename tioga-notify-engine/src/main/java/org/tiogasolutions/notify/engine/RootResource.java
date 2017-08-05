@@ -35,23 +35,14 @@ import static org.tiogasolutions.notify.kernel.Paths.*;
 public class RootResource {
 
     private static final Logger log = LoggerFactory.getLogger(RootResource.class);
-
-    @Context
-    UriInfo uriInfo;
-
-    @Autowired
-    private ExecutionManager em;
-
-    @Autowired
-    private StaticContentReader staticContentReader;
-
     // Hammered by AWS for status checks, we don't want to have to re-process this code every few milliseconds.
     private static final String indexHtml;
+
     static {
         String html = null;
         String since = ZonedDateTime
-                    .now(ZoneId.of(ZoneId.SHORT_IDS.get("PST")))
-                    .format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm:ss a zzz"));
+                .now(ZoneId.of(ZoneId.SHORT_IDS.get("PST")))
+                .format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm:ss a zzz"));
 
         try {
             Attributes attributes = getManifest().getMainAttributes();
@@ -77,20 +68,15 @@ public class RootResource {
         }
     }
 
+    @Context
+    UriInfo uriInfo;
+    @Autowired
+    private ExecutionManager em;
+    @Autowired
+    private StaticContentReader staticContentReader;
+
     public RootResource() {
         log.debug("Created");
-    }
-
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public String getIndexHtml() throws IOException {
-        return healthCheck();
-    }
-
-    @GET @Path($health_check)
-    @Produces(MediaType.TEXT_HTML)
-    public String healthCheck() {
-        return indexHtml;
     }
 
     private static Manifest getManifest() throws IOException {
@@ -105,6 +91,19 @@ public class RootResource {
             } catch (IOException ignored) {/*ignored*/}
         }
         throw new IOException("Manifest not found.");
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public String getIndexHtml() throws IOException {
+        return healthCheck();
+    }
+
+    @GET
+    @Path($health_check)
+    @Produces(MediaType.TEXT_HTML)
+    public String healthCheck() {
+        return indexHtml;
     }
 
     @Path($app)
@@ -142,10 +141,39 @@ public class RootResource {
         );
     }
 
-    @GET @Path("/manager/status") public Response managerStatus() throws Exception { return Response.status(404).build(); }
-    @GET @Path("{resource: ([^\\s]+(\\.(?i)(php|PHP))$) }") public Response renderTXTs() throws Exception { return Response.status(404).build(); }
-    @GET @Path("/favicon.ico") public Response favicon_ico() { return Response.status(404).build(); }
-    @GET @Path("/trafficbasedsspsitemap.xml") public Response trafficbasedsspsitemap_xml() { return Response.status(404).build(); }
-    @GET @Path("/apple-touch-icon-precomposed.png") public Response apple_touch_icon_precomposed_png() { return Response.status(404).build(); }
-    @GET @Path("/apple-touch-icon.png") public Response apple_touch_icon_png() { return Response.status(404).build(); }
+    @GET
+    @Path("/manager/status")
+    public Response managerStatus() throws Exception {
+        return Response.status(404).build();
+    }
+
+    @GET
+    @Path("{resource: ([^\\s]+(\\.(?i)(php|PHP))$) }")
+    public Response renderTXTs() throws Exception {
+        return Response.status(404).build();
+    }
+
+    @GET
+    @Path("/favicon.ico")
+    public Response favicon_ico() {
+        return Response.status(404).build();
+    }
+
+    @GET
+    @Path("/trafficbasedsspsitemap.xml")
+    public Response trafficbasedsspsitemap_xml() {
+        return Response.status(404).build();
+    }
+
+    @GET
+    @Path("/apple-touch-icon-precomposed.png")
+    public Response apple_touch_icon_precomposed_png() {
+        return Response.status(404).build();
+    }
+
+    @GET
+    @Path("/apple-touch-icon.png")
+    public Response apple_touch_icon_png() {
+        return Response.status(404).build();
+    }
 }

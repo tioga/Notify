@@ -20,40 +20,40 @@ import java.util.concurrent.Future;
 @Component
 public class TaskGenerator {
 
-  private final EventBus eventBus;
-  private final ExecutorService executorService;
+    private final EventBus eventBus;
+    private final ExecutorService executorService;
 
-  @Autowired
-  public TaskGenerator(EventBus eventBus) {
-    this.eventBus = eventBus;
-    this.executorService = Executors.newCachedThreadPool();
-  }
+    @Autowired
+    public TaskGenerator(EventBus eventBus) {
+        this.eventBus = eventBus;
+        this.executorService = Executors.newCachedThreadPool();
+    }
 
-  @PreDestroy
-  public void dispose() {
-    executorService.shutdown();
-  }
+    @PreDestroy
+    public void dispose() {
+        executorService.shutdown();
+    }
 
-  // NOTE - we pass in notificationDomain because we already have it when we make this call
-  public Future<List<TaskEntity>> generateTasks(NotificationDomain notificationDomain, Notification notification) {
+    // NOTE - we pass in notificationDomain because we already have it when we make this call
+    public Future<List<TaskEntity>> generateTasks(NotificationDomain notificationDomain, Notification notification) {
 
-    Callable<List<TaskEntity>> taskCreatorCallable = () -> {
-      List<TaskEntity> tasks = new ArrayList<>();
+        Callable<List<TaskEntity>> taskCreatorCallable = () -> {
+            List<TaskEntity> tasks = new ArrayList<>();
 
-      // Find destinations.
-      NotificationRef notificationRef = notification.toNotificationRef();
-      Set<Destination> destinations = notificationDomain.findDestinations(notification);
+            // Find destinations.
+            NotificationRef notificationRef = notification.toNotificationRef();
+            Set<Destination> destinations = notificationDomain.findDestinations(notification);
 
-      for(Destination destination : destinations) {
-        // Create the task.
-        CreateTask create = CreateTask.create(notificationRef, destination);
-        TaskEntity task = notificationDomain.createTask(create, notification);
-        tasks.add(task);
-      }
-      return tasks;
-    };
+            for (Destination destination : destinations) {
+                // Create the task.
+                CreateTask create = CreateTask.create(notificationRef, destination);
+                TaskEntity task = notificationDomain.createTask(create, notification);
+                tasks.add(task);
+            }
+            return tasks;
+        };
 
-    return executorService.submit(taskCreatorCallable);
-  }
+        return executorService.submit(taskCreatorCallable);
+    }
 
 }

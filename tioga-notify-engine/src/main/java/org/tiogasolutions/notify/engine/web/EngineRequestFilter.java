@@ -41,13 +41,10 @@ import static org.tiogasolutions.notify.kernel.Paths.*;
 public class EngineRequestFilter implements ContainerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(EngineRequestFilter.class);
-
-    @Context
-    private UriInfo uriInfo;
-
     @Context
     Application application;
-
+    @Context
+    private UriInfo uriInfo;
     @Context
     private HttpHeaders headers;
 
@@ -76,8 +73,8 @@ public class EngineRequestFilter implements ContainerRequestFilter {
 
         List<String> anonymous = Arrays.asList(
                 $root,
-                $api, $api+"/",
-                $static, $static +"/",
+                $api, $api + "/",
+                $static, $static + "/",
                 // $api_v1, $api_v1+"/",
                 $api_v2_status,
                 $health_check,

@@ -12,33 +12,33 @@ import java.nio.file.Paths;
 
 public class ExternalizedStaticContentReader implements StaticContentReader {
 
-  private static final Logger logger = LoggerFactory.getLogger(StaticContentReader.class);
+    private static final Logger logger = LoggerFactory.getLogger(StaticContentReader.class);
 
-  private final Path rootPath;
+    private final Path rootPath;
 
-  public ExternalizedStaticContentReader(String path) {
-    this(Paths.get(path));
-  }
-
-  public ExternalizedStaticContentReader(Path rootPath) {
-    this.rootPath = rootPath;
-    logger.info("Reading static resources from: " + rootPath);
-  }
-
-  public byte[] readContent(UriInfo uriInfo) {
-    String contentPath = uriInfo.getPath();
-    return readContent(contentPath);
-  }
-
-  public byte[] readContent(String contentPath) {
-    contentPath = contentPath.startsWith("/") ? contentPath.substring(1) : contentPath;
-
-    Path fullPath = rootPath.resolve(contentPath);
-
-    try {
-      return Files.readAllBytes(fullPath);
-    } catch (IOException e) {
-      throw ApiException.badRequest("Error reading externalized static content " + fullPath);
+    public ExternalizedStaticContentReader(String path) {
+        this(Paths.get(path));
     }
-  }
+
+    public ExternalizedStaticContentReader(Path rootPath) {
+        this.rootPath = rootPath;
+        logger.info("Reading static resources from: " + rootPath);
+    }
+
+    public byte[] readContent(UriInfo uriInfo) {
+        String contentPath = uriInfo.getPath();
+        return readContent(contentPath);
+    }
+
+    public byte[] readContent(String contentPath) {
+        contentPath = contentPath.startsWith("/") ? contentPath.substring(1) : contentPath;
+
+        Path fullPath = rootPath.resolve(contentPath);
+
+        try {
+            return Files.readAllBytes(fullPath);
+        } catch (IOException e) {
+            throw ApiException.badRequest("Error reading externalized static content " + fullPath);
+        }
+    }
 }

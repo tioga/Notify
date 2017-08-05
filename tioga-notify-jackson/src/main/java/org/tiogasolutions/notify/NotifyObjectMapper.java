@@ -9,11 +9,11 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class NotifyObjectMapper extends TiogaJacksonObjectMapper {
-  public NotifyObjectMapper() {
-    super(Arrays.asList(new TiogaJacksonModule(),
-                        new NotifyJacksonModule()),
-      Collections.<TiogaJacksonInjectable>emptyList());
+    public NotifyObjectMapper() {
+        super(Arrays.asList(new TiogaJacksonModule(),
+                new NotifyJacksonModule()),
+                Collections.<TiogaJacksonInjectable>emptyList());
 
-    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-  }
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 }

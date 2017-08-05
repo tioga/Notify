@@ -12,21 +12,21 @@ import static org.testng.Assert.assertEquals;
 @Test(enabled = false)
 public class TaskTest extends AbstractSpringTest {
 
-  @Autowired
-  private JsonTranslator translator;
+    @Autowired
+    private JsonTranslator translator;
 
-  public TaskTest() {
-  }
+    public TaskTest() {
+    }
 
-  @SuppressWarnings("unchecked")
-  public void translateEmptyQueryResult() {
-    ListQueryResult<Task> emptyQr = ListQueryResult.newEmpty(Task.class);
+    @SuppressWarnings("unchecked")
+    public void translateEmptyQueryResult() {
+        ListQueryResult<Task> emptyQr = ListQueryResult.newEmpty(Task.class);
 
-    String json = translator.toJson(emptyQr);
+        String json = translator.toJson(emptyQr);
 
-    ListQueryResult<Task> translatedQr = translator.fromJson(ListQueryResult.class, json, Task.class);
+        ListQueryResult<Task> translatedQr = translator.fromJson(ListQueryResult.class, json, Task.class);
 
-    assertEquals(emptyQr, translatedQr);
+        assertEquals(emptyQr, translatedQr);
 
-  }
+    }
 }

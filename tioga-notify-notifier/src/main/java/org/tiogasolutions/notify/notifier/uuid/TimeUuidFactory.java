@@ -56,131 +56,131 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 /*protected*/ final class TimeUuidFactory {
 
-  /**
-   * The last time value. Used to remove duplicate UUIDs.
-   */
-  private static AtomicLong lastTime = new AtomicLong(Long.MIN_VALUE);
+    /**
+     * The last time value. Used to remove duplicate UUIDs.
+     */
+    private static AtomicLong lastTime = new AtomicLong(Long.MIN_VALUE);
 
-  /**
-   * The cached MAC address.
-   */
-  private static String macAddress = null;
+    /**
+     * The cached MAC address.
+     */
+    private static String macAddress = null;
 
-  /**
-   * The current clock and node value.
-   */
-  private static long clockSeqAndNode = 0x8000000000000000L;
+    /**
+     * The current clock and node value.
+     */
+    private static long clockSeqAndNode = 0x8000000000000000L;
 
-  static {
-    macAddress = getHardwareAddress();
-    clockSeqAndNode |= TimeUuidHexUtil.parseLong(macAddress);
-    clockSeqAndNode |= (long) (Math.random() * 0x3FFF) << 48;
-  }
-
-  private static void close(Closeable... closeables) {
-    for (Closeable closeable : closeables) {
-      try {
-        closeable.close();
-      } catch (IOException ignored) {/* ignored */}
-    }
-  }
-
-  /**
-   * Returns the current clockSeqAndNode value.
-   *
-   * @return the clockSeqAndNode value
-   * @see TimeUuid#getClockSeqAndNode()
-   */
-  public static long getClockSeqAndNode() {
-    return clockSeqAndNode;
-  }
-
-  /**
-   * Generates a new time field. Each time field is unique and larger than the
-   * previously generated time field.
-   *
-   * @return a new time value
-   * @see TimeUuid#getTime()
-   */
-  public static long newTime() {
-    return createTime(System.currentTimeMillis());
-  }
-
-  /**
-   * Creates a new time field from the given timestamp. Note that even identical
-   * values of <code>currentTimeMillis</code> will produce different time fields.
-   *
-   * @param currentTimeMillis the timestamp
-   * @return a new time value
-   * @see TimeUuid#getTime()
-   */
-  public static long createTime(long currentTimeMillis) {
-
-    long time;
-
-    // UTC time
-
-    long timeMillis = (currentTimeMillis * 10000) + 0x01B21DD213814000L;
-
-    while (true) {
-      long current = lastTime.get();
-      if (timeMillis > current) {
-        if (lastTime.compareAndSet(current, timeMillis)) {
-          break;
-        }
-      } else {
-        if (lastTime.compareAndSet(current, current + 1)) {
-          timeMillis = current + 1;
-          break;
-        }
-      }
+    static {
+        macAddress = getHardwareAddress();
+        clockSeqAndNode |= TimeUuidHexUtil.parseLong(macAddress);
+        clockSeqAndNode |= (long) (Math.random() * 0x3FFF) << 48;
     }
 
-    // time low
-
-    time = timeMillis << 32;
-
-    // time mid
-
-    time |= (timeMillis & 0xFFFF00000000L) >> 16;
-
-    // time hi and version
-
-    time |= 0x1000 | ((timeMillis >> 48) & 0x0FFF); // version 1
-
-    return time;
-
-  }
-
-  /**
-   * Returns the MAC address. Not guaranteed to return anything.
-   *
-   * @return the MAC address, may be <code>null</code>
-   */
-  public static String getMACAddress() {
-    return macAddress;
-  }
-
-  /**
-   * Scans MAC addresses for good ones.
-   */
-  public static String getHardwareAddress() {
-    String out = null;
-    try {
-      Enumeration<NetworkInterface> ifs = NetworkInterface.getNetworkInterfaces();
-      if (ifs != null) {
-        while (ifs.hasMoreElements()) {
-          NetworkInterface iface = ifs.nextElement();
-          byte[] hardware = iface.getHardwareAddress();
-          if (hardware != null && hardware.length == 6
-              && hardware[1] != (byte) 0xff) {
-            out = TimeUuidHexUtil.append(new StringBuilder(36), hardware).toString();
-            break;
-          }
+    private static void close(Closeable... closeables) {
+        for (Closeable closeable : closeables) {
+            try {
+                closeable.close();
+            } catch (IOException ignored) {/* ignored */}
         }
-      }
-    } catch (SocketException ignore) {/* ignore */}
+    }
 
-    return out;
-  }
+    /**
+     * Returns the current clockSeqAndNode value.
+     *
+     * @return the clockSeqAndNode value
+     * @see TimeUuid#getClockSeqAndNode()
+     */
+    public static long getClockSeqAndNode() {
+        return clockSeqAndNode;
+    }
+
+    /**
+     * Generates a new time field. Each time field is unique and larger than the
+     * previously generated time field.
+     *
+     * @return a new time value
+     * @see TimeUuid#getTime()
+     */
+    public static long newTime() {
+        return createTime(System.currentTimeMillis());
+    }
+
+    /**
+     * Creates a new time field from the given timestamp. Note that even identical
+     * values of <code>currentTimeMillis</code> will produce different time fields.
+     *
+     * @param currentTimeMillis the timestamp
+     * @return a new time value
+     * @see TimeUuid#getTime()
+     */
+    public static long createTime(long currentTimeMillis) {
+
+        long time;
+
+        // UTC time
+
+        long timeMillis = (currentTimeMillis * 10000) + 0x01B21DD213814000L;
+
+        while (true) {
+            long current = lastTime.get();
+            if (timeMillis > current) {
+                if (lastTime.compareAndSet(current, timeMillis)) {
+                    break;
+                }
+            } else {
+                if (lastTime.compareAndSet(current, current + 1)) {
+                    timeMillis = current + 1;
+                    break;
+                }
+            }
+        }
+
+        // time low
+
+        time = timeMillis << 32;
+
+        // time mid
+
+        time |= (timeMillis & 0xFFFF00000000L) >> 16;
+
+        // time hi and version
+
+        time |= 0x1000 | ((timeMillis >> 48) & 0x0FFF); // version 1
+
+        return time;
+
+    }
+
+    /**
+     * Returns the MAC address. Not guaranteed to return anything.
+     *
+     * @return the MAC address, may be <code>null</code>
+     */
+    public static String getMACAddress() {
+        return macAddress;
+    }
+
+    /**
+     * Scans MAC addresses for good ones.
+     */
+    public static String getHardwareAddress() {
+        String out = null;
+        try {
+            Enumeration<NetworkInterface> ifs = NetworkInterface.getNetworkInterfaces();
+            if (ifs != null) {
+                while (ifs.hasMoreElements()) {
+                    NetworkInterface iface = ifs.nextElement();
+                    byte[] hardware = iface.getHardwareAddress();
+                    if (hardware != null && hardware.length == 6
+                            && hardware[1] != (byte) 0xff) {
+                        out = TimeUuidHexUtil.append(new StringBuilder(36), hardware).toString();
+                        break;
+                    }
+                }
+            }
+        } catch (SocketException ignore) {/* ignore */}
+
+        return out;
+    }
 }

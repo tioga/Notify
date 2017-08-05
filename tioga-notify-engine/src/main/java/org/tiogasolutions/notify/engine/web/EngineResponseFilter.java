@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * This is the "global" filter for the Engine. It's primary responsibility is
  * for managing the execution context over the entire lifecycle of a request.
- *
+ * <p>
  * All other filters should be processed after this one.
  */
 @Provider
@@ -26,24 +26,24 @@ import java.io.IOException;
 @Priority(Priorities.USER)
 public class EngineResponseFilter implements ContainerResponseFilter {
 
-  private static final Logger log = LoggerFactory.getLogger(EngineResponseFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(EngineResponseFilter.class);
 
-  @Autowired // Injected by CDI, not Spring
-  private ExecutionManager executionManager;
+    @Autowired // Injected by CDI, not Spring
+    private ExecutionManager executionManager;
 
-  @Autowired
-  private SystemConfiguration systemConfiguration;
+    @Autowired
+    private SystemConfiguration systemConfiguration;
 
-  public EngineResponseFilter() {
-    log.info("Created");
-  }
+    public EngineResponseFilter() {
+        log.info("Created");
+    }
 
-  @Override
-  public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-    executionManager.clearContext();
-    responseContext.getHeaders().add("Access-Control-Allow-Origin", systemConfiguration.getAccessControlAllowOrigin());
-    responseContext.getHeaders().add("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization, Access-Control-Allow-Origin");
-    responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, DELETE, PUT, POST");
-    responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
-  }
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+        executionManager.clearContext();
+        responseContext.getHeaders().add("Access-Control-Allow-Origin", systemConfiguration.getAccessControlAllowOrigin());
+        responseContext.getHeaders().add("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization, Access-Control-Allow-Origin");
+        responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, DELETE, PUT, POST");
+        responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
+    }
 }

@@ -20,38 +20,36 @@ import org.tiogasolutions.notify.test.AbstractSpringTest;
 @Test
 public class CouchReceiverTest extends AbstractSpringTest {
 
-  private static int lastTrackingId = 999900;
+    private static int lastTrackingId = 999900;
+    @Autowired
+    private DomainKernel domainKernel;
+    @Autowired
+    private ExecutionManager executionManager;
+    @Autowired
+    private NotificationKernel notificationKernel;
+    private NotificationRequestStore requestStore;
+    private CouchRequestReceiver receiver;
+    private DomainProfile domainProfile;
+    private CouchDatabase requestDatabase;
 
-  private static String nextTrackingId() {
-    return String.valueOf(lastTrackingId++);
-  }
+    private static String nextTrackingId() {
+        return String.valueOf(lastTrackingId++);
+    }
 
-  @Autowired
-  private DomainKernel domainKernel;
-  @Autowired
-  private ExecutionManager executionManager;
-  @Autowired
-  private NotificationKernel notificationKernel;
+    @BeforeClass
+    public void setup() {
 
-  private NotificationRequestStore requestStore;
-  private CouchRequestReceiver receiver;
-  private DomainProfile domainProfile;
-  private CouchDatabase requestDatabase;
+        // Create receiver.
+        receiver = new CouchRequestReceiver(domainKernel, notificationKernel, executionManager);
 
-  @BeforeClass
-  public void setup() {
+        // Domain profile we will use for testing.
+        domainProfile = domainKernel.findByApiKey(TestFactory.API_KEY);
 
-    // Create receiver.
-    receiver = new CouchRequestReceiver(domainKernel, notificationKernel, executionManager);
+        // Create sender and sender store.
+        requestDatabase = domainKernel.requestDb(domainProfile);
+        requestStore = new NotificationRequestStore(requestDatabase);
 
-    // Domain profile we will use for testing.
-    domainProfile = domainKernel.findByApiKey(TestFactory.API_KEY);
-
-    // Create sender and sender store.
-    requestDatabase = domainKernel.requestDb(domainProfile);
-    requestStore = new NotificationRequestStore(requestDatabase);
-
-  }
+    }
 
 /* HACK - at some point this was no longer being used, should re-enable - HN
   private void assertNotification(NotificationResponse response) {
