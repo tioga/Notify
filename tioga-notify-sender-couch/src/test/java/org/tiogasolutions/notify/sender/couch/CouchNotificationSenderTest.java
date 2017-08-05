@@ -180,6 +180,10 @@ public class CouchNotificationSenderTest {
         SendNotificationRequest request2 = response.getRequest();
         assertEquals(response.getResponseType(), SendNotificationResponseType.SUCCESS);
 
+        // In the cloud, I think the test runs too fast.
+        // For that reason, we are going to slow down just a bit..
+        Thread.sleep(1000);
+
         // Query for ready, should only find two.
         List<NotificationRequestEntity> readyRequests = requestStore.findByStatus(NotificationRequestStatus.READY);
         assertEquals(readyRequests.size(), 2);
