@@ -17,7 +17,7 @@ project(":tioga-notify-sender-lambda") {
         })
     })
 
-    task buildZip(type: Zip) {
+    task aws(type: Zip) {
         from compileJava
         from processResources
         into('lib') {
@@ -25,7 +25,7 @@ project(":tioga-notify-sender-lambda") {
         }
     }
 
-    build.dependsOn buildZip
+    aws.dependsOn build
 
     apply(from: urlCache.get("https://raw.githubusercontent.com/tioga/build-scripts/master/build-config-deployer.gradle"))
 }
