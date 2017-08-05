@@ -89,7 +89,11 @@ public class CouchServers {
 
     // Create database if it does not exist
     if (!localMasterDatabase.exists()) {
-      localMasterDatabase.createDatabase();
+        WriteResponse createResponse = localMasterDatabase.createDatabase();
+        if (createResponse.isError()) {
+            String msg = String.format("Error creating master database (%s) - %s", localMasterDatabase.getDatabaseName(), createResponse.getErrorReason());
+            throw ApiException.internalServerError(msg);
+        }
 
       String[] designNames = new String[] {"DomainProfile", "Entity"};
       for (String designName : designNames) {
