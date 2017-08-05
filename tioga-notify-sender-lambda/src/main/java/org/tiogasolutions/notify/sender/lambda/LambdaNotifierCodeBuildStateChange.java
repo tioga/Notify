@@ -3,7 +3,7 @@ package org.tiogasolutions.notify.sender.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.sender.lambda.pub.build.CodeBuildStateChange;
+import org.tiogasolutions.notify.sender.lambda.pub.build.CodeBuildStateChangeMsg;
 import org.tiogasolutions.notify.sender.lambda.pub.build.Detail;
 import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
 
@@ -16,7 +16,7 @@ public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
 
     public class CodeBuildProcessor extends LambdaNotifier.Processor {
 
-        private CodeBuildStateChange stateChange;
+        private CodeBuildStateChangeMsg codeBuildStateChangeMsg;
 
         public CodeBuildProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record, String topicName) {
             super(om, logger, notifier, context, record, topicName);
@@ -25,28 +25,28 @@ public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
         @Override
         protected void processPayload() throws Exception {
             String json = record.getSns().getMessage();
-            stateChange = om.readValue(json, CodeBuildStateChange.class);
+            codeBuildStateChangeMsg = om.readValue(json, CodeBuildStateChangeMsg.class);
         }
 
         @Override
         protected void decorateNotification() {
 
             // Status Change attributes
-            builder.trait("version", stateChange.getVersion());
-            builder.trait("id", stateChange.getId());
-            builder.trait("detail_type", stateChange.getDetailType());
-            builder.trait("source", stateChange.getSource());
-            builder.trait("account", stateChange.getAccount());
-            builder.trait("time", stateChange.getTime());
-            builder.trait("region", stateChange.getRegion());
+            builder.trait("version", codeBuildStateChangeMsg.getVersion());
+            builder.trait("id", codeBuildStateChangeMsg.getId());
+            builder.trait("detail_type", codeBuildStateChangeMsg.getDetailType());
+            builder.trait("source", codeBuildStateChangeMsg.getSource());
+            builder.trait("account", codeBuildStateChangeMsg.getAccount());
+            builder.trait("time", codeBuildStateChangeMsg.getTime());
+            builder.trait("region", codeBuildStateChangeMsg.getRegion());
 
-            for (int i = 0; i < stateChange.getResources().size(); i++) {
-                String resource = stateChange.getResources().get(i);
+            for (int i = 0; i < codeBuildStateChangeMsg.getResources().size(); i++) {
+                String resource = codeBuildStateChangeMsg.getResources().get(i);
                 builder.trait("resources-"+i, resource);
             }
 
             // Status Change Detail attributes
-            Detail detail = stateChange.getDetail();
+            Detail detail = codeBuildStateChangeMsg.getDetail();
             builder.trait("build_status", detail.getBuildStatus());
             builder.trait("project_name", detail.getProjectName());
             builder.trait("build_id", detail.getBuildId());

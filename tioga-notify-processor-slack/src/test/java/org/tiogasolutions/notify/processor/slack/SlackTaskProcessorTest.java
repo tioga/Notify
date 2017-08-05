@@ -169,6 +169,7 @@ public class SlackTaskProcessorTest {
         argMap.put("channel", "#notify-test");
         argMap.put("iconEmoji", ":rabbit:");
         argMap.put("username", "Test-sendWithComplexStatus");
+        argMap.put("cc", "@jacob @harlan");
         Destination destination = new Destination("test", "slack", argMap);
         Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 

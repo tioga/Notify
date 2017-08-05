@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class CodeBuildStateChange {
+public class CodeBuildStateChangeMsg {
 
     private final String version;
     private final String id;
@@ -16,15 +16,15 @@ public class CodeBuildStateChange {
     private final List<String> resources;
     private final Detail detail;
 
-    public CodeBuildStateChange(@JsonProperty("version") String version,
-                                @JsonProperty("id") String id,
-                                @JsonProperty("detail-type") String detailType,
-                                @JsonProperty("source") String source,
-                                @JsonProperty("account") String account,
-                                @JsonProperty("time") String time,
-                                @JsonProperty("region") String region,
-                                @JsonProperty("resources") List<String> resources,
-                                @JsonProperty("detail") Detail detail) {
+    public CodeBuildStateChangeMsg(@JsonProperty("version") String version,
+                                   @JsonProperty("id") String id,
+                                   @JsonProperty("detail-type") String detailType,
+                                   @JsonProperty("source") String source,
+                                   @JsonProperty("account") String account,
+                                   @JsonProperty("time") String time,
+                                   @JsonProperty("region") String region,
+                                   @JsonProperty("resources") List<String> resources,
+                                   @JsonProperty("detail") Detail detail) {
         this.version = version;
         this.id = id;
         this.detailType = detailType;

@@ -11,4 +11,6 @@
 <th:block th:each="trait : ${it.traitMap}">       <th:block th:utext="${trait.key}"/>: *<th:block th:if="${not #strings.isEmpty(trait.value)}" th:utext="${trait.value}"/><th:block th:if="${#strings.isEmpty(trait.value)}" th:utext="${'null'}"/>*</th:block>
 </th:block>
 <br/>
+<th:block th:if="${it.cc != null}">cc <th:block th:utext="${it.cc}"/></th:block>
+<br/>
 </th:block>

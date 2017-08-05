@@ -30,6 +30,7 @@ public class MessageModel {
     private final String revision;
     private final String topic;
     private final String summary;
+    private final String cc;
     private final String trackingId;
     private final ZonedDateTime createdAt;
     private final Map<String, String> traitMap;
@@ -51,6 +52,7 @@ public class MessageModel {
 
         destinationName = task.getDestination().getName();
         destinationMap = task.getDestination().getArguments();
+        cc = destinationMap.get("cc");
 
         self = (notification.getSelf() == null) ? null : notification.getSelf().toASCIIString();
         notificationId = notification.getNotificationId();
@@ -76,6 +78,10 @@ public class MessageModel {
         notificationDbName = domainProfile.getNotificationDbName();
         requestDbName = domainProfile.getRequestDbName();
         routeCatalog = domainProfile.getRouteCatalog();
+    }
+
+    public String getCc() {
+        return cc;
     }
 
     public String getDestinationName() {
