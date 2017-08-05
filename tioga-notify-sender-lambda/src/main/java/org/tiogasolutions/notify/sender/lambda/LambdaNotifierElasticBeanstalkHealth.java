@@ -54,16 +54,16 @@ public class LambdaNotifierElasticBeanstalkHealth extends LambdaNotifier {
         protected void decorateNotification() {
             if (summary != null && summary.startsWith("Environment health has transitioned from ")) {
                 if (summary.contains(" to Severe.")) {
-                    builder.trait("elasticBeanstalkStatus", "severe");
+                    builder.trait("elastic_beanstalk_status", "severe");
                 } else if (summary.contains(" to Info.")) {
-                    builder.trait("elasticBeanstalkStatus", "info");
+                    builder.trait("elastic_beanstalk_status", "info");
                 } else if (summary.contains(" to Ok.")) {
-                    builder.trait("elasticBeanstalkStatus", "ok");
+                    builder.trait("elastic_beanstalk_status", "ok");
                 } else {
-                    builder.trait("elasticBeanstalkStatus", "unknown");
+                    builder.trait("elastic_beanstalk_status", "unknown");
                 }
             } else {
-                builder.trait("elasticBeanstalkStatus", "unknown");
+                builder.trait("elastic_beanstalk_status", "unknown");
             }
         }
     }
