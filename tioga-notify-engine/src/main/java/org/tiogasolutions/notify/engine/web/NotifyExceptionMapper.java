@@ -20,13 +20,13 @@ public class NotifyExceptionMapper extends TiogaJaxRsExceptionMapper {
     protected void log4xxException(String msg, Throwable throwable, int statusCode) {
         super.log4xxException(msg, throwable, statusCode);
 
-        notifier.begin()
-                .summary(msg)
-                .exception(throwable)
-                .trait("action", "Unhandled 4xx")
-                .trait("http-status-code", statusCode)
-                .trait("http-uri", getUriInfo().getRequestUri())
-                .send();
+//        notifier.begin()
+//                .summary(msg)
+//                .exception(throwable)
+//                .trait("action", "Unhandled 4xx")
+//                .trait("http-status-code", statusCode)
+//                .trait("http-uri", getUriInfo().getRequestUri())
+//                .send();
     }
 
     @Override
