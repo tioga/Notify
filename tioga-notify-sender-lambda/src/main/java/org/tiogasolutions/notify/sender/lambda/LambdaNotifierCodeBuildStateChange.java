@@ -3,7 +3,8 @@ package org.tiogasolutions.notify.sender.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.sender.lambda.pub.build.CodeBuildStateChange;
+import org.tiogasolutions.notify.sender.lambda.pub.codebuild.CodeBuildStateChange;
+import org.tiogasolutions.notify.sender.lambda.pub.codebuild.Detail;
 import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
 
 public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
@@ -29,11 +30,33 @@ public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
 
         @Override
         protected void decorateNotification() {
-            String status = stateChange.getDetail().getBuildStatus();
-            String project = stateChange.getDetail().getProjectName();
 
-            builder.trait("buildstatus", status);
-            builder.trait("projectname", project);
+            // Status Change attributes
+            builder.trait("version", stateChange.getVersion());
+            builder.trait("id", stateChange.getId());
+            builder.trait("detail_type", stateChange.getDetailType());
+            builder.trait("source", stateChange.getSource());
+            builder.trait("account", stateChange.getAccount());
+            builder.trait("time", stateChange.getTime());
+            builder.trait("region", stateChange.getRegion());
+
+            for (int i = 0; i < stateChange.getResources().size(); i++) {
+                String resource = stateChange.getResources().get(i);
+                builder.trait("resources-"+i, resource);
+            }
+
+            // Status Change Detail attributes
+            Detail detail = stateChange.getDetail();
+            builder.trait("build_status", detail.getBuildStatus());
+            builder.trait("project_name", detail.getProjectName());
+            builder.trait("build_id", detail.getBuildId());
+            builder.trait("current_phase", detail.getCurrentPhase());
+            builder.trait("current_phase_context", detail.getCurrentPhaseContext());
+            builder.trait("detail_version", detail.getVersion());
+
+            // Customize the message
+            String status = detail.getBuildStatus();
+            String project = detail.getProjectName();
 
             if ("IN_PROGRESS".equals(status)) {
                 summary = String.format("The build for %s has started.", project, status);

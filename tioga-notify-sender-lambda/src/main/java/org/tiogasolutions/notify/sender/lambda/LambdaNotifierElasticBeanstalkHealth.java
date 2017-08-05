@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
 
-public class LambdaNotifierElasticBeanstalk extends LambdaNotifier {
+public class LambdaNotifierElasticBeanstalkHealth extends LambdaNotifier {
 
     @Override
     public LambdaNotifier.Processor createProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
