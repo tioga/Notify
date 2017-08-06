@@ -38,17 +38,17 @@ public class LambdaNotifierCodePipelineApproval extends LambdaNotifier {
             if ("OFF".equalsIgnoreCase(System.getenv("NOTIFIER_TRAITS")) == false) {
 
                 // Basic traits...
-                builder.trait("region", codePipelineApprovalMsg.getRegion());
-                builder.trait("consoleLink", codePipelineApprovalMsg.getConsoleLink());
+                builder.trait("region",             codePipelineApprovalMsg.getRegion());
+                builder.trait("consoleLink",        codePipelineApprovalMsg.getConsoleLink());
 
                 // Approval traits...
-                builder.trait("pipelineName", approval.getPipelineName());
-                builder.trait("stageName", approval.getStageName());
-                builder.trait("actionName", approval.getActionName());
-                builder.trait("token", approval.getToken());
-                builder.trait("expires", approval.getExpires());
+                builder.trait("pipelineName",       approval.getPipelineName());
+                builder.trait("stageName",          approval.getStageName());
+                builder.trait("actionName",         approval.getActionName());
+                builder.trait("token",              approval.getToken());
+                builder.trait("expires",            approval.getExpires());
                 builder.trait("externalEntityLink", approval.getExternalEntityLink());
-                builder.trait("customData", approval.getCustomData());
+                builder.trait("customData",         approval.getCustomData());
             }
 
             summary = String.format("Approval to <%s|%s> is required for the pipeline %s.",
