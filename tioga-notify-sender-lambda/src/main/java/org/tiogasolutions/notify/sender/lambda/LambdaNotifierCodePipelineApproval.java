@@ -7,6 +7,8 @@ import org.tiogasolutions.notify.sender.lambda.pub.pipeline.Approval;
 import org.tiogasolutions.notify.sender.lambda.pub.pipeline.CodePipelineApprovalMsg;
 import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
 
+import static org.tiogasolutions.dev.common.StringUtils.isNotBlank;
+
 public class LambdaNotifierCodePipelineApproval extends LambdaNotifier {
 
     @Override
@@ -31,23 +33,37 @@ public class LambdaNotifierCodePipelineApproval extends LambdaNotifier {
         @Override
         protected void decorateNotification() {
 
-            // Message attributes
-            builder.trait("region", codePipelineApprovalMsg.getRegion());
-            builder.trait("consoleLink", codePipelineApprovalMsg.getConsoleLink());
-
             Approval approval = codePipelineApprovalMsg.getApproval();
-            builder.trait("pipelineName", approval.getPipelineName());
-            builder.trait("stageName", approval.getStageName());
-            builder.trait("actionName", approval.getActionName());
-            builder.trait("token", approval.getToken());
-            builder.trait("expires", approval.getExpires());
-            builder.trait("externalEntityLink", approval.getExternalEntityLink());
-            builder.trait("customData", approval.getCustomData());
 
-            summary = String.format("Approval to \"%s\" is required for the pipeline %s.",
+            if ("OFF".equalsIgnoreCase(System.getenv("NOTIFIER_TRAITS")) == false) {
+
+                // Basic traits...
+                builder.trait("region", codePipelineApprovalMsg.getRegion());
+                builder.trait("consoleLink", codePipelineApprovalMsg.getConsoleLink());
+
+                // Approval traits...
+                builder.trait("pipelineName", approval.getPipelineName());
+                builder.trait("stageName", approval.getStageName());
+                builder.trait("actionName", approval.getActionName());
+                builder.trait("token", approval.getToken());
+                builder.trait("expires", approval.getExpires());
+                builder.trait("externalEntityLink", approval.getExternalEntityLink());
+                builder.trait("customData", approval.getCustomData());
+            }
+
+            summary = String.format("Approval to <%s|%s> is required for the pipeline %s.",
+                    codePipelineApprovalMsg.getConsoleLink(),
                     approval.getActionName().toLowerCase().replace("-", " "),
                     approval.getPipelineName()
             );
+
+            if (isNotBlank(approval.getCustomData())) {
+                summary += String.format("<br/><%s>", approval.getCustomData());
+            }
+
+            if (isNotBlank(approval.getCustomData())) {
+                summary += String.format("<br/>See also <%s>", approval.getExternalEntityLink());
+            }
         }
     }
 }

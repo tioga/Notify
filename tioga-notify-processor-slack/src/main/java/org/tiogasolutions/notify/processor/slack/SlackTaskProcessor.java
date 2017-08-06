@@ -79,8 +79,8 @@ public class SlackTaskProcessor implements TaskProcessor {
             // If the message has a URL in it, SLACK will automatically attempt to fetch it.
             // In the case of 404, this means that posting that a URL was not found will result
             // in an endless cycle of posting, fetching, posting, fetching, etc...
-            // char vtab = 11;
-            String vtab = "|"; // not a colon, but looks like one :-)
+            char vtab = 11;
+            //String vtab = "|"; // not a colon, but looks like one :-)
             messageText = messageText.replace("HTTP://", "HTTP" + vtab + "//");
             messageText = messageText.replace("http://", "http" + vtab + "//");
             messageText = messageText.replace("HTTPS://", "HTTPS" + vtab + "//");
