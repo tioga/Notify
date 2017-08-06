@@ -153,7 +153,7 @@ public class SlackTaskProcessorTest {
         argMap.put("slackUrl", tiogaSlackTestUrl);
         argMap.put("channel", "#notify-test");
         argMap.put("iconEmoji", ":monkey_face:");
-        argMap.put("username", "Test-sendWithSpecialChars");
+        argMap.put("username", "Test-sendWithSpecialChars #{{id}}");
         Destination destination = new Destination("test", "slack", argMap);
         Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
 
@@ -181,6 +181,24 @@ public class SlackTaskProcessorTest {
                 "  *  Active Profiles (solutions.active.profiles) %s", "started", null, null, null, null, asList("unit-test"));
 
         Notification notification = newNotification("test-special", message, attachments, exceptionInfo, traitMap);
+
+        TaskResponse response = processor.processTask(newDomainProfile(), notification, customTask);
+        assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);
+    }
+
+    public void sendBuildApproval() {
+        Map<String, String> argMap = new HashMap<>();
+        argMap.put("slackUrl", tiogaSlackTestUrl);
+        argMap.put("channel", "#notify-test");
+        argMap.put("iconEmoji", ":robot_face:");
+        argMap.put("username", "AWS #{{id}}");
+        argMap.put("cc", "@jacob @harlan");
+        Destination destination = new Destination("test", "slack", argMap);
+        Task customTask = new Task(someUri, null, null, TaskStatus.SENDING, "9999", ZonedDateTime.now(), destination, null);
+
+        String message = String.format("Approval to <https://www.google.com|deploy to Google> is required for the pipeline notify-server-google");
+
+        Notification notification = newNotification("Pipeline Approval", message, null, null, null);
 
         TaskResponse response = processor.processTask(newDomainProfile(), notification, customTask);
         assertEquals(response.getResponseAction(), TaskResponseAction.COMPLETE);

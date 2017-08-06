@@ -1,4 +1,4 @@
-<th:block th:inline="text"><th:block th:utext="${ '*' + #strings.replace(it.summary, '\n', '*\n>') }"/>*
+<th:block th:inline="text"><th:block th:utext="${ '*' + #strings.replace(it.summary, '\n', '*\n') }"/>*
 <br/>
 <th:block th:if="${it.exceptionInfo != null}">Exception: _*<th:block th:utext="${it.exceptionInfo.message}"/>* (<th:block th:utext="${it.exceptionInfo.exceptionType}"/>)_
 <th:block th:each="cause : ${it.exceptionInfo.causes}">       Cause: _*<th:block th:utext="${cause.message}"/>* (<th:block th:utext="${cause.exceptionType}"/>)_</th:block></th:block>
@@ -12,6 +12,6 @@
 <br/>
 <th:block th:if="${it.cc != null}">cc <th:block th:utext="${it.cc}"/></th:block>
 <br/>
-<th:block th:if="${it.topic != null}">*<th:block th:utext="${it.topic}"/>*, </th:block>&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|notification #<th:block th:utext="${it.notificationId}"/>&gt;
+[<th:block th:if="${it.topic != null}">*<th:block th:utext="${it.topic}"/>*, </th:block>&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|notification #<th:block th:utext="${it.notificationId}"/>&gt;]
 <br/>
 </th:block>
