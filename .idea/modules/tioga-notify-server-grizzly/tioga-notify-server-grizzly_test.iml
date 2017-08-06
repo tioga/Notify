@@ -29,7 +29,7 @@
     <orderEntry type="module" module-name="tioga-notify-kernel_main" />
     <orderEntry type="module" module-name="tioga-notify-sender-couch_main" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.push:tioga-push-client:6.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.4" level="project" />
     <orderEntry type="library" name="Gradle: javax.mail:mail:1.5.0-b01" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.containers:jersey-container-servlet-core:2.22.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.22.2" level="project" />

@@ -16,7 +16,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tioga-notify-kernel_main" />
     <orderEntry type="module" module-name="tioga-notify-sender-couch_main" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.4" level="project" />
     <orderEntry type="module" module-name="tioga-notify-jackson_main" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-thymeleaf:1.1.6" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.app:tioga-app-common:3.2.3" level="project" />

@@ -18,7 +18,7 @@
     <orderEntry type="module" module-name="tioga-notify-jackson_main" />
     <orderEntry type="module" module-name="tioga-notify-sender-http_main" />
     <orderEntry type="module" module-name="tioga-notify-notifier_main" />
-    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.4" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-client:2.22.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.media:jersey-media-multipart:2.22.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-common:2.22.2" level="project" />
