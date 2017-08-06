@@ -10,8 +10,8 @@
 <th:block th:each="trait : ${it.traitMap}">       <th:block th:utext="${trait.key}"/>: *<th:block th:if="${not #strings.isEmpty(trait.value)}" th:utext="${trait.value}"/><th:block th:if="${#strings.isEmpty(trait.value)}" th:utext="${'null'}"/>*</th:block>
 </th:block>
 <br/>
-[<th:block th:if="${it.topic != null}">*<th:block th:utext="${it.topic}"/>*, </th:block>&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|notification #<th:block th:utext="${it.notificationId}"/>&gt;]
+[<th:block th:if="${it.topic != null}">*<th:block th:utext="${it.topic}"/>*, </th:block>&lt;https://www.tioga.solutions/#/domains/<th:block th:utext="${it.domainName}"/>/notify/notifications/<th:block th:utext="${it.notificationId}"/>|Notification #<th:block th:utext="${it.notificationId}"/>&gt;]
 <br/>
 <th:block th:if="${it.cc != null}">cc <th:block th:utext="${it.cc}"/></th:block>
-<br/>
+<br/><br/>
 </th:block>
