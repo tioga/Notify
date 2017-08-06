@@ -58,11 +58,11 @@ public class LambdaNotifierCodePipelineApproval extends LambdaNotifier {
             );
 
             if (isNotBlank(approval.getCustomData())) {
-                summary += String.format("<br/><%s>", approval.getCustomData());
+                summary += String.format("\n<%s>", approval.getCustomData());
             }
 
             if (isNotBlank(approval.getCustomData())) {
-                summary += String.format("<br/>See also <%s>", approval.getExternalEntityLink());
+                summary += String.format("\nSee also <%s>", approval.getExternalEntityLink());
             }
         }
     }
