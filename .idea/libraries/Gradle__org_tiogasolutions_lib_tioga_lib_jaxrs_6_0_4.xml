@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.tiogasolutions.lib:tioga-lib-jaxrs:6.0.4">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/6.0.4/tioga-lib-jaxrs-6.0.4.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-jaxrs/6.0.4/2a3f1a18d1b249a53bce3fb20bf20e379277b37e/tioga-lib-jaxrs-6.0.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/tiogasolutions/lib/tioga-lib-jaxrs/6.0.4/tioga-lib-jaxrs-6.0.4-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.tiogasolutions.lib/tioga-lib-jaxrs/6.0.4/9d1deaee09f3816432803b74b486b62c7a8d1abb/tioga-lib-jaxrs-6.0.4-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

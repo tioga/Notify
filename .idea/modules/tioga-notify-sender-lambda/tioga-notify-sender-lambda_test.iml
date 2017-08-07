@@ -11,8 +11,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="tioga-notify-sender-lambda_main" />
     <orderEntry type="module" module-name="tioga-notify-sender-http_main" />
-    <orderEntry type="library" name="Gradle: com.amazonaws:aws-lambda-java-core:1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.tiogasolutions.dev:tioga-dev-jackson:4.2.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.amazonaws:aws-lambda-java-core:1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.testng:testng:6.8.21" level="project" />
     <orderEntry type="module" module-name="tioga-notify-notifier_main" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-client:2.22.2" level="project" />
