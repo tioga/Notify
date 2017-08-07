@@ -11,20 +11,20 @@ import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
 import org.tiogasolutions.notify.notifier.send.SendNotificationResponseType;
 import org.tiogasolutions.notify.sender.http.HttpNotificationSender;
 import org.tiogasolutions.notify.sender.http.HttpNotificationSenderConfig;
-import org.tiogasolutions.notify.sender.lambda.pub.sns.MessageAttribute;
-import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsEvent;
-import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
+import org.tiogasolutions.notify.sender.lambda.sns.MessageAttribute;
+import org.tiogasolutions.notify.sender.lambda.sns.SnsEvent;
+import org.tiogasolutions.notify.sender.lambda.sns.SnsRecord;
 
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LambdaNotifier implements RequestStreamHandler {
+public class LambdaSnsNotifier implements RequestStreamHandler {
 
     protected final Notifier notifier;
     protected final ObjectMapper om = new ObjectMapper();
 
-    public LambdaNotifier() {
+    public LambdaSnsNotifier() {
         HttpNotificationSenderConfig config = new HttpNotificationSenderConfig();
         String url = System.getProperty("NOTIFIER_URL");
         if (url == null) url = System.getenv("NOTIFIER_URL");
@@ -42,6 +42,7 @@ public class LambdaNotifier implements RequestStreamHandler {
         notifier = new Notifier(sender);
     }
 
+    @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
         Logger logger = new Logger(context);
         logger.log("Invocation started: " + this);
@@ -113,7 +114,7 @@ public class LambdaNotifier implements RequestStreamHandler {
             }
 
             SendNotificationResponse response = builder.send().get();
-            logger.log("Sent notification: " + summary);
+            logger.log("Sent notification: " + response.getResponseType());
 
             if (response.getResponseType() == SendNotificationResponseType.FAILURE) {
                 throw response.getThrowable();

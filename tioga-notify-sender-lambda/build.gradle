@@ -4,15 +4,19 @@ project(":tioga-notify-sender-lambda") {
 
     dependencies {
         compile( project(":tioga-notify-sender-http") )
+        compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
 
         compile("com.amazonaws:aws-lambda-java-core:1.1.0")
-        compile("org.tiogasolutions.dev:tioga-dev-jackson:+")
+        // compile("com.amazonaws:aws-java-sdk:1.11.172")
     }
 
     configurations.all({
         resolutionStrategy({
             force(
                 "commons-logging:commons-logging:1.2",
+                "com.fasterxml.jackson.core:jackson-core:2.5.1",
+                "com.fasterxml.jackson.core:jackson-databind:2.5.1",
+                "com.amazonaws:aws-java-sdk-simpleworkflow:1.11.172",
             )
         })
     })

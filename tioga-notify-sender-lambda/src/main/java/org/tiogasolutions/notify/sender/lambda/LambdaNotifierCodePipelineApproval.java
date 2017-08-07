@@ -3,13 +3,13 @@ package org.tiogasolutions.notify.sender.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.sender.lambda.pub.pipeline.Approval;
-import org.tiogasolutions.notify.sender.lambda.pub.pipeline.CodePipelineApprovalMsg;
-import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
+import org.tiogasolutions.notify.sender.lambda.pipeline.CodePipelineApprovalMsg;
+import org.tiogasolutions.notify.sender.lambda.sns.SnsRecord;
 
 import static org.tiogasolutions.dev.common.StringUtils.isNotBlank;
+import static org.tiogasolutions.notify.sender.lambda.pipeline.CodePipelineApprovalMsg.*;
 
-public class LambdaNotifierCodePipelineApproval extends LambdaNotifier {
+public class LambdaNotifierCodePipelineApproval extends LambdaSnsNotifier {
 
     @Override
     public Processor createProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
@@ -33,23 +33,20 @@ public class LambdaNotifierCodePipelineApproval extends LambdaNotifier {
         @Override
         protected void decorateNotification() {
 
-            Approval approval = codePipelineApprovalMsg.getApproval();
+            Approval approval  = codePipelineApprovalMsg.getApproval();
 
-            if ("OFF".equalsIgnoreCase(System.getenv("NOTIFIER_TRAITS")) == false) {
+            // Basic traits...
+            builder.trait("region",             codePipelineApprovalMsg.getRegion());
+            builder.trait("consoleLink",        codePipelineApprovalMsg.getConsoleLink());
 
-                // Basic traits...
-                builder.trait("region",             codePipelineApprovalMsg.getRegion());
-                builder.trait("consoleLink",        codePipelineApprovalMsg.getConsoleLink());
-
-                // Approval traits...
-                builder.trait("pipelineName",       approval.getPipelineName());
-                builder.trait("stageName",          approval.getStageName());
-                builder.trait("actionName",         approval.getActionName());
-                builder.trait("token",              approval.getToken());
-                builder.trait("expires",            approval.getExpires());
-                builder.trait("externalEntityLink", approval.getExternalEntityLink());
-                builder.trait("customData",         approval.getCustomData());
-            }
+            // Approval traits...
+            builder.trait("pipelineName",       approval.getPipelineName());
+            builder.trait("stageName",          approval.getStageName());
+            builder.trait("actionName",         approval.getActionName());
+            builder.trait("token",              approval.getToken());
+            builder.trait("expires",            approval.getExpires());
+            builder.trait("externalEntityLink", approval.getExternalEntityLink());
+            builder.trait("customData",         approval.getCustomData());
 
             summary = String.format("Approval to <%s|%s> is required for the pipeline %s.",
                     codePipelineApprovalMsg.getConsoleLink(),

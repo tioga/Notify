@@ -3,18 +3,18 @@ package org.tiogasolutions.notify.sender.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.sender.lambda.pub.build.CodeBuildStateChangeMsg;
-import org.tiogasolutions.notify.sender.lambda.pub.build.Detail;
-import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
+import org.tiogasolutions.notify.sender.lambda.build.CodeBuildStateChangeMsg;
+import org.tiogasolutions.notify.sender.lambda.build.Detail;
+import org.tiogasolutions.notify.sender.lambda.sns.SnsRecord;
 
-public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
+public class LambdaNotifierCodeBuildStateChange extends LambdaSnsNotifier {
 
     @Override
-    public LambdaNotifier.Processor createProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
+    public LambdaSnsNotifier.Processor createProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
         return new CodeBuildProcessor(om, logger, notifier, context, record, "Build Status");
     }
 
-    public class CodeBuildProcessor extends LambdaNotifier.Processor {
+    public class CodeBuildProcessor extends LambdaSnsNotifier.Processor {
 
         private CodeBuildStateChangeMsg codeBuildStateChangeMsg;
 
@@ -31,6 +31,8 @@ public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
         @Override
         protected void decorateNotification() {
 
+            Detail detail = codeBuildStateChangeMsg.getDetail();
+
             // Status Change attributes
             builder.trait("version", codeBuildStateChangeMsg.getVersion());
             builder.trait("id", codeBuildStateChangeMsg.getId());
@@ -46,18 +48,18 @@ public class LambdaNotifierCodeBuildStateChange extends LambdaNotifier {
             }
 
             // Status Change Detail attributes
-            Detail detail = codeBuildStateChangeMsg.getDetail();
-            builder.trait("build_status", detail.getBuildStatus());
-            builder.trait("project_name", detail.getProjectName());
+            String status = detail.getBuildStatus();
+            builder.trait("build_status", status);
+
+            String project = detail.getProjectName();
+            builder.trait("project_name", project);
+
             builder.trait("build_id", detail.getBuildId());
             builder.trait("current_phase", detail.getCurrentPhase());
             builder.trait("current_phase_context", detail.getCurrentPhaseContext());
             builder.trait("detail_version", detail.getVersion());
 
             // Customize the message
-            String status = detail.getBuildStatus();
-            String project = detail.getProjectName();
-
             if ("IN_PROGRESS".equals(status)) {
                 summary = String.format("The build for %s has started.", project, status);
             } else if ("FAILED".equals(status)) {

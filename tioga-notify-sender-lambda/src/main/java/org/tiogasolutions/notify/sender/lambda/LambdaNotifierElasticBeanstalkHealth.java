@@ -3,16 +3,16 @@ package org.tiogasolutions.notify.sender.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tiogasolutions.notify.notifier.Notifier;
-import org.tiogasolutions.notify.sender.lambda.pub.sns.SnsRecord;
+import org.tiogasolutions.notify.sender.lambda.sns.SnsRecord;
 
-public class LambdaNotifierElasticBeanstalkHealth extends LambdaNotifier {
+public class LambdaNotifierElasticBeanstalkHealth extends LambdaSnsNotifier {
 
     @Override
-    public LambdaNotifier.Processor createProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
+    public LambdaSnsNotifier.Processor createProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
         return new ElasticBeanstalkProcessor(om, logger, notifier, context, record);
     }
 
-    public class ElasticBeanstalkProcessor extends LambdaNotifier.Processor {
+    public class ElasticBeanstalkProcessor extends LambdaSnsNotifier.Processor {
 
         public ElasticBeanstalkProcessor(ObjectMapper om, Logger logger, Notifier notifier, Context context, SnsRecord record) {
             super(om, logger, notifier, context, record, "AWS Elastic Beanstalk");

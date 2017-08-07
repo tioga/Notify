@@ -1,4 +1,4 @@
-package org.tiogasolutions.notify.sender.lambda.pub.build;
+package org.tiogasolutions.notify.sender.lambda.build;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
