@@ -9,6 +9,7 @@ import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -33,6 +34,7 @@ public class SystemResourceV2 {
         return new TaskProcessorExecutorResourceV2(em);
     }
 
+    @POST
     @Path("/jobs/prune/requests")
     public Response pruneRequests(@FormParam("domainName") String domainName) {
         DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
