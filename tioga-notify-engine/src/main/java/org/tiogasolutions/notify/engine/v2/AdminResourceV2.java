@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.engine.v2;
 
 import org.tiogasolutions.notify.kernel.PubUtils;
+import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 
 import javax.ws.rs.GET;
@@ -13,8 +14,10 @@ public class AdminResourceV2 {
 
     private final PubUtils pubUtils;
     private final ExecutionManager em;
+    private final DomainKernel domainKernel;
 
-    public AdminResourceV2(PubUtils pubUtils, ExecutionManager em) {
+    public AdminResourceV2(PubUtils pubUtils, ExecutionManager em, DomainKernel domainKernel) {
+        this.domainKernel = domainKernel;
         this.pubUtils = pubUtils;
         this.em = em;
     }
@@ -32,6 +35,6 @@ public class AdminResourceV2 {
 
     @Path("/system")
     public SystemResourceV2 getSystemResourceV1() {
-        return new SystemResourceV2(em);
+        return new SystemResourceV2(em, domainKernel);
     }
 }
