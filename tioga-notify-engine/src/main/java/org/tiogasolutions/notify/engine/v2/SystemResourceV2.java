@@ -8,9 +8,8 @@ import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -35,6 +34,8 @@ public class SystemResourceV2 {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/jobs/prune/requests")
     public Response pruneRequests(@FormParam("domainName") String domainName) {
         DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
