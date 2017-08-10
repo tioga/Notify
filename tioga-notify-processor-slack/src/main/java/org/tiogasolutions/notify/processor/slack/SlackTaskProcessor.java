@@ -60,6 +60,8 @@ public class SlackTaskProcessor implements TaskProcessor {
     @Override
     public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
 
+        log.error("Started processing task {} for notification {}.", task.getTaskId(), notification.getNotificationId());
+
         try {
             // Retrieve the url - mandatory
             Map<String, String> valueMap = task.getDestination().getArguments();
@@ -123,7 +125,7 @@ public class SlackTaskProcessor implements TaskProcessor {
                     .post(entity);
 
             if (response.getStatus() == 200 || response.getStatus() == 201) {
-                log.debug("Successfully sent Slack message: {}", notification.getSummary());
+                log.error("Successfully sent Slack message: {}", notification.getSummary());
                 return TaskResponse.complete("Ok");
 
             } else {
@@ -134,7 +136,7 @@ public class SlackTaskProcessor implements TaskProcessor {
                 return TaskResponse.fail(msg);
             }
 
-        } catch (Throwable t) {
+        } catch (Exception t) {
             log.error("Exception sending Slack message.", t);
             return TaskResponse.fail("Exception sending Slack message.", t);
         }
