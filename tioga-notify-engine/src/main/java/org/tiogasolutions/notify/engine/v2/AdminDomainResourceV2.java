@@ -205,25 +205,26 @@ public class AdminDomainResourceV2 {
             List<Notification> notifications = null;
             while (notifications == null || notifications.size() > 0) {
                 notifications = getNotifications(notificationDomain);
-                log.error("Deleting {} notifications for the domain {}.", notifications.size(), domainName);
 
                 next: for (Notification notification : notifications) {
                     List<TaskEntity> tasks = getTaskForNotification(notificationDomain, notification);
-                    log.error("Deleting {} tasks for notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
 
                     // Test the tasks - if any are sending or pending skip everything.
                     for (TaskEntity task : tasks) {
                         if (task.getTaskStatus().isSending() || task.getTaskStatus().isPending()) {
+                            log.error("Skipping {} tasks given notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
                             continue next; // Skip it, it's still processing.
                         }
                     }
 
                     // OK, no issues, so delete all the tests.
+                    log.error("Deleting {} tasks given notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
                     for (TaskEntity task : tasks) {
                         notificationDomain.deleteTask(task.getTaskId());
                     }
 
                     // And lastly, delete the notification
+                    log.error("Deleting {} notifications for the domain {}.", notifications.size(), domainName);
                     notificationDomain.deleteNotification(notification.getNotificationId());
                 }
             }
