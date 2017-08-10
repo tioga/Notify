@@ -239,7 +239,7 @@ public class TaskProcessorExecutor implements TaskEventListener {
                 processorName = processor.getType().getCode();
                 DomainProfile domainProfile = domainKernel.getOrCreateDomain(domainName);
 
-                log.debug("Begin processing task for domain {} with processor {}: {}",
+                log.error("Begin processing task for domain {} with processor {}: {}",
                         domainName, processorName, localTaskEntity.getLabel());
 
                 // Send to processor

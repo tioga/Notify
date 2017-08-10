@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.kernel.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.event.EventBus;
@@ -12,13 +14,14 @@ import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Component
 public class TaskGenerator {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final EventBus eventBus;
     private final ExecutorService executorService;
@@ -36,24 +39,28 @@ public class TaskGenerator {
 
     // NOTE - we pass in notificationDomain because we already have it when we make this call
     public Future<List<TaskEntity>> generateTasks(NotificationDomain notificationDomain, Notification notification) {
+        return executorService.submit( () -> createTask(notificationDomain, notification));
+    }
 
-        Callable<List<TaskEntity>> taskCreatorCallable = () -> {
-            List<TaskEntity> tasks = new ArrayList<>();
+    private List<TaskEntity> createTask(NotificationDomain notificationDomain, Notification notification) {
+        log.error("Generating tasks for notification {}", notification.getNotificationId());
+        List<TaskEntity> tasks = new ArrayList<>();
 
-            // Find destinations.
-            NotificationRef notificationRef = notification.toNotificationRef();
-            Set<Destination> destinations = notificationDomain.findDestinations(notification);
+        // Find destinations.
+        NotificationRef notificationRef = notification.toNotificationRef();
+        Set<Destination> destinations = notificationDomain.findDestinations(notification);
+        log.error("Found {} destinations", destinations.size());
 
-            for (Destination destination : destinations) {
-                // Create the task.
-                CreateTask create = CreateTask.create(notificationRef, destination);
-                TaskEntity task = notificationDomain.createTask(create, notification);
-                tasks.add(task);
-            }
-            return tasks;
-        };
+        for (Destination destination : destinations) {
+            log.error("Creating task for destination {}", destination);
 
-        return executorService.submit(taskCreatorCallable);
+            CreateTask create = CreateTask.create(notificationRef, destination);
+            TaskEntity task = notificationDomain.createTask(create, notification);
+            tasks.add(task);
+        }
+
+        log.error("Created {} tasks.", tasks);
+        return tasks;
     }
 
 }
