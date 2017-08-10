@@ -3,8 +3,8 @@ package org.tiogasolutions.notify.engine.v2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
-import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.lib.hal.HalLinks;
 import org.tiogasolutions.lib.hal.HalLinksBuilder;
@@ -27,6 +27,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -128,7 +129,7 @@ public class AdminDomainResourceV2 {
             List<NotificationRequestEntity> requests = null;
 
             while (requests == null || requests.size() > 0) {
-                requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+                requests = getRequests(requestStore);
                 log.error("Deleting {} requests.", requests.size());
 
                 for (NotificationRequestEntity request : requests) {
@@ -137,6 +138,15 @@ public class AdminDomainResourceV2 {
             }
         } catch (Exception e) {
             log.error("Exception deleting request.", e);
+        }
+    }
+
+    private static List<NotificationRequestEntity> getRequests(NotificationRequestStore requestStore) {
+        try {
+            return requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+
+        } catch (ApiNotFoundException e) {
+            return Collections.emptyList();
         }
     }
 
@@ -154,35 +164,55 @@ public class AdminDomainResourceV2 {
 
     private static void deleteNotifications(DomainKernel domainKernel, String domainName) {
         try {
-            NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
-            QueryResult<Notification> notifications = null;
+            List<Notification> notifications = null;
 
             NotificationDomain notificationDomain = domainKernel.notificationDomain(domainName);
 
-            while (notifications == null || notifications.isNotEmpty()) {
-                notifications = notificationDomain.query(noteQuery);
-                log.error("Deleting {} notifications.", notifications.getSize());
+            while (notifications == null || notifications.size() > 0) {
+                notifications = getNotifications(notificationDomain);
+                log.error("Deleting {} notifications.", notifications.size());
 
-                next: for (Notification notification : notifications.getResults()) {
-                    TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
-                    QueryResult<TaskEntity> tasks = notificationDomain.query(taskQuery);
+                next: for (Notification notification : notifications) {
+                    List<TaskEntity> tasks = getTaskEntities(notificationDomain, notification);
 
                     // Test the tasks - if any are sending or pending skip everything.
-                    for (TaskEntity task : tasks.getResults()) {
+                    for (TaskEntity task : tasks) {
                         if (task.getTaskStatus().isSending() || task.getTaskStatus().isPending()) {
                             continue next; // Skip it, it's still processing.
                         }
                     }
+
                     // OK, no issues, so delete all the tests.
-                    for (TaskEntity task : tasks.getResults()) {
+                    for (TaskEntity task : tasks) {
                         notificationDomain.deleteTask(task.getTaskId());
                     }
+
                     // And lastly, delete the notification
                     notificationDomain.deleteNotification(notification.getNotificationId());
                 }
             }
         } catch (Exception e) {
             log.error("Exception deleting notifications.", e);
+        }
+    }
+
+    private static List<Notification> getNotifications(NotificationDomain notificationDomain) {
+        try {
+            NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
+            return notificationDomain.query(noteQuery).getResults();
+
+        } catch (ApiNotFoundException e) {
+            return Collections.emptyList();
+        }
+    }
+
+    private static List<TaskEntity> getTaskEntities(NotificationDomain notificationDomain, Notification notification) {
+        try {
+            TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
+            return notificationDomain.query(taskQuery).getResults();
+
+        } catch (ApiNotFoundException e) {
+            return Collections.emptyList();
         }
     }
 

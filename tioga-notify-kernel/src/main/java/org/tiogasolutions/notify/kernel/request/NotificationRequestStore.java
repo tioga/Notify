@@ -94,9 +94,11 @@ public class NotificationRequestStore {
     }
 
     public NotificationRequestEntity findByTrackingId(String trackingId) {
+
         CouchViewQuery viewQuery = CouchViewQuery.builder(CouchConst.REQUEST_DESIGN_NAME, RequestCouchView.ByTrackingId.name())
                 .key(trackingId)
                 .build();
+
         GetEntityResponse<NotificationRequestEntity> getResponse = couchDatabase.get()
                 .entity(NotificationRequestEntity.class, viewQuery)
                 .onError(r -> throwError(r, "Error finding NotificationRequest by tracking id " + trackingId))

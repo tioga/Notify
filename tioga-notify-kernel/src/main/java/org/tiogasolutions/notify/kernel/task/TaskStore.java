@@ -127,7 +127,7 @@ public class TaskStore extends AbstractStore {
 
         GetEntityResponse<TaskEntity> getResponse = couchDatabase.get()
                 .entity(TaskEntity.class, viewQuery)
-                .onError(r -> throwError(r, "Error finding ready tasks"))
+                .onError(r -> throwError(r, "Error finding tasks"))
                 .execute();
 
         List<TaskEntity> tasks = getResponse.getEntityList();
