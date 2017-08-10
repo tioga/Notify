@@ -173,6 +173,7 @@ public class AdminDomainResourceV2 {
 
                 next: for (Notification notification : notifications) {
                     List<TaskEntity> tasks = getTaskEntities(notificationDomain, notification);
+                    log.error("Deleting {} related tasks.", notifications.size());
 
                     // Test the tasks - if any are sending or pending skip everything.
                     for (TaskEntity task : tasks) {
@@ -195,6 +196,8 @@ public class AdminDomainResourceV2 {
             // that are orphaned - their notification doesn't exist.
             // Let's take them out next...
             List<TaskEntity> tasks = getTaskEntities(notificationDomain, null);
+            log.error("Deleting {} tasks.", notifications.size());
+
             for (TaskEntity task : tasks) {
                 if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
                     notificationDomain.deleteTask(task.getTaskId());
