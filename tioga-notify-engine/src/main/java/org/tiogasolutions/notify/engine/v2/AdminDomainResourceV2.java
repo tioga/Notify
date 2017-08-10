@@ -139,6 +139,7 @@ public class AdminDomainResourceV2 {
         } catch (Exception e) {
             log.error("Exception deleting request.", e);
         }
+        log.error("Finished pruning requests.");
     }
 
     private static List<NotificationRequestEntity> getRequests(NotificationRequestStore requestStore) {
@@ -206,7 +207,7 @@ public class AdminDomainResourceV2 {
         } catch (Exception e) {
             log.error("Exception deleting notifications.", e);
         }
-        log.error("Notification prune completed.");
+        log.error("Finished pruning notifications.");
     }
 
     private static List<Notification> getNotifications(NotificationDomain notificationDomain) {
