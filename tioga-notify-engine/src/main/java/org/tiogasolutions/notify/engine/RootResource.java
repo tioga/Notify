@@ -9,6 +9,7 @@ import org.tiogasolutions.notify.engine.v2.ClientResourceV2;
 import org.tiogasolutions.notify.engine.web.SystemStatus;
 import org.tiogasolutions.notify.engine.web.readers.StaticContentReader;
 import org.tiogasolutions.notify.kernel.PubUtils;
+import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
 
 import javax.ws.rs.Consumes;
@@ -72,8 +73,12 @@ public class RootResource {
     UriInfo uriInfo;
     @Autowired
     private ExecutionManager em;
+
     @Autowired
     private StaticContentReader staticContentReader;
+
+    @Autowired
+    private DomainKernel domainKernel;
 
     public RootResource() {
         log.debug("Created");
@@ -123,7 +128,7 @@ public class RootResource {
 
     @Path($api_v2_admin)
     public AdminResourceV2 getAdminResource() {
-        return new AdminResourceV2(newPubUtils(), em);
+        return new AdminResourceV2(newPubUtils(), em, domainKernel);
     }
 
     private PubUtils newPubUtils() {

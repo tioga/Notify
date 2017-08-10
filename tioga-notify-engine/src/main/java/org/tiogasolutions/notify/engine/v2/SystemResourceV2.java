@@ -1,15 +1,26 @@
 package org.tiogasolutions.notify.engine.v2;
 
+import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
+import org.tiogasolutions.notify.pub.domain.DomainProfile;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 public class SystemResourceV2 {
 
     private final ExecutionManager em;
+    private final DomainKernel domainKernel;
 
-    public SystemResourceV2(ExecutionManager em) {
+    public SystemResourceV2(ExecutionManager em, DomainKernel domainKernel) {
         this.em = em;
+        this.domainKernel = domainKernel;
     }
 
     @Path("/request-receiver")
@@ -22,4 +33,21 @@ public class SystemResourceV2 {
         return new TaskProcessorExecutorResourceV2(em);
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/jobs/prune/requests")
+    public Response pruneRequests(@FormParam("domainName") String domainName) {
+        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
+
+        CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
+        NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
+
+        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED);
+        for (NotificationRequestEntity request : requests) {
+            requestStore.deleteRequest(request.getRequestId());
+        }
+
+        return Response.ok().build();
+    }
 }
