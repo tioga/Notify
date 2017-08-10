@@ -44,7 +44,8 @@ public class RouteCatalog {
                 for (String destinationName : routeDef.getDestinations()) {
                     Destination destination = destinationMap.get(destinationName.toLowerCase());
                     if (destination == null) {
-                        logger.error("Destination not found: " + destinationName);
+                        String msg = String.format("The destination \"%s\", specified by the route \"%s\" was not found.", destinationName, routeDef.getName());
+                        logger.error(msg);
                     } else if (destination.getDestinationStatus() == DestinationStatus.ENABLED) {
                         routeDestinations.add(destination);
                     }
