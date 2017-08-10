@@ -114,17 +114,21 @@ public class AdminDomainResourceV2 {
         }
 
         class JobResults {
-            private final int count;
+            private final int processed;
+            private final int maximum;
             private final String msg;
-            JobResults(int count, String msg) {
-                this.count = count;
+
+            JobResults(int maximum, int processed, String msg) {
+                this.maximum = maximum;
+                this.processed = processed;
                 this.msg = msg;
             }
-            public int getCount() { return count; }
+            public int getMaximum() { return maximum; }
+            public int getProcessed() { return processed; }
             public String getMsg() { return msg; }
         }
 
-        JobResults results = new JobResults(deleted, format("Deleted %s of %s requests from the domain %s.", deleted, max, domainName));
+        JobResults results = new JobResults(max, deleted, format("Deleted %s of %s requests from the domain %s.", deleted, max, domainName));
 
         return Response.ok().entity(results).build();
     }
