@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.kernel.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.couchace.core.api.query.CouchViewQuery;
 import org.tiogasolutions.couchace.core.api.response.GetEntityResponse;
@@ -23,6 +25,8 @@ import static java.lang.String.format;
  * Time: 10:44 PM
  */
 public class TaskStore extends AbstractStore {
+
+    private static final Logger log = LoggerFactory.getLogger(TaskStore.class);
 
     public TaskStore(CouchDatabase couchDatabase) {
         super(couchDatabase);
@@ -80,6 +84,8 @@ public class TaskStore extends AbstractStore {
 
         CouchViewQuery viewQuery;
         if (query.getTaskStatus() != null) {
+            log.error("Task-Query by status: {}.", query.getTaskStatus());
+
             TaskStatus taskStatus = query.getTaskStatus();
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByTaskStatusAndCreatedAt.name())
                     .start(taskStatus, "\\ufff0")
@@ -90,6 +96,8 @@ public class TaskStore extends AbstractStore {
                     .build();
 
         } else if (StringUtils.isNotBlank(query.getDestinationName())) {
+            log.error("Task-Query by destination name: {}.", query.getDestinationName());
+
             String destinationName = query.getDestinationName();
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByDestinationNameAndCreatedAt.name())
                     .start(destinationName, "\\ufff0")
@@ -100,6 +108,8 @@ public class TaskStore extends AbstractStore {
                     .build();
 
         } else if (StringUtils.isNotBlank(query.getDestinationProvider())) {
+            log.error("Task-Query by destination provider: {}.", query.getDestinationProvider());
+
             String destinationProvider = query.getDestinationProvider();
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByDestinationProviderAndCreatedAt.name())
                     .start(destinationProvider, "\\ufff0")
@@ -110,12 +120,16 @@ public class TaskStore extends AbstractStore {
                     .build();
 
         } else if (StringUtils.isNotBlank(query.getNotificationId())) {
+            log.error("Task-Query by Notification ID: {}.", query.getNotificationId());
+
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByNotification.name())
                     .key(query.getNotificationId())
                     .limit(limit)
                     .build();
 
         } else {
+            log.error("Task-Query whatever.");
+
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByCreatedAt.name())
                     .start("\\ufff0")
                     .end((Object) null)
