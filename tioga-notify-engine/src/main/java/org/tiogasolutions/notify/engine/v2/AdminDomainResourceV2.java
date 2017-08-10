@@ -1,22 +1,24 @@
 package org.tiogasolutions.notify.engine.v2;
 
+import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.lib.hal.HalLinks;
 import org.tiogasolutions.lib.hal.HalLinksBuilder;
 import org.tiogasolutions.notify.kernel.PubUtils;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
+import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
+import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 public class AdminDomainResourceV2 {
 
@@ -90,5 +92,22 @@ public class AdminDomainResourceV2 {
         // CRITICAL - I don't think this is safe, execution domain will continue to remain after call
         em.newApiContext(domainProfile);
         return new TasksResourceV2(em);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/prune/requests")
+    public Response pruneRequests() {
+        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
+        CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
+        NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
+
+        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED);
+        for (NotificationRequestEntity request : requests) {
+            requestStore.deleteRequest(request.getRequestId());
+        }
+
+        return Response.ok().build();
     }
 }

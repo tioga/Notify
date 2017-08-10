@@ -32,22 +32,4 @@ public class SystemResourceV2 {
     public TaskProcessorExecutorResourceV2 getProcessorExecutorResourceV1() {
         return new TaskProcessorExecutorResourceV2(em);
     }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/jobs/prune/requests")
-    public Response pruneRequests(@FormParam("domainName") String domainName) {
-        DomainProfile domainProfile = domainKernel.findByDomainName(domainName);
-
-        CouchDatabase requestDb = domainKernel.requestDb(domainProfile);
-        NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
-
-        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED);
-        for (NotificationRequestEntity request : requests) {
-            requestStore.deleteRequest(request.getRequestId());
-        }
-
-        return Response.ok().build();
-    }
 }
