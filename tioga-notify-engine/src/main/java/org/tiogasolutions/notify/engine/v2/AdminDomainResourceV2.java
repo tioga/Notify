@@ -207,7 +207,7 @@ public class AdminDomainResourceV2 {
                 log.error("Deleting {} notifications.", notifications.size());
 
                 next: for (Notification notification : notifications) {
-                    List<TaskEntity> tasks = getTaskEntities(notificationDomain, notification);
+                    List<TaskEntity> tasks = getTaskForNotification(notificationDomain, notification);
                     log.error("Deleting {} related tasks.", notifications.size());
 
                     // Test the tasks - if any are sending or pending skip everything.
@@ -227,17 +227,17 @@ public class AdminDomainResourceV2 {
                 }
             }
 
-            // Now it is completely possible that there are tasks out there
-            // that are orphaned - their notification doesn't exist.
-            // Let's take them out next...
-            List<TaskEntity> tasks = getTaskEntities(notificationDomain, null);
-            log.error("Deleting {} tasks.", notifications.size());
+            // Now it is completely possible that there are tasks out there that are
+            // orphaned - their notification doesn't exist. Let's take them out next...
+            List<TaskEntity> tasks = notificationDomain.query(new TaskQuery().setLimit(100)).getResults();
+            log.error("Deleting {} abandoned tasks.", notifications.size());
 
             for (TaskEntity task : tasks) {
                 if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
                     notificationDomain.deleteTask(task.getTaskId());
                 }
             }
+
         } catch (Exception e) {
             log.error("Exception deleting notifications.", e);
         }
@@ -250,18 +250,14 @@ public class AdminDomainResourceV2 {
             return notificationDomain.query(noteQuery).getResults();
 
         } catch (ApiNotFoundException e) {
+            log.error("No tasks for the domain {}.", notificationDomain);
             return Collections.emptyList();
         }
     }
 
-    private static List<TaskEntity> getTaskEntities(NotificationDomain notificationDomain, Notification notification) {
+    private static List<TaskEntity> getTaskForNotification(NotificationDomain notificationDomain, Notification notification) {
         try {
-            TaskQuery taskQuery = new TaskQuery();
-            if (notification != null) {
-                taskQuery.setNotificationId(notification.getNotificationId());
-            } else {
-                taskQuery.setLimit(100);
-            }
+            TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
             return notificationDomain.query(taskQuery).getResults();
 
         } catch (ApiNotFoundException e) {

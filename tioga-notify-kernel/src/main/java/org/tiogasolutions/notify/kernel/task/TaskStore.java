@@ -131,7 +131,6 @@ public class TaskStore extends AbstractStore {
                 .execute();
 
         List<TaskEntity> tasks = getResponse.getEntityList();
-
         return ListQueryResult.newResult(TaskEntity.class, limit, 0, tasks.size(), false, tasks);
     }
 
