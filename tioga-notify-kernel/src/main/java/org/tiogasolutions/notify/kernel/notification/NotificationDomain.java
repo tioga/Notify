@@ -28,6 +28,7 @@ import java.util.Set;
  * Time: 10:44 PM
  */
 public class NotificationDomain {
+
     private final String domainName;
     private final TaskGenerator taskGenerator;
     private final EventBus eventBus;
