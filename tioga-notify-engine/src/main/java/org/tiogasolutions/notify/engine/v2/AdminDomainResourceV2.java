@@ -100,17 +100,17 @@ public class AdminDomainResourceV2 {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/prune/requests")
-    public Response pruneRequests(@DefaultValue("100") @FormParam("max") int max) {
+    public Response pruneRequests(@DefaultValue("100") @FormParam("maximum") int maximum) {
         DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
         NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-        int deleted = 0;
+        int processed = 0;
         List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
 
         for (NotificationRequestEntity request : requests) {
             requestStore.deleteRequest(request.getRequestId());
-            deleted++;
+            processed++;
         }
 
         class JobResults {
@@ -128,7 +128,7 @@ public class AdminDomainResourceV2 {
             public String getMsg() { return msg; }
         }
 
-        JobResults results = new JobResults(max, deleted, format("Deleted %s of %s requests from the domain %s.", deleted, max, domainName));
+        JobResults results = new JobResults(maximum, processed, format("Deleted %s of %s requests from the domain %s.", processed, maximum, domainName));
 
         return Response.ok().entity(results).build();
     }
