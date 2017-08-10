@@ -164,10 +164,9 @@ public class AdminDomainResourceV2 {
 
     private static void deleteNotifications(DomainKernel domainKernel, String domainName) {
         try {
-            List<Notification> notifications = null;
-
             NotificationDomain notificationDomain = domainKernel.notificationDomain(domainName);
 
+            List<Notification> notifications = null;
             while (notifications == null || notifications.size() > 0) {
                 notifications = getNotifications(notificationDomain);
                 log.error("Deleting {} notifications.", notifications.size());
@@ -191,6 +190,16 @@ public class AdminDomainResourceV2 {
                     notificationDomain.deleteNotification(notification.getNotificationId());
                 }
             }
+
+            // Now it is completely possible that there are tasks out there
+            // that are orphaned - their notification doesn't exist.
+            // Let's take them out next...
+            List<TaskEntity> tasks = getTaskEntities(notificationDomain, null);
+            for (TaskEntity task : tasks) {
+                if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
+                    notificationDomain.deleteTask(task.getTaskId());
+                }
+            }
         } catch (Exception e) {
             log.error("Exception deleting notifications.", e);
         }
@@ -208,7 +217,12 @@ public class AdminDomainResourceV2 {
 
     private static List<TaskEntity> getTaskEntities(NotificationDomain notificationDomain, Notification notification) {
         try {
-            TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
+            TaskQuery taskQuery = new TaskQuery();
+            if (notification != null) {
+                taskQuery.setNotificationId(notification.getNotificationId());
+            } else {
+                taskQuery.setLimit(100);
+            }
             return notificationDomain.query(taskQuery).getResults();
 
         } catch (ApiNotFoundException e) {
