@@ -2,42 +2,37 @@ package org.tiogasolutions.notify.engine.v2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tiogasolutions.couchace.core.api.CouchDatabase;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.lib.hal.HalLinks;
 import org.tiogasolutions.lib.hal.HalLinksBuilder;
+import org.tiogasolutions.notify.engine.jobs.PruneNotificationsAndTasksJob;
+import org.tiogasolutions.notify.engine.jobs.PruneRequestsJob;
 import org.tiogasolutions.notify.kernel.PubUtils;
-import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
-import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
-import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
-import org.tiogasolutions.notify.pub.notification.Notification;
-import org.tiogasolutions.notify.pub.notification.NotificationQuery;
-import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
-import org.tiogasolutions.notify.pub.task.TaskQuery;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import java.time.ZonedDateTime;
-import java.util.List;
-
-import static java.lang.String.format;
 
 public class AdminDomainResourceV2 {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminDomainResourceV2.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final PubUtils pubUtils;
     private final ExecutionManager em;
     private final String domainName;
+
+    private static final Object PRUNE_NOTIFICATIONS_AND_TASKS_LOCK = new Object();
+    private PruneNotificationsAndTasksJob pruneNotificationsAndTasksJob;
+
+    private static final Object PRUNE_REQUESTS_LOCK = new Object();
+    private PruneRequestsJob pruneRequestsJob;
 
     public AdminDomainResourceV2(PubUtils pubUtils, ExecutionManager em, String domainName) {
         this.pubUtils = pubUtils;
@@ -107,154 +102,63 @@ public class AdminDomainResourceV2 {
         return new TasksResourceV2(em);
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/prune/requests")
+    @Path("/jobs/prune-requests")
+    public Response getPruneRequests() {
+        synchronized (PRUNE_REQUESTS_LOCK) {
+            if (pruneRequestsJob == null) {
+                throw ApiException.notFound("The job to prune requests is not running.");
+
+            } else {
+                return Response.accepted(pruneRequestsJob.getResults()).build();
+            }
+        }
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/jobs/prune-requests")
     public Response pruneRequests() {
+        synchronized (PRUNE_REQUESTS_LOCK) {
+            if (pruneRequestsJob == null || pruneRequestsJob.isRunning() == false) {
+                pruneRequestsJob = new PruneRequestsJob(em.getDomainKernel(), domainName);
+                new Thread(pruneRequestsJob).start();
+                return Response.accepted(pruneRequestsJob.getResults()).build();
 
-        final DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
-        final CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
-        final NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
-
-        new Thread( () -> deleteRequests(requestStore)).start();
-
-        JobResults results = new JobResults(format("Deleting all requests from the domain %s.", domainName));
-        return Response.accepted(results).build();
-    }
-
-    private void deleteRequests(NotificationRequestStore requestStore) {
-        try {
-            deleteCompletedRequests(requestStore);
-            deleteFailedRequests(requestStore);
-            deleteProcessingRequests(requestStore);
-
-        } catch (Exception e) {
-            String msg = String.format("Exception deleting request for the domain %s.", domainName);
-            log.error(msg, e);
-        }
-        log.error("Finished pruning requests for the domain {}.", domainName);
-    }
-
-    private void deleteCompletedRequests(NotificationRequestStore requestStore) {
-        List<NotificationRequestEntity> requests = null;
-        while (requests == null || requests.size() > 0) {
-            requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED);
-            log.error("Deleting {} \"completed\" requests for the domain {}.", requests.size(), domainName);
-
-            for (NotificationRequestEntity request : requests) {
-                requestStore.deleteRequest(request.getRequestId());
+            } else {
+                throw ApiException.conflict("The job to prune requests is already running.");
             }
         }
     }
 
-    private void deleteFailedRequests(NotificationRequestStore requestStore) {
-        List<NotificationRequestEntity> requests = null;
-        while (requests == null || requests.size() > 0) {
-            requests = requestStore.findByStatus(NotificationRequestStatus.FAILED);
-            log.error("Deleting {} \"failed\" requests for the domain {}.", requests.size(), domainName);
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/jobs/prune-notifications")
+    public Response getPruneNotifications() {
+        synchronized (PRUNE_NOTIFICATIONS_AND_TASKS_LOCK) {
+            if (pruneNotificationsAndTasksJob == null) {
+                throw ApiException.notFound("The job to prune notifications and tasks is not running.");
 
-            for (NotificationRequestEntity request : requests) {
-                requestStore.deleteRequest(request.getRequestId());
-            }
-        }
-    }
-
-    private void deleteProcessingRequests(NotificationRequestStore requestStore) {
-        List<NotificationRequestEntity> requests = null;
-        while (requests == null || requests.size() > 0) {
-            requests = requestStore.findByStatus(NotificationRequestStatus.PROCESSING, 100);
-            log.error("Deleting {} 1-week-old \"processing\" requests for the domain {}.", requests.size(), domainName);
-
-            for (NotificationRequestEntity request : requests) {
-                if (request.getCreatedAt().isBefore(ZonedDateTime.now().minusDays(7))) {
-                    requestStore.deleteRequest(request.getRequestId());
-                }
+            } else {
+                return Response.accepted(pruneNotificationsAndTasksJob.getResults()).build();
             }
         }
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/prune/notifications")
+    @Path("/jobs/prune-notifications")
     public Response pruneNotifications() {
+        synchronized (PRUNE_NOTIFICATIONS_AND_TASKS_LOCK) {
+            if (pruneNotificationsAndTasksJob == null || pruneNotificationsAndTasksJob.isRunning() == false) {
+                pruneNotificationsAndTasksJob = new PruneNotificationsAndTasksJob(em.getDomainKernel(), domainName);
+                new Thread(pruneNotificationsAndTasksJob).start();
+                return Response.accepted(pruneNotificationsAndTasksJob.getResults()).build();
 
-        new Thread( () -> deleteNotifications(em.getDomainKernel(), domainName)).start();
-
-        JobResults results = new JobResults(format("Deleting all notifications and tasks from the domain %s.", domainName));
-        return Response.accepted(results).build();
-    }
-
-    private void deleteNotifications(DomainKernel domainKernel, String domainName) {
-        try {
-            NotificationDomain notificationDomain = domainKernel.notificationDomain(domainName);
-
-            List<Notification> notifications = null;
-            while (notifications == null || notifications.size() > 0) {
-                NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
-                notifications = notificationDomain.query(noteQuery).getResults();
-                log.error("Deleting {} notifications for the domain {}.", notifications.size(), domainName);
-
-                for (Notification notification : notifications) {
-                    pruneNotification(domainName, notificationDomain, notification);
-                }
+            } else {
+                throw ApiException.conflict("The job to prune notifications and tasks is already running.");
             }
-
-            // Now it is completely possible that there are tasks out there that are
-            // orphaned - their notification doesn't exist. Let's take them out next...
-            List<TaskEntity> tasks = null;
-            while (tasks == null || tasks.size() > 0) {
-                tasks = notificationDomain.query(new TaskQuery().setLimit(100)).getResults();
-                log.error("Deleting {} abandoned tasks for the domain {}.", tasks.size(), domainName);
-
-                for (TaskEntity task : tasks) {
-                    if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
-                        notificationDomain.deleteTask(task.getTaskId());
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            String msg = String.format("Exception deleting notifications & tasks for the domain %s.", domainName);
-            log.error(msg, e);
-        }
-        log.error("Finished pruning notifications & tasks for the domain {}.", domainName);
-    }
-
-    private void pruneNotification(String domainName, NotificationDomain notificationDomain, Notification notification) {
-        TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
-        List<TaskEntity> tasks = notificationDomain.query(taskQuery).getResults();
-
-        // Test the tasks - if any are sending or pending skip everything.
-        for (TaskEntity task : tasks) {
-            if (task.getTaskStatus().isSending() || task.getTaskStatus().isPending()) {
-                log.error("Skipping {} tasks given notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
-                return;
-            }
-        }
-
-        // OK, no issues, so delete all the tests.
-        log.error("Deleting {} tasks given notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
-        for (TaskEntity task : tasks) {
-            notificationDomain.deleteTask(task.getTaskId());
-        }
-
-        // And lastly, delete the notification
-        notificationDomain.deleteNotification(notification.getNotificationId());
-    }
-
-    /** @noinspection unused*/
-    public static class JobResults {
-
-        private final String message;
-
-        JobResults(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
         }
     }
 }
