@@ -106,7 +106,7 @@ public class AdminDomainResourceV2 {
         NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
         int processed = 0;
-        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, maximum);
 
         for (NotificationRequestEntity request : requests) {
             requestStore.deleteRequest(request.getRequestId());
