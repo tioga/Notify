@@ -181,7 +181,7 @@ public class AdminDomainResourceV2 {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception deleting request.", e);
+            log.error("Exception deleting notifications.", e);
         }
     }
 
