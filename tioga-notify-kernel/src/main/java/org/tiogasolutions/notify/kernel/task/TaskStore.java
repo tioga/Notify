@@ -78,8 +78,11 @@ public class TaskStore extends AbstractStore {
     public ListQueryResult<TaskEntity> query(TaskQuery query) {
         int limit = (query.getLimit() <= 500) ? query.getLimit() : 500;
 
+        String errorSuffix;
         CouchViewQuery viewQuery;
+
         if (query.getTaskStatus() != null) {
+            errorSuffix = "by task status";
             TaskStatus taskStatus = query.getTaskStatus();
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByTaskStatusAndCreatedAt.name())
                     .start(taskStatus, "\\ufff0")
@@ -90,6 +93,7 @@ public class TaskStore extends AbstractStore {
                     .build();
 
         } else if (StringUtils.isNotBlank(query.getDestinationName())) {
+            errorSuffix = "by destination name";
             String destinationName = query.getDestinationName();
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByDestinationNameAndCreatedAt.name())
                     .start(destinationName, "\\ufff0")
@@ -100,6 +104,7 @@ public class TaskStore extends AbstractStore {
                     .build();
 
         } else if (StringUtils.isNotBlank(query.getDestinationProvider())) {
+            errorSuffix = "by destination provider";
             String destinationProvider = query.getDestinationProvider();
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByDestinationProviderAndCreatedAt.name())
                     .start(destinationProvider, "\\ufff0")
@@ -110,12 +115,14 @@ public class TaskStore extends AbstractStore {
                     .build();
 
         } else if (StringUtils.isNotBlank(query.getNotificationId())) {
+            errorSuffix = "by destination notification id";
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByNotification.name())
                     .key(query.getNotificationId())
                     .limit(limit)
                     .build();
 
         } else {
+            errorSuffix = "by created at";
             viewQuery = CouchViewQuery.builder(CouchConst.TASK_DESIGN_NAME, TaskCouchView.ByCreatedAt.name())
                     .start("\\ufff0")
                     .end((Object) null)
@@ -127,7 +134,10 @@ public class TaskStore extends AbstractStore {
 
         GetEntityResponse<TaskEntity> getResponse = couchDatabase.get()
                 .entity(TaskEntity.class, viewQuery)
-                .onError(r -> throwError(r, "Error finding tasks"))
+                .onError(r -> {
+                    // We are returning a query result. If not found, return an empty list instead.
+                    if (r.isNotFound() == false) throwError(r, "Error finding Notification " + errorSuffix);
+                })
                 .execute();
 
         List<TaskEntity> tasks = getResponse.getEntityList();

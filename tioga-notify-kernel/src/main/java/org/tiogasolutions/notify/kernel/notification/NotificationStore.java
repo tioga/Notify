@@ -138,7 +138,10 @@ public class NotificationStore extends AbstractStore {
         // Execute the query.
         GetEntityResponse<NotificationEntity> getResponse = couchDatabase.get()
                 .entity(NotificationEntity.class, viewQuery)
-                .onError(r -> throwError(r, "Error finding Notification " + errorSuffix))
+                .onError(r -> {
+                    // We are returning a query result. If not found, return an empty list instead.
+                    if (r.isNotFound() == false) throwError(r, "Error finding Notification " + errorSuffix);
+                })
                 .execute();
 
         List<Notification> notifications = getResponse.getEntityList()
