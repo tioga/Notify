@@ -204,8 +204,7 @@ public class AdminDomainResourceV2 {
             // Now it is completely possible that there are tasks out there that are
             // orphaned - their notification doesn't exist. Let's take them out next...
             List<TaskEntity> tasks = null;
-
-            while (tasks == null| tasks.size() > 0) {
+            while (tasks == null || tasks.size() > 0) {
                 tasks = notificationDomain.query(new TaskQuery().setLimit(100)).getResults();
                 log.error("Deleting {} abandoned tasks for the domain {}.", tasks.size(), domainName);
 
