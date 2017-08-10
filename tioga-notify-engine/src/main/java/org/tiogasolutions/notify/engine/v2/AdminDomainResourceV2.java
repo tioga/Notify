@@ -181,6 +181,7 @@ public class AdminDomainResourceV2 {
             return requestStore.findByStatus(status, 100);
 
         } catch (ApiNotFoundException e) {
+            log.error("No requests for the status {}.", status);
             return Collections.emptyList();
         }
     }
@@ -245,14 +246,14 @@ public class AdminDomainResourceV2 {
     }
 
     private static List<Notification> getNotifications(NotificationDomain notificationDomain) {
-        try {
+        // try {
             NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
             return notificationDomain.query(noteQuery).getResults();
 
-        } catch (ApiNotFoundException e) {
-            log.error("No tasks for the domain {}.", notificationDomain);
-            return Collections.emptyList();
-        }
+        // } catch (ApiNotFoundException e) {
+        //     log.error("No tasks for the domain {}.", notificationDomain);
+        //     return Collections.emptyList();
+        // }
     }
 
     private static List<TaskEntity> getTaskForNotification(NotificationDomain notificationDomain, Notification notification) {
@@ -261,10 +262,12 @@ public class AdminDomainResourceV2 {
             return notificationDomain.query(taskQuery).getResults();
 
         } catch (ApiNotFoundException e) {
+            log.error("No tasks for notification {}.", notification.getNotificationId());
             return Collections.emptyList();
         }
     }
 
+    /** @noinspection unused*/
     public static class JobResults {
 
         private final String message;
