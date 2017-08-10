@@ -95,6 +95,10 @@ public class PruneRequestsJob implements Runnable {
         return running;
     }
 
+    public Results getStartedResults() {
+        return new Results(requestsProcessed, String.format("STARTED: Deleted %s requests from the domain %s.", requestsProcessed, domainName));
+    }
+
     public Results getResults() {
         if (running) {
             return new Results(requestsProcessed, String.format("RUNNING: Deleted %s requests from the domain %s.", requestsProcessed, domainName));

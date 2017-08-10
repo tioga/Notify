@@ -96,6 +96,10 @@ public class PruneNotificationsAndTasksJob implements Runnable {
         return running;
     }
 
+    public Results getStartedResults() {
+        return new Results(notificationsProcessed, tasksProcessed, String.format("STARTED: Deleted %s notifications and %s tasks from the domain %s.", notificationsProcessed, tasksProcessed, domainName));
+    }
+
     public Results getResults() {
         if (running) {
             return new Results(notificationsProcessed, tasksProcessed, String.format("RUNNING: Deleted %s notifications and %s tasks from the domain %s.", notificationsProcessed, tasksProcessed, domainName));

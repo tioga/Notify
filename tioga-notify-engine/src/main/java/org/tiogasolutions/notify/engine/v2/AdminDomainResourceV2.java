@@ -124,7 +124,7 @@ public class AdminDomainResourceV2 {
             if (pruneRequestsJob == null || pruneRequestsJob.isRunning() == false) {
                 pruneRequestsJob = new PruneRequestsJob(em.getDomainKernel(), domainName);
                 new Thread(pruneRequestsJob).start();
-                return Response.accepted(pruneRequestsJob.getResults()).build();
+                return Response.accepted(pruneRequestsJob.getStartedResults()).build();
 
             } else {
                 throw ApiException.conflict("The job to prune requests is already running.");
@@ -154,7 +154,7 @@ public class AdminDomainResourceV2 {
             if (pruneNotificationsAndTasksJob == null || pruneNotificationsAndTasksJob.isRunning() == false) {
                 pruneNotificationsAndTasksJob = new PruneNotificationsAndTasksJob(em.getDomainKernel(), domainName);
                 new Thread(pruneNotificationsAndTasksJob).start();
-                return Response.accepted(pruneNotificationsAndTasksJob.getResults()).build();
+                return Response.accepted(pruneNotificationsAndTasksJob.getStartedResults()).build();
 
             } else {
                 throw ApiException.conflict("The job to prune notifications and tasks is already running.");
