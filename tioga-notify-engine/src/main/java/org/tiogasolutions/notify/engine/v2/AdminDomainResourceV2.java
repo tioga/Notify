@@ -206,6 +206,7 @@ public class AdminDomainResourceV2 {
         } catch (Exception e) {
             log.error("Exception deleting notifications.", e);
         }
+        log.error("Notification prune completed.");
     }
 
     private static List<Notification> getNotifications(NotificationDomain notificationDomain) {
