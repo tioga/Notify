@@ -9,8 +9,9 @@ import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.lib.hal.HalLinks;
 import org.tiogasolutions.lib.hal.HalLinksBuilder;
 import org.tiogasolutions.notify.kernel.PubUtils;
+import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
-import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
+import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
@@ -122,7 +123,7 @@ public class AdminDomainResourceV2 {
         return Response.accepted(results).build();
     }
 
-    private void deleteRequests(NotificationRequestStore requestStore) {
+    private static void deleteRequests(NotificationRequestStore requestStore) {
         try {
             List<NotificationRequestEntity> requests = null;
 
@@ -145,26 +146,26 @@ public class AdminDomainResourceV2 {
     @Path("/prune/notifications")
     public Response pruneNotifications() {
 
-        final NotificationKernel kernel = em.getNotificationKernel();
-
-        new Thread( () -> deleteNotifications(kernel)).start();
+        new Thread( () -> deleteNotifications(em.getDomainKernel(), domainName)).start();
 
         JobResults results = new JobResults(format("Deleting all notifications and tasks from the domain %s.", domainName));
         return Response.accepted(results).build();
     }
 
-    private void deleteNotifications(NotificationKernel kernel) {
+    private static void deleteNotifications(DomainKernel domainKernel, String domainName) {
         try {
             NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
             QueryResult<Notification> notifications = null;
 
+            NotificationDomain notificationDomain = domainKernel.notificationDomain(domainName);
+
             while (notifications == null || notifications.isNotEmpty()) {
-                notifications = kernel.query(noteQuery);
+                notifications = notificationDomain.query(noteQuery);
                 log.error("Deleting {} notifications.", notifications.getSize());
 
                 next: for (Notification notification : notifications.getResults()) {
                     TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
-                    QueryResult<TaskEntity> tasks = kernel.query(taskQuery);
+                    QueryResult<TaskEntity> tasks = notificationDomain.query(taskQuery);
 
                     // Test the tasks - if any are sending or pending skip everything.
                     for (TaskEntity task : tasks.getResults()) {
@@ -174,10 +175,10 @@ public class AdminDomainResourceV2 {
                     }
                     // OK, no issues, so delete all the tests.
                     for (TaskEntity task : tasks.getResults()) {
-                        kernel.deleteTask(task.getTaskId());
+                        notificationDomain.deleteTask(task.getTaskId());
                     }
                     // And lastly, delete the notification
-                    kernel.deleteNotification(notification.getNotificationId());
+                    notificationDomain.deleteNotification(notification.getNotificationId());
                 }
             }
         } catch (Exception e) {
