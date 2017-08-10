@@ -237,7 +237,7 @@ public class AdminDomainResourceV2 {
         // OK, no issues, so delete all the tests.
         log.error("Deleting {} tasks given notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
         for (TaskEntity task : tasks) {
-            notificationDomain.deleteTask(task.getTaskId());`
+            notificationDomain.deleteTask(task.getTaskId());
         }
 
         // And lastly, delete the notification
