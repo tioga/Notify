@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.engine.v2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
 import org.tiogasolutions.dev.domain.query.QueryResult;
@@ -29,6 +31,8 @@ import java.util.List;
 import static java.lang.String.format;
 
 public class AdminDomainResourceV2 {
+
+    private static final Logger log = LoggerFactory.getLogger(AdminDomainResourceV2.class);
 
     private final PubUtils pubUtils;
     private final ExecutionManager em;
@@ -112,19 +116,27 @@ public class AdminDomainResourceV2 {
         final CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
         final NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-        new Thread( () -> {
+        new Thread( () -> deleteRequests(requestStore)).start();
+
+        JobResults results = new JobResults(format("Deleting all requests from the domain %s.", domainName));
+        return Response.accepted(results).build();
+    }
+
+    private void deleteRequests(NotificationRequestStore requestStore) {
+        try {
             List<NotificationRequestEntity> requests = null;
 
             while (requests == null || requests.size() > 0) {
                 requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+                log.error("Deleting {} requests.", requests.size());
+
                 for (NotificationRequestEntity request : requests) {
                     requestStore.deleteRequest(request.getRequestId());
                 }
             }
-        }).start();
-
-        JobResults results = new JobResults(format("Deleting all requests from the domain %s.", domainName));
-        return Response.accepted(results).build();
+        } catch (Exception e) {
+            log.error("Exception deleting request.", e);
+        }
     }
 
     @POST
@@ -135,12 +147,21 @@ public class AdminDomainResourceV2 {
 
         final NotificationKernel kernel = em.getNotificationKernel();
 
-        new Thread( () -> {
+        new Thread( () -> deleteNotifications(kernel)).start();
+
+        JobResults results = new JobResults(format("Deleting all notifications and tasks from the domain %s.", domainName));
+        return Response.accepted(results).build();
+    }
+
+    private void deleteNotifications(NotificationKernel kernel) {
+        try {
             NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
             QueryResult<Notification> notifications = null;
 
             while (notifications == null || notifications.isNotEmpty()) {
                 notifications = kernel.query(noteQuery);
+                log.error("Deleting {} notifications.", notifications.getSize());
+
                 next: for (Notification notification : notifications.getResults()) {
                     TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
                     QueryResult<TaskEntity> tasks = kernel.query(taskQuery);
@@ -159,10 +180,9 @@ public class AdminDomainResourceV2 {
                     kernel.deleteNotification(notification.getNotificationId());
                 }
             }
-        }).start();
-
-        JobResults results = new JobResults(format("Deleting all notifications and tasks from the domain %s.", domainName));
-        return Response.accepted(results).build();
+        } catch (Exception e) {
+            log.error("Exception deleting request.", e);
+        }
     }
 
     public static class JobResults {
