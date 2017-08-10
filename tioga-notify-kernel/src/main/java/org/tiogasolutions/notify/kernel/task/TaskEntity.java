@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.couchace.annotations.CouchEntity;
 import org.tiogasolutions.couchace.annotations.CouchId;
 import org.tiogasolutions.couchace.annotations.CouchRevision;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.task.Task;
@@ -98,16 +99,19 @@ public class TaskEntity {
 
     public final void response(TaskResponse response) {
         lastResponse = response;
-        switch (response.getResponseAction()) {
-            case RETRY:
-                // TODO - implement retry count solution
-                break;
-            case COMPLETE:
-                taskStatus = TaskStatus.COMPLETED;
-                break;
-            case FAIL:
-                taskStatus = TaskStatus.FAILED;
-                break;
+
+        if (response.getResponseAction().isRetry()) {
+            // TODO - implement retry count solution
+
+        } else if (response.getResponseAction().isComplete()) {
+            taskStatus = TaskStatus.COMPLETED;
+
+        } else if (response.getResponseAction().isFail()) {
+            taskStatus = TaskStatus.FAILED;
+
+        } else {
+            String msg = String.format("The response action %s is not currently supported.", response.getResponseAction());
+            throw ApiException.notImplemented(msg);
         }
     }
 

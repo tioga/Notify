@@ -244,6 +244,7 @@ public class TaskProcessorExecutor implements TaskEventListener {
 
                 // Send to processor
                 TaskResponse taskResponse = processor.processTask(domainProfile, notification, localTaskEntity.toTask());
+                log.error("The task {} for notification {} {}", localTaskEntity.getTaskId(), localTaskEntity.getNotificationId(), taskResponse.getResponseAction().pastTense);
 
                 // Assign response and save.
                 localTaskEntity.response(taskResponse);
