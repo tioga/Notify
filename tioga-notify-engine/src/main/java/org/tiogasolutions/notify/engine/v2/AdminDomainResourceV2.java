@@ -2,23 +2,28 @@ package org.tiogasolutions.notify.engine.v2;
 
 import org.tiogasolutions.couchace.core.api.CouchDatabase;
 import org.tiogasolutions.dev.common.net.HttpStatusCode;
+import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.lib.hal.HalItem;
 import org.tiogasolutions.lib.hal.HalLinks;
 import org.tiogasolutions.lib.hal.HalLinksBuilder;
 import org.tiogasolutions.notify.kernel.PubUtils;
 import org.tiogasolutions.notify.kernel.execution.ExecutionManager;
+import org.tiogasolutions.notify.kernel.notification.NotificationKernel;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestEntity;
 import org.tiogasolutions.notify.kernel.request.NotificationRequestStore;
+import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
+import org.tiogasolutions.notify.pub.notification.Notification;
+import org.tiogasolutions.notify.pub.notification.NotificationQuery;
 import org.tiogasolutions.notify.pub.request.NotificationRequestStatus;
+import org.tiogasolutions.notify.pub.task.TaskQuery;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
 import static java.lang.String.format;
@@ -118,19 +123,58 @@ public class AdminDomainResourceV2 {
             }
         }).start();
 
-        class JobResults {
-            private final String message;
-
-            JobResults(String message) {
-                this.message = message;
-            }
-
-            public String getMessage() {
-                return message;
-            }
-        }
-
         JobResults results = new JobResults(format("Deleting all requests from the domain %s.", domainName));
         return Response.accepted(results).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/prune/notifications")
+    public Response pruneNotifications() {
+
+        final NotificationKernel kernel = em.getNotificationKernel();
+
+        new Thread( () -> {
+            NotificationQuery noteQuery = new NotificationQuery().setLimit(100);
+            QueryResult<Notification> notifications = null;
+
+            while (notifications == null || notifications.isNotEmpty()) {
+                notifications = kernel.query(noteQuery);
+                next: for (Notification notification : notifications.getResults()) {
+                    TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
+                    QueryResult<TaskEntity> tasks = kernel.query(taskQuery);
+
+                    // Test the tasks - if any are sending or pending skip everything.
+                    for (TaskEntity task : tasks.getResults()) {
+                        if (task.getTaskStatus().isSending() || task.getTaskStatus().isPending()) {
+                            continue next; // Skip it, it's still processing.
+                        }
+                    }
+                    // OK, no issues, so delete all the tests.
+                    for (TaskEntity task : tasks.getResults()) {
+                        kernel.deleteTask(task.getTaskId());
+                    }
+                    // And lastly, delete the notification
+                    kernel.deleteNotification(notification.getNotificationId());
+                }
+            }
+        }).start();
+
+        JobResults results = new JobResults(format("Deleting all notifications and tasks from the domain %s.", domainName));
+        return Response.accepted(results).build();
+    }
+
+    public static class JobResults {
+
+        private final String message;
+
+        JobResults(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }
