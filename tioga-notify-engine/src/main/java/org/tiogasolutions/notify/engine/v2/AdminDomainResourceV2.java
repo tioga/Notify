@@ -203,12 +203,16 @@ public class AdminDomainResourceV2 {
 
             // Now it is completely possible that there are tasks out there that are
             // orphaned - their notification doesn't exist. Let's take them out next...
-            List<TaskEntity> tasks = notificationDomain.query(new TaskQuery().setLimit(100)).getResults();
-            log.error("Deleting {} abandoned tasks for the domain {}.", tasks.size(), domainName);
+            List<TaskEntity> tasks = null;
 
-            for (TaskEntity task : tasks) {
-                if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
-                    notificationDomain.deleteTask(task.getTaskId());
+            while (tasks == null| tasks.size() > 0) {
+                tasks = notificationDomain.query(new TaskQuery().setLimit(100)).getResults();
+                log.error("Deleting {} abandoned tasks for the domain {}.", tasks.size(), domainName);
+
+                for (TaskEntity task : tasks) {
+                    if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
+                        notificationDomain.deleteTask(task.getTaskId());
+                    }
                 }
             }
 
@@ -234,7 +238,7 @@ public class AdminDomainResourceV2 {
         // OK, no issues, so delete all the tests.
         log.error("Deleting {} tasks given notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
         for (TaskEntity task : tasks) {
-            notificationDomain.deleteTask(task.getTaskId());
+            notificationDomain.deleteTask(task.getTaskId());`
         }
 
         // And lastly, delete the notification
