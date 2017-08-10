@@ -18,6 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static java.lang.String.format;
+
 @Component
 public class TaskGenerator {
 
@@ -43,24 +45,43 @@ public class TaskGenerator {
     }
 
     private List<TaskEntity> createTask(NotificationDomain notificationDomain, Notification notification) {
+
         log.error("Generating tasks for notification {}", notification.getNotificationId());
         List<TaskEntity> tasks = new ArrayList<>();
 
-        // Find destinations.
-        NotificationRef notificationRef = notification.toNotificationRef();
-        Set<Destination> destinations = notificationDomain.findDestinations(notification);
-        log.error("Found {} destinations", destinations.size());
+        try {
+            // Find destinations.
+            NotificationRef notificationRef = notification.toNotificationRef();
+            Set<Destination> destinations = notificationDomain.findDestinations(notification);
+            log.error("Found {} destinations", destinations.size());
 
-        for (Destination destination : destinations) {
-            log.error("Creating task for destination {}", destination);
+            for (Destination destination : destinations) {
+                createTask(notificationDomain, notification, tasks, notificationRef, destination);
+            }
+
+            log.error("Created {} tasks.", tasks.size());
+
+        } catch (Exception e) {
+            log.error(format("Exception generating tasks (notification=%s).", notification.getNotificationId()), e);
+        }
+
+        return tasks;
+    }
+
+    private void createTask(NotificationDomain notificationDomain, Notification notification, List<TaskEntity> tasks, NotificationRef notificationRef, Destination destination) {
+        try {
+            log.error("Creating task (notification={}, destination={})", notification.getNotificationId(), destination.getName());
 
             CreateTask create = CreateTask.create(notificationRef, destination);
             TaskEntity task = notificationDomain.createTask(create, notification);
             tasks.add(task);
+
+            // log.error("Signalling creation of the task (notification={}, destination={}, task={})", notification.getNotificationId(), task.getTaskId(), destination);
+            // eventBus.taskCreated(notificationDomain.getDomainName(), task, notification);
+
+        } catch (Exception e) {
+            String msg = format("Exception generating task (notification=%s, destination=%s).", notification.getNotificationId(), destination.getName());
+            log.error(msg, e);
         }
-
-        log.error("Created {} tasks.", tasks);
-        return tasks;
     }
-
 }
