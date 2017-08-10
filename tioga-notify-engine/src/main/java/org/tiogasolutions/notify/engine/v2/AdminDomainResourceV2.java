@@ -18,9 +18,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+
 import java.util.List;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 public class AdminDomainResourceV2 {
 
@@ -100,35 +101,33 @@ public class AdminDomainResourceV2 {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/prune/requests")
-    public Response pruneRequests(@DefaultValue("100") @FormParam("maximum") int maximum) {
+    public Response pruneRequests() {
         DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
         NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-        int processed = 0;
-        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, maximum);
+        List<NotificationRequestEntity> requests = null;
 
-        for (NotificationRequestEntity request : requests) {
-            requestStore.deleteRequest(request.getRequestId());
-            processed++;
+        while (requests == null || requests.size() > 0) {
+            requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+            for (NotificationRequestEntity request : requests) {
+                requestStore.deleteRequest(request.getRequestId());
+            }
         }
 
         class JobResults {
-            private final int processed;
-            private final int maximum;
-            private final String msg;
+            private final String message;
 
-            JobResults(int maximum, int processed, String msg) {
-                this.maximum = maximum;
-                this.processed = processed;
-                this.msg = msg;
+            JobResults(String message) {
+                this.message = message;
             }
-            public int getMaximum() { return maximum; }
-            public int getProcessed() { return processed; }
-            public String getMsg() { return msg; }
+
+            public String getMessage() {
+                return message;
+            }
         }
 
-        JobResults results = new JobResults(maximum, processed, format("Deleted %s of %s requests from the domain %s.", processed, maximum, domainName));
+        JobResults results = new JobResults(format("Deleting all requests from the domain %s.", domainName));
 
         return Response.ok().entity(results).build();
     }
