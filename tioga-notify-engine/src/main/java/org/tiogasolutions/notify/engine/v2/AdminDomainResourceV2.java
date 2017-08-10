@@ -125,23 +125,24 @@ public class AdminDomainResourceV2 {
         return Response.accepted(results).build();
     }
 
-    private static void deleteRequests(NotificationRequestStore requestStore) {
+    private void deleteRequests(NotificationRequestStore requestStore) {
         try {
             deleteCompletedRequests(requestStore);
             deleteFailedRequests(requestStore);
             deleteProcessingRequests(requestStore);
 
         } catch (Exception e) {
-            log.error("Exception deleting request.", e);
+            String msg = String.format("Exception deleting request for the domain %s.", domainName);
+            log.error(msg, e);
         }
-        log.error("Finished pruning requests.");
+        log.error("Finished pruning requests for the domain {}.", domainName);
     }
 
-    private static void deleteCompletedRequests(NotificationRequestStore requestStore) {
+    private void deleteCompletedRequests(NotificationRequestStore requestStore) {
         List<NotificationRequestEntity> requests = null;
         while (requests == null || requests.size() > 0) {
             requests = getRequests(requestStore, NotificationRequestStatus.COMPLETED);
-            log.error("Deleting {} \"completed\" requests.", requests.size());
+            log.error("Deleting {} \"completed\" requests for the domain {}.", requests.size(), domainName);
 
             for (NotificationRequestEntity request : requests) {
                 requestStore.deleteRequest(request.getRequestId());
@@ -149,11 +150,11 @@ public class AdminDomainResourceV2 {
         }
     }
 
-    private static void deleteFailedRequests(NotificationRequestStore requestStore) {
+    private void deleteFailedRequests(NotificationRequestStore requestStore) {
         List<NotificationRequestEntity> requests = null;
         while (requests == null || requests.size() > 0) {
             requests = getRequests(requestStore, NotificationRequestStatus.FAILED);
-            log.error("Deleting {} \"failed\" requests.", requests.size());
+            log.error("Deleting {} \"failed\" requests for the domain {}.", requests.size(), domainName);
 
             for (NotificationRequestEntity request : requests) {
                 requestStore.deleteRequest(request.getRequestId());
@@ -161,27 +162,26 @@ public class AdminDomainResourceV2 {
         }
     }
 
-    private static void deleteProcessingRequests(NotificationRequestStore requestStore) {
+    private void deleteProcessingRequests(NotificationRequestStore requestStore) {
         List<NotificationRequestEntity> requests = null;
         while (requests == null || requests.size() > 0) {
             requests = getRequests(requestStore, NotificationRequestStatus.PROCESSING);
-            log.error("Deleting {} 1-week-old \"processing\" requests.", requests.size());
+            log.error("Deleting {} 1-week-old \"processing\" requests for the domain {}.", requests.size(), domainName);
 
             for (NotificationRequestEntity request : requests) {
                 if (request.getCreatedAt().isBefore(ZonedDateTime.now().minusDays(7))) {
-                    log.error("Deleting request {} created on {}.", request.getRequestId(), request.getCreatedAt());
                     requestStore.deleteRequest(request.getRequestId());
                 }
             }
         }
     }
 
-    private static List<NotificationRequestEntity> getRequests(NotificationRequestStore requestStore, NotificationRequestStatus status) {
+    private List<NotificationRequestEntity> getRequests(NotificationRequestStore requestStore, NotificationRequestStatus status) {
         try {
             return requestStore.findByStatus(status, 100);
 
         } catch (ApiNotFoundException e) {
-            log.error("No requests for the status {}.", status);
+            log.error("No requests given the status {} for the domain {} ", status, domainName);
             return Collections.emptyList();
         }
     }
@@ -198,18 +198,18 @@ public class AdminDomainResourceV2 {
         return Response.accepted(results).build();
     }
 
-    private static void deleteNotifications(DomainKernel domainKernel, String domainName) {
+    private void deleteNotifications(DomainKernel domainKernel, String domainName) {
         try {
             NotificationDomain notificationDomain = domainKernel.notificationDomain(domainName);
 
             List<Notification> notifications = null;
             while (notifications == null || notifications.size() > 0) {
                 notifications = getNotifications(notificationDomain);
-                log.error("Deleting {} notifications.", notifications.size());
+                log.error("Deleting {} notifications for the domain {}.", notifications.size(), domainName);
 
                 next: for (Notification notification : notifications) {
                     List<TaskEntity> tasks = getTaskForNotification(notificationDomain, notification);
-                    log.error("Deleting {} related tasks.", notifications.size());
+                    log.error("Deleting {} tasks for notification {} for the domain {}.", tasks.size(), notification.getNotificationId(), domainName);
 
                     // Test the tasks - if any are sending or pending skip everything.
                     for (TaskEntity task : tasks) {
@@ -231,7 +231,7 @@ public class AdminDomainResourceV2 {
             // Now it is completely possible that there are tasks out there that are
             // orphaned - their notification doesn't exist. Let's take them out next...
             List<TaskEntity> tasks = notificationDomain.query(new TaskQuery().setLimit(100)).getResults();
-            log.error("Deleting {} abandoned tasks.", notifications.size());
+            log.error("Deleting {} abandoned tasks for the domain {}.", notifications.size(), domainName);
 
             for (TaskEntity task : tasks) {
                 if (task.getTaskStatus().isCompleted() || task.getTaskStatus().isFailed()) {
@@ -240,9 +240,10 @@ public class AdminDomainResourceV2 {
             }
 
         } catch (Exception e) {
-            log.error("Exception deleting notifications.", e);
+            String msg = String.format("Exception deleting notifications & tasks for the domain %s.", domainName);
+            log.error(msg, e);
         }
-        log.error("Finished pruning notifications.");
+        log.error("Finished pruning notifications & tasks for the domain {}.", domainName);
     }
 
     private static List<Notification> getNotifications(NotificationDomain notificationDomain) {
@@ -256,13 +257,13 @@ public class AdminDomainResourceV2 {
         // }
     }
 
-    private static List<TaskEntity> getTaskForNotification(NotificationDomain notificationDomain, Notification notification) {
+    private List<TaskEntity> getTaskForNotification(NotificationDomain notificationDomain, Notification notification) {
         try {
             TaskQuery taskQuery = new TaskQuery().setNotificationId(notification.getNotificationId());
             return notificationDomain.query(taskQuery).getResults();
 
         } catch (ApiNotFoundException e) {
-            log.error("No tasks for notification {}.", notification.getNotificationId());
+            log.error("No tasks given notification {} for the domain {}.", notification.getNotificationId(), domainName);
             return Collections.emptyList();
         }
     }
