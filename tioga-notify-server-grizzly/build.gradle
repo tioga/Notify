@@ -40,6 +40,8 @@ project(":tioga-notify-server-grizzly") {
         writer.close()
     }
 
+    aws.dependsOn build
+
     distributions {
         main {
             contents {
