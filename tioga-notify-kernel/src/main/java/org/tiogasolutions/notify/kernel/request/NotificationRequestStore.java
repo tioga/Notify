@@ -108,6 +108,10 @@ public class NotificationRequestStore {
     }
 
     public List<NotificationRequestEntity> findByStatus(NotificationRequestStatus status) {
+        return findByStatus(status, 0);
+    }
+
+    public List<NotificationRequestEntity> findByStatus(NotificationRequestStatus status, int limit) {
 
         CouchViewQuery.CouchViewQueryBuilder builder;
 
@@ -120,6 +124,10 @@ public class NotificationRequestStore {
 
             builder.start(status, null);
             builder.end(status, "Z");
+        }
+
+        if (limit > 0) {
+            builder.limit(limit);
         }
 
         CouchViewQuery viewQuery = builder.build();

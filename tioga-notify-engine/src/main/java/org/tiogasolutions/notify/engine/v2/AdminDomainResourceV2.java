@@ -20,6 +20,8 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static java.lang.String.*;
+
 public class AdminDomainResourceV2 {
 
     private final PubUtils pubUtils;
@@ -98,16 +100,32 @@ public class AdminDomainResourceV2 {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/prune/requests")
-    public Response pruneRequests() {
+    public Response pruneRequests(@DefaultValue("100") @FormParam("max") int max) {
         DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
         CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
         NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED);
+        int deleted = 0;
+        List<NotificationRequestEntity> requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+
         for (NotificationRequestEntity request : requests) {
             requestStore.deleteRequest(request.getRequestId());
+            deleted++;
         }
 
-        return Response.ok().build();
+        class JobResults {
+            private final int count;
+            private final String msg;
+            JobResults(int count, String msg) {
+                this.count = count;
+                this.msg = msg;
+            }
+            public int getCount() { return count; }
+            public String getMsg() { return msg; }
+        }
+
+        JobResults results = new JobResults(deleted, format("Deleted %s of %s requests from the domain %s.", deleted, max, domainName));
+
+        return Response.ok().entity(results).build();
     }
 }
