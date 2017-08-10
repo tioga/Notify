@@ -27,6 +27,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -126,25 +127,58 @@ public class AdminDomainResourceV2 {
 
     private static void deleteRequests(NotificationRequestStore requestStore) {
         try {
-            List<NotificationRequestEntity> requests = null;
+            deleteCompletedRequests(requestStore);
+            deleteFailedRequests(requestStore);
+            deleteProcessingRequests(requestStore);
 
-            while (requests == null || requests.size() > 0) {
-                requests = getRequests(requestStore);
-                log.error("Deleting {} requests.", requests.size());
-
-                for (NotificationRequestEntity request : requests) {
-                    requestStore.deleteRequest(request.getRequestId());
-                }
-            }
         } catch (Exception e) {
             log.error("Exception deleting request.", e);
         }
         log.error("Finished pruning requests.");
     }
 
-    private static List<NotificationRequestEntity> getRequests(NotificationRequestStore requestStore) {
+    private static void deleteCompletedRequests(NotificationRequestStore requestStore) {
+        List<NotificationRequestEntity> requests = null;
+        while (requests == null || requests.size() > 0) {
+            requests = getRequests(requestStore, NotificationRequestStatus.COMPLETED);
+            log.error("Deleting {} \"completed\" requests.", requests.size());
+
+            for (NotificationRequestEntity request : requests) {
+                requestStore.deleteRequest(request.getRequestId());
+            }
+        }
+    }
+
+    private static void deleteFailedRequests(NotificationRequestStore requestStore) {
+        List<NotificationRequestEntity> requests = null;
+        while (requests == null || requests.size() > 0) {
+            requests = getRequests(requestStore, NotificationRequestStatus.FAILED);
+            log.error("Deleting {} \"failed\" requests.", requests.size());
+
+            for (NotificationRequestEntity request : requests) {
+                requestStore.deleteRequest(request.getRequestId());
+            }
+        }
+    }
+
+    private static void deleteProcessingRequests(NotificationRequestStore requestStore) {
+        List<NotificationRequestEntity> requests = null;
+        while (requests == null || requests.size() > 0) {
+            requests = getRequests(requestStore, NotificationRequestStatus.PROCESSING);
+            log.error("Deleting {} 1-week-old \"processing\" requests.", requests.size());
+
+            for (NotificationRequestEntity request : requests) {
+                if (request.getCreatedAt().isBefore(ZonedDateTime.now().minusDays(7))) {
+                    log.error("Deleting request {} created on {}.", request.getRequestId(), request.getCreatedAt());
+                    requestStore.deleteRequest(request.getRequestId());
+                }
+            }
+        }
+    }
+
+    private static List<NotificationRequestEntity> getRequests(NotificationRequestStore requestStore, NotificationRequestStatus status) {
         try {
-            return requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+            return requestStore.findByStatus(status, 100);
 
         } catch (ApiNotFoundException e) {
             return Collections.emptyList();
