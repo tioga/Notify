@@ -102,18 +102,21 @@ public class AdminDomainResourceV2 {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/prune/requests")
     public Response pruneRequests() {
-        DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
-        CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
-        NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-        List<NotificationRequestEntity> requests = null;
+        final DomainProfile domainProfile = em.getDomainKernel().findByDomainName(domainName);
+        final CouchDatabase requestDb = em.getDomainKernel().requestDb(domainProfile);
+        final NotificationRequestStore requestStore = new NotificationRequestStore(requestDb);
 
-        while (requests == null || requests.size() > 0) {
-            requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
-            for (NotificationRequestEntity request : requests) {
-                requestStore.deleteRequest(request.getRequestId());
+        new Thread( () -> {
+            List<NotificationRequestEntity> requests = null;
+
+            while (requests == null || requests.size() > 0) {
+                requests = requestStore.findByStatus(NotificationRequestStatus.COMPLETED, 100);
+                for (NotificationRequestEntity request : requests) {
+                    requestStore.deleteRequest(request.getRequestId());
+                }
             }
-        }
+        }).start();
 
         class JobResults {
             private final String message;
@@ -128,7 +131,6 @@ public class AdminDomainResourceV2 {
         }
 
         JobResults results = new JobResults(format("Deleting all requests from the domain %s.", domainName));
-
-        return Response.ok().entity(results).build();
+        return Response.accepted(results).build();
     }
 }
