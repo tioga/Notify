@@ -29,10 +29,10 @@ public class AdminDomainResourceV2 {
     private final String domainName;
 
     private static final Object PRUNE_NOTIFICATIONS_AND_TASKS_LOCK = new Object();
-    private PruneNotificationsAndTasksJob pruneNotificationsAndTasksJob;
+    private static PruneNotificationsAndTasksJob pruneNotificationsAndTasksJob;
 
     private static final Object PRUNE_REQUESTS_LOCK = new Object();
-    private PruneRequestsJob pruneRequestsJob;
+    private static PruneRequestsJob pruneRequestsJob;
 
     public AdminDomainResourceV2(PubUtils pubUtils, ExecutionManager em, String domainName) {
         this.pubUtils = pubUtils;
