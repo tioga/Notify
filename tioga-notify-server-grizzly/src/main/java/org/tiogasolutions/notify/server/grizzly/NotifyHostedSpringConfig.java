@@ -178,7 +178,9 @@ public class NotifyHostedSpringConfig {
 
         final Logger log = LoggerFactory.getLogger(Notifier.class.getSimpleName());
         return new Notifier(sender)
-            .onBeforeSend(builder -> log.warn("SENDING " + builder.getSummary()))
+            .onBeforeSend(builder -> log.warn( "NOTIFY SENDING " + builder.getSummary()))
+            .onSuccess(response ->   log.warn( "NOTIFY SUCCESS " + response.getRequest().getSummary()))
+            .onFailure(response ->   log.error("NOTIFY FAILURE " + response.getRequest().getSummary(), response.getThrowable()))
             .onBegin(builder -> {
                 builder.topic("Notify Engine");
                 builder.internal();

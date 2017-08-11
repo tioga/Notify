@@ -3,6 +3,7 @@ package org.tiogasolutions.notify.notifier;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilder;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilderCallback;
 import org.tiogasolutions.notify.notifier.builder.NotificationBuilderCallbacks;
+import org.tiogasolutions.notify.notifier.builder.SendNotificationResponseCallback;
 import org.tiogasolutions.notify.notifier.send.NotificationSender;
 
 /**
@@ -11,6 +12,7 @@ import org.tiogasolutions.notify.notifier.send.NotificationSender;
  * Time: 11:13 PM
  */
 public class Notifier {
+
     private final NotificationSender sender;
     private final NotificationBuilderCallbacks builderCallbacks;
 
@@ -33,5 +35,13 @@ public class Notifier {
         return this;
     }
 
+    public Notifier onSuccess(SendNotificationResponseCallback callback) {
+        builderCallbacks.onSuccess(callback);
+        return this;
+    }
 
+    public Notifier onFailure(SendNotificationResponseCallback callback) {
+        builderCallbacks.onFailure(callback);
+        return this;
+    }
 }

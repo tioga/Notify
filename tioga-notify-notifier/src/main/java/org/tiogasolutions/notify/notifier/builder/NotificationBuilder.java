@@ -1,5 +1,7 @@
 package org.tiogasolutions.notify.notifier.builder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tiogasolutions.notify.notifier.send.*;
 
 import java.io.InputStream;
@@ -13,6 +15,9 @@ import java.util.concurrent.Future;
  * Time: 10:44 PM
  */
 public class NotificationBuilder {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     private final NotificationSender sender;
     private final NotificationBuilderCallbacks callbacks;
     private boolean internal;
@@ -54,7 +59,26 @@ public class NotificationBuilder {
                 exceptionInfo,
                 attachments);
 
-        return sender.send(request);
+        Future<SendNotificationResponse> futureResponse = sender.send(request);
+
+        new Thread( () -> {
+            try {
+                SendNotificationResponse response = futureResponse.get();
+                SendNotificationResponseType responseType = response.getResponseType();
+
+                if (responseType.isSuccess()) {
+                    callbacks.callOnSuccess(response);
+                } else if (responseType.isFailure()) {
+                    callbacks.callOnFailure(response);
+                } else {
+                    throw new UnsupportedOperationException(String.format("The response type %s is not supported.", responseType));
+                }
+            } catch (Exception e) {
+                log.error("Exception getting future response");
+            }
+        }).start();
+
+        return futureResponse;
     }
 
     public NotificationBuilder topic(String topic) {

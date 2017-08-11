@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.send.SendNotificationResponse;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.Destination;
@@ -90,7 +91,9 @@ public class TaskGenerator {
     private void notify(Notification notification, Exception e, String msg) {
         try {
             if (notification != null && notification.isInternalException()) log.error("SUPPRESSED: "+msg, e);
-            else notifier.begin().summary(msg).exception(e).send().get();
+            else {
+                SendNotificationResponse response = notifier.begin().summary(msg).exception(e).send().get();
+            }
         } catch (Exception ex) {
             log.error("Exception sending notification", ex);
         }
