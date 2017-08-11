@@ -146,7 +146,7 @@ public class SlackTaskProcessor implements TaskProcessor {
     }
 
     private void notify(Notification notification, Exception e, String msg, String json) {
-        if (notification != null && notification.isInternal()) log.error(msg, e);
+        if (notification != null && notification.isInternalException()) log.error("SUPPRESSED: "+msg, e);
         else notifier.begin().summary(msg).exception(e).trait("json", json).send();
     }
 }

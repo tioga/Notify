@@ -1,6 +1,7 @@
 package org.tiogasolutions.notify.pub.notification;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
@@ -220,5 +221,10 @@ public class Notification implements Comparable<Notification> {
                 ", exceptionInfo=" + exceptionInfo +
                 ", attachmentInfoList=" + attachmentInfoList +
                 '}';
+    }
+
+    @JsonIgnore
+    public boolean isInternalException() {
+        return isInternal() && hasException();
     }
 }
