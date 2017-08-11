@@ -79,8 +79,12 @@ public class JsRouteEvaluator implements RouteEvaluator {
         }
 
         private void notify(Notification notification, Exception e, String msg) {
-            if (notification != null && notification.isInternalException()) log.error("SUPPRESSED: "+msg, e);
-            else notifier.begin().summary(msg).exception(e).send();
+            try {
+                if (notification != null && notification.isInternalException()) log.error("SUPPRESSED: "+msg, e);
+                else notifier.begin().summary(msg).exception(e).send().get();
+            } catch (Exception e1) {
+                log.error("Exception sending notification", e);
+            }
         }
     }
 }

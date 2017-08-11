@@ -56,7 +56,8 @@ public class LambdaNotifierCodePipelineMessage implements RequestStreamHandler {
             SendNotificationResponse response = notifier.begin()
                     .topic(message.getTopic())
                     .summary(message.getSummary())
-                    .send().get();
+                    .send()
+                    .get();
 
             logger.log("Sent notification: " + response.getResponseType());
 

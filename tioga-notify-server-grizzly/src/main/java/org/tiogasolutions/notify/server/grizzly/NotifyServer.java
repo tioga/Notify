@@ -74,6 +74,7 @@ public class NotifyServer {
                     grizzlyServer.getConfig().getShutdownPort());
 
             log.warn(msg);
+
             notifier.begin().summary(msg).trait("action", "shutdown").send().get();
 
             ShutdownUtils.shutdownRemote(grizzlyServer.getConfig());
