@@ -1,5 +1,8 @@
 package org.tiogasolutions.notify.notifier.send;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,8 @@ import java.util.Map;
  */
 public class SendNotificationRequestJsonBuilder {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     private final StringBuilder sb = new StringBuilder();
     private String indent = "";
     private boolean firstElement;
@@ -20,7 +25,7 @@ public class SendNotificationRequestJsonBuilder {
     public String toJson(SendNotificationRequest request, SendNotificationRequest.Status status) {
         beginObject();
 
-        firstField("internal", String.valueOf(request.isInternal()));
+        firstField("internal", request.isInternal());
 
         // Basic fields
         if (status == null) {
@@ -157,14 +162,14 @@ public class SendNotificationRequestJsonBuilder {
         firstElement = false;
     }
 
-    protected void firstField(String key, String value) {
+    protected void firstField(String key, Object value) {
         indent();
 
         attr(key);
         value(value);
     }
 
-    protected void field(String key, String value) {
+    protected void field(String key, Object value) {
         comma();
         newLine();
         indent();
@@ -183,7 +188,7 @@ public class SendNotificationRequestJsonBuilder {
 
     protected void value(Object object) {
 
-        if (object == null || object instanceof Number) {
+        if (object == null || object instanceof Number || object instanceof Boolean) {
             append(object);
 
         } else {
@@ -229,9 +234,5 @@ public class SendNotificationRequestJsonBuilder {
         } else {
             sb.append(object.toString());
         }
-    }
-
-    protected void append(Number number) {
-        sb.append(number == null ? null : number.toString());
     }
 }
