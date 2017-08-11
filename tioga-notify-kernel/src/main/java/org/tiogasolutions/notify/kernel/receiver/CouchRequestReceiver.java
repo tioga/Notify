@@ -58,6 +58,7 @@ public class CouchRequestReceiver implements RequestReceiver {
 
                     // Create notification in the kernel.
                     CreateNotification createNotification = new CreateNotification(
+                            request.isInternal(),
                             request.getTopic(),
                             request.getSummary(),
                             request.getTrackingId(),

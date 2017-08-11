@@ -50,6 +50,7 @@ public class MessageBuilderTest {
         );
 
         notification = new Notification(
+                false,
                 URI.create("http://whatever.com/api/v2/notifications/123"),
                 "some-domain", "123", "r-1", "test-topic",
                 "Something really bad just happened.", "tracking id #321",

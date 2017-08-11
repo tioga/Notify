@@ -10,6 +10,11 @@ import java.util.*;
  */
 public final class SendNotificationRequest {
 
+    public enum Status {
+        SENDING, READY, PROCESSING, FAILED, COMPLETED
+    }
+
+    private final boolean internal;
     private final String topic;
     private final String summary;
     private final String trackingId;
@@ -18,7 +23,8 @@ public final class SendNotificationRequest {
     private final List<NotificationLink> links;
     private final NotificationExceptionInfo exceptionInfo;
     private final List<NotificationAttachment> attachments;
-    public SendNotificationRequest(String topic,
+    public SendNotificationRequest(boolean internal,
+                                   String topic,
                                    String summary,
                                    String trackingId,
                                    ZonedDateTime createdAt,
@@ -27,6 +33,7 @@ public final class SendNotificationRequest {
                                    NotificationExceptionInfo exceptionInfo,
                                    Collection<NotificationAttachment> attachmentsArg) {
 
+        this.internal = internal;
         this.topic = (topic != null) ? topic : "none";
         this.summary = (summary != null) ? summary : "none";
         this.trackingId = trackingId;
@@ -50,6 +57,10 @@ public final class SendNotificationRequest {
             attachmentsList.addAll(attachmentsArg);
         }
         this.attachments = Collections.unmodifiableList(attachmentsList);
+    }
+
+    public boolean isInternal() {
+        return internal;
     }
 
     public String getTopic() {
@@ -91,21 +102,21 @@ public final class SendNotificationRequest {
 
         SendNotificationRequest that = (SendNotificationRequest) o;
 
-        if (attachments != null ? !attachments.equals(that.attachments) : that.attachments != null) return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
-        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
-        if (links != null ? !links.equals(that.links) : that.links != null) return false;
-        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+        if (internal != that.internal) return false;
         if (topic != null ? !topic.equals(that.topic) : that.topic != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (trackingId != null ? !trackingId.equals(that.trackingId) : that.trackingId != null) return false;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (traitMap != null ? !traitMap.equals(that.traitMap) : that.traitMap != null) return false;
-
-        return true;
+        if (links != null ? !links.equals(that.links) : that.links != null) return false;
+        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
+        return attachments != null ? attachments.equals(that.attachments) : that.attachments == null;
     }
 
     @Override
     public int hashCode() {
-        int result = topic != null ? topic.hashCode() : 0;
+        int result = (internal ? 1 : 0);
+        result = 31 * result + (topic != null ? topic.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (trackingId != null ? trackingId.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
@@ -118,8 +129,9 @@ public final class SendNotificationRequest {
 
     @Override
     public String toString() {
-        return "NotificationRequest{" +
-                "topic='" + topic + '\'' +
+        return "SendNotificationRequest{" +
+                "internal=" + internal +
+                ", topic='" + topic + '\'' +
                 ", summary='" + summary + '\'' +
                 ", trackingId='" + trackingId + '\'' +
                 ", createdAt=" + createdAt +
@@ -128,9 +140,5 @@ public final class SendNotificationRequest {
                 ", exceptionInfo=" + exceptionInfo +
                 ", attachments=" + attachments +
                 '}';
-    }
-
-    public enum Status {
-        SENDING, READY, PROCESSING, FAILED, COMPLETED
     }
 }

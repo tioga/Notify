@@ -154,7 +154,9 @@ public class JsRouteEvaluatorTest {
     }
 
     private Notification newNotification(String topic, String traits) throws URISyntaxException {
-        return new Notification(new URI(""),
+        return new Notification(
+                false,
+                new URI(""),
                 "test",
                 "999909",
                 "3k3k3",
@@ -171,7 +173,9 @@ public class JsRouteEvaluatorTest {
     private Notification newNotificationWithException(String topic, String traits) throws URISyntaxException {
         Throwable t = new Exception("Some test error");
         ExceptionInfo exceptionInfo = new ExceptionInfo(t);
-        return new Notification(new URI(""),
+        return new Notification(
+                false,
+                new URI(""),
                 "test",
                 "999909",
                 "3k3k3",
@@ -184,5 +188,4 @@ public class JsRouteEvaluatorTest {
                 exceptionInfo,
                 null);
     }
-
 }

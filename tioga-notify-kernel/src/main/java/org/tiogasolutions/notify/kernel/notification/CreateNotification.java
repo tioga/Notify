@@ -16,6 +16,7 @@ import java.util.Map;
  * Time: 11:01 PM
  */
 public class CreateNotification {
+    private final boolean internal;
     private final String topic;
     private final String summary;
     private final String trackingId;
@@ -24,13 +25,15 @@ public class CreateNotification {
     private final List<Link> links;
     private final ExceptionInfo exceptionInfo;
 
-    public CreateNotification(@JsonProperty("topic") String topic,
+    public CreateNotification(@JsonProperty(value="internal", defaultValue="false") boolean internal,
+                              @JsonProperty("topic") String topic,
                               @JsonProperty("summary") String summary,
                               @JsonProperty("trackingId") String trackingId,
                               @JsonProperty("createdAt") ZonedDateTime createdAt,
                               @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo,
                               @JsonProperty("links") List<Link> links,
                               @JsonProperty("traitMap") Map<String, String> traitMap) {
+        this.internal = internal;
         this.topic = topic;
         this.summary = summary;
         this.trackingId = trackingId;
@@ -47,6 +50,10 @@ public class CreateNotification {
         }
         this.traitMap = localMap;
 
+    }
+
+    public boolean isInternal() {
+        return internal;
     }
 
     public String getTopic() {
@@ -84,20 +91,20 @@ public class CreateNotification {
 
         CreateNotification that = (CreateNotification) o;
 
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
-        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
-        if (links != null ? !links.equals(that.links) : that.links != null) return false;
-        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+        if (internal != that.internal) return false;
         if (topic != null ? !topic.equals(that.topic) : that.topic != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (trackingId != null ? !trackingId.equals(that.trackingId) : that.trackingId != null) return false;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (traitMap != null ? !traitMap.equals(that.traitMap) : that.traitMap != null) return false;
-
-        return true;
+        if (links != null ? !links.equals(that.links) : that.links != null) return false;
+        return exceptionInfo != null ? exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo == null;
     }
 
     @Override
     public int hashCode() {
-        int result = topic != null ? topic.hashCode() : 0;
+        int result = (internal ? 1 : 0);
+        result = 31 * result + (topic != null ? topic.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (trackingId != null ? trackingId.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
@@ -110,7 +117,8 @@ public class CreateNotification {
     @Override
     public String toString() {
         return "CreateNotification{" +
-                "topic='" + topic + '\'' +
+                "internal=" + internal +
+                ", topic='" + topic + '\'' +
                 ", summary='" + summary + '\'' +
                 ", trackingId='" + trackingId + '\'' +
                 ", createdAt=" + createdAt +

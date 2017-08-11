@@ -117,7 +117,7 @@ public class AdminResourceV2Test extends AbstractEngineJaxRsTest {
             if (i < 6) traits.put("even", i % 2 == 0 ? "true" : "false");
 
             CreateNotification create = new CreateNotification(
-                    "test-" + i, "This is task #" + i, "tracking #" + i,
+                    false, "test-" + i, "This is task #" + i, "tracking #" + i,
                     ZonedDateTime.now(), null, Collections.emptyList(), traits);
             notificationKernel.createNotification(create);
         }
@@ -213,7 +213,7 @@ public class AdminResourceV2Test extends AbstractEngineJaxRsTest {
     public void test_api_v2_admin_domains_KernelTest_notifications_GoodId() {
 
         NotificationRef ref = notificationKernel.createNotification(new CreateNotification(
-                "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
+                false, "unit-test", "Testing 123: " + ReflectUtils.getMethodName(0),
                 null, ZonedDateTime.now(), null, Collections.emptyList(), Collections.emptyMap()));
 
         String path = String.format("/api/v2/admin/domains/%s/notifications/%s", TestFactory.DOMAIN_NAME, ref.getNotificationId());

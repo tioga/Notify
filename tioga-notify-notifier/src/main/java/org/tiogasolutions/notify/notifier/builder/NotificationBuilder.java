@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 public class NotificationBuilder {
     private final NotificationSender sender;
     private final NotificationBuilderCallbacks callbacks;
+    private boolean internal;
     private String topic;
     private String trackingId;
     private String summary;
@@ -43,6 +44,7 @@ public class NotificationBuilder {
     public Future<SendNotificationResponse> send() {
         callbacks.callBeforeSend(this);
         SendNotificationRequest request = new SendNotificationRequest(
+                internal,
                 topic,
                 summary,
                 trackingId,
@@ -72,6 +74,17 @@ public class NotificationBuilder {
 
     public NotificationBuilder summary(String format, Object... args) {
         this.summary = String.format(format, args);
+        return this;
+    }
+
+    /**
+     * Identifies this notification as internal to the Notify Server.
+     * It is used to prevent perpetual, recursive processing errors.
+     * @return this
+     */
+    @Deprecated
+    public NotificationBuilder internal() {
+        internal = true;
         return this;
     }
 

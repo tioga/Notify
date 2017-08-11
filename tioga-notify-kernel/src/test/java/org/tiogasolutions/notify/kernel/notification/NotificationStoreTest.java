@@ -40,6 +40,7 @@ public class NotificationStoreTest extends AbstractSpringTest {
             ZonedDateTime tenYearsAgo = ZonedDateTime.now().minusYears(10);
             // Create a few test notifications.
             CreateNotification create = new CreateNotification(
+                    false,
                     "TEST_TOPIC_22",
                     "some message",
                     "store-test-9022",
@@ -49,6 +50,7 @@ public class NotificationStoreTest extends AbstractSpringTest {
                     BeanUtils.toMap("fav_color:aqua", "xyz_test_key"));
             tenYearsAgoRef = notificationKernel.createNotification(create);
             create = new CreateNotification(
+                    false,
                     "TEST_TOPIC_22",
                     "some message",
                     "store-test-9001",
@@ -58,6 +60,7 @@ public class NotificationStoreTest extends AbstractSpringTest {
                     BeanUtils.toMap("fav_color:purple", "XyZ_TeSt_KeY"));
             notificationKernel.createNotification(create);
             create = new CreateNotification(
+                    false,
                     "TEST_TOPIC_23",
                     "some message",
                     "store-test-9002",

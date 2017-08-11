@@ -22,6 +22,10 @@ public class LoggingNotificationSender extends AbstractNotificationSender {
         this.lastRequest = request;
         if (log.isTraceEnabled()) {
             log.trace(new SendNotificationRequestJsonBuilder().toJson(request, SendNotificationRequest.Status.READY));
+
+        } else if (lastRequest.isInternal()) {
+            log.debug("Internal Notification {}:{}", lastRequest.getTopic(), lastRequest.getSummary());
+
         } else {
             log.debug("Notification {}:{}", lastRequest.getTopic(), lastRequest.getSummary());
         }

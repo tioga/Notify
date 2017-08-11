@@ -361,7 +361,9 @@ public class SlackTaskProcessorTest {
 
     private Notification newNotification(String topic, String summary, List<AttachmentInfo> attachments, ExceptionInfo exceptionInfo, Map<String, String> traitMap) {
 
-        return new Notification(someUri,
+        return new Notification(
+                false,
+                someUri,
                 "999",
                 TimeUuid.randomUUID().toString(),
                 null,

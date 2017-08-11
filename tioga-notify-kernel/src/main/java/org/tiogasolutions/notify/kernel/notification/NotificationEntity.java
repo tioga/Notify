@@ -23,6 +23,7 @@ import java.util.Map;
  */
 @CouchEntity("Notification")
 public class NotificationEntity {
+    private final boolean internal;
     private final String notificationId;
     private final String domainName;
     private final String topic;
@@ -39,7 +40,8 @@ public class NotificationEntity {
     private CouchAttachmentInfoMap attachmentInfoMap;
 
     @JsonCreator
-    public NotificationEntity(@JsonProperty("domainName") String domainName,
+    public NotificationEntity(@JsonProperty(value = "internal", defaultValue = "false") boolean internal,
+                              @JsonProperty("domainName") String domainName,
                               @JsonProperty("notificationId") String notificationId,
                               @JsonProperty("revision") String revision,
                               @JsonProperty("topic") String topic,
@@ -50,6 +52,7 @@ public class NotificationEntity {
                               @JsonProperty("links") List<Link> links,
                               @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo) {
 
+        this.internal = internal;
         this.domainName = domainName;
         this.notificationId = notificationId;
         this.revision = revision;
@@ -64,6 +67,7 @@ public class NotificationEntity {
 
     public static NotificationEntity newEntity(String domainName, CreateNotification create) {
         return new NotificationEntity(
+                create.isInternal(),
                 domainName,
                 TimeUuid.randomUUID().toString(),
                 null,
@@ -81,11 +85,11 @@ public class NotificationEntity {
     }
 
     public Notification toNotification() {
-        return new Notification(null, domainName, notificationId, revision, topic, summary, trackingId, createdAt, traitMap, links, exceptionInfo, listAttachmentInfo());
+        return new Notification(internal, null, domainName, notificationId, revision, topic, summary, trackingId, createdAt, traitMap, links, exceptionInfo, listAttachmentInfo());
     }
 
     public Notification toNotificationWithRevision(String revisionArg) {
-        return new Notification(null, domainName, notificationId, revisionArg, topic, summary, trackingId, createdAt, traitMap, links, exceptionInfo, listAttachmentInfo());
+        return new Notification(internal,null, domainName, notificationId, revisionArg, topic, summary, trackingId, createdAt, traitMap, links, exceptionInfo, listAttachmentInfo());
     }
 
     @CouchId
@@ -100,6 +104,10 @@ public class NotificationEntity {
 
     public void setRevision(String revision) {
         this.revision = revision;
+    }
+
+    public boolean isInternal() {
+        return internal;
     }
 
     public String getDomainName() {

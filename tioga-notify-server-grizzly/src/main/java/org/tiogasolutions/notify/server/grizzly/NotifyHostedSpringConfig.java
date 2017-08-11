@@ -175,6 +175,7 @@ public class NotifyHostedSpringConfig {
 
         return new Notifier(sender).onBegin(builder -> {
             builder.topic("Notify Engine");
+            builder.internal();
 
             try {
                 String hostname = java.net.InetAddress.getLocalHost().getHostName();

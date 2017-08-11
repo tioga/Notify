@@ -316,6 +316,7 @@ public class NotificationRequestTest {
         traitMap.put("length", null);
 
         SendNotificationRequest request = new SendNotificationRequest(
+                true,
                 "topic",
                 "summary",
                 "trackingId",

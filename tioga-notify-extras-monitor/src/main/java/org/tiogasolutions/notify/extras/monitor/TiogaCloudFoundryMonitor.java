@@ -19,30 +19,26 @@ import java.util.*;
 import static java.time.ZonedDateTime.now;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class TiogaMonitor implements Runnable {
+public class TiogaCloudFoundryMonitor implements Runnable {
 
-    private static final Logger log = getLogger(TiogaMonitor.class);
+    private static final Logger log = getLogger(TiogaCloudFoundryMonitor.class);
     private final long retention;
     private final CfClient client;
     private final CouchNotificationSender sender;
     private final Map<String, ZonedDateTime> processed = new HashMap<>();
 
-    public TiogaMonitor() {
-        String value = EnvUtils.findProperty("tioga.monitor.retention", String.valueOf(10));
+    public TiogaCloudFoundryMonitor() {
+        String value = EnvUtils.findProperty("tioga_monitor_retention", String.valueOf(10));
         retention = Long.valueOf(value);
 
         client = new CfClient();
-        client.login(EnvUtils.requireProperty("tioga.cloud.foundry.username"),
-                EnvUtils.requireProperty("tioga.cloud.foundry.password"));
+        client.login(EnvUtils.requireProperty("tioga_cloud_foundry_username"),
+                EnvUtils.requireProperty("tioga_cloud_foundry_password"));
 
-        String couchUrl = EnvUtils.requireProperty("tioga.monitor.couch.url");
-        ;
-        String couchDb = EnvUtils.requireProperty("tioga.monitor.couch.db");
-        ;
-        String username = EnvUtils.requireProperty("tioga.monitor.couch.username");
-        ;
-        String password = EnvUtils.requireProperty("tioga.monitor.couch.password");
-        ;
+        String couchUrl = EnvUtils.requireProperty("tioga_monitor_couch_url");
+        String couchDb = EnvUtils.requireProperty("tioga_monitor_couch_db");
+        String username = EnvUtils.requireProperty("tioga_monitor_couch_username");
+        String password = EnvUtils.requireProperty("tioga_monitor_couch_password");
         sender = new CouchNotificationSender(couchUrl, couchDb, username, password);
     }
 
@@ -53,9 +49,9 @@ public class TiogaMonitor implements Runnable {
 
         // Assume we want by default INFO on when & how the grizzly server
         // is started. Possibly overwritten by logback.xml if used.
-        AppUtils.setLogLevel(Level.INFO, TiogaMonitor.class);
+        AppUtils.setLogLevel(Level.INFO, TiogaCloudFoundryMonitor.class);
 
-        TiogaMonitor app = new TiogaMonitor();
+        TiogaCloudFoundryMonitor app = new TiogaCloudFoundryMonitor();
         new Thread(app).start();
     }
 
@@ -78,7 +74,7 @@ public class TiogaMonitor implements Runnable {
 
         seedProcessedEvents();
 
-        for (; ; ) {
+        for (;;) {
             GetEventsResponse response = fetchEvents();
             response.getEventResources().forEach(this::processEvent);
 
@@ -123,6 +119,7 @@ public class TiogaMonitor implements Runnable {
         log.info("Processing event: " + summary);
 
         SendNotificationRequest request = new SendNotificationRequest(
+                false,
                 "cloud-foundry-events",
                 summary,
                 resource.getMetadata().getGuid(),

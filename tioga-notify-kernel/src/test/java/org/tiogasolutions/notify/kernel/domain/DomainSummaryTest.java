@@ -50,6 +50,7 @@ public class DomainSummaryTest extends AbstractSpringTest {
             ZonedDateTime tenYearsAgo = ZonedDateTime.now().minusYears(10);
             // Create a few test notifications.
             CreateNotification create = new CreateNotification(
+                    false,
                     SUMMARY_TEST_TOPIC_1,
                     "some message",
                     "store-test-9000",
@@ -59,6 +60,7 @@ public class DomainSummaryTest extends AbstractSpringTest {
                     BeanUtils.toMap(SUMMARY_TEST_TRAIT_1));
             notificationKernel.createNotification(create);
             create = new CreateNotification(
+                    false,
                     SUMMARY_TEST_TOPIC_1,
                     "some message",
                     "store-test-9001",
@@ -68,6 +70,7 @@ public class DomainSummaryTest extends AbstractSpringTest {
                     BeanUtils.toMap(SUMMARY_TEST_TRAIT_1 + ":green"));
             notificationKernel.createNotification(create);
             create = new CreateNotification(
+                    false,
                     SUMMARY_TEST_TOPIC_2,
                     "some message",
                     "store-test-9002",

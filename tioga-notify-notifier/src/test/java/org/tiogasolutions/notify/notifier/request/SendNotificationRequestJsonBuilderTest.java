@@ -28,6 +28,7 @@ public class SendNotificationRequestJsonBuilderTest {
         NotificationLink link2 = new NotificationLink("google", "http://google.com");
 
         SendNotificationRequest request = new SendNotificationRequest(
+                true,
                 "topic1",
                 "summary1",
                 "traceId1",
@@ -53,6 +54,7 @@ public class SendNotificationRequestJsonBuilderTest {
                 "  *  Active Profiles (solutions.active.profiles) [hosted]";
 
         SendNotificationRequest request = new SendNotificationRequest(
+                true,
                 "topic1",
                 msg,
                 "traceId1",

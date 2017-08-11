@@ -96,6 +96,7 @@ public class TestFactory {
 
     public CreateNotification newCreateNotificationWithException() {
         return new CreateNotification(
+                true,
                 "test-topic",
                 "This is a test of the emergency broadcast system... this is only a test.",
                 "tracking-id-123",
@@ -107,6 +108,7 @@ public class TestFactory {
 
     public CreateNotification newCreateNotificationNoException() {
         return new CreateNotification(
+                true,
                 "test-topic",
                 "This is a test of the emergency broadcast system... this is only a test.",
                 "tracking-id-123",

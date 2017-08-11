@@ -19,6 +19,7 @@ import java.util.TreeMap;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Notification implements Comparable<Notification> {
 
+    private final boolean internal;
     private final URI self;
     private final String domainName;
     private final String notificationId;
@@ -33,7 +34,8 @@ public class Notification implements Comparable<Notification> {
     private final List<AttachmentInfo> attachmentInfoList;
 
     @JsonCreator
-    public Notification(@JsonProperty("self") URI self,
+    public Notification(@JsonProperty(value="internal", defaultValue="false") boolean internal,
+                        @JsonProperty("self") URI self,
                         @JsonProperty("domainName") String domainName,
                         @JsonProperty("notificationId") String notificationId,
                         @JsonProperty("revision") String revision,
@@ -45,6 +47,7 @@ public class Notification implements Comparable<Notification> {
                         @JsonProperty("links") List<Link> links,
                         @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo,
                         @JsonProperty("attachmentInfoList") List<AttachmentInfo> attachmentInfoList) {
+        this.internal = internal;
         this.self = self;
         this.domainName = domainName;
         this.notificationId = notificationId;
@@ -67,6 +70,15 @@ public class Notification implements Comparable<Notification> {
         this.attachmentInfoList = (attachmentInfoList == null) ?
                 Collections.emptyList() :
                 Collections.unmodifiableList(attachmentInfoList);
+    }
+
+    /**
+     * Indicates that this notification is internal to the engine and failure to process CANNOT result in additional notifications.
+     * Failure to honor this rule may result in perpetual recursive invocations.
+     * @return True if this is an internal notification.
+     */
+    public boolean isInternal() {
+        return internal;
     }
 
     public NotificationRef toNotificationRef() {
@@ -160,27 +172,23 @@ public class Notification implements Comparable<Notification> {
 
         Notification that = (Notification) o;
 
-        if (attachmentInfoList != null ? !attachmentInfoList.equals(that.attachmentInfoList) : that.attachmentInfoList != null)
-            return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
+        if (internal != that.internal) return false;
         if (domainName != null ? !domainName.equals(that.domainName) : that.domainName != null) return false;
-        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
-        if (links != null ? !links.equals(that.links) : that.links != null) return false;
-        if (notificationId != null ? !notificationId.equals(that.notificationId) : that.notificationId != null)
-            return false;
+        if (notificationId != null ? !notificationId.equals(that.notificationId) : that.notificationId != null) return false;
         if (revision != null ? !revision.equals(that.revision) : that.revision != null) return false;
-        if (self != null ? !self.equals(that.self) : that.self != null) return false;
-        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (topic != null ? !topic.equals(that.topic) : that.topic != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (trackingId != null ? !trackingId.equals(that.trackingId) : that.trackingId != null) return false;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (traitMap != null ? !traitMap.equals(that.traitMap) : that.traitMap != null) return false;
-
-        return true;
+        if (links != null ? !links.equals(that.links) : that.links != null) return false;
+        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
+        return attachmentInfoList != null ? attachmentInfoList.equals(that.attachmentInfoList) : that.attachmentInfoList == null;
     }
 
     @Override
     public int hashCode() {
-        int result = self != null ? self.hashCode() : 0;
+        int result = (internal ? 1 : 0);
         result = 31 * result + (domainName != null ? domainName.hashCode() : 0);
         result = 31 * result + (notificationId != null ? notificationId.hashCode() : 0);
         result = 31 * result + (revision != null ? revision.hashCode() : 0);
@@ -198,7 +206,8 @@ public class Notification implements Comparable<Notification> {
     @Override
     public String toString() {
         return "Notification{" +
-                "self=" + self +
+                "internal=" + internal +
+                ", self=" + self +
                 ", domainName='" + domainName + '\'' +
                 ", notificationId='" + notificationId + '\'' +
                 ", revision='" + revision + '\'' +

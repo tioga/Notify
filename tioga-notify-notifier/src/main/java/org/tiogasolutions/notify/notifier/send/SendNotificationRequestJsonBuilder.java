@@ -20,12 +20,14 @@ public class SendNotificationRequestJsonBuilder {
     public String toJson(SendNotificationRequest request, SendNotificationRequest.Status status) {
         beginObject();
 
+        firstField("internal", String.valueOf(request.isInternal()));
+
         // Basic fields
         if (status == null) {
-            firstField("topic", request.getTopic());
+            field("topic", request.getTopic());
 
         } else {
-            firstField("requestStatus", status.name());
+            field("requestStatus", status.name());
             field("topic", request.getTopic());
         }
 

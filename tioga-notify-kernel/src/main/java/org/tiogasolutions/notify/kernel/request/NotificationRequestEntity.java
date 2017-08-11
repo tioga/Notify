@@ -21,8 +21,10 @@ import java.util.*;
  */
 @CouchEntity(NotificationRequestEntity.ENTITY_TYPE)
 public class NotificationRequestEntity {
+
     public static final String ENTITY_TYPE = "NotificationRequest";
     private final String requestId;
+    private final boolean internal;
     private final String topic;
     private final String summary;
     private final String trackingId;
@@ -33,8 +35,10 @@ public class NotificationRequestEntity {
     public NotificationRequestStatus requestStatus;
     private String revision;
     private CouchAttachmentInfoMap attachmentInfoMap;
+
     @JsonCreator
-    public NotificationRequestEntity(@JsonProperty("requestId") String requestId,
+    public NotificationRequestEntity(@JsonProperty(value="internal", defaultValue="false") boolean internal,
+                                     @JsonProperty("requestId") String requestId,
                                      @JsonProperty("revision") String revision,
                                      @JsonProperty("requestStatus") NotificationRequestStatus requestStatus,
                                      @JsonProperty("topic") String topic,
@@ -44,7 +48,7 @@ public class NotificationRequestEntity {
                                      @JsonProperty("traitMap") Map<String, String> traitMap,
                                      @JsonProperty("links") List<Link> links,
                                      @JsonProperty("exceptionInfo") ExceptionInfo exceptionInfo) {
-
+        this.internal = internal;
         this.requestId = requestId;
         this.revision = revision;
         this.requestStatus = requestStatus;
@@ -75,6 +79,7 @@ public class NotificationRequestEntity {
         }
 
         return new NotificationRequestEntity(
+                request.isInternal(),
                 requestId,
                 null,
                 requestStatus,
@@ -125,6 +130,7 @@ public class NotificationRequestEntity {
 
     public NotificationRequest toRequest() {
         return new NotificationRequest(
+                isInternal(),
                 getRequestId(),
                 getRevision(),
                 getRequestStatus(),
@@ -148,6 +154,10 @@ public class NotificationRequestEntity {
     @CouchRevision
     public String getRevision() {
         return revision;
+    }
+
+    public boolean isInternal() {
+        return internal;
     }
 
     public void setRevision(String revision) {
@@ -204,34 +214,33 @@ public class NotificationRequestEntity {
 
         NotificationRequestEntity that = (NotificationRequestEntity) o;
 
-        if (attachmentInfoMap != null ? !attachmentInfoMap.equals(that.attachmentInfoMap) : that.attachmentInfoMap != null)
-            return false;
-        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
-        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
-        if (!links.equals(that.links)) return false;
+        if (internal != that.internal) return false;
         if (requestId != null ? !requestId.equals(that.requestId) : that.requestId != null) return false;
+        if (topic != null ? !topic.equals(that.topic) : that.topic != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+        if (trackingId != null ? !trackingId.equals(that.trackingId) : that.trackingId != null) return false;
+        if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
+        if (traitMap != null ? !traitMap.equals(that.traitMap) : that.traitMap != null) return false;
+        if (links != null ? !links.equals(that.links) : that.links != null) return false;
+        if (exceptionInfo != null ? !exceptionInfo.equals(that.exceptionInfo) : that.exceptionInfo != null) return false;
         if (requestStatus != that.requestStatus) return false;
         if (revision != null ? !revision.equals(that.revision) : that.revision != null) return false;
-        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
-        if (topic != null ? !topic.equals(that.topic) : that.topic != null) return false;
-        if (trackingId != null ? !trackingId.equals(that.trackingId) : that.trackingId != null) return false;
-        if (!traitMap.equals(that.traitMap)) return false;
-
-        return true;
+        return attachmentInfoMap != null ? attachmentInfoMap.equals(that.attachmentInfoMap) : that.attachmentInfoMap == null;
     }
 
     @Override
     public int hashCode() {
         int result = requestId != null ? requestId.hashCode() : 0;
-        result = 31 * result + (revision != null ? revision.hashCode() : 0);
-        result = 31 * result + (requestStatus != null ? requestStatus.hashCode() : 0);
+        result = 31 * result + (internal ? 1 : 0);
         result = 31 * result + (topic != null ? topic.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (trackingId != null ? trackingId.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-        result = 31 * result + traitMap.hashCode();
-        result = 31 * result + links.hashCode();
+        result = 31 * result + (traitMap != null ? traitMap.hashCode() : 0);
+        result = 31 * result + (links != null ? links.hashCode() : 0);
         result = 31 * result + (exceptionInfo != null ? exceptionInfo.hashCode() : 0);
+        result = 31 * result + (requestStatus != null ? requestStatus.hashCode() : 0);
+        result = 31 * result + (revision != null ? revision.hashCode() : 0);
         result = 31 * result + (attachmentInfoMap != null ? attachmentInfoMap.hashCode() : 0);
         return result;
     }
@@ -240,8 +249,7 @@ public class NotificationRequestEntity {
     public String toString() {
         return "NotificationRequestEntity{" +
                 "requestId='" + requestId + '\'' +
-                ", revision='" + revision + '\'' +
-                ", requestStatus=" + requestStatus +
+                ", internal=" + internal +
                 ", topic='" + topic + '\'' +
                 ", summary='" + summary + '\'' +
                 ", trackingId='" + trackingId + '\'' +
@@ -249,6 +257,8 @@ public class NotificationRequestEntity {
                 ", traitMap=" + traitMap +
                 ", links=" + links +
                 ", exceptionInfo=" + exceptionInfo +
+                ", requestStatus=" + requestStatus +
+                ", revision='" + revision + '\'' +
                 ", attachmentInfoMap=" + attachmentInfoMap +
                 '}';
     }
