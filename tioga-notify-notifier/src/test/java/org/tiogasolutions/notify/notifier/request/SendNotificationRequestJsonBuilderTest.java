@@ -44,6 +44,28 @@ public class SendNotificationRequestJsonBuilderTest {
         System.out.println(actual);
     }
 
+//    public void complexException() {
+//        ScriptException ex = new ScriptException("ReferenceError: \"notification\" is not defined in <eval> at line number 2", "<eval>", 1, -1);
+//
+//        SendNotificationRequest request = new SendNotificationRequest(
+//                true,
+//                "testing-123",
+//                "Something bad just happened.",
+//                null,
+//                ZonedDateTime.now(),
+//                null,
+//                null,
+//                new NotificationExceptionInfo(ex),
+//                null);
+//
+//        String actual = new SendNotificationRequestJsonBuilder()
+//                .toJson(request, SendNotificationRequest.Status.READY);
+//
+//        System.out.println();
+//        System.out.println(actual);
+//        System.out.println();
+//    }
+
     public void complexRequestToJson() {
 
         String msg = "Starting server:\n" +

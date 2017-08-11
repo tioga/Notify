@@ -53,10 +53,7 @@ public class SendNotificationRequestJsonBuilder {
 
         endObject();
 
-        String json = sb.toString();
-        log.error("JSON:\n"+json);
-
-        return json;
+        return sb.toString();
     }
 
     protected void traits(Map<String, String> traitMap) {
@@ -197,6 +194,10 @@ public class SendNotificationRequestJsonBuilder {
         } else {
             String cleaned = object
                     .toString()
+                    .replace("\\", "\\\\")
+                    .replace("\'", "\\\'")
+                    .replace("\"", "\\\"")
+                    .replace("\b", "\\b")
                     .replace("\t", "\\t")
                     .replace("\n", "\\n")
                     .replace("\r", ""); // screw Windows
