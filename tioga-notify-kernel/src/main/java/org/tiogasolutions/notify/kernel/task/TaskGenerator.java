@@ -49,25 +49,23 @@ public class TaskGenerator {
 
     private List<TaskEntity> createTask(NotificationDomain notificationDomain, Notification notification) {
 
-        log.error("Generating tasks for notification {}", notification.getNotificationId());
+        log.info("Generating tasks for notification {}", notification.getNotificationId());
         List<TaskEntity> tasks = new ArrayList<>();
 
         try {
             // Find destinations.
             NotificationRef notificationRef = notification.toNotificationRef();
             Set<Destination> destinations = notificationDomain.findDestinations(notification);
-            log.error("Found {} destinations", destinations.size());
+            log.info("Found {} destinations", destinations.size());
 
             for (Destination destination : destinations) {
                 createTask(notificationDomain, notification, tasks, notificationRef, destination);
             }
 
-            log.error("Created {} tasks.", tasks.size());
+            log.info("Created {} tasks.", tasks.size());
 
         } catch (Exception e) {
-            String msg = format("Exception generating tasks (notification=%s).", notification.getNotificationId());
-            if (notification.isInternal()) log.error(msg, e);
-            else notifier.begin().summary(msg).exception(e).send();
+            notify(notification, e, format("Exception generating tasks (notification=%s).", notification.getNotificationId()));
         }
 
         return tasks;
@@ -75,19 +73,22 @@ public class TaskGenerator {
 
     private void createTask(NotificationDomain notificationDomain, Notification notification, List<TaskEntity> tasks, NotificationRef notificationRef, Destination destination) {
         try {
-            log.error("Creating task (notification={}, destination={})", notification.getNotificationId(), destination.getName());
+            log.info("Creating task (notification={}, destination={})", notification.getNotificationId(), destination.getName());
 
             CreateTask create = CreateTask.create(notificationRef, destination);
             TaskEntity task = notificationDomain.createTask(create, notification);
             tasks.add(task);
 
-            // log.error("Signalling creation of the task (notification={}, destination={}, task={})", notification.getNotificationId(), task.getTaskId(), destination);
+            // log.info("Signalling creation of the task (notification={}, destination={}, task={})", notification.getNotificationId(), task.getTaskId(), destination);
             // eventBus.taskCreated(notificationDomain.getDomainName(), task, notification);
 
         } catch (Exception e) {
-            String msg = format("Exception generating task (notification=%s, destination=%s).", notification.getNotificationId(), destination.getName());
-            if (notification.isInternal()) log.error(msg, e);
-            else notifier.begin().summary(msg).exception(e).send();
+            notify(notification, e, format("Exception generating task (notification=%s, destination=%s).", notification.getNotificationId(), destination.getName()));
         }
+    }
+
+    private void notify(Notification notification, Exception e, String msg) {
+        if (notification != null && notification.isInternal()) log.error(msg, e);
+        else notifier.begin().summary(msg).exception(e).send();
     }
 }

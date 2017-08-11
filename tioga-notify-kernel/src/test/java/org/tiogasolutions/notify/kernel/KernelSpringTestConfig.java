@@ -20,7 +20,8 @@ public class KernelSpringTestConfig {
      */
     @Bean
     public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
-        return new TaskProcessorExecutor(domainKernel, eventBus, emptyList());
+        Notifier notifier = new Notifier(new LoggingNotificationSender());
+        return new TaskProcessorExecutor(domainKernel, eventBus, notifier, emptyList());
     }
 
     @Bean

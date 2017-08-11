@@ -63,9 +63,10 @@ public class NotifyHostedSpringConfig {
             LoggerTaskProcessor loggerTaskProcessor,
             PushTaskProcessor pushTaskProcessor,
             SlackTaskProcessor slackTaskProcessor,
-            SmtpTaskProcessor smtpTaskProcessor) {
+            SmtpTaskProcessor smtpTaskProcessor,
+            Notifier notifier) {
 
-        return new TaskProcessorExecutor(domainKernel, eventBus, Arrays.asList(
+        return new TaskProcessorExecutor(domainKernel, eventBus, notifier, Arrays.asList(
                 swingTaskProcessor,
                 loggerTaskProcessor,
                 pushTaskProcessor,

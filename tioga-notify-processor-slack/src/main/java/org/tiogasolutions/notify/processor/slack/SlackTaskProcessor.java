@@ -11,6 +11,7 @@ import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
 import org.tiogasolutions.notify.kernel.task.TaskProcessor;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorType;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.task.Task;
@@ -33,11 +34,13 @@ public class SlackTaskProcessor implements TaskProcessor {
     private final JsonTranslator jsonTranslator;
     private final ThymeleafMessageBuilder messageBuilder;
     private final Client client;
+    private final Notifier notifier;
 
     @Autowired
-    public SlackTaskProcessor(JsonTranslator jsonTranslator) {
+    public SlackTaskProcessor(JsonTranslator jsonTranslator, Notifier notifier) {
+        this.notifier = notifier;
         this.jsonTranslator = jsonTranslator;
-        messageBuilder = new ThymeleafMessageBuilder();
+        this.messageBuilder = new ThymeleafMessageBuilder();
 
         // Build the client
         Configuration httpClientConfig = new ClientConfig()
@@ -60,7 +63,7 @@ public class SlackTaskProcessor implements TaskProcessor {
     @Override
     public TaskResponse processTask(DomainProfile domainProfile, Notification notification, Task task) {
 
-        log.error("Started processing task {} for notification {}.", task.getTaskId(), notification.getNotificationId());
+        log.info("Started processing task {} for notification {}.", task.getTaskId(), notification.getNotificationId());
 
         try {
             // Retrieve the url - mandatory
@@ -125,20 +128,25 @@ public class SlackTaskProcessor implements TaskProcessor {
                     .post(entity);
 
             if (response.getStatus() == 200 || response.getStatus() == 201) {
-                log.error("Successfully sent Slack message: {}", notification.getSummary());
+                log.info("Successfully sent Slack message: {}", notification.getSummary());
                 return TaskResponse.complete("Ok");
 
             } else {
                 String content = response.readEntity(String.class);
                 String msg = String.format("Failure sending Slack message [%s]: %s", response.getStatus(), content);
-                log.error(msg);
-                log.error("Slack message JSON: " + json);
+                notify(notification, ApiException.fromCode(response.getStatus()), msg, json);
+
                 return TaskResponse.fail(msg);
             }
 
-        } catch (Exception t) {
-            log.error("Exception sending Slack message.", t);
-            return TaskResponse.fail("Exception sending Slack message.", t);
+        } catch (Exception e) {
+            notify(notification, e, "Exception sending Slack message.", null);
+            return TaskResponse.fail("Exception sending Slack message.", e);
         }
+    }
+
+    private void notify(Notification notification, Exception e, String msg, String json) {
+        if (notification != null && notification.isInternal()) log.error(msg, e);
+        else notifier.begin().summary(msg).exception(e).trait("json", json).send();
     }
 }

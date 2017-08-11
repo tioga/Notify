@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.String.*;
+
 public class JsRouteEvaluator implements RouteEvaluator {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -60,7 +62,7 @@ public class JsRouteEvaluator implements RouteEvaluator {
 
         public RouteMatcher(Route route) {
             this.route = route;
-            this.jsFunc = String.format("var eval = %s", route.getEval());
+            this.jsFunc = format("var eval = %s", route.getEval());
         }
 
         public boolean isMatch(Notification notification) {
@@ -69,14 +71,16 @@ public class JsRouteEvaluator implements RouteEvaluator {
                 return (boolean) invocable.invokeFunction("eval", notification);
 
             } catch (Exception e) {
-                String msg = String.format("Exception testing match (domain=%s, notification=%s, route=%s)", notification.getDomainName(), notification.getNotificationId(), route.getName());
-                if (notification.isInternal()) log.error(msg, e);
-                else notifier.begin().summary(msg).exception(e).send();
+                notify(notification, e, format("Exception testing match (domain=%s, notification=%s, route=%s)", notification.getDomainName(), notification.getNotificationId(), route.getName()));
 
                 // Don't blow up the world, just return false.
                 return false;
             }
         }
-    }
 
+        private void notify(Notification notification, Exception e, String msg) {
+            if (notification != null && notification.isInternal()) log.error(msg, e);
+            else notifier.begin().summary(msg).exception(e).send();
+        }
+    }
 }

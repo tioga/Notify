@@ -25,9 +25,8 @@ public class PushSpringTestConfig {
      */
     @Bean
     public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, PushClientFactory pushClientFactory) {
-        return new TaskProcessorExecutor(domainKernel, eventBus, singletonList(
-                new PushTaskProcessor(pushClientFactory)
-        ));
+        Notifier notifier = new Notifier(new LoggingNotificationSender());
+        return new TaskProcessorExecutor(domainKernel, eventBus, notifier, singletonList(new PushTaskProcessor(pushClientFactory)));
     }
 
     @Bean

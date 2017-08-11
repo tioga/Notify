@@ -37,8 +37,8 @@ public class EngineSpringTestConfig {
      * @noinspection SpringJavaAutowiringInspection
      */
     @Bean
-    public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus) {
-        return new TaskProcessorExecutor(domainKernel, eventBus, emptyList());
+    public TaskProcessorExecutor taskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, Notifier notifier) {
+        return new TaskProcessorExecutor(domainKernel, eventBus, notifier, emptyList());
         // new SwingTaskProcessor(),
         // new LoggerTaskProcessor(),
         // new PushTaskProcessor(pushConfig, pushServerClient)

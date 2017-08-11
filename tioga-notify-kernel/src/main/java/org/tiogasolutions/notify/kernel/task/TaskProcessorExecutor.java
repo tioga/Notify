@@ -3,12 +3,14 @@ package org.tiogasolutions.notify.kernel.task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tiogasolutions.dev.common.exceptions.ApiConflictException;
+import org.tiogasolutions.dev.common.exceptions.ApiException;
 import org.tiogasolutions.dev.common.exceptions.ApiNotFoundException;
 import org.tiogasolutions.dev.domain.query.QueryResult;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.event.TaskEventListener;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
@@ -32,14 +34,15 @@ public class TaskProcessorExecutor implements TaskEventListener {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
     private final ExecutorService threadPoolExecutor;
+    private final Notifier notifier;
     private TaskProcessorExecutorStatus executorStatus;
     private ScheduledFuture executorFuture = null;
 
-    public TaskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, List<TaskProcessor> taskProcessors) {
-        this.executorStatus = TaskProcessorExecutorStatus.STOPPED;
-
+    public TaskProcessorExecutor(DomainKernel domainKernel, EventBus eventBus, Notifier notifier, List<TaskProcessor> taskProcessors) {
+        this.notifier = notifier;
         this.domainKernel = domainKernel;
         this.threadPoolExecutor = Executors.newCachedThreadPool();
+        this.executorStatus = TaskProcessorExecutorStatus.STOPPED;
 
         for (TaskProcessor processor : taskProcessors) {
             TaskProcessorType type = processor.getType();
@@ -100,9 +103,8 @@ public class TaskProcessorExecutor implements TaskEventListener {
             processTasksByProvider(notificationDomain, tasks);
 
         } catch (Exception e) {
-            // TODO plugin a notifier or something here
-            log.error("Unexpected exception during processing.", e);
-
+            notify(notification, e, format("Unexpected exception while processing task (domain=%s, notification=%s, task=%s).",
+                    domainName, notification.getNotificationId(), task.getTaskId()));
         }
     }
 
@@ -116,11 +118,10 @@ public class TaskProcessorExecutor implements TaskEventListener {
 
             try {
                 List<NotificationDomain> activeNotificationDomains = domainKernel.listActiveNotificationDomains();
-                activeNotificationDomains.stream().forEach(this::processDomain);
+                activeNotificationDomains.forEach(this::processDomain);
 
             } catch (Exception e) {
-                // TODO plugin a notifier or something here
-                log.error("Unexpected exception during processing.", e);
+                notify(null, e, "Unexpected exception executing processor.");
 
             } finally {
                 executorStatus = TaskProcessorExecutorStatus.IDLE;
@@ -134,15 +135,20 @@ public class TaskProcessorExecutor implements TaskEventListener {
     }
 
     private void processDomain(NotificationDomain notificationDomain) {
+
         String domainName = notificationDomain.getDomainName();
         log.trace("Processing all tasks for domain {}.", domainName);
 
-        // Find all pending tasks for this domain.
-        QueryResult<TaskEntity> pendingTasks = notificationDomain.query(new TaskQuery().setTaskStatus(TaskStatus.PENDING));
-        if (pendingTasks.isNotEmpty()) {
-            // Map our tasks by provider.
-            Map<String, List<TaskEntity>> tasksMappedByProvider = mapTasksByProvider(pendingTasks);
-            processTasksByProvider(notificationDomain, tasksMappedByProvider);
+        try {
+            // Find all pending tasks for this domain.
+            QueryResult<TaskEntity> pendingTasks = notificationDomain.query(new TaskQuery().setTaskStatus(TaskStatus.PENDING));
+            if (pendingTasks.isNotEmpty()) {
+                // Map our tasks by provider.
+                Map<String, List<TaskEntity>> tasksMappedByProvider = mapTasksByProvider(pendingTasks);
+                processTasksByProvider(notificationDomain, tasksMappedByProvider);
+            }
+        } catch (Exception e) {
+            throw ApiException.internalServerError(format("Exception processing the domain %s", domainName));
         }
     }
 
@@ -175,10 +181,8 @@ public class TaskProcessorExecutor implements TaskEventListener {
                 }
                 map.get(provider).add(task);
 
-            } catch (NullPointerException e) {
-                // I have no idea why, but sometimes, the task is null. For
-                // now, we are just going to skip it and home it all works out.
-                log.error("Weird bug", e);
+            } catch (Exception e) {
+                notify(null, e, String.format("Weird bug mapping tasks to a provider (notification=%s, task=%s).", task.getNotificationId(), task.getTaskId()));
             }
         }
 
@@ -211,6 +215,7 @@ public class TaskProcessorExecutor implements TaskEventListener {
             // Set task to "sending".
             String domainName = notificationDomain.getDomainName();
             TaskEntity localTaskEntity = taskEntity;
+
             try {
                 localTaskEntity.sending();
                 localTaskEntity = notificationDomain.saveAndReload(localTaskEntity);
@@ -223,12 +228,14 @@ public class TaskProcessorExecutor implements TaskEventListener {
                         format("Cannot find task for domain %s: %s", domainName, localTaskEntity.getLabel()) :
                         format("DB conflict processing task for domain %s, (already processed?): %s", domainName, localTaskEntity.getLabel());
 
-                log.info(msg);
+                notify(notification, ex, msg);
 
                 // Return so we don't attempt to process
                 return null;
+
             } catch (Exception ex) {
-                log.error("Exception setting task to sending", ex);
+                notify(notification, ex, "Exception setting task to sending");
+
                 // Return so we don't attempt to process
                 return null;
             }
@@ -259,8 +266,8 @@ public class TaskProcessorExecutor implements TaskEventListener {
                 localTaskEntity.response(taskResponse);
                 notificationDomain.save(localTaskEntity);
 
-                log.error("Exception processing task for domain {} and processor {}: {}",
-                        domainName, processorName, localTaskEntity.getLabel(), e);
+                notify(notification, e, format("Exception processing task (domain=%s, processor=%s, notification=%s, task=%s)",
+                        domainName, processorName, notification.getNotificationId(), localTaskEntity.getTaskId()));
             }
             return null;
         };
@@ -273,5 +280,8 @@ public class TaskProcessorExecutor implements TaskEventListener {
 
     }
 
-
+    private void notify(Notification notification, Exception e, String msg) {
+        if (notification != null && notification.isInternal()) log.error(msg, e);
+        else notifier.begin().summary(msg).exception(e).send();
+    }
 }

@@ -9,6 +9,8 @@ import org.tiogasolutions.dev.common.id.uuid.TimeUuid;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.dev.jackson.TiogaJacksonTranslator;
 import org.tiogasolutions.notify.kernel.message.ThymeleafMessageBuilder;
+import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
 import org.tiogasolutions.notify.pub.attachment.AttachmentInfo;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
@@ -52,7 +54,8 @@ public class SlackTaskProcessorTest {
     private ExceptionInfo exceptionInfo = new ExceptionInfo(new IllegalArgumentException("I need to go to the hospital.", new RuntimeException("My leg hurts", new UnsupportedOperationException("Opps, I tripped.", new NullPointerException("Running with scissors")))));
 
     public SlackTaskProcessorTest() {
-        processor = new SlackTaskProcessor(translator);
+        Notifier notifier = new Notifier(new LoggingNotificationSender());
+        processor = new SlackTaskProcessor(translator, notifier);
 
         attachments.add(new AttachmentInfo("screenshot.png", "image/png"));
         attachments.add(new AttachmentInfo("stack-trace.txt", "text/plain"));
