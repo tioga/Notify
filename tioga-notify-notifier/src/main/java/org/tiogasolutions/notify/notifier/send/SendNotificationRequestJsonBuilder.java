@@ -53,7 +53,10 @@ public class SendNotificationRequestJsonBuilder {
 
         endObject();
 
-        return sb.toString();
+        String json = sb.toString();
+        log.error("JSON:\n"+json);
+
+        return json;
     }
 
     protected void traits(Map<String, String> traitMap) {
