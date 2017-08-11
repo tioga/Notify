@@ -4,6 +4,7 @@ project(":tioga-notify-kernel") {
 
     dependencies {
         compile(project(":tioga-notify-jackson"))
+        compile(project(":tioga-notify-sender-couch"))
 
         compile("org.tiogasolutions.lib:tioga-lib-thymeleaf:+")
 

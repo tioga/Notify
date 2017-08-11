@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Profile;
 import org.tiogasolutions.notify.kernel.domain.DomainKernel;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
+import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
 
 import static java.util.Collections.singletonList;
 
@@ -26,5 +28,10 @@ public class PushSpringTestConfig {
         return new TaskProcessorExecutor(domainKernel, eventBus, singletonList(
                 new PushTaskProcessor(pushClientFactory)
         ));
+    }
+
+    @Bean
+    Notifier notifier() {
+        return new Notifier(new LoggingNotificationSender());
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationRef;
 import org.tiogasolutions.notify.pub.route.Destination;
@@ -25,11 +26,13 @@ public class TaskGenerator {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    private final Notifier notifier;
     private final EventBus eventBus;
     private final ExecutorService executorService;
 
     @Autowired
-    public TaskGenerator(EventBus eventBus) {
+    public TaskGenerator(EventBus eventBus, Notifier notifier) {
+        this.notifier = notifier;
         this.eventBus = eventBus;
         this.executorService = Executors.newCachedThreadPool();
     }
@@ -62,7 +65,9 @@ public class TaskGenerator {
             log.error("Created {} tasks.", tasks.size());
 
         } catch (Exception e) {
-            log.error(format("Exception generating tasks (notification=%s).", notification.getNotificationId()), e);
+            String msg = format("Exception generating tasks (notification=%s).", notification.getNotificationId());
+            if (notification.isInternal()) log.error(msg, e);
+            else notifier.begin().summary(msg).exception(e).send();
         }
 
         return tasks;
@@ -81,7 +86,8 @@ public class TaskGenerator {
 
         } catch (Exception e) {
             String msg = format("Exception generating task (notification=%s, destination=%s).", notification.getNotificationId(), destination.getName());
-            log.error(msg, e);
+            if (notification.isInternal()) log.error(msg, e);
+            else notifier.begin().summary(msg).exception(e).send();
         }
     }
 }
