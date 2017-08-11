@@ -287,8 +287,8 @@ public class TaskProcessorExecutor implements TaskEventListener {
         try {
             if (notification != null && notification.isInternalException()) log.error("SUPPRESSED: "+msg, e);
             else notifier.begin().summary(msg).exception(e).send().get();
-        } catch (Exception e) {
-            log.error("Exception sending notification", e);
+        } catch (Exception ex) {
+            log.error("Exception sending notification", ex);
         }
     }
 }

@@ -32,8 +32,8 @@ public class NotifyExceptionMapper extends TiogaJaxRsExceptionMapper {
 //                    .trait("http_uri", cleanUrl(getUriInfo().getRequestUri()))
 //                    .send()
 //                    .get();
-//        } catch (Exception e) {
-//            log.error("Exception sending notification", e);
+//        } catch (Exception ex) {
+//            log.error("Exception sending notification", ex);
 //        }
     }
 
@@ -50,8 +50,8 @@ public class NotifyExceptionMapper extends TiogaJaxRsExceptionMapper {
                     .send()
                     .get();
 
-        } catch (Exception e) {
-            log.error("Exception sending notification", e);
+        } catch (Exception ex) {
+            log.error("Exception sending notification", ex);
         }
     }
 }
