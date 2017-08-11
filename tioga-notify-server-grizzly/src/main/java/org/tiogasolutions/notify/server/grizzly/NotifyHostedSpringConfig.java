@@ -22,6 +22,7 @@ import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.task.TaskProcessorExecutor;
 import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
+import org.tiogasolutions.notify.notifier.send.NotificationExceptionInfo;
 import org.tiogasolutions.notify.notifier.send.NotificationSender;
 import org.tiogasolutions.notify.processor.logger.LoggerTaskProcessor;
 import org.tiogasolutions.notify.processor.push.LivePushClientFactory;
@@ -33,6 +34,7 @@ import org.tiogasolutions.notify.sender.couch.CouchNotificationSender;
 import org.tiogasolutions.runners.grizzly.GrizzlyServer;
 import org.tiogasolutions.runners.grizzly.GrizzlyServerConfig;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
@@ -178,20 +180,31 @@ public class NotifyHostedSpringConfig {
 
         final Logger log = LoggerFactory.getLogger(Notifier.class.getSimpleName());
         return new Notifier(sender)
-            .onBeforeSend(builder -> log.warn( "NOTIFY SENDING " + builder.getSummary()))
-            .onSuccess(response ->   log.warn( "NOTIFY SUCCESS " + response.getRequest().getSummary()))
-            .onFailure(response ->   log.error("NOTIFY FAILURE " + response.getRequest().getSummary(), response.getThrowable()))
             .onBegin(builder -> {
                 builder.topic("Notify Engine");
                 builder.internal();
                 try {
-                    String hostname = java.net.InetAddress.getLocalHost().getHostName();
+                    String hostname = InetAddress.getLocalHost().getHostName();
                     builder.trait("source", System.getProperty("user.name") + "@" + hostname);
 
                 } catch (UnknownHostException ignored) {
                     builder.trait("source", System.getProperty("user.name") + "@" + "UNKNOWN");
                 }
             }
-        );
+        )
+        .onBeforeSend(builder -> {
+            log.info("SENDING " + builder.getSummary());
+        })
+        .onSuccess(response ->   {
+            log.info("SUCCESS " + response.getRequest().getSummary());
+            NotificationExceptionInfo exceptionInfo = response.getRequest().getExceptionInfo();
+            if (exceptionInfo != null) {
+                log.error("Trapped exception:\n" + exceptionInfo.getStackTrace());
+            }
+        })
+        .onFailure(response ->   {
+            log.error("FAILURE " + response.getRequest().getSummary(), response.getThrowable());
+        });
+
     }
 }
