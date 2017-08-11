@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.kernel.route;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
@@ -28,18 +29,23 @@ import static org.testng.Assert.*;
  */
 @Test
 public class JsRouteEvaluatorTest {
-    private static final Logger log = LoggerFactory.getLogger(JsRouteEvaluatorTest.class);
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     private final KernelFixture fixture = KernelFixture.it();
     private RouteCatalog routeCatalog;
     private JsonTranslator jsonTranslator;
     private JsRouteEvaluator evaluator;
-
+    private String json;
 
     @BeforeSuite
-    public void setup() {
+    public void beforeSuite() {
         jsonTranslator = fixture.getJsonTranslator();
-        String json = fixture.readResource("catalog/test-catalog.json");
+        json = fixture.readResource("catalog/test-catalog.json");
+    }
 
+    @BeforeMethod
+    public void beforeMethod() {
         routeCatalog = jsonTranslator.fromJson(RouteCatalog.class, json);
         Notifier notifier = new Notifier(new LoggingNotificationSender());
         evaluator = new JsRouteEvaluator(routeCatalog, notifier);
@@ -68,9 +74,9 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 2);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("fozzie")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("fozzie"));
         assertTrue(found);
-        found = destinations.stream().filter(d -> d.getName().equals("kermit")).findAny().isPresent();
+        found = destinations.stream().anyMatch(d -> d.getName().equals("kermit"));
         assertTrue(found);
     }
 
@@ -79,7 +85,7 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 2);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("kermit")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("kermit"));
         assertTrue(found);
         found = destinations.stream().filter(d -> d.getName().equals("fozzie")).findAny().isPresent();
         assertTrue(found);
@@ -90,7 +96,7 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("has_exception")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("has_exception"));
         assertTrue(found);
     }
 
@@ -99,14 +105,14 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("cat")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("cat"));
         assertTrue(found);
 
         notification = newNotification("anything", "PeT:cAT");
         destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        found = destinations.stream().filter(d -> d.getName().equals("cat")).findAny().isPresent();
+        found = destinations.stream().anyMatch(d -> d.getName().equals("cat"));
         assertTrue(found);
     }
 
@@ -115,14 +121,14 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("fish")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("fish"));
         assertTrue(found);
 
         notification = newNotification("anything", "PeT:FIsh");
         destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        found = destinations.stream().filter(d -> d.getName().equals("fish")).findAny().isPresent();
+        found = destinations.stream().anyMatch(d -> d.getName().equals("fish"));
         assertTrue(found);
     }
 
@@ -131,14 +137,14 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("no_value")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("no_value"));
         assertTrue(found);
 
         notification = newNotification("anything", "no_VALUE");
         destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 1);
-        found = destinations.stream().filter(d -> d.getName().equals("no_value")).findAny().isPresent();
+        found = destinations.stream().anyMatch(d -> d.getName().equals("no_value"));
         assertTrue(found);
     }
 
