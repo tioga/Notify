@@ -12,7 +12,8 @@ import java.util.concurrent.Future;
  * Time: 1:52 AM
  */
 public class LoggingNotificationSender extends AbstractNotificationSender {
-    private static final Logger log = LoggerFactory.getLogger(LoggingNotificationSender.class);
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private SendNotificationRequest lastRequest;
 

@@ -2,6 +2,8 @@ package org.tiogasolutions.notify.server.grizzly;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -174,17 +176,20 @@ public class NotifyHostedSpringConfig {
                 new LoggingNotificationSender() :
                 new CouchNotificationSender(couchUrl, databaseName, username, password);
 
-        return new Notifier(sender).onBegin(builder -> {
-            builder.topic("Notify Engine");
-            builder.internal();
+        final Logger log = LoggerFactory.getLogger(Notifier.class);
+        return new Notifier(sender)
+            .onBeforeSend(builder -> log.warn("SENDING" + builder.getSummary()))
+            .onBegin(builder -> {
+                builder.topic("Notify Engine");
+                builder.internal();
+                try {
+                    String hostname = java.net.InetAddress.getLocalHost().getHostName();
+                    builder.trait("source", System.getProperty("user.name") + "@" + hostname);
 
-            try {
-                String hostname = java.net.InetAddress.getLocalHost().getHostName();
-                builder.trait("source", System.getProperty("user.name") + "@" + hostname);
-
-            } catch (UnknownHostException ignored) {
-                builder.trait("source", System.getProperty("user.name") + "@" + "UNKNOWN");
+                } catch (UnknownHostException ignored) {
+                    builder.trait("source", System.getProperty("user.name") + "@" + "UNKNOWN");
+                }
             }
-        });
+        );
     }
 }
