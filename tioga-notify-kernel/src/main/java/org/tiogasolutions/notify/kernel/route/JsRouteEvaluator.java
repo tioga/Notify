@@ -2,6 +2,7 @@ package org.tiogasolutions.notify.kernel.route;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.route.Destination;
 import org.tiogasolutions.notify.pub.route.Route;
@@ -23,9 +24,12 @@ public class JsRouteEvaluator implements RouteEvaluator {
     private final List<RouteMatcher> routeMatcherList;
     private final ScriptEngine engine;
     private final Invocable invocable;
+    private final Notifier notifier;
 
-    public JsRouteEvaluator(RouteCatalog routeCatalog) {
+    public JsRouteEvaluator(RouteCatalog routeCatalog, Notifier notifier) {
         List<Route> routes = routeCatalog.loadActiveRoutes();
+
+        this.notifier = notifier;
 
         routeMatcherList = new ArrayList<>();
         ScriptEngineManager engineManager = new ScriptEngineManager();
@@ -66,7 +70,8 @@ public class JsRouteEvaluator implements RouteEvaluator {
 
             } catch (Exception e) {
                 String msg = String.format("Exception testing match (domain=%s, notification=%s, route=%s)", notification.getDomainName(), notification.getNotificationId(), route.getName());
-                log.error(msg, e); // TODO - Introduce the notifier here.
+                if (notification.isInternal()) log.error(msg, e);
+                else notifier.begin().summary(msg).exception(e).send();
 
                 // Don't blow up the world, just return false.
                 return false;

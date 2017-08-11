@@ -6,6 +6,8 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.tiogasolutions.dev.common.json.JsonTranslator;
 import org.tiogasolutions.notify.kernel.KernelFixture;
+import org.tiogasolutions.notify.notifier.Notifier;
+import org.tiogasolutions.notify.notifier.send.LoggingNotificationSender;
 import org.tiogasolutions.notify.pub.common.ExceptionInfo;
 import org.tiogasolutions.notify.pub.common.Link;
 import org.tiogasolutions.notify.pub.common.TraitUtil;
@@ -39,7 +41,8 @@ public class JsRouteEvaluatorTest {
         String json = fixture.readResource("catalog/test-catalog.json");
 
         routeCatalog = jsonTranslator.fromJson(RouteCatalog.class, json);
-        evaluator = new JsRouteEvaluator(routeCatalog);
+        Notifier notifier = new Notifier(new LoggingNotificationSender());
+        evaluator = new JsRouteEvaluator(routeCatalog, notifier);
     }
 
     public void matchFozzieAndMuppet() throws URISyntaxException {
@@ -47,9 +50,9 @@ public class JsRouteEvaluatorTest {
         Set<Destination> destinations = evaluator.findDestinations(notification);
         assertNotNull(destinations);
         assertEquals(destinations.size(), 2);
-        boolean found = destinations.stream().filter(d -> d.getName().equals("fozzie")).findAny().isPresent();
+        boolean found = destinations.stream().anyMatch(d -> d.getName().equals("fozzie"));
         assertTrue(found);
-        found = destinations.stream().filter(d -> d.getName().equals("kermit")).findAny().isPresent();
+        found = destinations.stream().anyMatch(d -> d.getName().equals("kermit"));
         assertTrue(found);
     }
 

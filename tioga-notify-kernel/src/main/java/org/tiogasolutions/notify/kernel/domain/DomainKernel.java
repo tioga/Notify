@@ -11,6 +11,7 @@ import org.tiogasolutions.notify.kernel.event.EventBus;
 import org.tiogasolutions.notify.kernel.execution.ExecutionContext;
 import org.tiogasolutions.notify.kernel.notification.NotificationDomain;
 import org.tiogasolutions.notify.kernel.task.TaskGenerator;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.domain.DomainProfile;
 import org.tiogasolutions.notify.pub.domain.DomainStatus;
 import org.tiogasolutions.notify.pub.domain.DomainSummary;
@@ -31,13 +32,16 @@ public class DomainKernel {
     private final DomainProfile systemDomain;
     private final TaskGenerator taskGenerator;
     private final EventBus eventBus;
+    private final Notifier notifier;
 
     @Autowired
     public DomainKernel(DomainStore domainStore,
                         @Qualifier("DomainKeyGenerator") IdGenerator idGenerator,
                         TaskGenerator taskGenerator,
-                        EventBus eventBus) {
+                        EventBus eventBus,
+                        Notifier notifier) {
 
+        this.notifier = notifier;
         this.domainStore = domainStore;
         this.domainKeyGenerator = idGenerator;
         this.taskGenerator = taskGenerator;
@@ -154,7 +158,8 @@ public class DomainKernel {
                 notificationDatabase,
                 domainProfile.getRouteCatalog(),
                 taskGenerator,
-                eventBus);
+                eventBus,
+                notifier);
     }
 
     public NotificationDomain notificationDomain(String domainName) {
@@ -165,7 +170,8 @@ public class DomainKernel {
                 notificationDatabase,
                 domainProfile.getRouteCatalog(),
                 taskGenerator,
-                eventBus);
+                eventBus,
+                notifier);
     }
 
     public NotificationDomain notificationDomain(DomainProfile domainProfile) {
@@ -175,7 +181,8 @@ public class DomainKernel {
                 notificationDatabase,
                 domainProfile.getRouteCatalog(),
                 taskGenerator,
-                eventBus);
+                eventBus,
+                notifier);
     }
 
     public CouchDatabase requestDb(DomainProfile domainProfile) {

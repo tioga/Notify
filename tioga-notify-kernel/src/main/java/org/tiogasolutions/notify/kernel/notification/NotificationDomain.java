@@ -12,6 +12,7 @@ import org.tiogasolutions.notify.kernel.task.CreateTask;
 import org.tiogasolutions.notify.kernel.task.TaskEntity;
 import org.tiogasolutions.notify.kernel.task.TaskGenerator;
 import org.tiogasolutions.notify.kernel.task.TaskStore;
+import org.tiogasolutions.notify.notifier.Notifier;
 import org.tiogasolutions.notify.pub.attachment.AttachmentHolder;
 import org.tiogasolutions.notify.pub.notification.Notification;
 import org.tiogasolutions.notify.pub.notification.NotificationQuery;
@@ -40,13 +41,15 @@ public class NotificationDomain {
                               CouchDatabase couchDatabase,
                               RouteCatalog routeCatalog,
                               TaskGenerator taskGenerator,
-                              EventBus eventBus) {
+                              EventBus eventBus,
+                              Notifier notifier) {
+
         this.domainName = domainName;
         this.taskGenerator = taskGenerator;
         this.eventBus = eventBus;
         this.notificationStore = new NotificationStore(couchDatabase);
         this.taskStore = new TaskStore(couchDatabase);
-        this.routeEvaluator = new JsRouteEvaluator(routeCatalog);
+        this.routeEvaluator = new JsRouteEvaluator(routeCatalog, notifier);
     }
 
     public String getDomainName() {
