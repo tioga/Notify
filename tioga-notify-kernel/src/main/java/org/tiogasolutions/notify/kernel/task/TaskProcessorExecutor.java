@@ -22,6 +22,7 @@ import javax.annotation.PreDestroy;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -156,7 +157,9 @@ public class TaskProcessorExecutor implements TaskEventListener {
         for (Map.Entry<String, List<TaskEntity>> entry : tasksMappedByProvider.entrySet()) {
             TaskProcessor processor = findTaskProcessor(entry.getKey());
             if (processor == null) {
-                log.error("A processor was not found for {}, skipping {} tasks.", entry.getKey(), entry.getValue().size());
+                List<String> ids = entry.getValue().stream().map(TaskEntity::getNotificationId).collect(Collectors.toList());
+                String msg = String.format("A processor was not found for %s, skipping %s tasks: %s", entry.getKey(), entry.getValue().size(), ids);
+                notify(null, new NullPointerException(), msg);
                 return;
             }
             processTaskForProvider(notificationDomain, processor, entry.getValue());
@@ -246,12 +249,12 @@ public class TaskProcessorExecutor implements TaskEventListener {
                 processorName = processor.getType().getCode();
                 DomainProfile domainProfile = domainKernel.getOrCreateDomain(domainName);
 
-                log.error("Begin processing task for domain {} with processor {}: {}",
+                log.info("Begin processing task for domain {} with processor {}: {}",
                         domainName, processorName, localTaskEntity.getLabel());
 
                 // Send to processor
                 TaskResponse taskResponse = processor.processTask(domainProfile, notification, localTaskEntity.toTask());
-                log.error("The task {} for notification {} {}", localTaskEntity.getTaskId(), localTaskEntity.getNotificationId(), taskResponse.getResponseAction().pastTense);
+                log.info("The task {} for notification {} {}", localTaskEntity.getTaskId(), localTaskEntity.getNotificationId(), taskResponse.getResponseAction().pastTense);
 
                 // Assign response and save.
                 localTaskEntity.response(taskResponse);
