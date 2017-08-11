@@ -176,9 +176,9 @@ public class NotifyHostedSpringConfig {
                 new LoggingNotificationSender() :
                 new CouchNotificationSender(couchUrl, databaseName, username, password);
 
-        final Logger log = LoggerFactory.getLogger(Notifier.class);
+        final Logger log = LoggerFactory.getLogger(Notifier.class.getSimpleName());
         return new Notifier(sender)
-            .onBeforeSend(builder -> log.warn("SENDING" + builder.getSummary()))
+            .onBeforeSend(builder -> log.warn("SENDING " + builder.getSummary()))
             .onBegin(builder -> {
                 builder.topic("Notify Engine");
                 builder.internal();
